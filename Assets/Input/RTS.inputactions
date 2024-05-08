@@ -24,13 +24,22 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Action",
+                    "name": "Selection",
                     "type": "Button",
                     "id": "94b28403-0c87-4b45-8cd3-53e1b349ebe0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MoveEntity",
+                    "type": "Button",
+                    "id": "270b3fac-db49-4b4c-a307-48b484afe185",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -206,7 +215,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Action",
+                    "action": "Selection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1a9529c2-762c-4074-ba8e-9239d31e4158",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveEntity",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
