@@ -10,8 +10,14 @@ public class PlayerManager : MonoBehaviour
     private GameObject _selectedObject;
     
     [SerializeField] private InputActionReference selectEntityInput;
-    
     [SerializeField] private InputActionReference mooveEntityInput;
+    
+    [SerializeField] private InputActionReference mooveCameraInput;
+    [SerializeField] private InputActionReference rotateCameraInput;
+
+    [SerializeField] private float speed = 1; 
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -24,24 +30,44 @@ public class PlayerManager : MonoBehaviour
         selectEntityInput.action.started -= DoASelection;
         mooveEntityInput.action.started -= MooveSelected;
     }
-    
+
+
+    private void Update()
+    {
+        Camera.main.transform.position += new Vector3(mooveCameraInput.action.ReadValue<Vector2>().x,0,mooveCameraInput.action.ReadValue<Vector2>().y) 
+                                          * (Time.deltaTime * speed);
+        
+        
+        var rotation = Camera.main.transform.rotation;
+        rotation = new Quaternion(  rotation.x, rotateCameraInput.action.ReadValue<Vector2>().x/180 +rotation.y , rotation.z, rotation.w) ;
+        
+        Camera.main.transform.rotation = rotation;
+    }
+
     private void DoASelection(InputAction.CallbackContext context )
     {
         RaycastHit hit = DoARayCast();
-        if (hit.transform.GetComponent<NavMeshAgent>())
+        if (hit.transform)
         {
-            _selectedObject = hit.transform.gameObject;
+            if (hit.transform.GetComponent<NavMeshAgent>())
+            {
+                _selectedObject = hit.transform.gameObject;
+            }
         }
         Debug.Log(_selectedObject);
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
     {
-        if (_selectedObject.GetComponent<NavMeshAgent>())
+        if (_selectedObject)
         {
-            RaycastHit hit = DoARayCast();
-            _selectedObject.GetComponent<NavMeshAgent>().SetDestination(hit.point);
+            if (_selectedObject.GetComponent<NavMeshAgent>())
+            {
+                RaycastHit hit = DoARayCast();
+                _selectedObject.GetComponent<NavMeshAgent>().SetDestination(hit.point);
+            }
         }
+       
     }
     
     private RaycastHit DoARayCast()
@@ -54,5 +80,10 @@ public class PlayerManager : MonoBehaviour
         }
 
         return hit;
+    }
+
+    private void MooveCamera(InputAction.CallbackContext context)
+    {
+        
     }
 }

@@ -200,6 +200,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectEntityInput: {fileID: -244919997710551446, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   mooveEntityInput: {fileID: 8433083119221864085, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  mooveCameraInput: {fileID: 1869844700412366600, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  rotateCameraInput: {fileID: -2096182677823517670, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  speed: 10
 --- !u!1 &489314560
 GameObject:
   m_ObjectHideFlags: 0
