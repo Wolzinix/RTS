@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private InputActionReference activeRotateCameraInput;
     [SerializeField] private InputActionReference zoomCameraInput;
     [SerializeField] private InputActionReference multiSelectionInput;
+    [SerializeField] private InputActionReference multiPathInput;
     
     [SerializeField] private float _speed = 1;
     [SerializeField] private float _speedOfZoom = 10;
@@ -24,6 +25,7 @@ public class PlayerManager : MonoBehaviour
     private bool _rotationActivated = false;
     private Camera _camera;
     private bool _multiSelectionIsActive = false;
+    private bool _multiPathIsActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,11 +39,19 @@ public class PlayerManager : MonoBehaviour
         activeRotateCameraInput.action.canceled += ChangeRotate;
         multiSelectionInput.action.performed += ActiveMultiSelection;
         multiSelectionInput.action.canceled += ActiveMultiSelection;
+        multiPathInput.action.performed += ActiveMultiPath;
+        multiPathInput.action.canceled += ActiveMultiPath;
+        
     }
 
     private void ActiveMultiSelection(InputAction.CallbackContext obj)
     {
         _multiSelectionIsActive = !_multiSelectionIsActive;
+    }
+    
+    private void ActiveMultiPath(InputAction.CallbackContext obj)
+    {
+        _multiPathIsActive = !_multiPathIsActive;
     }
     
 
@@ -77,7 +87,9 @@ public class PlayerManager : MonoBehaviour
         zoomCameraInput.action.performed -= Zoom;
         activeRotateCameraInput.action.canceled -= ChangeRotate;
         multiSelectionInput.action.performed -= ActiveMultiSelection;
-        multiSelectionInput.action.canceled -= ActiveMultiSelection;
+        multiSelectionInput.action.canceled -= ActiveMultiSelection; 
+        multiPathInput.action.performed -= ActiveMultiPath;
+        multiPathInput.action.canceled -= ActiveMultiPath;
     }
 
 
@@ -95,7 +107,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (!_multiSelectionIsActive) _selectedObject.Clear();
             
-            if (hit.transform.GetComponent<NavMeshAgent>()) _selectedObject.Add(hit.transform.gameObject);
+            if (hit.transform.GetComponent<EntityManager>()) _selectedObject.Add(hit.transform.gameObject);
                
             else _selectedObject.Clear();
         }
@@ -104,12 +116,17 @@ public class PlayerManager : MonoBehaviour
 
     private void MooveSelected(InputAction.CallbackContext context)
     {
-        foreach (var i in _selectedObject)
+        foreach (GameObject i in _selectedObject)
         {
-            if (i.GetComponent<NavMeshAgent>())
+            if (i.GetComponent<EntityManager>())
             {
                 RaycastHit hit = DoARayCast();
-                i.GetComponent<NavMeshAgent>().SetDestination(hit.point);
+                if (!_multiPathIsActive)
+                {
+                    i.GetComponent<EntityManager>().ClearAllPath();
+                    i.GetComponent<NavMeshAgent>().ResetPath();
+                }
+                i.GetComponent<EntityManager>().AddPath(hit.point);
             }
         }
     }
