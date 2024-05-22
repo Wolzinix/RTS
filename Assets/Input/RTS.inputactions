@@ -15,16 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "e1d3faf2-923e-423d-9a79-709a3fb1cab2",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Selection",
+                    "name": "selectOne",
                     "type": "Button",
                     "id": "94b28403-0c87-4b45-8cd3-53e1b349ebe0",
                     "expectedControlType": "Button",
@@ -64,6 +55,15 @@
                     "type": "PassThrough",
                     "id": "1c07fe3b-a322-4466-b6c7-b0a7f90c6d12",
                     "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MultiSelect",
+                    "type": "Button",
+                    "id": "57067300-79e8-492f-9085-0e0b539f783a",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -204,45 +204,12 @@
                 },
                 {
                     "name": "",
-                    "id": "c1f7a91b-d0fd-4a62-997e-7fb9b69bf235",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8c8e490b-c610-4785-884f-f04217b23ca4",
-                    "path": "<Pointer>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse;Touch",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3e5f5442-8668-4b27-a940-df99bad7e831",
-                    "path": "<Joystick>/{Hatswitch}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joystick",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "df8a2729-46ee-4d8c-aba1-e1b1cb4e2864",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Selection",
+                    "action": "selectOne",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -287,6 +254,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ad6d1ac9-2973-4520-ad3d-0f3a3046562f",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "MultiSelect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
