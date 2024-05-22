@@ -205,6 +205,7 @@ MonoBehaviour:
   activeRotateCameraInput: {fileID: -3578388761953092175, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   zoomCameraInput: {fileID: 3092937626653910614, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   multiSelectionInput: {fileID: 4865166933374716320, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  multiPathInput: {fileID: -8770079392862207241, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   _speed: 5
   _speedOfZoom: 10
 --- !u!1 &489314560
@@ -822,6 +823,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4825870592483654779, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 435797332874116430}
+    - targetCorrespondingSourceObject: {fileID: 4825870592483654779, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 435797332874116431}
   m_SourcePrefab: {fileID: 100100000, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
 --- !u!1 &435797332874116429 stripped
 GameObject:
@@ -850,3 +854,15 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &435797332874116431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435797332874116429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3591858989714b43970e271f2d63062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
