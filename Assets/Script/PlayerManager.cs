@@ -4,85 +4,87 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerManager : MonoBehaviour
 {
-    private GameObject _selectedObject;
-    
     [SerializeField] private InputActionReference selectEntityInput;
     [SerializeField] private InputActionReference mooveEntityInput;
-    
     [SerializeField] private InputActionReference mooveCameraInput;
     [SerializeField] private InputActionReference rotateCameraInput;
-
     [SerializeField] private InputActionReference activeRotateCameraInput;
-    
-    
     [SerializeField] private InputActionReference zoomCameraInput;
+    [SerializeField] private InputActionReference multiSelectionInput;
     
-    [SerializeField] private float speed = 1;
+    [SerializeField] private float _speed = 1;
+    [SerializeField] private float _speedOfZoom = 10;
 
-    [SerializeField] private float speedOfZoom = 10;
 
+    private List<GameObject> _selectedObject;
     private bool _rotationActivated = false;
     private Camera _camera;
-
+    private bool _multiSelectionIsActive = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        _selectedObject = new List<GameObject>();
         _camera = Camera.main;
         selectEntityInput.action.started += DoASelection;
         mooveEntityInput.action.started += MooveSelected;
         activeRotateCameraInput.action.performed += ChangeRotate;
         zoomCameraInput.action.performed += Zoom;
         activeRotateCameraInput.action.canceled += ChangeRotate;
+        multiSelectionInput.action.performed += ActiveMultiSelection;
+        multiSelectionInput.action.canceled += ActiveMultiSelection;
     }
+
+    private void ActiveMultiSelection(InputAction.CallbackContext obj)
+    {
+        _multiSelectionIsActive = !_multiSelectionIsActive;
+    }
+    
 
     private void Zoom(InputAction.CallbackContext obj)
     {
         if (_camera.transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0)
         {
             _camera.transform.position += new Vector3(0
-                ,-zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom,
-                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom)* (Time.deltaTime * speed);
+                ,-zoomCameraInput.action.ReadValue<Vector2>().y / _speedOfZoom,
+                zoomCameraInput.action.ReadValue<Vector2>().y / _speedOfZoom)* (Time.deltaTime * _speed);
         }
         
         if (_camera.transform.position.y <= 8 && zoomCameraInput.action.ReadValue<Vector2>().y <= 0)
         {
             _camera.transform.position += new Vector3(0
-                ,-zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom,
-                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom)* (Time.deltaTime * speed);
+                ,-zoomCameraInput.action.ReadValue<Vector2>().y / _speedOfZoom,
+                zoomCameraInput.action.ReadValue<Vector2>().y / _speedOfZoom)* (Time.deltaTime * _speed);
         }
     }
 
     private void ChangeRotate(InputAction.CallbackContext obj)
     {
-        if (obj.performed)
-        {
-            _rotationActivated = true;
-        }
-        if (obj.canceled)
-        {
-            _rotationActivated = false;
-        }
+        if (obj.performed)_rotationActivated = true;
+        
+        if (obj.canceled) _rotationActivated = false;
     }
 
     private void OnDestroy()
     {
         selectEntityInput.action.started -= DoASelection;
         mooveEntityInput.action.started -= MooveSelected;
-        activeRotateCameraInput.action.started -= ChangeRotate;
+        activeRotateCameraInput.action.performed -= ChangeRotate;
+        zoomCameraInput.action.performed -= Zoom;
+        activeRotateCameraInput.action.canceled -= ChangeRotate;
+        multiSelectionInput.action.performed -= ActiveMultiSelection;
+        multiSelectionInput.action.canceled -= ActiveMultiSelection;
     }
 
 
     private void Update()
     {
         _camera.transform.position += new Vector3(mooveCameraInput.action.ReadValue<Vector2>().x,0,mooveCameraInput.action.ReadValue<Vector2>().y) 
-                                      * (Time.deltaTime * speed);
-        
-        
-
+                                      * (Time.deltaTime * _speed);
         //if(_rotationActivated) RotateCamera();
     }
 
@@ -91,36 +93,32 @@ public class PlayerManager : MonoBehaviour
         RaycastHit hit = DoARayCast();
         if (hit.transform)
         {
-            if (hit.transform.GetComponent<NavMeshAgent>())
-            {
-                _selectedObject = hit.transform.gameObject;
-            }
+            if (!_multiSelectionIsActive) _selectedObject.Clear();
+            
+            if (hit.transform.GetComponent<NavMeshAgent>()) _selectedObject.Add(hit.transform.gameObject);
+               
+            else _selectedObject.Clear();
         }
-        Debug.Log(_selectedObject);
+        else if (!_multiSelectionIsActive) _selectedObject.Clear();
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
     {
-        if (_selectedObject)
+        foreach (var i in _selectedObject)
         {
-            if (_selectedObject.GetComponent<NavMeshAgent>())
+            if (i.GetComponent<NavMeshAgent>())
             {
                 RaycastHit hit = DoARayCast();
-                _selectedObject.GetComponent<NavMeshAgent>().SetDestination(hit.point);
+                i.GetComponent<NavMeshAgent>().SetDestination(hit.point);
             }
         }
-       
     }
     
     private RaycastHit DoARayCast()
     {
         Ray ray = _camera.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast (ray, out hit, 100))
-        {
-            return hit;
-        }
-
+        if (Physics.Raycast (ray, out hit, 100)) return hit;
         return hit;
     }
 
