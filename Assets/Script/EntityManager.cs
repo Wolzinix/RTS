@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,14 +10,12 @@ public class EntityManager : MonoBehaviour
 
     [SerializeField] private SpriteRenderer selectedSprite;
     
-    // Start is called before the first frame update
     void Start()
     {
         _navMesh = GetComponent<NavMeshAgent>();
         _listOfPath = new List<Vector3>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <=1)
@@ -47,10 +44,15 @@ public class EntityManager : MonoBehaviour
 
     public void OnSelected()
     {
-        selectedSprite.gameObject.SetActive(true);
+        //selectedSprite.gameObject.SetActive(true);
     }
     public void OnDeselected()
     {
-        selectedSprite.gameObject.SetActive(false);
+        //selectedSprite.gameObject.SetActive(false);
+    }
+
+    public void StopPath()
+    {
+        gameObject.GetComponent<NavMeshAgent>().ResetPath();
     }
 }

@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class ControllManager : MonoBehaviour
 {
@@ -23,7 +18,7 @@ public class ControllManager : MonoBehaviour
     [SerializeField] private float speedOfZoom = 10;
 
 
-    private List<GameObject> _selectedObject;
+    
     //private bool _rotationActivated = false;
     private Camera _camera;
     private bool _multiSelectionIsActive = false;
@@ -33,12 +28,13 @@ public class ControllManager : MonoBehaviour
     [SerializeField] private RectTransform dragBox;
 
     private bool _dragging;
+
+    private SelectManager _selectManager;
     
 
-    // Start is called before the first frame update
     void Start()
     {
-        _selectedObject = new List<GameObject>();
+        _selectManager = FindObjectOfType<SelectManager>();
         _camera = Camera.main;
         selectEntityInput.action.started += DoASelection;
         mooveEntityInput.action.started += MooveSelected;
@@ -125,30 +121,24 @@ public class ControllManager : MonoBehaviour
         RaycastHit hit = DoARayCast();
         if (hit.transform)
         {
-            if (!_multiSelectionIsActive) _selectedObject.Clear();
+            if (!_multiSelectionIsActive) _selectManager.ClearList();
             
-            if (hit.transform.GetComponent<EntityManager>()) _selectedObject.Add(hit.transform.gameObject);
+            if (hit.transform.GetComponent<EntityManager>()) _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityManager>());
                
-            else _selectedObject.Clear();
+            else _selectManager.ClearList();
         }
-        else if (!_multiSelectionIsActive) _selectedObject.Clear();
+        else if (!_multiSelectionIsActive) _selectManager.ClearList();
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
     {
-        foreach (GameObject i in _selectedObject)
+        RaycastHit hit = DoARayCast();
+        if (!_multiPathIsActive)
         {
-            if (i.GetComponent<EntityManager>())
-            {
-                RaycastHit hit = DoARayCast();
-                if (!_multiPathIsActive)
-                {
-                    i.GetComponent<EntityManager>().ClearAllPath();
-                    i.GetComponent<NavMeshAgent>().ResetPath();
-                }
-                i.GetComponent<EntityManager>().AddPath(hit.point);
-            }
+            _selectManager.ResetPath();
         }
+        _selectManager.MooveSelected(hit);
+            
     }
     
     private RaycastHit DoARayCast()
@@ -192,7 +182,7 @@ public class ControllManager : MonoBehaviour
         {
             if (UnitInDragBox(_camera.WorldToScreenPoint(i.transform.position), bounds))
             {
-                _selectedObject.Add(i.gameObject);
+                _selectManager.AddSelect(i);
             }
         }
 

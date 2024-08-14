@@ -1,18 +1,50 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SelectManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    
+    private List<EntityManager> _selectedObject;
+    
     void Start()
     {
-        
+        if (FindObjectOfType<SelectManager>())
+        {
+            Destroy(gameObject);
+        }
+        _selectedObject = new List<EntityManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ClearList()
     {
-        
+        foreach (var i in _selectedObject)
+        {
+            i.OnDeselected();
+        }
+        _selectedObject.Clear();
+    }
+
+    public void AddSelect(EntityManager toAdd)
+    {
+        _selectedObject.Add(toAdd);
+        toAdd.OnSelected();
+    }
+    
+    public void MooveSelected(RaycastHit hit)
+    {
+        foreach (EntityManager i in _selectedObject)
+        {
+            i.GetComponent<EntityManager>().AddPath(hit.point);
+        }
+    }
+
+    public void ResetPath()
+    {
+        foreach (var i in _selectedObject)
+        {
+            i.ClearAllPath();
+            i.StopPath();
+        }
     }
 }
+
