@@ -7,7 +7,7 @@ using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public class PlayerManager : MonoBehaviour
+public class ControllManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference selectEntityInput;
     [SerializeField] private InputActionReference mooveEntityInput;

@@ -8,6 +8,8 @@ public class EntityManager : MonoBehaviour
     private NavMeshAgent _navMesh;
 
     private List<Vector3> _listOfPath;
+
+    [SerializeField] private SpriteRenderer selectedSprite;
     
     // Start is called before the first frame update
     void Start()
@@ -41,5 +43,14 @@ public class EntityManager : MonoBehaviour
     public void ClearAllPath()
     {
         _listOfPath.Clear();
+    }
+
+    public void OnSelected()
+    {
+        selectedSprite.gameObject.SetActive(true);
+    }
+    public void OnDeselected()
+    {
+        selectedSprite.gameObject.SetActive(false);
     }
 }
