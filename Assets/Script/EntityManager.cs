@@ -14,6 +14,7 @@ public class EntityManager : MonoBehaviour
     {
         _navMesh = GetComponent<NavMeshAgent>();
         _listOfPath = new List<Vector3>();
+        selectedSprite.gameObject.SetActive(false);
     }
 
     void Update()
@@ -44,11 +45,11 @@ public class EntityManager : MonoBehaviour
 
     public void OnSelected()
     {
-        //selectedSprite.gameObject.SetActive(true);
+        selectedSprite.gameObject.SetActive(true);
     }
     public void OnDeselected()
     {
-        //selectedSprite.gameObject.SetActive(false);
+        selectedSprite.gameObject.SetActive(false);
     }
 
     public void StopPath()
