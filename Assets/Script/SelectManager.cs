@@ -4,7 +4,7 @@ using UnityEngine;
 public class SelectManager : MonoBehaviour
 {
     
-    private List<EntityManager> _selectedObject;
+    private List<EntityController> _selectedObject;
     
     void Start()
     {
@@ -12,7 +12,7 @@ public class SelectManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        _selectedObject = new List<EntityManager>();
+        _selectedObject = new List<EntityController>();
     }
 
     public void ClearList()
@@ -24,7 +24,7 @@ public class SelectManager : MonoBehaviour
         _selectedObject.Clear();
     }
 
-    public void AddSelect(EntityManager toAdd)
+    public void AddSelect(EntityController toAdd)
     {
         _selectedObject.Add(toAdd);
         toAdd.OnSelected();
@@ -32,9 +32,9 @@ public class SelectManager : MonoBehaviour
     
     public void MooveSelected(RaycastHit hit)
     {
-        foreach (EntityManager i in _selectedObject)
+        foreach (EntityController i in _selectedObject)
         {
-            i.GetComponent<EntityManager>().AddPath(hit.point);
+            i.GetComponent<EntityController>().AddPath(hit.point);
         }
     }
 

@@ -123,7 +123,7 @@ public class ControllManager : MonoBehaviour
         {
             if (!_multiSelectionIsActive) _selectManager.ClearList();
             
-            if (hit.transform.GetComponent<EntityManager>()) _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityManager>());
+            if (hit.transform.GetComponent<EntityController>()) _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
                
             else _selectManager.ClearList();
         }
@@ -178,7 +178,7 @@ public class ControllManager : MonoBehaviour
         
         Bounds bounds = new Bounds(dragBox.anchoredPosition, dragBox.sizeDelta);
         
-        foreach (EntityManager i in FindObjectsOfType<EntityManager>() )
+        foreach (EntityController i in FindObjectsOfType<EntityController>() )
         {
             if (UnitInDragBox(_camera.WorldToScreenPoint(i.transform.position), bounds))
             {

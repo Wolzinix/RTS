@@ -1,59 +1,88 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EntityManager : MonoBehaviour
 {
-    private NavMeshAgent _navMesh;
-
-    private List<Vector3> _listOfPath;
-
-    [SerializeField] private SpriteRenderer selectedSprite;
+    [SerializeField] private float hp = 10;
+    [SerializeField] private float attack = 1;
+    [SerializeField] private float defense = 1;
+    [SerializeField] private float attackSpeed = 1;
+    [SerializeField] private float speed = 2;
     
     void Start()
     {
-        _navMesh = GetComponent<NavMeshAgent>();
-        _listOfPath = new List<Vector3>();
-        selectedSprite.gameObject.SetActive(false);
+        
     }
 
     void Update()
     {
-        if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <=1)
+        
+    }
+
+    public float Hp => hp;
+
+    public void setHp(float nb)
+    {
+        hp = nb;
+        Death();
+    }
+
+    public float Attack
+    {
+        get => attack;
+        set => attack = value;
+    }
+
+    public float Defense
+    {
+        get => defense;
+        set => defense = value;
+    }
+
+    public float AttackSpeed
+    {
+        get => attackSpeed;
+        set => attackSpeed = value;
+    }
+
+    public float Speed
+    {
+        get => speed;
+        set => speed = value;
+    }
+
+    public void addHP(float nb)
+    {
+        hp += nb;
+        Death();
+    }
+    
+    public void addAttack(float nb)
+    {
+        attack += nb;
+    }
+    
+    public void addDefense(float nb)
+    {
+        defense += nb;
+    }
+    
+    public void addAttackSpeed(float nb)
+    {
+        attackSpeed += nb;
+    }
+    
+    public void addSpeed(float nb)
+    {
+        speed += nb;
+    }
+
+    private void Death()
+    {
+        if (hp <= 0)
         {
-            ActualisePath();
+            Destroy(gameObject);
         }
-    }
-
-    void ActualisePath()
-    {
-        if (_listOfPath.Count > 0) {
-            _navMesh.SetDestination(_listOfPath[0]);
-            _listOfPath.RemoveAt(0);
-        }
-    }
-
-    public void AddPath(Vector3 newPath)
-    {
-        _listOfPath.Add(newPath);
-    }
-
-    public void ClearAllPath()
-    {
-        _listOfPath.Clear();
-    }
-
-    public void OnSelected()
-    {
-        selectedSprite.gameObject.SetActive(true);
-    }
-    public void OnDeselected()
-    {
-        selectedSprite.gameObject.SetActive(false);
-    }
-
-    public void StopPath()
-    {
-        gameObject.GetComponent<NavMeshAgent>().ResetPath();
     }
 }
