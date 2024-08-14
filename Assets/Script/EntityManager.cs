@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EntityManager : MonoBehaviour
 {
@@ -10,9 +11,12 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private float attackSpeed = 1;
     [SerializeField] private float speed = 2;
     
+    private NavMeshAgent _navMeshAgent; 
+    
     void Start()
     {
-        
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshAgent.speed = speed;
     }
 
     void Update()
@@ -49,7 +53,12 @@ public class EntityManager : MonoBehaviour
     public float Speed
     {
         get => speed;
-        set => speed = value;
+    }
+
+    public void setSpeed(float nb)
+    {
+        speed = nb;
+        _navMeshAgent.speed = speed;
     }
 
     public void addHP(float nb)
@@ -76,6 +85,7 @@ public class EntityManager : MonoBehaviour
     public void addSpeed(float nb)
     {
         speed += nb;
+        _navMeshAgent.speed = speed;
     }
 
     private void Death()

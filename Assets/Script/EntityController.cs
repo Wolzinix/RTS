@@ -11,6 +11,10 @@ public class EntityController : MonoBehaviour
     [SerializeField] private SpriteRenderer selectedSprite;
 
     private EntityManager _entityManager;
+
+    private Animator _animator;
+
+    
     
     void Start()
     {
@@ -18,6 +22,9 @@ public class EntityController : MonoBehaviour
         _listOfPath = new List<Vector3>();
         selectedSprite.gameObject.SetActive(false);
         _entityManager = GetComponent<EntityManager>();
+        _animator = GetComponent<Animator>();
+        
+        _animator.SetFloat("WalkSpeed",_entityManager.Speed);
     }
 
     void Update()
@@ -32,7 +39,12 @@ public class EntityController : MonoBehaviour
     {
         if (_listOfPath.Count > 0) {
             _navMesh.SetDestination(_listOfPath[0]);
+            _animator.SetBool("Mooving",true);
             _listOfPath.RemoveAt(0);
+        }
+        else
+        {
+            _animator.SetBool("Mooving",false);
         }
     }
 
@@ -58,5 +70,6 @@ public class EntityController : MonoBehaviour
     public void StopPath()
     {
         gameObject.GetComponent<NavMeshAgent>().ResetPath();
+        _animator.SetBool("Mooving",false);
     }
 }
