@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -16,16 +17,23 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private InputActionReference zoomCameraInput;
     [SerializeField] private InputActionReference multiSelectionInput;
     [SerializeField] private InputActionReference multiPathInput;
+    [SerializeField] private InputActionReference dragSelect;
     
-    [SerializeField] private float _speed = 1;
-    [SerializeField] private float _speedOfZoom = 10;
+    [SerializeField] private float speed = 1;
+    [SerializeField] private float speedOfZoom = 10;
 
 
     private List<GameObject> _selectedObject;
-    private bool _rotationActivated = false;
+    //private bool _rotationActivated = false;
     private Camera _camera;
     private bool _multiSelectionIsActive = false;
     private bool _multiPathIsActive = false;
+
+    private Vector3 _dragCoord;
+    [SerializeField] private RectTransform dragBox;
+
+    private bool _dragging;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +49,8 @@ public class PlayerManager : MonoBehaviour
         multiSelectionInput.action.canceled += ActiveMultiSelection;
         multiPathInput.action.performed += ActiveMultiPath;
         multiPathInput.action.canceled += ActiveMultiPath;
-        
+        dragSelect.action.performed += StartDragSelect;
+        dragSelect.action.canceled += EndDragSelect;
     }
 
     private void ActiveMultiSelection(InputAction.CallbackContext obj)
@@ -60,23 +69,23 @@ public class PlayerManager : MonoBehaviour
         if (_camera.transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0)
         {
             _camera.transform.position += new Vector3(0
-                ,-zoomCameraInput.action.ReadValue<Vector2>().y / _speedOfZoom,
-                zoomCameraInput.action.ReadValue<Vector2>().y / _speedOfZoom)* (Time.deltaTime * _speed);
+                ,-zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom,
+                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom)* (Time.deltaTime * speed);
         }
         
         if (_camera.transform.position.y <= 8 && zoomCameraInput.action.ReadValue<Vector2>().y <= 0)
         {
             _camera.transform.position += new Vector3(0
-                ,-zoomCameraInput.action.ReadValue<Vector2>().y / _speedOfZoom,
-                zoomCameraInput.action.ReadValue<Vector2>().y / _speedOfZoom)* (Time.deltaTime * _speed);
+                ,-zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom,
+                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom)* (Time.deltaTime * speed);
         }
     }
 
     private void ChangeRotate(InputAction.CallbackContext obj)
     {
-        if (obj.performed)_rotationActivated = true;
+        //if (obj.performed)_rotationActivated = true;
         
-        if (obj.canceled) _rotationActivated = false;
+        //if (obj.canceled) _rotationActivated = false;
     }
 
     private void OnDestroy()
@@ -88,15 +97,26 @@ public class PlayerManager : MonoBehaviour
         activeRotateCameraInput.action.canceled -= ChangeRotate;
         multiSelectionInput.action.performed -= ActiveMultiSelection;
         multiSelectionInput.action.canceled -= ActiveMultiSelection; 
-        multiPathInput.action.performed -= ActiveMultiPath;
+        multiPathInput.action.started -= ActiveMultiPath;
         multiPathInput.action.canceled -= ActiveMultiPath;
     }
 
 
     private void Update()
     {
-        _camera.transform.position += new Vector3(mooveCameraInput.action.ReadValue<Vector2>().x,0,mooveCameraInput.action.ReadValue<Vector2>().y) 
-                                      * (Time.deltaTime * _speed);
+        _camera.transform.position += new Vector3(mooveCameraInput.action.ReadValue<Vector2>().x
+                                          ,0
+                                          ,mooveCameraInput.action.ReadValue<Vector2>().y) 
+                                      * (Time.deltaTime * speed);
+
+        if (_dragging)
+        {
+            float longueur =  Input.mousePosition.x - _dragCoord.x;
+            float largeur =  Input.mousePosition.y - _dragCoord.y;
+
+            dragBox.anchoredPosition = new Vector2(_dragCoord.x,_dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
+            dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
+        }
         //if(_rotationActivated) RotateCamera();
     }
 
@@ -148,5 +168,39 @@ public class PlayerManager : MonoBehaviour
                                                     rotateCameraInput.action.ReadValue<Vector2>().x/360 + rotation.y ,
                                                     rotation.z,
                                                     rotation.w);
+    }
+
+    private void StartDragSelect(InputAction.CallbackContext obj)
+    {
+        _dragCoord = Input.mousePosition;
+        dragBox.GameObject().SetActive(true);
+        _dragging = true;
+    }
+
+
+    private void EndDragSelect(InputAction.CallbackContext obj)
+    {
+        float longueur =  Input.mousePosition.x - _dragCoord.x;
+        float largeur =  Input.mousePosition.y - _dragCoord.y;
+
+        dragBox.anchoredPosition = new Vector2(_dragCoord.x,_dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
+        dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
+        
+        Bounds bounds = new Bounds(dragBox.anchoredPosition, dragBox.sizeDelta);
+        
+        foreach (EntityManager i in FindObjectsOfType<EntityManager>() )
+        {
+            if (UnitInDragBox(_camera.WorldToScreenPoint(i.transform.position), bounds))
+            {
+                _selectedObject.Add(i.gameObject);
+            }
+        }
+
+        dragBox.GameObject().SetActive(false);
+    }
+
+    private bool UnitInDragBox(Vector2 coords, Bounds bounds)
+    {
+        return coords.x >= bounds.min.x && coords.x <= bounds.max.x && coords.y >= bounds.min.y && coords.y <= bounds.max.y;
     }
 }
