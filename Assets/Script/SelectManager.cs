@@ -35,7 +35,6 @@ public class SelectManager : MonoBehaviour
 
     public void ActionGroup(RaycastHit hit)
     {
-        Debug.Log(hit.transform.gameObject);
         if (hit.transform.gameObject.CompareTag("ennemie"))
         {
             AttackSelected(hit);

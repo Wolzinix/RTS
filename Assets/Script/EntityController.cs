@@ -21,7 +21,7 @@ public class EntityController : MonoBehaviour
     private static readonly int Attacking = Animator.StringToHash("Attacking");
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
 
-    private bool attacking;
+    private bool _attacking;
 
 
     void Start()
@@ -72,13 +72,13 @@ public class EntityController : MonoBehaviour
                 {
                     _animator.SetBool(Mooving,false);
 
-                    if (attacking &&
+                    if (_attacking &&
                         !_animator.IsInTransition(0) &&
                         _animator.GetBool(Attacking) &&
                         _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5)
                     {
                         DoAttack(target);
-                        attacking = false;
+                        _attacking = false;
                     }
                     
                     if (!_animator.IsInTransition(0) && 
@@ -89,7 +89,7 @@ public class EntityController : MonoBehaviour
                     else { _animator.SetBool(Attacking,true); }
                    
 
-                    if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) { attacking = true; }
+                    if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) { _attacking = true; }
                 }
                 else
                 {
