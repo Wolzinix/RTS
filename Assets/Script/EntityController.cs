@@ -68,7 +68,8 @@ public class EntityController : MonoBehaviour
             else
             {
                 EntityManager target = _listOfTarget[0];
-                if (_navMesh.remainingDistance <= _entityManager.Range || _navMesh.remainingDistance <=1)
+                
+                if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
                 {
                     _animator.SetBool(Mooving,false);
 
