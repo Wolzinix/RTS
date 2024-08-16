@@ -22,7 +22,7 @@ public class EntityController : MonoBehaviour
         _listOfPath = new List<Vector3>();
         selectedSprite.gameObject.SetActive(false);
         _entityManager = GetComponent<EntityManager>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         
         _animator.SetFloat("WalkSpeed",_entityManager.Speed);
     }
