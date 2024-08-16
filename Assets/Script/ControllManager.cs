@@ -21,8 +21,8 @@ public class ControllManager : MonoBehaviour
     
     //private bool _rotationActivated = false;
     private Camera _camera;
-    private bool _multiSelectionIsActive = false;
-    private bool _multiPathIsActive = false;
+    private bool _multiSelectionIsActive;
+    private bool _multiPathIsActive;
 
     private Vector3 _dragCoord;
     [SerializeField] private RectTransform dragBox;
@@ -95,6 +95,8 @@ public class ControllManager : MonoBehaviour
         multiSelectionInput.action.canceled -= ActiveMultiSelection; 
         multiPathInput.action.started -= ActiveMultiPath;
         multiPathInput.action.canceled -= ActiveMultiPath;
+        dragSelect.action.performed -= StartDragSelect;
+        dragSelect.action.canceled -= EndDragSelect;
     }
 
 
@@ -123,7 +125,7 @@ public class ControllManager : MonoBehaviour
         {
             if (!_multiSelectionIsActive) _selectManager.ClearList();
             
-            if (hit.transform.GetComponent<EntityController>()) _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
+            if (hit.transform.GetComponent<EntityController>() ) _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
                
             else _selectManager.ClearList();
         }
@@ -135,9 +137,9 @@ public class ControllManager : MonoBehaviour
         RaycastHit hit = DoARayCast();
         if (!_multiPathIsActive)
         {
-            _selectManager.ResetPath();
+            _selectManager.ResetOrder();
         }
-        _selectManager.MooveSelected(hit);
+        _selectManager.ActionGroup(hit);
             
     }
     

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +8,14 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private float defense = 1;
     [SerializeField] private float attackSpeed = 1;
     [SerializeField] private float speed = 2;
-    
+    [SerializeField] private float range = 1;
+
+    public float Range
+    {
+        get => range;
+        set => range = value;
+    }
+
     private NavMeshAgent _navMeshAgent; 
     
     void Start()
@@ -19,14 +24,9 @@ public class EntityManager : MonoBehaviour
         _navMeshAgent.speed = speed;
     }
 
-    void Update()
-    {
-        
-    }
-
     public float Hp => hp;
 
-    public void setHp(float nb)
+    public void SetHp(float nb)
     {
         hp = nb;
         Death();
@@ -55,37 +55,42 @@ public class EntityManager : MonoBehaviour
         get => speed;
     }
 
-    public void setSpeed(float nb)
+    public void SetSpeed(float nb)
     {
         speed = nb;
         _navMeshAgent.speed = speed;
     }
 
-    public void addHP(float nb)
+    public void AddHp(float nb)
     {
         hp += nb;
         Death();
     }
     
-    public void addAttack(float nb)
+    public void AddAttack(float nb)
     {
         attack += nb;
     }
     
-    public void addDefense(float nb)
+    public void AddDefense(float nb)
     {
         defense += nb;
     }
     
-    public void addAttackSpeed(float nb)
+    public void AddAttackSpeed(float nb)
     {
         attackSpeed += nb;
     }
     
-    public void addSpeed(float nb)
+    public void AddSpeed(float nb)
     {
         speed += nb;
         _navMeshAgent.speed = speed;
+    }
+    
+    public void AddRange(float nb)
+    {
+        range += nb;
     }
 
     private void Death()

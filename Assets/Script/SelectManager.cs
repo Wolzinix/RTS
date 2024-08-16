@@ -26,10 +26,25 @@ public class SelectManager : MonoBehaviour
 
     public void AddSelect(EntityController toAdd)
     {
-        _selectedObject.Add(toAdd);
-        toAdd.OnSelected();
+        if (toAdd.gameObject.CompareTag("Allie"))
+        {
+            _selectedObject.Add(toAdd);
+            toAdd.OnSelected();
+        }
     }
-    
+
+    public void ActionGroup(RaycastHit hit)
+    {
+        Debug.Log(hit.transform.gameObject);
+        if (hit.transform.gameObject.CompareTag("ennemie"))
+        {
+            AttackSelected(hit);
+        }
+        else
+        {
+            MooveSelected(hit);
+        }
+    }
     public void MooveSelected(RaycastHit hit)
     {
         foreach (EntityController i in _selectedObject)
@@ -38,11 +53,19 @@ public class SelectManager : MonoBehaviour
         }
     }
 
-    public void ResetPath()
+    public void AttackSelected(RaycastHit hit)
+    {
+        foreach (EntityController i in _selectedObject)
+        {
+            i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
+        }
+    }
+
+    public void ResetOrder()
     {
         foreach (var i in _selectedObject)
         {
-            i.ClearAllPath();
+            i.ClearAllFile();
             i.StopPath();
         }
     }
