@@ -22,8 +22,7 @@ public class EntityController : MonoBehaviour
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
 
     private bool _attacking;
-
-
+    
     void Start()
     {
         _navMesh = GetComponent<NavMeshAgent>();
@@ -63,7 +62,6 @@ public class EntityController : MonoBehaviour
             {
                 _listOfTarget.RemoveAt(0);
                 _listForFile.RemoveAt(0);
-                
             }
             else
             {
@@ -73,23 +71,21 @@ public class EntityController : MonoBehaviour
                 {
                     _animator.SetBool(Mooving,false);
 
-                    if (_attacking &&
-                        !_animator.IsInTransition(0) &&
+                    if (!_animator.IsInTransition(0) &&
                         _animator.GetBool(Attacking) &&
                         _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5)
                     {
-                        DoAttack(target);
-                        _attacking = false;
+                        if (_attacking)
+                        {
+                            DoAttack(target);
+                            _attacking = false;
+                        }
+
+                        if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1) {_animator.SetBool(Attacking, false);}
                     }
                     
-                    if (!_animator.IsInTransition(0) && 
-                        _animator.GetBool(Attacking) && 
-                        _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 ) 
-                    { _animator.SetBool(Attacking, false); }
-                    
                     else { _animator.SetBool(Attacking,true); }
-                   
-
+                    
                     if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) { _attacking = true; }
                 }
                 else
@@ -117,7 +113,6 @@ public class EntityController : MonoBehaviour
     void DoAttack(EntityManager target)
     {
         target.AddHp(-_entityManager.Attack);
-        
     }
 
     public void AddPath(Vector3 newPath)
