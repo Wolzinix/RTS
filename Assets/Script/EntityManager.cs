@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +11,10 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private float speed = 2;
     [SerializeField] private float range = 1;
 
+    private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
+    private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
+    
+    private Animator _animator;
     public float Range
     {
         get => range;
@@ -22,6 +27,10 @@ public class EntityManager : MonoBehaviour
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.speed = speed;
+        
+        _animator = GetComponentInChildren<Animator>();
+        _animator.SetFloat(WalkSpeed,speed);
+        _animator.SetFloat(AttackSpeedAnim, attackSpeed);
     }
 
     public float Hp => hp;
@@ -47,9 +56,13 @@ public class EntityManager : MonoBehaviour
     public float AttackSpeed
     {
         get => attackSpeed;
-        set => attackSpeed = value;
     }
 
+    public void SetAttackSpeed(float nb)
+    {
+        attackSpeed = nb;
+        _animator.SetFloat(AttackSpeedAnim, attackSpeed);
+    }
     public float Speed
     {
         get => speed;
@@ -59,6 +72,7 @@ public class EntityManager : MonoBehaviour
     {
         speed = nb;
         _navMeshAgent.speed = speed;
+        _animator.SetFloat(WalkSpeed,speed);
     }
 
     public void AddHp(float nb)
@@ -80,12 +94,14 @@ public class EntityManager : MonoBehaviour
     public void AddAttackSpeed(float nb)
     {
         attackSpeed += nb;
+        _animator.SetFloat(AttackSpeedAnim, attackSpeed);
     }
     
     public void AddSpeed(float nb)
     {
         speed += nb;
         _navMeshAgent.speed = speed;
+        _animator.SetFloat(WalkSpeed,speed);
     }
     
     public void AddRange(float nb)

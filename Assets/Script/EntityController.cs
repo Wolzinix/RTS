@@ -35,9 +35,6 @@ public class EntityController : MonoBehaviour
         selectedSprite.gameObject.SetActive(false);
         _entityManager = GetComponent<EntityManager>();
         
-        _animator = GetComponentInChildren<Animator>();
-        _animator.SetFloat(WalkSpeed,_entityManager.Speed);
-        _animator.SetFloat(AttackSpeed,_entityManager.AttackSpeed);
     }
 
     void Update()
@@ -70,20 +67,24 @@ public class EntityController : MonoBehaviour
                 if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
                 {
                     _animator.SetBool(Mooving,false);
+                    
+                    if (!_animator.IsInTransition(0) &&
+                        _animator.GetBool(Attacking) &&
+                        _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 &&
+                        _attacking)
+                     { 
+                         DoAttack(target); 
+                         _attacking = false;
+                     }
 
                     if (!_animator.IsInTransition(0) &&
                         _animator.GetBool(Attacking) &&
-                        _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5)
+                        _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
                     {
-                        if (_attacking)
-                        {
-                            DoAttack(target);
-                            _attacking = false;
-                        }
-
-                        if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1) {_animator.SetBool(Attacking, false);}
+                        _animator.SetBool(Attacking, false);
                     }
-                    
+                        
+                        
                     else { _animator.SetBool(Attacking,true); }
                     
                     if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) { _attacking = true; }
