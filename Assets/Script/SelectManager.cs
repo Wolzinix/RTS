@@ -35,13 +35,21 @@ public class SelectManager : MonoBehaviour
 
     public void ActionGroup(RaycastHit hit)
     {
-        if (hit.transform.gameObject.CompareTag("ennemie"))
+        if (hit.transform)
         {
-            AttackSelected(hit);
-        }
-        else
-        {
-            MooveSelected(hit);
+            if (hit.transform.gameObject.CompareTag("ennemie"))
+            {
+                AttackSelected(hit);
+            }
+
+            if (hit.transform.gameObject.CompareTag("Allie"))
+            {
+                FollowSelected(hit);
+            }
+            else
+            {
+                MooveSelected(hit);
+            }
         }
     }
     public void MooveSelected(RaycastHit hit)
@@ -57,6 +65,14 @@ public class SelectManager : MonoBehaviour
         foreach (EntityController i in _selectedObject)
         {
             i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
+        }
+    }
+    
+    public void FollowSelected(RaycastHit hit)
+    {
+        foreach (EntityController i in _selectedObject)
+        {
+            i.GetComponent<EntityController>().AddAllie(hit.transform.gameObject.GetComponent<EntityManager>());
         }
     }
 

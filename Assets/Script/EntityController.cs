@@ -8,6 +8,8 @@ public class EntityController : MonoBehaviour
 
     private List<Vector3> _listOfPath;
     private List<EntityManager> _listOfTarget;
+    
+    private List<EntityManager> _listOfAllie;
     private List<int> _listForFile;
 
     [SerializeField] private SpriteRenderer selectedSprite;
@@ -16,10 +18,9 @@ public class EntityController : MonoBehaviour
 
     private Animator _animator;
     
-    private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
     private static readonly int Mooving = Animator.StringToHash("Mooving");
     private static readonly int Attacking = Animator.StringToHash("Attacking");
-    private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
+    
 
     private bool _attacking;
     
@@ -30,16 +31,23 @@ public class EntityController : MonoBehaviour
         _listOfPath = new List<Vector3>();
         _listOfTarget = new List<EntityManager>();
         _listForFile = new List<int>();
+        _listOfAllie = new List<EntityManager>();
 
         
         selectedSprite.gameObject.SetActive(false);
         _entityManager = GetComponent<EntityManager>();
+        
+        _animator = GetComponentInChildren<Animator>();
         
     }
 
     void Update()
     {
         Physics.SyncTransforms();
+        
+        if (_navMesh.pathPending && _navMesh.hasPath || _navMesh.remainingDistance >=1) { _animator.SetBool(Mooving,true);}
+        else { _animator.SetBool(Mooving,false);}
+        
         if (_listForFile.Count > 0 && _listForFile[0] == 0)
         {
             _animator.SetBool(Attacking, false);
@@ -48,11 +56,7 @@ public class EntityController : MonoBehaviour
                 GetNewPath();
             }
         }
-
-        if (_navMesh.pathPending && _navMesh.hasPath || _navMesh.remainingDistance >=1) { _animator.SetBool(Mooving,true);}
-        else { _animator.SetBool(Mooving,false);}
         
-
         if (_listForFile.Count > 0 && _listForFile[0] == 1)
         {
             if (!_listOfTarget[0])
@@ -70,10 +74,10 @@ public class EntityController : MonoBehaviour
                     
                     if (!_animator.IsInTransition(0) &&
                         _animator.GetBool(Attacking) &&
-                        _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 &&
+                        _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
                         _attacking)
                      { 
-                         DoAttack(target); 
+                         DoAttack(target);
                          _attacking = false;
                      }
 
@@ -91,7 +95,23 @@ public class EntityController : MonoBehaviour
                 }
                 else
                 {
-                    _animator.SetBool(Mooving,true);
+                    ActualisePath(target);
+                }
+            }
+        }
+
+        if (_listForFile.Count > 0 && _listForFile[0] == 2)
+        {
+            if (!_listOfAllie[0])
+            {
+                _listOfAllie.RemoveAt(0);
+                _listForFile.RemoveAt(0);
+            }
+            else
+            {
+                EntityManager target = _listOfAllie[0];
+                if (_navMesh.remainingDistance is >= 2 or 0)
+                {
                     ActualisePath(target);
                 }
             }
@@ -108,7 +128,6 @@ public class EntityController : MonoBehaviour
     void ActualisePath(EntityManager target)
     {
         _navMesh.SetDestination(target.transform.position);
-        _animator.SetBool(Mooving,true);
     }
 
     void DoAttack(EntityManager target)
@@ -128,6 +147,12 @@ public class EntityController : MonoBehaviour
         _listForFile.Add(1);
     }
 
+    public void AddAllie(EntityManager target)
+    {
+        _listOfAllie.Add(target);
+        _listForFile.Add(2);
+    }
+    
     public void ClearAllPath()
     {
         _listOfPath.Clear();
