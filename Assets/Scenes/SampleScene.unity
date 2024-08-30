@@ -301,18 +301,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066c1495622456c4d861f92b2f982140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectEntityInput: {fileID: -244919997710551446, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  moveEntityInput: {fileID: 8433083119221864085, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  moveCameraInput: {fileID: 1869844700412366600, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  rotateCameraInput: {fileID: -2096182677823517670, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  activeRotateCameraInput: {fileID: -3578388761953092175, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  zoomCameraInput: {fileID: 3092937626653910614, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   multiSelectionInput: {fileID: 4865166933374716320, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   multiPathInput: {fileID: -8770079392862207241, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  accelerateInput: {fileID: 4541643001360304603, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   dragSelect: {fileID: 6812050830421308770, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  speed: 1
-  speedOfZoom: 10
+  selectEntityInput: {fileID: -244919997710551446, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  moveEntityInput: {fileID: 8433083119221864085, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   dragBox: {fileID: 667709670}
 --- !u!1 &489314560
 GameObject:
@@ -776,6 +769,8 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -857,6 +852,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 25.605, y: 0, z: 0}
+--- !u!54 &963194229
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  serializedVersion: 4
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 577995d004096794f9e6915e38c43e15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveCameraInput: {fileID: 1869844700412366600, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  rotateCameraInput: {fileID: -2096182677823517670, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  activeRotateCameraInput: {fileID: -3578388761953092175, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  zoomCameraInput: {fileID: 3092937626653910614, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  accelerateInput: {fileID: 4541643001360304603, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  speedOfDeplacement: 1
+  speedOfZoom: 10
 --- !u!1001 &1020445813
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,29 +1,15 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
-public class ControllManager : MonoBehaviour
+public class ControlManager : MonoBehaviour
 {
-    [SerializeField] private InputActionReference moveCameraInput;
-    [SerializeField] private InputActionReference rotateCameraInput;
-    [SerializeField] private InputActionReference activeRotateCameraInput;
-    [SerializeField] private InputActionReference zoomCameraInput;
-    [SerializeField] private InputActionReference accelerateInput;
-    
     [SerializeField] private InputActionReference multiSelectionInput;
     [SerializeField] private InputActionReference multiPathInput;
     [SerializeField] private InputActionReference dragSelect;
     [SerializeField] private InputActionReference selectEntityInput;
     [SerializeField] private InputActionReference moveEntityInput;
-
-    [SerializeField] private float speedOfDeplacement = 1;
-    [SerializeField] private float speedOfZoom = 10;
-
-    private bool _accelerateIsActive;
-    private float _incrasementSpeed = 10;
-    
-    private bool _rotationActivated = false;
+   
     private Camera _camera;
     private bool _multiSelectionIsActive;
     private bool _multiPathIsActive;
@@ -47,36 +33,11 @@ public class ControllManager : MonoBehaviour
         multiPathInput.action.canceled += ActiveMultiPath;
         dragSelect.action.performed += StartDragSelect;
         dragSelect.action.canceled += EndDragSelect;
-        
-        activeRotateCameraInput.action.performed += ActiveRotation;
-        activeRotateCameraInput.action.canceled += DesactiveRotation;
-        zoomCameraInput.action.performed += Zoom;
-        accelerateInput.action.performed += AccelerateInputPressed;
-        accelerateInput.action.canceled += AccelerateInputCanceled;
     }
-
-    private void AccelerateInputPressed(InputAction.CallbackContext obj) { _accelerateIsActive = true; }
-    
-    private void AccelerateInputCanceled(InputAction.CallbackContext obj) { _accelerateIsActive = false; }
+   
     private void ActiveMultiSelection(InputAction.CallbackContext obj) { _multiSelectionIsActive = !_multiSelectionIsActive; }
     private void ActiveMultiPath(InputAction.CallbackContext obj) { _multiPathIsActive = !_multiPathIsActive; }
-    private void Zoom(InputAction.CallbackContext obj)
-    {
-        if (_camera.transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0 || 
-            _camera.transform.position.y <= 8 && zoomCameraInput.action.ReadValue<Vector2>().y <= 0)
-        {
-            Vector3 newPosition = new Vector3(0,
-                -zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom,
-                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom)* (Time.deltaTime * speedOfDeplacement);
-
-            if (_accelerateIsActive) { newPosition *= _incrasementSpeed; }
-            
-            _camera.transform.position += newPosition;
-        }
-    }
-    private void ActiveRotation(InputAction.CallbackContext obj) {_rotationActivated = true; }
-    private void DesactiveRotation(InputAction.CallbackContext obj) {_rotationActivated = false; }
-
+    
     private void OnDestroy()
     {
         selectEntityInput.action.started -= DoASelection;
@@ -87,19 +48,10 @@ public class ControllManager : MonoBehaviour
         multiPathInput.action.canceled -= ActiveMultiPath;
         dragSelect.action.performed -= StartDragSelect;
         dragSelect.action.canceled -= EndDragSelect;
-        
-        activeRotateCameraInput.action.performed -= ActiveRotation;
-        activeRotateCameraInput.action.canceled -= DesactiveRotation;
-        zoomCameraInput.action.performed -= Zoom;
-        accelerateInput.action.performed -= AccelerateInputPressed;
-        accelerateInput.action.canceled -= AccelerateInputCanceled;
     }
-
-
+    
     private void Update()
     {
-        MoveCamera();
-
         if (_dragging)
         {
             float longueur =  Input.mousePosition.x - _dragCoord.x;
@@ -108,22 +60,7 @@ public class ControllManager : MonoBehaviour
             dragBox.anchoredPosition = new Vector2(_dragCoord.x,_dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
             dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
         }
-        
-        if(_rotationActivated) RotateCamera();
     }
-
-    private void MoveCamera()
-    {
-        Vector3 newPosition = new Vector3(moveCameraInput.action.ReadValue<Vector2>().x
-                                  ,0
-                                  ,moveCameraInput.action.ReadValue<Vector2>().y) 
-                              * (Time.deltaTime * speedOfDeplacement);
-        
-        if (_accelerateIsActive) { newPosition *= _incrasementSpeed;}
-        
-        _camera.transform.position += newPosition;
-    }
-
     private void DoASelection(InputAction.CallbackContext context )
     {
         RaycastHit hit = DoARayCast();
@@ -156,23 +93,13 @@ public class ControllManager : MonoBehaviour
         if (Physics.Raycast (ray, out hit, 100)) return hit;
         return hit;
     }
-
-    private void RotateCamera()
-    {
-        Quaternion rotation = _camera.transform.rotation;
-
-        rotation.eulerAngles += new Vector3(0, rotateCameraInput.action.ReadValue<Vector2>().x, 0);
-
-        _camera.transform.rotation = rotation;
-    }
-
+    
     private void StartDragSelect(InputAction.CallbackContext obj)
     {
         _dragCoord = Input.mousePosition;
         dragBox.GameObject().SetActive(true);
         _dragging = true;
     }
-
 
     private void EndDragSelect(InputAction.CallbackContext obj)
     {
