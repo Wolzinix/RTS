@@ -112,15 +112,14 @@ public class ControllManager : MonoBehaviour
         multiPathInput.action.canceled -= ActiveMultiPath;
         dragSelect.action.performed -= StartDragSelect;
         dragSelect.action.canceled -= EndDragSelect;
+        accelerateInput.action.performed -= AccelerateInputPressed;
+        accelerateInput.action.canceled -= AccelerateInputCanceled;
     }
 
 
     private void Update()
     {
-        _camera.transform.position += new Vector3(moveCameraInput.action.ReadValue<Vector2>().x
-                                          ,0
-                                          ,moveCameraInput.action.ReadValue<Vector2>().y) 
-                                      * (Time.deltaTime * speed);
+        MoveCamera();
 
         if (_dragging)
         {
@@ -131,6 +130,18 @@ public class ControllManager : MonoBehaviour
             dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
         }
         //if(_rotationActivated) RotateCamera();
+    }
+
+    private void MoveCamera()
+    {
+        Vector3 newPosition = new Vector3(moveCameraInput.action.ReadValue<Vector2>().x
+                                  ,0
+                                  ,moveCameraInput.action.ReadValue<Vector2>().y) 
+                              * (Time.deltaTime * speed);
+        
+        if (_accelerateIsActive) { newPosition *= _speedOfDeplacement;}
+        
+        _camera.transform.position += newPosition;
     }
 
     private void DoASelection(InputAction.CallbackContext context )
