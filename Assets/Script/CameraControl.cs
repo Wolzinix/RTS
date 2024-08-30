@@ -17,6 +17,8 @@ public class CameraControl : MonoBehaviour
     private bool _accelerateIsActive;
     private float _incrasementSpeed = 10;
     private bool _rotationActivated = false;
+
+    private Rigidbody _rb;
     
     // Start is called before the first frame update
     void Start()
@@ -26,6 +28,8 @@ public class CameraControl : MonoBehaviour
         zoomCameraInput.action.performed += Zoom;
         accelerateInput.action.performed += AccelerateInputPressed;
         accelerateInput.action.canceled += AccelerateInputCanceled;
+
+        _rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -68,19 +72,13 @@ public class CameraControl : MonoBehaviour
     
     private void MoveCamera()
     {
-        if (moveCameraInput.action.ReadValue<Vector2>().x != 0 || moveCameraInput.action.ReadValue<Vector2>().y != 0)
-        {
-            Vector3 cameraForward = transform.forward;
-            
-            Vector3 newPosition = new Vector3(moveCameraInput.action.ReadValue<Vector2>().x * cameraForward.x
-                                      , 0
-                                      , moveCameraInput.action.ReadValue<Vector2>().y * cameraForward.z)
-                                  * (Time.deltaTime * speedOfDeplacement);
-            
-            if (_accelerateIsActive) { newPosition *= _incrasementSpeed;}
         
-            transform.position += newPosition;
-        }
+        Vector3 newPosition = new Vector3(moveCameraInput.action.ReadValue<Vector2>().y * transform.forward.x + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.x
+            , 0
+            , moveCameraInput.action.ReadValue<Vector2>().y * transform.forward.z + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.z);
+        
+        if (_accelerateIsActive) { newPosition *= _incrasementSpeed;}
+        _rb.velocity = newPosition;
     }
     
     private void RotateCamera()
