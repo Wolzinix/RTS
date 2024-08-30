@@ -8,17 +8,15 @@ public class SelectManager : MonoBehaviour
     
     void Start()
     {
-        if (FindObjectOfType<SelectManager>())
-        {
-            Destroy(gameObject);
-        }
+        if (FindObjectOfType<SelectManager>()) { Destroy(gameObject); }
+        
         _selectedObject = new List<EntityController>();
     }
 
     public void ClearList()
     {
         foreach (var i in _selectedObject)
-        {
+        { 
             i.OnDeselected();
         }
         _selectedObject.Clear();
@@ -37,19 +35,10 @@ public class SelectManager : MonoBehaviour
     {
         if (hit.transform)
         {
-            if (hit.transform.gameObject.CompareTag("ennemie"))
-            {
-                AttackSelected(hit);
-            }
+            if (hit.transform.gameObject.CompareTag("ennemie")) { AttackSelected(hit); }
 
-            if (hit.transform.gameObject.CompareTag("Allie"))
-            {
-                FollowSelected(hit);
-            }
-            else
-            {
-                MooveSelected(hit);
-            }
+            if (hit.transform.gameObject.CompareTag("Allie")) { FollowSelected(hit); }
+            else { MooveSelected(hit); }
         }
     }
     public void MooveSelected(RaycastHit hit)

@@ -19,8 +19,10 @@ public class CameraControl : MonoBehaviour
     private bool _rotationActivated = false;
 
     private Rigidbody _rb;
+
+    [SerializeField] private float maxX = 200;
+    [SerializeField] private float minX = 25.5f;
     
-    // Start is called before the first frame update
     void Start()
     {
         activeRotateCameraInput.action.performed += ActiveRotation;
@@ -32,14 +34,12 @@ public class CameraControl : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         MoveCamera();
-        
-        if(_rotationActivated) RotateCamera();
-    }
 
+        if (_rotationActivated) { RotateCameraY(); }
+    }
     private void OnDestroy()
     {
         activeRotateCameraInput.action.performed -= ActiveRotation;
@@ -48,11 +48,8 @@ public class CameraControl : MonoBehaviour
         accelerateInput.action.performed -= AccelerateInputPressed;
         accelerateInput.action.canceled -= AccelerateInputCanceled;
     }
-
     private void AccelerateInputPressed(InputAction.CallbackContext obj) { _accelerateIsActive = true; }
-    
     private void AccelerateInputCanceled(InputAction.CallbackContext obj) { _accelerateIsActive = false; }
-    
     private void Zoom(InputAction.CallbackContext obj)
     {
         if (transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0 || 
@@ -72,7 +69,6 @@ public class CameraControl : MonoBehaviour
     
     private void MoveCamera()
     {
-        
         Vector3 newPosition = new Vector3(moveCameraInput.action.ReadValue<Vector2>().y * transform.forward.x + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.x
             , 0
             , moveCameraInput.action.ReadValue<Vector2>().y * transform.forward.z + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.z);
@@ -81,12 +77,10 @@ public class CameraControl : MonoBehaviour
         _rb.velocity = newPosition;
     }
     
-    private void RotateCamera()
+    private void RotateCameraY()
     {
         Quaternion rotation = transform.rotation;
-
         rotation.eulerAngles += new Vector3(0, rotateCameraInput.action.ReadValue<Vector2>().x, 0);
-
         transform.rotation = rotation;
     }
 
