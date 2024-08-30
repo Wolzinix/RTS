@@ -32,13 +32,11 @@ public class EntityController : MonoBehaviour
         _listOfTarget = new List<EntityManager>();
         _listForFile = new List<int>();
         _listOfAllie = new List<EntityManager>();
-
         
         selectedSprite.gameObject.SetActive(false);
         _entityManager = GetComponent<EntityManager>();
         
         _animator = GetComponentInChildren<Animator>();
-        
     }
 
     void Update()
@@ -93,10 +91,7 @@ public class EntityController : MonoBehaviour
                     
                     if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) { _attacking = true; }
                 }
-                else
-                {
-                    ActualisePath(target);
-                }
+                else { ActualisePath(target); }
             }
         }
 
@@ -110,10 +105,7 @@ public class EntityController : MonoBehaviour
             else
             {
                 EntityManager target = _listOfAllie[0];
-                if (_navMesh.remainingDistance is >= 2 or 0)
-                {
-                    ActualisePath(target);
-                }
+                if (_navMesh.remainingDistance is >= 2 or 0) { ActualisePath(target); }
             }
         }
     }
@@ -125,15 +117,9 @@ public class EntityController : MonoBehaviour
         _listForFile.RemoveAt(0);
     }
 
-    void ActualisePath(EntityManager target)
-    {
-        _navMesh.SetDestination(target.transform.position);
-    }
+    void ActualisePath(EntityManager target) { _navMesh.SetDestination(target.transform.position); }
 
-    void DoAttack(EntityManager target)
-    {
-        target.AddHp(-_entityManager.Attack);
-    }
+    void DoAttack(EntityManager target) { target.AddHp(-_entityManager.Attack); }
 
     public void AddPath(Vector3 newPath)
     {
@@ -153,15 +139,9 @@ public class EntityController : MonoBehaviour
         _listForFile.Add(2);
     }
     
-    public void ClearAllPath()
-    {
-        _listOfPath.Clear();
-    }
+    public void ClearAllPath() { _listOfPath.Clear(); }
 
-    public void ClearAllOrder()
-    {
-        _listOfTarget.Clear();
-    }
+    public void ClearAllOrder() { _listOfTarget.Clear(); }
 
     public void ClearAllFile()
     {
@@ -170,14 +150,8 @@ public class EntityController : MonoBehaviour
         ClearAllOrder();
     }
 
-    public void OnSelected()
-    {
-        selectedSprite.gameObject.SetActive(true);
-    }
-    public void OnDeselected()
-    {
-        selectedSprite.gameObject.SetActive(false);
-    }
+    public void OnSelected() { selectedSprite.gameObject.SetActive(true); }
+    public void OnDeselected() { selectedSprite.gameObject.SetActive(false); }
 
     public void StopPath()
     {
