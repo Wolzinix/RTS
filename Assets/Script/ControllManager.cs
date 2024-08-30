@@ -1,21 +1,27 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class ControllManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference selectEntityInput;
-    [SerializeField] private InputActionReference mooveEntityInput;
-    [SerializeField] private InputActionReference mooveCameraInput;
+    [SerializeField] private InputActionReference moveEntityInput;
+    [SerializeField] private InputActionReference moveCameraInput;
     [SerializeField] private InputActionReference rotateCameraInput;
     [SerializeField] private InputActionReference activeRotateCameraInput;
     [SerializeField] private InputActionReference zoomCameraInput;
     [SerializeField] private InputActionReference multiSelectionInput;
     [SerializeField] private InputActionReference multiPathInput;
+    [SerializeField] private InputActionReference accelerateInput;
     [SerializeField] private InputActionReference dragSelect;
     
     [SerializeField] private float speed = 1;
     [SerializeField] private float speedOfZoom = 10;
+
+
+    private bool _accelerateIsActive;
+    private float _speedOfDeplacement = 10;
 
 
     
@@ -37,7 +43,7 @@ public class ControllManager : MonoBehaviour
         _selectManager = FindObjectOfType<SelectManager>();
         _camera = Camera.main;
         selectEntityInput.action.started += DoASelection;
-        mooveEntityInput.action.started += MooveSelected;
+        moveEntityInput.action.started += MooveSelected;
         activeRotateCameraInput.action.performed += ChangeRotate;
         zoomCameraInput.action.performed += Zoom;
         activeRotateCameraInput.action.canceled += ChangeRotate;
@@ -47,8 +53,19 @@ public class ControllManager : MonoBehaviour
         multiPathInput.action.canceled += ActiveMultiPath;
         dragSelect.action.performed += StartDragSelect;
         dragSelect.action.canceled += EndDragSelect;
+        accelerateInput.action.performed += AccelerateInputPressed;
+        accelerateInput.action.canceled += AccelerateInputCanceled;
     }
 
+    private void AccelerateInputPressed(InputAction.CallbackContext obj)
+    {
+        _accelerateIsActive = true;
+    }
+    
+    private void AccelerateInputCanceled(InputAction.CallbackContext obj)
+    {
+        _accelerateIsActive = false;
+    }
     private void ActiveMultiSelection(InputAction.CallbackContext obj)
     {
         _multiSelectionIsActive = !_multiSelectionIsActive;
@@ -62,18 +79,16 @@ public class ControllManager : MonoBehaviour
 
     private void Zoom(InputAction.CallbackContext obj)
     {
-        if (_camera.transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0)
+        if (_camera.transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0 || 
+            _camera.transform.position.y <= 8 && zoomCameraInput.action.ReadValue<Vector2>().y <= 0)
         {
-            _camera.transform.position += new Vector3(0
-                ,-zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom,
+            Vector3 newPosition = new Vector3(0,
+                -zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom,
                 zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom)* (Time.deltaTime * speed);
-        }
-        
-        if (_camera.transform.position.y <= 8 && zoomCameraInput.action.ReadValue<Vector2>().y <= 0)
-        {
-            _camera.transform.position += new Vector3(0
-                ,-zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom,
-                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom)* (Time.deltaTime * speed);
+
+            if (_accelerateIsActive) { newPosition *= _speedOfDeplacement; }
+            
+            _camera.transform.position += newPosition;
         }
     }
 
@@ -87,7 +102,7 @@ public class ControllManager : MonoBehaviour
     private void OnDestroy()
     {
         selectEntityInput.action.started -= DoASelection;
-        mooveEntityInput.action.started -= MooveSelected;
+        moveEntityInput.action.started -= MooveSelected;
         activeRotateCameraInput.action.performed -= ChangeRotate;
         zoomCameraInput.action.performed -= Zoom;
         activeRotateCameraInput.action.canceled -= ChangeRotate;
@@ -102,9 +117,9 @@ public class ControllManager : MonoBehaviour
 
     private void Update()
     {
-        _camera.transform.position += new Vector3(mooveCameraInput.action.ReadValue<Vector2>().x
+        _camera.transform.position += new Vector3(moveCameraInput.action.ReadValue<Vector2>().x
                                           ,0
-                                          ,mooveCameraInput.action.ReadValue<Vector2>().y) 
+                                          ,moveCameraInput.action.ReadValue<Vector2>().y) 
                                       * (Time.deltaTime * speed);
 
         if (_dragging)

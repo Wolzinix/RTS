@@ -302,13 +302,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectEntityInput: {fileID: -244919997710551446, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  mooveEntityInput: {fileID: 8433083119221864085, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  mooveCameraInput: {fileID: 1869844700412366600, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  moveEntityInput: {fileID: 8433083119221864085, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  moveCameraInput: {fileID: 1869844700412366600, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   rotateCameraInput: {fileID: -2096182677823517670, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   activeRotateCameraInput: {fileID: -3578388761953092175, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   zoomCameraInput: {fileID: 3092937626653910614, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   multiSelectionInput: {fileID: 4865166933374716320, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   multiPathInput: {fileID: -8770079392862207241, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  accelerateInput: {fileID: 4541643001360304603, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   dragSelect: {fileID: 6812050830421308770, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   speed: 1
   speedOfZoom: 10
