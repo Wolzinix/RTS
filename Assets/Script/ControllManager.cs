@@ -20,11 +20,8 @@ public class ControllManager : MonoBehaviour
     [SerializeField] private float speedOfDeplacement = 1;
     [SerializeField] private float speedOfZoom = 10;
 
-
     private bool _accelerateIsActive;
     private float _incrasementSpeed = 10;
-
-
     
     private bool _rotationActivated = false;
     private Camera _camera;
@@ -33,12 +30,10 @@ public class ControllManager : MonoBehaviour
 
     private Vector3 _dragCoord;
     [SerializeField] private RectTransform dragBox;
-
     private bool _dragging;
 
     private SelectManager _selectManager;
     
-
     void Start()
     {
         _selectManager = FindObjectOfType<SelectManager>();
@@ -113,7 +108,8 @@ public class ControllManager : MonoBehaviour
             dragBox.anchoredPosition = new Vector2(_dragCoord.x,_dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
             dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
         }
-        //if(_rotationActivated) RotateCamera();
+        
+        if(_rotationActivated) RotateCamera();
     }
 
     private void MoveCamera()
@@ -163,13 +159,11 @@ public class ControllManager : MonoBehaviour
 
     private void RotateCamera()
     {
-        // to do
-        var rotation = _camera.transform.rotation;
+        Quaternion rotation = _camera.transform.rotation;
 
-        _camera.transform.rotation = new Quaternion(  rotation.x,
-                                                    rotateCameraInput.action.ReadValue<Vector2>().x/360 + rotation.y ,
-                                                    rotation.z,
-                                                    rotation.w);
+        rotation.eulerAngles += new Vector3(0, rotateCameraInput.action.ReadValue<Vector2>().x, 0);
+
+        _camera.transform.rotation = rotation;
     }
 
     private void StartDragSelect(InputAction.CallbackContext obj)
