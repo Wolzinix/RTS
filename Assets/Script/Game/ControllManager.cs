@@ -75,9 +75,10 @@ public class ControlManager : MonoBehaviour
             if (hit.transform.GetComponent<EntityController>())
             {
                 _ui.setEntity(hit.transform.gameObject.GetComponent<EntityManager>());
+                _ui.gameObject.SetActive(true);
                 _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
                 
-                _ui.gameObject.SetActive(true);
+                
             }
 
             else

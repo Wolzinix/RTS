@@ -17,6 +17,8 @@ public class EntityManager : MonoBehaviour
 
     public UnityEvent changeStats = new UnityEvent();
     
+    public UnityEvent deathEvent = new UnityEvent();
+    
     private Animator _animator;
     public float Range
     {
@@ -117,6 +119,7 @@ public class EntityManager : MonoBehaviour
     {
         if (hp <= 0)
         {
+            deathEvent.Invoke();
             Destroy(gameObject);
         }
     }

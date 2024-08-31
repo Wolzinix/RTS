@@ -390,9 +390,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 742f2193973b5394892ac247914dc959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
-  attack: 0
-  defense: 0
+  name: {fileID: 5488580040855722307}
+  hp: {fileID: 48804112536144767}
+  attack: {fileID: 3197986085545010659}
+  defense: {fileID: 6711409980101824815}
 --- !u!1 &6506608134343213274
 GameObject:
   m_ObjectHideFlags: 0
