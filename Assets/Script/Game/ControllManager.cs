@@ -19,7 +19,8 @@ public class ControlManager : MonoBehaviour
     private bool _dragging;
 
     private SelectManager _selectManager;
-    
+
+    [SerializeField] private UIManager _ui;
     void Start()
     {
         _selectManager = FindObjectOfType<SelectManager>();
@@ -66,13 +67,21 @@ public class ControlManager : MonoBehaviour
         RaycastHit hit = DoARayCast();
         if (hit.transform)
         {
-            if (!_multiSelectionIsActive) _selectManager.ClearList();
+            if (!_multiSelectionIsActive)
+            {
+                _selectManager.ClearList();
+                _ui.gameObject.SetActive(true);
+            }
             
             if (hit.transform.GetComponent<EntityController>() ) _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
-               
-            else _selectManager.ClearList();
+
+            else
+            {
+                _selectManager.ClearList();
+                _ui.gameObject.SetActive(false);
+            }
         }
-        else if (!_multiSelectionIsActive) _selectManager.ClearList();
+        else if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
