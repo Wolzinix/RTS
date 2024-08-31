@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class EntityManager : MonoBehaviour
 {
     [SerializeField] private float hp = 10;
+    private float maxHp;
     [SerializeField] private float attack = 1;
     [SerializeField] private float defense = 1;
     [SerializeField] private float attackSpeed = 1;
@@ -36,6 +37,8 @@ public class EntityManager : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
         _animator.SetFloat(WalkSpeed,speed);
         _animator.SetFloat(AttackSpeedAnim, attackSpeed);
+
+        maxHp = hp;
     }
 
     public float Hp => hp;
@@ -44,6 +47,12 @@ public class EntityManager : MonoBehaviour
     {
         hp = nb;
         Death();
+    }
+    
+    public float MaxHp
+    {
+        get => maxHp;
+        set => maxHp = value;
     }
 
     public float Attack

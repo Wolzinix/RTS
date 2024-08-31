@@ -30,7 +30,7 @@ public class UIManager : MonoBehaviour
     public void UpdateUI()
     {
         name.text = _entity.gameObject.name;
-        hp.text = "HP:" + _entity.Hp;
+        hp.text = "HP:" + _entity.Hp +" / " + _entity.MaxHp;
         attack.text = "Attack:" + _entity.Attack;
         defense.text = "Defense:" + _entity.Defense;
     }
