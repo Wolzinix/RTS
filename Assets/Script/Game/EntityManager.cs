@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class EntityManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class EntityManager : MonoBehaviour
 
     private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
+
+    public UnityEvent changeStats = new UnityEvent();
     
     private Animator _animator;
     public float Range
@@ -78,6 +81,7 @@ public class EntityManager : MonoBehaviour
     public void AddHp(float nb)
     {
         hp += nb;
+        changeStats.Invoke();
         Death();
     }
     
