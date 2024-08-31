@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,12 +15,9 @@ public class CameraControl : MonoBehaviour
 
     private bool _accelerateIsActive;
     private float _incrasementSpeed = 10;
-    private bool _rotationActivated = false;
+    private bool _rotationActivated;
 
     private Rigidbody _rb;
-
-    [SerializeField] private float maxX = 200;
-    [SerializeField] private float minX = 25.5f;
     
     void Start()
     {
