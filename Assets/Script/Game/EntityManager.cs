@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -6,7 +5,7 @@ using UnityEngine.Events;
 public class EntityManager : MonoBehaviour
 {
     [SerializeField] private float hp = 10;
-    private float maxHp;
+    private float _maxHp;
     [SerializeField] private float attack = 1;
     [SerializeField] private float defense = 1;
     [SerializeField] private float attackSpeed = 1;
@@ -38,7 +37,7 @@ public class EntityManager : MonoBehaviour
         _animator.SetFloat(WalkSpeed,speed);
         _animator.SetFloat(AttackSpeedAnim, attackSpeed);
 
-        maxHp = hp;
+        _maxHp = hp;
     }
 
     public float Hp => hp;
@@ -51,8 +50,8 @@ public class EntityManager : MonoBehaviour
     
     public float MaxHp
     {
-        get => maxHp;
-        set => maxHp = value;
+        get => _maxHp;
+        set => _maxHp = value;
     }
 
     public float Attack
