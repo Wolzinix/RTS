@@ -11,6 +11,8 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private float attackSpeed = 1;
     [SerializeField] private float speed = 2;
     [SerializeField] private float range = 1;
+    
+    [SerializeField] private float seeRange = 3;
 
     private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
@@ -24,6 +26,12 @@ public class EntityManager : MonoBehaviour
     {
         get => range;
         set => range = value;
+    }
+    
+    public float SeeRange
+    {
+        get => seeRange;
+        set => seeRange = value;
     }
 
     private NavMeshAgent _navMeshAgent; 

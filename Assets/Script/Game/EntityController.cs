@@ -51,7 +51,7 @@ public class EntityController : MonoBehaviour
             Ray ray = new Ray( transform.position,dir);
             RaycastHit hit;
             
-            Physics.Raycast(ray, out hit , 2);
+            Physics.Raycast(ray, out hit , _entityManager.SeeRange);
 
             if (hit.transform && !hit.transform.gameObject.CompareTag(gameObject.tag) && hit.transform.gameObject.GetComponent<EntityManager>())
             {
