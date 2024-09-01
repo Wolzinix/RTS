@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class ControlManager : MonoBehaviour
 {
@@ -20,7 +23,9 @@ public class ControlManager : MonoBehaviour
 
     private SelectManager _selectManager;
 
-    [SerializeField] private UIManager _ui;
+    private bool _order;
+    
+    [SerializeField] private EntityUiManager ui;
     void Start()
     {
         _selectManager = FindObjectOfType<SelectManager>();
@@ -64,41 +69,54 @@ public class ControlManager : MonoBehaviour
     }
     private void DoASelection(InputAction.CallbackContext context )
     {
-        RaycastHit hit = DoARayCast();
-        if (hit.transform)
+        if (_order)
         {
-            if (!_multiSelectionIsActive)
+            _order = false;
+            MooveSelected(context);
+        }
+        else
+        {
+            if (DoUiRayCast().Count == 0)
             {
-                _selectManager.ClearList();
-            }
+                RaycastHit hit = DoARayCast();
+                if (hit.transform)
+                {
+                    if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
 
-            if (hit.transform.GetComponent<EntityController>())
-            {
-                _ui.setEntity(hit.transform.gameObject.GetComponent<EntityManager>());
-                _ui.gameObject.SetActive(true);
-                _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
-                
-                
-            }
+                    if (hit.transform.GetComponent<EntityController>())
+                    {
+                        ui.SetEntity(hit.transform.gameObject.GetComponent<EntityManager>());
+                        ui.gameObject.SetActive(true);
+                        _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
+                    }
 
-            else
-            {
-                _selectManager.ClearList();
-                _ui.gameObject.SetActive(false);
+                    else
+                    {
+                        _selectManager.ClearList();
+                        ui.gameObject.SetActive(false);
+                    }
+                }
+                else if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
             }
         }
-        else if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
     {
-        RaycastHit hit = DoARayCast();
-        if (!_multiPathIsActive)
+        if (_order)
         {
-            _selectManager.ResetOrder();
+            _order = false;
         }
-        _selectManager.ActionGroup(hit);
-            
+        else
+        {
+            RaycastHit hit = DoARayCast();
+            if (!_multiPathIsActive)
+            {
+                ResetOrder();
+            }
+
+            _selectManager.ActionGroup(hit);
+        }
     }
     
     private RaycastHit DoARayCast()
@@ -108,7 +126,16 @@ public class ControlManager : MonoBehaviour
         if (Physics.Raycast (ray, out hit, 100)) return hit;
         return hit;
     }
-    
+
+    private  List<RaycastResult> DoUiRayCast()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        List<RaycastResult> results = new List<RaycastResult>();
+        eventData.position =  Input.mousePosition;
+        EventSystem.current.RaycastAll(eventData, results);
+        
+        return results; 
+    }
     private void StartDragSelect(InputAction.CallbackContext obj)
     {
         _dragCoord = Input.mousePosition;
@@ -140,5 +167,15 @@ public class ControlManager : MonoBehaviour
     private bool UnitInDragBox(Vector2 coords, Bounds bounds)
     {
         return coords.x >= bounds.min.x && coords.x <= bounds.max.x && coords.y >= bounds.min.y && coords.y <= bounds.max.y;
+    }
+
+    public void ResetOrder()
+    {
+        _selectManager.ResetOrder();
+    }
+
+    public void MoveOrder()
+    {
+        _order = true;
     }
 }
