@@ -39,9 +39,42 @@ public class EntityController : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
     }
 
-    void Update()
+    private GameObject doCircleRaycast()
+    {
+        float numberOfRay = 30;
+        float delta = 360 / numberOfRay;
+
+        for (int i = 0; i < numberOfRay; i++)
+        {
+            Vector3 dir = Quaternion.Euler(0, i * delta,0 ) * transform.forward;
+            
+            Ray ray = new Ray( transform.position,dir);
+            RaycastHit hit;
+            
+            Physics.Raycast(ray, out hit , _entityManager.SeeRange);
+
+            if (hit.transform && !hit.transform.gameObject.CompareTag(gameObject.tag) && hit.transform.gameObject.GetComponent<EntityManager>())
+            {
+                Debug.DrawLine(transform.position, hit.point, Color.green,1f);
+                return hit.transform.gameObject;
+            }
+        }
+
+        return gameObject;
+    }
+
+    void FixedUpdate()
     {
         Physics.SyncTransforms();
+
+        if (_listForFile.Count == 0)
+        {
+            GameObject target =doCircleRaycast();
+            if (target != gameObject)
+            {
+                AddTarget(target.GetComponent<EntityManager>());
+            }
+        }
         
         if (_navMesh.pathPending && _navMesh.hasPath || _navMesh.remainingDistance >=1) { _animator.SetBool(Mooving,true);}
         else { _animator.SetBool(Mooving,false);}
