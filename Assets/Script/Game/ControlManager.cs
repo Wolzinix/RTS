@@ -22,6 +22,8 @@ public class ControlManager : MonoBehaviour
     private bool _dragging;
 
     private SelectManager _selectManager;
+
+    private bool _order;
     
     [SerializeField] private EntityUiManager ui;
     void Start()
@@ -67,51 +69,65 @@ public class ControlManager : MonoBehaviour
     }
     private void DoASelection(InputAction.CallbackContext context )
     {
-        if (DoUiCast().Count == 0)
+        if (_order)
         {
-            RaycastHit hit = DoARayCast();
-            if (hit.transform)
+            _order = false;
+            MooveSelected(context);
+        }
+        else
+        {
+            if (DoUiRayCast().Count == 0)
             {
-                if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
-
-                if (hit.transform.GetComponent<EntityController>())
+                RaycastHit hit = DoARayCast();
+                if (hit.transform)
                 {
-                    ui.SetEntity(hit.transform.gameObject.GetComponent<EntityManager>());
-                    ui.gameObject.SetActive(true);
-                    _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
-                }
+                    if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
 
-                else
-                {
-                    _selectManager.ClearList();
-                    ui.gameObject.SetActive(false);
+                    if (hit.transform.GetComponent<EntityController>())
+                    {
+                        ui.SetEntity(hit.transform.gameObject.GetComponent<EntityManager>());
+                        ui.gameObject.SetActive(true);
+                        _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
+                    }
+
+                    else
+                    {
+                        _selectManager.ClearList();
+                        ui.gameObject.SetActive(false);
+                    }
                 }
+                else if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
             }
-            else if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
         }
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
     {
-        RaycastHit hit = DoARayCast();
-        if (!_multiPathIsActive)
+        if (_order)
         {
-            ResetOrder();
+            _order = false;
         }
-        _selectManager.ActionGroup(hit);
-            
+        else
+        {
+            RaycastHit hit = DoARayCast();
+            if (!_multiPathIsActive)
+            {
+                ResetOrder();
+            }
+
+            _selectManager.ActionGroup(hit);
+        }
     }
     
     private RaycastHit DoARayCast()
     {
-        
         Ray ray = _camera.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast (ray, out hit, 100)) return hit;
         return hit;
     }
 
-    private  List<RaycastResult> DoUiCast()
+    private  List<RaycastResult> DoUiRayCast()
     {
         PointerEventData eventData = new PointerEventData(EventSystem.current);
         List<RaycastResult> results = new List<RaycastResult>();
@@ -156,5 +172,10 @@ public class ControlManager : MonoBehaviour
     public void ResetOrder()
     {
         _selectManager.ResetOrder();
+    }
+
+    public void MoveOrder()
+    {
+        _order = true;
     }
 }
