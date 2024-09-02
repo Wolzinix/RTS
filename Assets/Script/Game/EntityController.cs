@@ -76,7 +76,8 @@ public class EntityController : MonoBehaviour
             GameObject target =DoCircleRaycast();
             if (target != gameObject)
             {
-                AddTarget(target.GetComponent<EntityManager>());
+                _listOfTarget.Insert(0,target.GetComponent<EntityManager>());
+                _listForFile.Insert(0,1);
             }
         }
         
