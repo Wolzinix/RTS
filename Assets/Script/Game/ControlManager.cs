@@ -16,6 +16,9 @@ public class ControlManager : MonoBehaviour
     private bool _multiSelectionIsActive;
     private bool _multiPathIsActive;
 
+    private bool _patrouilleOrder;
+
+
     private Vector3 _dragCoord;
     [SerializeField] private RectTransform dragBox;
     private bool _dragging;
@@ -39,9 +42,21 @@ public class ControlManager : MonoBehaviour
         dragSelect.action.performed += StartDragSelect;
         dragSelect.action.canceled += EndDragSelect;
     }
-   
-    private void ActiveMultiSelection(InputAction.CallbackContext obj) { _multiSelectionIsActive = !_multiSelectionIsActive; }
-    private void ActiveMultiPath(InputAction.CallbackContext obj) { _multiPathIsActive = !_multiPathIsActive; }
+
+    private void ActiveMultiSelection(InputAction.CallbackContext obj)
+    {
+        _multiSelectionIsActive = !_multiSelectionIsActive;
+    }
+
+    private void ActiveMultiPath(InputAction.CallbackContext obj)
+    {
+        _multiPathIsActive = !_multiPathIsActive;
+        if (!_multiPathIsActive)
+        {
+            _patrouilleOrder = false;
+            _order = false;  
+        }
+    }
     
     private void OnDestroy()
     {
@@ -73,6 +88,26 @@ public class ControlManager : MonoBehaviour
             _order = false;
             MooveSelected(context);
         }
+
+        else if (_patrouilleOrder)
+        {
+            RaycastHit hit = DoARayCast();
+            if (!_multiPathIsActive)
+            {
+                ResetOrder();
+                _patrouilleOrder = false;
+            }
+
+            if (hit.transform)
+            {
+                _selectManager.PatrouilleOrder(hit.point);
+            }
+            
+            if (!_selectManager.getAddinMoreThanOne())
+            {
+                _selectManager.setAddingMoreThanOne(true);
+            }
+        }
         else
         {
             if (DoUiRayCast().Count == 0)
@@ -97,14 +132,17 @@ public class ControlManager : MonoBehaviour
                 }
                 else if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
             }
+            
         }
+        
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
     {
-        if (_order)
+        if (_order) { _order = false; }
+        else if (_patrouilleOrder)
         {
-            _order = false;
+            _patrouilleOrder = false;
         }
         else
         {
@@ -180,5 +218,11 @@ public class ControlManager : MonoBehaviour
     public void MoveOrder()
     {
         _order = true;
+    }
+
+    public void DoPatrouille()
+    {
+        _patrouilleOrder = true;
+        _selectManager.setAddingMoreThanOne(false);
     }
 }

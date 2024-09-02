@@ -6,6 +6,8 @@ public class SelectManager : MonoBehaviour
     
     private List<EntityController> _selectedObject;
     
+    private bool _addingMoreThanOne;
+    
     void Start()
     {
         if (FindObjectOfType<SelectManager>()) { Destroy(gameObject); }
@@ -13,11 +15,28 @@ public class SelectManager : MonoBehaviour
         _selectedObject = new List<EntityController>();
     }
 
+    public bool getAddinMoreThanOne()
+    {
+        return _addingMoreThanOne;
+    }
+
+    public void setAddingMoreThanOne(bool reverse)
+    {
+        _addingMoreThanOne = reverse;
+    }
+    public List<EntityController> getSelectedObject()
+    {
+        return _selectedObject;
+    }
+
     public void ClearList()
     {
-        foreach (var i in _selectedObject)
-        { 
-            i.OnDeselected();
+        if (!SelectedObjectIsEmpty())
+        {
+            foreach (var i in _selectedObject)
+            {
+                i.OnDeselected();
+            }
         }
         _selectedObject.Clear();
     }
@@ -41,37 +60,71 @@ public class SelectManager : MonoBehaviour
             else { MooveSelected(hit); }
         }
     }
-    public void MooveSelected(RaycastHit hit)
+
+    private void MooveSelected(RaycastHit hit)
     {
-        foreach (EntityController i in _selectedObject)
+        if(!SelectedObjectIsEmpty())
         {
-            i.GetComponent<EntityController>().AddPath(hit.point);
+            foreach (EntityController i in _selectedObject)
+            {
+                i.GetComponent<EntityController>().AddPath(hit.point);
+            }
+        }
+        
+    }
+
+    private void AttackSelected(RaycastHit hit)
+    {
+        if (!SelectedObjectIsEmpty())
+        {
+            foreach (EntityController i in _selectedObject)
+            {
+                i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
+            }
         }
     }
 
-    public void AttackSelected(RaycastHit hit)
+    private void FollowSelected(RaycastHit hit)
     {
-        foreach (EntityController i in _selectedObject)
+        if (!SelectedObjectIsEmpty())
         {
-            i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
-        }
-    }
-    
-    public void FollowSelected(RaycastHit hit)
-    {
-        foreach (EntityController i in _selectedObject)
-        {
-            i.GetComponent<EntityController>().AddAllie(hit.transform.gameObject.GetComponent<EntityManager>());
+            foreach (EntityController i in _selectedObject)
+            {
+                i.GetComponent<EntityController>().AddAllie(hit.transform.gameObject.GetComponent<EntityManager>());
+            }
         }
     }
 
     public void ResetOrder()
     {
-        foreach (var i in _selectedObject)
+        if (!SelectedObjectIsEmpty())
         {
-            i.ClearAllFile();
-            i.StopPath();
+            foreach (var i in _selectedObject)
+            {
+                i.ClearAllFile();
+                i.StopPath();
+            }
         }
+    }
+
+    public void PatrouilleOrder(Vector3 point)
+    {
+        if (!SelectedObjectIsEmpty())
+        {
+            foreach (EntityController i in _selectedObject)
+            {
+                if (!_addingMoreThanOne)
+                {
+                    i.GetComponent<EntityController>().addPatrouille(i.gameObject.transform.position);
+                }
+                i.GetComponent<EntityController>().addPatrouille(point);
+            }
+        }
+    }
+
+    private bool SelectedObjectIsEmpty()
+    {
+        return _selectedObject.Count < 0;
     }
 }
 
