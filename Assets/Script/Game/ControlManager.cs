@@ -3,7 +3,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class ControlManager : MonoBehaviour
 {
@@ -160,8 +159,12 @@ public class ControlManager : MonoBehaviour
                 _selectManager.AddSelect(i);
             }
         }
-
+        
+        dragBox.anchoredPosition = new Vector2(0, 0);
+        dragBox.sizeDelta = new Vector2(0, 0);
+        
         dragBox.GameObject().SetActive(false);
+        _dragging = false;
     }
 
     private bool UnitInDragBox(Vector2 coords, Bounds bounds)

@@ -366,6 +366,14 @@ PrefabInstance:
       propertyPath: m_RaycastTarget
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7425194148958150823, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 963194227}
+    - target: {fileID: 7425194148958150823, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7728882495267121119, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_RaycastTarget
       value: 1
@@ -606,7 +614,7 @@ GameObject:
   - component: {fileID: 667709672}
   - component: {fileID: 667709671}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Dragbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1200,7 +1208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: seeRange
-      value: 7
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: attackSpeed
@@ -1558,7 +1566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: seeRange
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: attackSpeed
