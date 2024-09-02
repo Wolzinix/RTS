@@ -41,7 +41,8 @@ public class SelectManager : MonoBehaviour
             else { MooveSelected(hit); }
         }
     }
-    public void MooveSelected(RaycastHit hit)
+
+    private void MooveSelected(RaycastHit hit)
     {
         foreach (EntityController i in _selectedObject)
         {
@@ -49,15 +50,15 @@ public class SelectManager : MonoBehaviour
         }
     }
 
-    public void AttackSelected(RaycastHit hit)
+    private void AttackSelected(RaycastHit hit)
     {
         foreach (EntityController i in _selectedObject)
         {
             i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
         }
     }
-    
-    public void FollowSelected(RaycastHit hit)
+
+    private void FollowSelected(RaycastHit hit)
     {
         foreach (EntityController i in _selectedObject)
         {
@@ -71,6 +72,14 @@ public class SelectManager : MonoBehaviour
         {
             i.ClearAllFile();
             i.StopPath();
+        }
+    }
+
+    public void PatrouilleOrder(Vector3 point)
+    {
+        foreach (EntityController i in _selectedObject)
+        {
+            i.GetComponent<EntityController>().addPatrouille(point);
         }
     }
 }

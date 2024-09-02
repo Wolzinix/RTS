@@ -16,6 +16,8 @@ public class ControlManager : MonoBehaviour
     private bool _multiSelectionIsActive;
     private bool _multiPathIsActive;
 
+    private bool _patrouilleOrder;
+
     private Vector3 _dragCoord;
     [SerializeField] private RectTransform dragBox;
     private bool _dragging;
@@ -73,6 +75,22 @@ public class ControlManager : MonoBehaviour
             _order = false;
             MooveSelected(context);
         }
+
+        else if (_patrouilleOrder)
+        {
+            RaycastHit hit = DoARayCast();
+            if (!_multiPathIsActive)
+            {
+                ResetOrder();
+                _selectManager.PatrouilleOrder(gameObject.transform.position);
+            }
+
+            if (hit.transform)
+            {
+                _selectManager.PatrouilleOrder(hit.point);
+            }
+            _patrouilleOrder = false;
+        }
         else
         {
             if (DoUiRayCast().Count == 0)
@@ -97,15 +115,15 @@ public class ControlManager : MonoBehaviour
                 }
                 else if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
             }
+            
         }
+        
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
     {
-        if (_order)
-        {
-            _order = false;
-        }
+        if (_order) { _order = false; }
+        else if (_patrouilleOrder) { _patrouilleOrder = false;}
         else
         {
             RaycastHit hit = DoARayCast();
@@ -180,5 +198,10 @@ public class ControlManager : MonoBehaviour
     public void MoveOrder()
     {
         _order = true;
+    }
+
+    public void DoPatrouille()
+    {
+        _patrouilleOrder = true;
     }
 }
