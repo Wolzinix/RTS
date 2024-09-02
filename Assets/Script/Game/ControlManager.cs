@@ -18,6 +18,7 @@ public class ControlManager : MonoBehaviour
 
     private bool _patrouilleOrder;
 
+
     private Vector3 _dragCoord;
     [SerializeField] private RectTransform dragBox;
     private bool _dragging;
@@ -41,9 +42,21 @@ public class ControlManager : MonoBehaviour
         dragSelect.action.performed += StartDragSelect;
         dragSelect.action.canceled += EndDragSelect;
     }
-   
-    private void ActiveMultiSelection(InputAction.CallbackContext obj) { _multiSelectionIsActive = !_multiSelectionIsActive; }
-    private void ActiveMultiPath(InputAction.CallbackContext obj) { _multiPathIsActive = !_multiPathIsActive; }
+
+    private void ActiveMultiSelection(InputAction.CallbackContext obj)
+    {
+        _multiSelectionIsActive = !_multiSelectionIsActive;
+    }
+
+    private void ActiveMultiPath(InputAction.CallbackContext obj)
+    {
+        _multiPathIsActive = !_multiPathIsActive;
+        if (!_multiPathIsActive)
+        {
+            _patrouilleOrder = false;
+            _order = false;  
+        }
+    }
     
     private void OnDestroy()
     {
@@ -82,7 +95,7 @@ public class ControlManager : MonoBehaviour
             if (!_multiPathIsActive)
             {
                 ResetOrder();
-                _selectManager.PatrouilleOrder(gameObject.transform.position);
+                _patrouilleOrder = false;
             }
 
             if (hit.transform)
@@ -90,7 +103,10 @@ public class ControlManager : MonoBehaviour
                 _selectManager.PatrouilleOrder(hit.point);
             }
             
-            _patrouilleOrder = false;
+            if (!_selectManager.getAddinMoreThanOne())
+            {
+                _selectManager.setAddingMoreThanOne(true);
+            }
         }
         else
         {
@@ -124,7 +140,10 @@ public class ControlManager : MonoBehaviour
     private void MooveSelected(InputAction.CallbackContext context)
     {
         if (_order) { _order = false; }
-        else if (_patrouilleOrder) { _patrouilleOrder = false;}
+        else if (_patrouilleOrder)
+        {
+            _patrouilleOrder = false;
+        }
         else
         {
             RaycastHit hit = DoARayCast();
@@ -204,5 +223,6 @@ public class ControlManager : MonoBehaviour
     public void DoPatrouille()
     {
         _patrouilleOrder = true;
+        _selectManager.setAddingMoreThanOne(false);
     }
 }

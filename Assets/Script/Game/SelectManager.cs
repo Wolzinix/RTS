@@ -6,6 +6,8 @@ public class SelectManager : MonoBehaviour
     
     private List<EntityController> _selectedObject;
     
+    private bool _addingMoreThanOne;
+    
     void Start()
     {
         if (FindObjectOfType<SelectManager>()) { Destroy(gameObject); }
@@ -13,9 +15,23 @@ public class SelectManager : MonoBehaviour
         _selectedObject = new List<EntityController>();
     }
 
+    public bool getAddinMoreThanOne()
+    {
+        return _addingMoreThanOne;
+    }
+
+    public void setAddingMoreThanOne(bool reverse)
+    {
+        _addingMoreThanOne = reverse;
+    }
+    public List<EntityController> getSelectedObject()
+    {
+        return _selectedObject;
+    }
+
     public void ClearList()
     {
-        if (!SelecteedObjectIsEmpty())
+        if (!SelectedObjectIsEmpty())
         {
             foreach (var i in _selectedObject)
             {
@@ -47,7 +63,7 @@ public class SelectManager : MonoBehaviour
 
     private void MooveSelected(RaycastHit hit)
     {
-        if(SelecteedObjectIsEmpty())
+        if(!SelectedObjectIsEmpty())
         {
             foreach (EntityController i in _selectedObject)
             {
@@ -59,7 +75,7 @@ public class SelectManager : MonoBehaviour
 
     private void AttackSelected(RaycastHit hit)
     {
-        if (SelecteedObjectIsEmpty())
+        if (!SelectedObjectIsEmpty())
         {
             foreach (EntityController i in _selectedObject)
             {
@@ -70,7 +86,7 @@ public class SelectManager : MonoBehaviour
 
     private void FollowSelected(RaycastHit hit)
     {
-        if (SelecteedObjectIsEmpty())
+        if (!SelectedObjectIsEmpty())
         {
             foreach (EntityController i in _selectedObject)
             {
@@ -81,7 +97,7 @@ public class SelectManager : MonoBehaviour
 
     public void ResetOrder()
     {
-        if (SelecteedObjectIsEmpty())
+        if (!SelectedObjectIsEmpty())
         {
             foreach (var i in _selectedObject)
             {
@@ -93,18 +109,22 @@ public class SelectManager : MonoBehaviour
 
     public void PatrouilleOrder(Vector3 point)
     {
-        if (SelecteedObjectIsEmpty())
+        if (!SelectedObjectIsEmpty())
         {
             foreach (EntityController i in _selectedObject)
             {
+                if (!_addingMoreThanOne)
+                {
+                    i.GetComponent<EntityController>().addPatrouille(i.gameObject.transform.position);
+                }
                 i.GetComponent<EntityController>().addPatrouille(point);
             }
         }
     }
 
-    private bool SelecteedObjectIsEmpty()
+    private bool SelectedObjectIsEmpty()
     {
-        return _selectedObject.Count > 0;
+        return _selectedObject.Count < 0;
     }
 }
 

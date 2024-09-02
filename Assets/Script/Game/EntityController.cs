@@ -98,9 +98,9 @@ public class EntityController : MonoBehaviour
             _animator.SetBool(Attacking, false);
             if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <=1)
             {
+                if (_patrouilleIteration == _listForPatrouille.Count) { _patrouilleIteration = 0; }
                 GetNewPath(_listForPatrouille[_patrouilleIteration]);
                 _patrouilleIteration += 1;
-                if (_patrouilleIteration == _listForPatrouille.Count) { _patrouilleIteration = 0; }
             }
         }
         
