@@ -89,6 +89,7 @@ public class ControlManager : MonoBehaviour
             {
                 _selectManager.PatrouilleOrder(hit.point);
             }
+            
             _patrouilleOrder = false;
         }
         else

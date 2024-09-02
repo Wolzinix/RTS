@@ -15,9 +15,12 @@ public class SelectManager : MonoBehaviour
 
     public void ClearList()
     {
-        foreach (var i in _selectedObject)
-        { 
-            i.OnDeselected();
+        if (!SelecteedObjectIsEmpty())
+        {
+            foreach (var i in _selectedObject)
+            {
+                i.OnDeselected();
+            }
         }
         _selectedObject.Clear();
     }
@@ -44,43 +47,64 @@ public class SelectManager : MonoBehaviour
 
     private void MooveSelected(RaycastHit hit)
     {
-        foreach (EntityController i in _selectedObject)
+        if(SelecteedObjectIsEmpty())
         {
-            i.GetComponent<EntityController>().AddPath(hit.point);
+            foreach (EntityController i in _selectedObject)
+            {
+                i.GetComponent<EntityController>().AddPath(hit.point);
+            }
         }
+        
     }
 
     private void AttackSelected(RaycastHit hit)
     {
-        foreach (EntityController i in _selectedObject)
+        if (SelecteedObjectIsEmpty())
         {
-            i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
+            foreach (EntityController i in _selectedObject)
+            {
+                i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
+            }
         }
     }
 
     private void FollowSelected(RaycastHit hit)
     {
-        foreach (EntityController i in _selectedObject)
+        if (SelecteedObjectIsEmpty())
         {
-            i.GetComponent<EntityController>().AddAllie(hit.transform.gameObject.GetComponent<EntityManager>());
+            foreach (EntityController i in _selectedObject)
+            {
+                i.GetComponent<EntityController>().AddAllie(hit.transform.gameObject.GetComponent<EntityManager>());
+            }
         }
     }
 
     public void ResetOrder()
     {
-        foreach (var i in _selectedObject)
+        if (SelecteedObjectIsEmpty())
         {
-            i.ClearAllFile();
-            i.StopPath();
+            foreach (var i in _selectedObject)
+            {
+                i.ClearAllFile();
+                i.StopPath();
+            }
         }
     }
 
     public void PatrouilleOrder(Vector3 point)
     {
-        foreach (EntityController i in _selectedObject)
+        if (SelecteedObjectIsEmpty())
         {
-            i.GetComponent<EntityController>().addPatrouille(point);
+            foreach (EntityController i in _selectedObject)
+            {
+                i.GetComponent<EntityController>().addPatrouille(point);
+            }
         }
+    }
+
+    private bool SelecteedObjectIsEmpty()
+    {
+        return _selectedObject.Count > 0;
     }
 }
 
