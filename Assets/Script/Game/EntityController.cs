@@ -12,6 +12,8 @@ public class EntityController : MonoBehaviour
     private List<EntityManager> _listOfAllie;
     private List<int> _listForFile;
     private List<Vector3> _listForPatrouille;
+    private List<Vector3> _listForAttackingOnTravel;
+
 
     private int _patrouilleIteration = 0;
 
@@ -36,6 +38,7 @@ public class EntityController : MonoBehaviour
         _listForFile = new List<int>();
         _listOfAllie = new List<EntityManager>();
         _listForPatrouille = new List<Vector3>();
+        _listForAttackingOnTravel = new List<Vector3>();
         
         selectedSprite.gameObject.SetActive(false);
         _entityManager = GetComponent<EntityManager>();
@@ -71,7 +74,7 @@ public class EntityController : MonoBehaviour
     {
         Physics.SyncTransforms();
 
-        if (_listForFile.Count == 0 || _listForFile[0] == 3)
+        if (_listForFile.Count == 0 || _listForFile[0] == 3 || _listForFile[0] == 4)
         {
             GameObject target =DoCircleRaycast();
             if (target != gameObject)
@@ -90,6 +93,24 @@ public class EntityController : MonoBehaviour
             if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <=1)
             {
                 GetNewPath(_listOfPath[0]);
+            }
+        }
+        
+        if (_listForFile.Count > 0 && _listForFile[0] == 4)
+        {
+            _animator.SetBool(Attacking, false);
+            if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <=1)
+            {
+                GetNewPath(_listForAttackingOnTravel[0]);
+            }
+            if(Vector3.Distance(_listForAttackingOnTravel[0],gameObject.transform.position) == 0)
+            {
+                _listForAttackingOnTravel.RemoveAt(0);
+                _listForFile.RemoveAt(0);
+            }
+            else
+            {
+                GetNewPath(_listForAttackingOnTravel[0]);
             }
         }
         
@@ -162,7 +183,7 @@ public class EntityController : MonoBehaviour
     void GetNewPath(Vector3 point)
     {
         _navMesh.SetDestination(point);
-        if (_listForFile[0] != 3)
+        if (_listForFile[0] != 3 && _listForFile[0] != 4)
         {
             _listOfPath.RemoveAt(0);
             _listForFile.RemoveAt(0);
@@ -190,12 +211,29 @@ public class EntityController : MonoBehaviour
         _listOfAllie.Add(target);
         _listForFile.Add(2);
     }
+    
+    public void AddPatrouille(Vector3 point)
+    {
+        _listForPatrouille.Add(point);
+        if (_listForFile.Count == 0 || _listForFile[0] != 3 && _listForFile[^1] != 3)
+        {
+            _listForFile.Add(3);
+        }
+    }
+    public void AddAggresifPath(Vector3 newPath)
+    {
+        _listForAttackingOnTravel.Add(newPath);
+        _listForFile.Add(4);
+    }
 
     private void ClearAllPath() { _listOfPath.Clear(); }
 
     private void ClearAllOrder() { _listOfTarget.Clear(); }
     
     private void ClearPatrouille() {_listForPatrouille.Clear();}
+    
+    
+    private void ClearAggressifPath() {_listForAttackingOnTravel.Clear();}
 
     public void ClearAllFile()
     {
@@ -203,6 +241,7 @@ public class EntityController : MonoBehaviour
         ClearAllPath();
         ClearAllOrder();
         ClearPatrouille();
+        ClearAggressifPath();
     }
 
     public void OnSelected() { selectedSprite.gameObject.SetActive(true); }
@@ -214,12 +253,5 @@ public class EntityController : MonoBehaviour
         _animator.SetBool(Moving,false);
     }
 
-    public void addPatrouille(Vector3 point)
-    {
-        _listForPatrouille.Add(point);
-        if (_listForFile.Count == 0 || _listForFile[0] != 3 && _listForFile[^1] != 3)
-        {
-            _listForFile.Add(3);
-        }
-    }
+    
 }
