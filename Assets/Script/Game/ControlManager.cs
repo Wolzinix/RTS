@@ -91,11 +91,11 @@ public class ControlManager : MonoBehaviour
         }
         else if (_travelAttack)
         {
-            _travelAttack = false;
             RaycastHit hit = DoARayCast();
             if (!_multiPathIsActive)
             {
                 ResetOrder();
+                _travelAttack = false;
             }
 
             _selectManager.AttackingOnTravel(hit.point);

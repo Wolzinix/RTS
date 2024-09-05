@@ -99,18 +99,15 @@ public class EntityController : MonoBehaviour
         if (_listForFile.Count > 0 && _listForFile[0] == 4)
         {
             _animator.SetBool(Attacking, false);
-            if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <=1)
+            if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= 1.2)
             {
                 GetNewPath(_listForAttackingOnTravel[0]);
-            }
-            if(Vector3.Distance(_listForAttackingOnTravel[0],gameObject.transform.position) == 0)
-            {
-                _listForAttackingOnTravel.RemoveAt(0);
-                _listForFile.RemoveAt(0);
-            }
-            else
-            {
-                GetNewPath(_listForAttackingOnTravel[0]);
+                
+                if (_navMesh.remainingDistance <= 1.2 && _navMesh.hasPath && !_navMesh.pathPending)
+                {
+                    _listForAttackingOnTravel.RemoveAt(0);
+                    _listForFile.RemoveAt(0);
+                }
             }
         }
         
