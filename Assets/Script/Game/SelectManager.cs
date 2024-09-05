@@ -68,7 +68,7 @@ public class SelectManager : MonoBehaviour
             foreach (EntityController i in _selectedObject)
             {
                 i.GetComponent<EntityController>().AddPath(hit.point);
-                i.Tenir = false;
+                i.Stay = false;
             }
         }
     }
@@ -80,7 +80,7 @@ public class SelectManager : MonoBehaviour
             foreach (EntityController i in _selectedObject)
             {
                 i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
-                i.Tenir = false;
+                i.Stay = false;
             }
         }
     }
@@ -92,7 +92,7 @@ public class SelectManager : MonoBehaviour
             foreach (EntityController i in _selectedObject)
             {
                 i.GetComponent<EntityController>().AddAllie(hit.transform.gameObject.GetComponent<EntityManager>());
-                i.Tenir = false;
+                i.Stay = false;
             }
         }
     }
@@ -103,9 +103,9 @@ public class SelectManager : MonoBehaviour
         {
             foreach (var i in _selectedObject)
             {
-                i.ClearAllFile();
+                i.ClearAllOrder();
                 i.StopPath();
-                i.Tenir = false;
+                i.Stay = false;
             }
         }
     }
@@ -118,10 +118,10 @@ public class SelectManager : MonoBehaviour
             {
                 if (!_addingMoreThanOne)
                 {
-                    i.GetComponent<EntityController>().AddPatrouille(i.gameObject.transform.position);
+                    i.GetComponent<EntityController>().AddPatrol(i.gameObject.transform.position);
                 }
-                i.GetComponent<EntityController>().AddPatrouille(point);
-                i.Tenir = false;
+                i.GetComponent<EntityController>().AddPatrol(point);
+                i.Stay = false;
             }
         }
     }
@@ -137,8 +137,8 @@ public class SelectManager : MonoBehaviour
         {
             foreach (EntityController i in _selectedObject)
             {
-                i.GetComponent<EntityController>().AddAggresifPath(point);
-                i.Tenir = false;
+                i.GetComponent<EntityController>().AddAggressivePath(point);
+                i.Stay = false;
             }
         }
     }
@@ -150,7 +150,7 @@ public class SelectManager : MonoBehaviour
             ResetOrder();
             foreach (var i in _selectedObject)
             {
-                i.Tenir = true;
+                i.Stay = true;
             }
         }
     }

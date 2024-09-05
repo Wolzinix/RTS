@@ -14,7 +14,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private float speedOfZoom = 10;
 
     private bool _accelerateIsActive;
-    private float _incrasementSpeed = 10;
+    private const float IncrementSpeed = 10;
     private bool _rotationActivated;
 
     private Rigidbody _rb;
@@ -55,7 +55,7 @@ public class CameraControl : MonoBehaviour
                 -zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom,
                 zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom)* (Time.deltaTime * speedOfDeplacement);
 
-            if (_accelerateIsActive) { newPosition *= _incrasementSpeed; }
+            if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
             
             transform.position += newPosition;
         }
@@ -69,7 +69,7 @@ public class CameraControl : MonoBehaviour
             , 0
             , moveCameraInput.action.ReadValue<Vector2>().y * transform.forward.z + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.z);
         
-        if (_accelerateIsActive) { newPosition *= _incrasementSpeed;}
+        if (_accelerateIsActive) { newPosition *= IncrementSpeed;}
         _rb.velocity = newPosition;
     }
     
