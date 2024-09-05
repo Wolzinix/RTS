@@ -115,9 +115,9 @@ public class SelectManager : MonoBehaviour
             {
                 if (!_addingMoreThanOne)
                 {
-                    i.GetComponent<EntityController>().addPatrouille(i.gameObject.transform.position);
+                    i.GetComponent<EntityController>().AddPatrouille(i.gameObject.transform.position);
                 }
-                i.GetComponent<EntityController>().addPatrouille(point);
+                i.GetComponent<EntityController>().AddPatrouille(point);
             }
         }
     }
@@ -125,6 +125,17 @@ public class SelectManager : MonoBehaviour
     private bool SelectedObjectIsEmpty()
     {
         return _selectedObject.Count < 0;
+    }
+
+    public void AttackingOnTravel(Vector3 point)
+    {
+        if (!SelectedObjectIsEmpty())
+        {
+            foreach (EntityController i in _selectedObject)
+            {
+                i.GetComponent<EntityController>().AddAggresifPath(point);
+            }
+        }
     }
 }
 

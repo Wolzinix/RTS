@@ -26,6 +26,7 @@ public class ControlManager : MonoBehaviour
     private SelectManager _selectManager;
 
     private bool _order;
+    private bool _travelAttack;
     
     [SerializeField] private EntityUiManager ui;
     void Start()
@@ -88,6 +89,17 @@ public class ControlManager : MonoBehaviour
             _order = false;
             MooveSelected(context);
         }
+        else if (_travelAttack)
+        {
+            RaycastHit hit = DoARayCast();
+            if (!_multiPathIsActive)
+            {
+                ResetOrder();
+                _travelAttack = false;
+            }
+
+            _selectManager.AttackingOnTravel(hit.point);
+        }
 
         else if (_patrouilleOrder)
         {
@@ -140,10 +152,8 @@ public class ControlManager : MonoBehaviour
     private void MooveSelected(InputAction.CallbackContext context)
     {
         if (_order) { _order = false; }
-        else if (_patrouilleOrder)
-        {
-            _patrouilleOrder = false;
-        }
+        else if (_patrouilleOrder) { _patrouilleOrder = false; }
+        else if (_travelAttack) { _travelAttack = false; }
         else
         {
             RaycastHit hit = DoARayCast();
@@ -224,5 +234,10 @@ public class ControlManager : MonoBehaviour
     {
         _patrouilleOrder = true;
         _selectManager.setAddingMoreThanOne(false);
+    }
+
+    public void DoTravelAttack()
+    {
+        _travelAttack = true;
     }
 }
