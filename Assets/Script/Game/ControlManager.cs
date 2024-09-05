@@ -16,7 +16,7 @@ public class ControlManager : MonoBehaviour
     private bool _multiSelectionIsActive;
     private bool _multiPathIsActive;
 
-    private bool _patrouilleOrder;
+    private bool _patrolOrder;
 
 
     private Vector3 _dragCoord;
@@ -39,7 +39,7 @@ public class ControlManager : MonoBehaviour
         multiSelectionInput.action.performed += ActiveMultiSelection;
         multiSelectionInput.action.canceled += ActiveMultiSelection;
         multiPathInput.action.performed += ActiveMultiPath;
-        multiPathInput.action.canceled += ActiveMultiPath;
+        multiPathInput.action.canceled += DesactiveMultiPath;
         dragSelect.action.performed += StartDragSelect;
         dragSelect.action.canceled += EndDragSelect;
     }
@@ -49,15 +49,14 @@ public class ControlManager : MonoBehaviour
         _multiSelectionIsActive = !_multiSelectionIsActive;
     }
 
-    private void ActiveMultiPath(InputAction.CallbackContext obj)
+    private void DesactiveMultiPath(InputAction.CallbackContext obj)
     {
-        _multiPathIsActive = !_multiPathIsActive;
-        if (!_multiPathIsActive)
-        {
-            _patrouilleOrder = false;
-            _order = false;  
-        }
+        _multiPathIsActive = false;
+        _order = false;  
+        _patrolOrder = false;
+        _travelAttack = false;
     }
+    private void ActiveMultiPath(InputAction.CallbackContext obj) { _multiPathIsActive = true; }
     
     private void OnDestroy()
     {
@@ -86,49 +85,34 @@ public class ControlManager : MonoBehaviour
     {
         if (_order)
         {
-            _order = false;
-            MooveSelected(context);
+            RaycastHit hit = DoARayCast();
+            IsMultipathActive();
+            _selectManager.ActionGroup(hit);
         }
         else if (_travelAttack)
         {
             RaycastHit hit = DoARayCast();
-            if (!_multiPathIsActive)
-            {
-                ResetOrder();
-                _travelAttack = false;
-            }
-
+            IsMultipathActive();
             _selectManager.AttackingOnTravel(hit.point);
         }
 
-        else if (_patrouilleOrder)
+        else if (_patrolOrder)
         {
             RaycastHit hit = DoARayCast();
-            if (!_multiPathIsActive)
-            {
-                ResetOrder();
-                _patrouilleOrder = false;
-            }
-
-            if (hit.transform)
-            {
-                _selectManager.PatrouilleOrder(hit.point);
-            }
-            
-            if (!_selectManager.getAddinMoreThanOne())
-            {
-                _selectManager.setAddingMoreThanOne(true);
-            }
+            IsMultipathActive();
+            _selectManager.PatrouilleOrder(hit.point);
+            if (!_selectManager.getAddingMoreThanOne()) { _selectManager.setAddingMoreThanOne(true); }
         }
         else
         {
             if (DoUiRayCast().Count == 0)
             {
                 RaycastHit hit = DoARayCast();
+                ResetUiOrder();
+                
+                if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
                 if (hit.transform)
                 {
-                    if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
-
                     if (hit.transform.GetComponent<EntityController>())
                     {
                         ui.SetEntity(hit.transform.gameObject.GetComponent<EntityManager>());
@@ -142,35 +126,43 @@ public class ControlManager : MonoBehaviour
                         ui.gameObject.SetActive(false);
                     }
                 }
-                else if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
             }
-            
         }
-        
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
     {
-        if (_order) { _order = false; }
-        else if (_patrouilleOrder) { _patrouilleOrder = false; }
-        else if (_travelAttack) { _travelAttack = false; }
-        else
+        if (!_order && !_patrolOrder && !_travelAttack)
         {
+            IsMultipathActive();
             RaycastHit hit = DoARayCast();
-            if (!_multiPathIsActive)
-            {
-                ResetOrder();
-            }
-
+            
             _selectManager.ActionGroup(hit);
         }
+        else { ResetUiOrder(); }
+    }
+
+    private void IsMultipathActive()
+    {
+        if (!_multiPathIsActive)
+        {
+            ResetOrder();
+            ResetUiOrder();
+        }
+    }
+
+    private void ResetUiOrder()
+    {
+        _order = false;
+        _patrolOrder = false;
+        _travelAttack = false;
     }
     
     private RaycastHit DoARayCast()
     {
         Ray ray = _camera.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast (ray, out hit, 100)) return hit;
+        if (Physics.Raycast (ray, out hit, 100)){ return hit;}
         return hit;
     }
 
@@ -225,24 +217,15 @@ public class ControlManager : MonoBehaviour
         _selectManager.ResetOrder();
     }
 
-    public void TenirPosition()
-    {
-        _selectManager.TenirPositionOrder();
-    }
+    public void TenirPosition() { _selectManager.TenirPositionOrder(); }
 
-    public void MoveOrder()
-    {
-        _order = true;
-    }
+    public void MoveOrder() { _order = true; }
 
     public void DoPatrouille()
     {
-        _patrouilleOrder = true;
+        _patrolOrder = true;
         _selectManager.setAddingMoreThanOne(false);
     }
 
-    public void DoTravelAttack()
-    {
-        _travelAttack = true;
-    }
+    public void DoTravelAttack() { _travelAttack = true; }
 }

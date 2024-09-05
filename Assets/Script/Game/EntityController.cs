@@ -1,36 +1,42 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+
+public enum Order
+{
+    Move,
+    Target,
+    Follow,
+    Patrol,
+    Aggressive
+}
 
 public class EntityController : MonoBehaviour
 {
     private NavMeshAgent _navMesh;
 
+    private List<Order> _listForOrder;
     private List<Vector3> _listOfPath;
     private List<EntityManager> _listOfTarget;
-    
     private List<EntityManager> _listOfAllie;
-    private List<int> _listForFile;
-    private List<Vector3> _listForPatrouille;
+    private List<Vector3> _listForPatrol;
     private List<Vector3> _listForAttackingOnTravel;
 
-    private bool _tenirPosition;
-
-
-    private int _patrouilleIteration = 0;
+    private bool _stayPosition;
+    private bool _attacking;
+    private int _patrolIteration;
 
     [SerializeField] private SpriteRenderer selectedSprite;
 
     private EntityManager _entityManager;
 
-    private Animator _animator;
     
+    private Animator _animator;
     private static readonly int Moving = Animator.StringToHash("Mooving");
     private static readonly int Attacking = Animator.StringToHash("Attacking");
     
 
-    private bool _attacking;
+    
     
     void Start()
     {
@@ -38,9 +44,9 @@ public class EntityController : MonoBehaviour
 
         _listOfPath = new List<Vector3>();
         _listOfTarget = new List<EntityManager>();
-        _listForFile = new List<int>();
+        _listForOrder = new List<Order>();
         _listOfAllie = new List<EntityManager>();
-        _listForPatrouille = new List<Vector3>();
+        _listForPatrol = new List<Vector3>();
         _listForAttackingOnTravel = new List<Vector3>();
         
         selectedSprite.gameObject.SetActive(false);
@@ -78,143 +84,139 @@ public class EntityController : MonoBehaviour
     void FixedUpdate()
     {
         Physics.SyncTransforms();
-
-        if (_listForFile.Count == 0 || _listForFile[0] == 3 || _listForFile[0] == 4)
-        {
-            List<GameObject> ListOfRayTuch = DoCircleRaycast();
-
-            foreach (var target in ListOfRayTuch)
-            {
-                if (target != gameObject)
-                {
-                    _listOfTarget.Insert(0,target.GetComponent<EntityManager>());
-                    _listForFile.Insert(0,1);
-                }
-            }
-
-            _listOfTarget.Sort(SortTargetByRange);
-            ListOfRayTuch.Clear();
-        }
         
         if (_navMesh.pathPending && _navMesh.hasPath || _navMesh.remainingDistance >=1) { _animator.SetBool(Moving,true);}
         else { _animator.SetBool(Moving,false);}
         
-        if (_listForFile.Count > 0 && _listForFile[0] == 0)
-        {
-            _animator.SetBool(Attacking, false);
-            if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <=1)
-            {
-                GetNewPath(_listOfPath[0]);
-            }
-        }
+        if(_listForOrder.Count == 0 || _listForOrder[0] != Order.Target){_animator.SetBool(Attacking,false);}
         
-        if (_listForFile.Count > 0 && _listForFile[0] == 4)
+        if (_listForOrder.Count == 0 || _listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive)
         {
-            _animator.SetBool(Attacking, false);
-            if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= 1.2)
-            {
-                GetNewPath(_listForAttackingOnTravel[0]);
-                
-                if (_navMesh.remainingDistance <= 1.2 && _navMesh.hasPath && !_navMesh.pathPending)
-                {
-                    _listForAttackingOnTravel.RemoveAt(0);
-                    _listForFile.RemoveAt(0);
-                }
-            }
-        }
-        
-        if (_listForFile.Count > 0 && _listForFile[0] == 3)
-        {
-            _animator.SetBool(Attacking, false);
-            if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <=1)
-            {
-                if (_patrouilleIteration == _listForPatrouille.Count) { _patrouilleIteration = 0; }
-                GetNewPath(_listForPatrouille[_patrouilleIteration]);
-                _patrouilleIteration += 1;
-            }
-        }
-        
-        if (_listForFile.Count > 0 && _listForFile[0] == 1)
-        {
-            if (!_listOfTarget[0])
-            {
-                _listOfTarget.RemoveAt(0);
-                _listForFile.RemoveAt(0);
-            }
-            else
-            {
-                EntityManager target = _listOfTarget[0];
-                
-                if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
-                {
-                    _animator.SetBool(Moving,false);
-                    
-                    if (!_animator.IsInTransition(0) &&
-                        _animator.GetBool(Attacking) &&
-                        _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
-                        _attacking)
-                     { 
-                         DoAttack(target);
-                         _attacking = false;
-                     }
+            List<GameObject> listOfRayTuch = DoCircleRaycast();
 
-                    if (!_animator.IsInTransition(0) &&
-                        _animator.GetBool(Attacking) &&
-                        _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-                    {
-                        _animator.SetBool(Attacking, false);
-                    }
-                        
-                        
-                    else { _animator.SetBool(Attacking,true); }
-                    
-                    if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) { _attacking = true; }
-                }
-                else { if(!_tenirPosition){ActualisePath(target);} }
-            }
-        }
-
-        if (_listForFile.Count > 0 && _listForFile[0] == 2)
-        {
-            if (!_listOfAllie[0])
-            {
-                _listOfAllie.RemoveAt(0);
-                _listForFile.RemoveAt(0);
-            }
-            else
-            {
-                EntityManager target = _listOfAllie[0];
-                if (_navMesh.remainingDistance is >= 2 or 0) { ActualisePath(target); }
-            }
-        }
-        
-        if (_tenirPosition)
-        {
-            List<GameObject> ListOfRayTuch = DoCircleRaycast();
-
-            foreach (var target in ListOfRayTuch)
+            foreach (var target in listOfRayTuch)
             {
                 if (target != gameObject && !_listOfTarget.Contains(target.GetComponent<EntityManager>()))
                 {
-                    _listOfTarget.Insert(0, target.GetComponent<EntityManager>());
-                    _listForFile.Insert(0, 1);
-                    Debug.Log(_listOfTarget.Count);
+                    _listOfTarget.Insert(0,target.GetComponent<EntityManager>());
+                    _listForOrder.Insert(0,Order.Target);
                 }
             }
 
-            _listOfTarget.Sort(SortTargetByRange);
-            ListOfRayTuch.Clear();
+            _listOfTarget.Sort(SortTargetByProximity);
+            listOfRayTuch.Clear();
+        }
+        
+        if (_listForOrder.Count > 0)
+        {
+            if (_listForOrder[0] == Order.Move)
+            {
+                if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= 1)
+                {
+                    GetNewPath(_listOfPath[0]);
+                    _listOfPath.RemoveAt(0);
+                    _listForOrder.RemoveAt(0);
+                }
+            }
+
+            else if (_listForOrder[0] == Order.Aggressive)
+            {
+                if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= 1)
+                {
+                    GetNewPath(_listForAttackingOnTravel[0]);
+
+                    if (_navMesh.remainingDistance <= 1.2 && _navMesh.hasPath && !_navMesh.pathPending)
+                    {
+                        _listForAttackingOnTravel.RemoveAt(0);
+                        _listForOrder.RemoveAt(0);
+                    }
+                }
+            }
+
+            else if (_listForOrder[0] == Order.Patrol)
+            {
+                if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= 1)
+                {
+                    if (_patrolIteration == _listForPatrol.Count)
+                    {
+                        _patrolIteration = 0;
+                    }
+
+                    GetNewPath(_listForPatrol[_patrolIteration]);
+                    _patrolIteration += 1;
+                }
+            }
+
+            else if (_listForOrder[0] == Order.Target)
+            {
+                if (!_listOfTarget[0])
+                {
+                    _listOfTarget.RemoveAt(0);
+                    _listForOrder.RemoveAt(0);
+                }
+                else
+                {
+                    EntityManager target = _listOfTarget[0];
+
+                    if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
+                    {
+                        _animator.SetBool(Moving, false);
+
+                        if (!_animator.IsInTransition(0) &&
+                            _animator.GetBool(Attacking) &&
+                            _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
+                            _attacking)
+                        {
+                            DoAttack(target);
+                            _attacking = false;
+                        }
+
+                        if (!_animator.IsInTransition(0) &&
+                            _animator.GetBool(Attacking) &&
+                            _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+
+                        {
+                            _animator.SetBool(Attacking, false);
+                        }
+
+                        else
+                        {
+                            _animator.SetBool(Attacking, true);
+                        }
+
+                        if (_animator.IsInTransition(0) && _animator.GetBool(Attacking))
+                        {
+                            _attacking = true;
+                        }
+                    }
+                    else
+                    {
+                        if (!_stayPosition)
+                        {
+                            ActualisePath(target);
+                        }
+                    }
+                }
+            }
+
+            else if (_listForOrder[0] == Order.Follow)
+            {
+                if (!_listOfAllie[0])
+                {
+                    _listOfAllie.RemoveAt(0);
+                    _listForOrder.RemoveAt(0);
+                }
+                else
+                {
+                    if (_navMesh.remainingDistance is >= 2 or 0) { ActualisePath( _listOfAllie[0]); }
+                }
+            }
         }
     }
 
     void GetNewPath(Vector3 point)
     {
         _navMesh.SetDestination(point);
-        if (_listForFile[0] != 3 && _listForFile[0] != 4)
-        {
-            _listOfPath.RemoveAt(0);
-            _listForFile.RemoveAt(0);
-        }
     }
 
     void ActualisePath(EntityManager target) { _navMesh.SetDestination(target.transform.position); }
@@ -224,69 +226,57 @@ public class EntityController : MonoBehaviour
     public void AddPath(Vector3 newPath)
     {
         _listOfPath.Add(newPath);
-        _listForFile.Add(0);
+        _listForOrder.Add(Order.Move);
     }
 
     public void AddTarget(EntityManager target)
     {
         _listOfTarget.Add(target);
-        _listForFile.Add(1);
+        _listForOrder.Add(Order.Target);
     }
 
     public void AddAllie(EntityManager target)
     {
         _listOfAllie.Add(target);
-        _listForFile.Add(2);
+        _listForOrder.Add(Order.Follow);
     }
     
-    public void AddPatrouille(Vector3 point)
+    public void AddPatrol(Vector3 point)
     {
-        _listForPatrouille.Add(point);
-        if (_listForFile.Count == 0 || _listForFile[0] != 3 && _listForFile[^1] != 3)
+        _listForPatrol.Add(point);
+        if (_listForOrder.Count == 0 || _listForOrder[0] != Order.Patrol && _listForOrder[^1] != Order.Patrol)
         {
-            _listForFile.Add(3);
+            _listForOrder.Add(Order.Patrol);
         }
     }
-    public void AddAggresifPath(Vector3 newPath)
+    public void AddAggressivePath(Vector3 newPath)
     {
         _listForAttackingOnTravel.Add(newPath);
-        _listForFile.Add(4);
+        _listForOrder.Add(Order.Aggressive);
     }
-
     private void ClearAllPath() { _listOfPath.Clear(); }
-
-    private void ClearAllOrder() { _listOfTarget.Clear(); }
-    
-    private void ClearPatrouille() {_listForPatrouille.Clear();}
-    
-    
-    private void ClearAggressifPath() {_listForAttackingOnTravel.Clear();}
-
-    public void ClearAllFile()
+    private void ClearAllTarget() { _listOfTarget.Clear(); }
+    private void ClearPatrol() {_listForPatrol.Clear();}
+    private void ClearAggressivePath() {_listForAttackingOnTravel.Clear();}
+    public void ClearAllOrder()
     {
-        _listForFile.Clear();
+        _listForOrder.Clear();
         ClearAllPath();
-        ClearAllOrder();
-        ClearPatrouille();
-        ClearAggressifPath();
+        ClearAllTarget();
+        ClearPatrol();
+        ClearAggressivePath();
     }
-
     public void OnSelected() { selectedSprite.gameObject.SetActive(true); }
     public void OnDeselected() { selectedSprite.gameObject.SetActive(false); }
 
-    public void StopPath()
+    public void StopPath() { gameObject.GetComponent<NavMeshAgent>().ResetPath(); }
+
+    public bool Stay
     {
-        gameObject.GetComponent<NavMeshAgent>().ResetPath();
-        _animator.SetBool(Moving,false);
+        set => _stayPosition = value;
     }
 
-    public bool Tenir
-    {
-        get => _tenirPosition;
-        set => _tenirPosition = value;
-    }
-
-    private int SortTargetByRange(EntityManager entity1, EntityManager entity2)
+    private int SortTargetByProximity(EntityManager entity1, EntityManager entity2)
     {
         return Vector3.Distance(transform.position, entity1.gameObject.transform.position)
             .CompareTo(Vector3.Distance(transform.position, entity2.gameObject.transform.position));
