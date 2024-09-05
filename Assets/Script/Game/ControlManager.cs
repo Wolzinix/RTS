@@ -118,6 +118,7 @@ public class ControlManager : MonoBehaviour
                         ui.SetEntity(hit.transform.gameObject.GetComponent<EntityManager>());
                         ui.gameObject.SetActive(true);
                         _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
+                        
                     }
 
                     else
@@ -125,6 +126,11 @@ public class ControlManager : MonoBehaviour
                         _selectManager.ClearList();
                         ui.gameObject.SetActive(false);
                     }
+                }
+                else
+                {
+                    _selectManager.ClearList();
+                    ui.gameObject.SetActive(false);
                 }
             }
         }
@@ -162,7 +168,8 @@ public class ControlManager : MonoBehaviour
     {
         Ray ray = _camera.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast (ray, out hit, 100)){ return hit;}
+        if (Physics.Raycast (ray, out hit, Mathf.Infinity)){ return hit;}
+        Debug.DrawLine(transform.position, hit.point, Color.green,1f);
         return hit;
     }
 

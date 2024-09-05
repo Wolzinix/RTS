@@ -51,9 +51,10 @@ public class CameraControl : MonoBehaviour
         if (transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0 || 
             transform.position.y <= 8 && zoomCameraInput.action.ReadValue<Vector2>().y <= 0)
         {
-            Vector3 newPosition = new Vector3(0,
-                -zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom,
-                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom)* (Time.deltaTime * speedOfDeplacement);
+            Vector3 newPosition = new Vector3(zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.x,
+                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.y,
+                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.z)
+                                  * (Time.deltaTime * speedOfDeplacement) ;
 
             if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
             
