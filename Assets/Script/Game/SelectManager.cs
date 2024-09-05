@@ -15,16 +15,16 @@ public class SelectManager : MonoBehaviour
         _selectedObject = new List<EntityController>();
     }
 
-    public bool getAddinMoreThanOne()
+    public bool getAddingMoreThanOne()
     {
         return _addingMoreThanOne;
     }
 
-    public void setAddingMoreThanOne(bool reverse)
+    public void setAddingMoreThanOne(bool val)
     {
-        _addingMoreThanOne = reverse;
+        _addingMoreThanOne = val;
     }
-    public List<EntityController> getSelectedObject()
+    public List<EntityController> GetSelectedObject()
     {
         return _selectedObject;
     }
@@ -71,7 +71,6 @@ public class SelectManager : MonoBehaviour
                 i.Tenir = false;
             }
         }
-        
     }
 
     private void AttackSelected(RaycastHit hit)
