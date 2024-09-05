@@ -225,6 +225,11 @@ public class ControlManager : MonoBehaviour
         _selectManager.ResetOrder();
     }
 
+    public void TenirPosition()
+    {
+        _selectManager.TenirPositionOrder();
+    }
+
     public void MoveOrder()
     {
         _order = true;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +14,8 @@ public class EntityController : MonoBehaviour
     private List<int> _listForFile;
     private List<Vector3> _listForPatrouille;
     private List<Vector3> _listForAttackingOnTravel;
+
+    private bool _tenirPosition;
 
 
     private int _patrouilleIteration = 0;
@@ -46,10 +49,12 @@ public class EntityController : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
     }
 
-    private GameObject DoCircleRaycast()
+    private List<GameObject> DoCircleRaycast()
     {
         float numberOfRay = 30;
         float delta = 360 / numberOfRay;
+
+        List<GameObject> listOfGameObejct = new List<GameObject>();
 
         for (int i = 0; i < numberOfRay; i++)
         {
@@ -63,11 +68,11 @@ public class EntityController : MonoBehaviour
             if (hit.transform && !hit.transform.gameObject.CompareTag(gameObject.tag) && hit.transform.gameObject.GetComponent<EntityManager>())
             {
                 Debug.DrawLine(transform.position, hit.point, Color.green,1f);
-                return hit.transform.gameObject;
+                listOfGameObejct.Add( hit.transform.gameObject);
             }
         }
 
-        return gameObject;
+        return listOfGameObejct;
     }
 
     void FixedUpdate()
@@ -76,12 +81,19 @@ public class EntityController : MonoBehaviour
 
         if (_listForFile.Count == 0 || _listForFile[0] == 3 || _listForFile[0] == 4)
         {
-            GameObject target =DoCircleRaycast();
-            if (target != gameObject)
+            List<GameObject> ListOfRayTuch = DoCircleRaycast();
+
+            foreach (var target in ListOfRayTuch)
             {
-                _listOfTarget.Insert(0,target.GetComponent<EntityManager>());
-                _listForFile.Insert(0,1);
+                if (target != gameObject)
+                {
+                    _listOfTarget.Insert(0,target.GetComponent<EntityManager>());
+                    _listForFile.Insert(0,1);
+                }
             }
+
+            _listOfTarget.Sort(SortTargetByRange);
+            ListOfRayTuch.Clear();
         }
         
         if (_navMesh.pathPending && _navMesh.hasPath || _navMesh.remainingDistance >=1) { _animator.SetBool(Moving,true);}
@@ -158,7 +170,7 @@ public class EntityController : MonoBehaviour
                     
                     if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) { _attacking = true; }
                 }
-                else { ActualisePath(target); }
+                else { if(!_tenirPosition){ActualisePath(target);} }
             }
         }
 
@@ -174,6 +186,24 @@ public class EntityController : MonoBehaviour
                 EntityManager target = _listOfAllie[0];
                 if (_navMesh.remainingDistance is >= 2 or 0) { ActualisePath(target); }
             }
+        }
+        
+        if (_tenirPosition)
+        {
+            List<GameObject> ListOfRayTuch = DoCircleRaycast();
+
+            foreach (var target in ListOfRayTuch)
+            {
+                if (target != gameObject && !_listOfTarget.Contains(target.GetComponent<EntityManager>()))
+                {
+                    _listOfTarget.Insert(0, target.GetComponent<EntityManager>());
+                    _listForFile.Insert(0, 1);
+                    Debug.Log(_listOfTarget.Count);
+                }
+            }
+
+            _listOfTarget.Sort(SortTargetByRange);
+            ListOfRayTuch.Clear();
         }
     }
 
@@ -250,5 +280,16 @@ public class EntityController : MonoBehaviour
         _animator.SetBool(Moving,false);
     }
 
+    public bool Tenir
+    {
+        get => _tenirPosition;
+        set => _tenirPosition = value;
+    }
+
+    private int SortTargetByRange(EntityManager entity1, EntityManager entity2)
+    {
+        return Vector3.Distance(transform.position, entity1.gameObject.transform.position)
+            .CompareTo(Vector3.Distance(transform.position, entity2.gameObject.transform.position));
+    }
     
 }
