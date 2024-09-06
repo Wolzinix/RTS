@@ -33,6 +33,7 @@ public class SelectManager : MonoBehaviour
     {
         if (!SelectedObjectIsEmpty())
         {
+            VerifyIfEveryBodyIsAlive();
             foreach (var i in _selectedObject)
             {
                 i.OnDeselected();
@@ -65,6 +66,7 @@ public class SelectManager : MonoBehaviour
     {
         if(!SelectedObjectIsEmpty())
         {
+            VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
                 i.GetComponent<EntityController>().AddPath(hit.point);
@@ -73,10 +75,28 @@ public class SelectManager : MonoBehaviour
         }
     }
 
+    private void VerifyIfEveryBodyIsAlive()
+    {
+        List<int> indexToRemove = new List<int>();
+        foreach (EntityController i in _selectedObject)
+        {
+            if (!i)
+            {
+                indexToRemove.Add(_selectedObject.IndexOf(i));
+            }
+        }
+
+        foreach (int i in indexToRemove)
+        {
+            _selectedObject.RemoveAt(i);
+        }
+    }
+
     private void AttackSelected(RaycastHit hit)
     {
         if (!SelectedObjectIsEmpty())
         {
+            VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
                 i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
@@ -89,6 +109,7 @@ public class SelectManager : MonoBehaviour
     {
         if (!SelectedObjectIsEmpty())
         {
+            VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
                 i.GetComponent<EntityController>().AddAllie(hit.transform.gameObject.GetComponent<EntityManager>());
@@ -101,11 +122,15 @@ public class SelectManager : MonoBehaviour
     {
         if (!SelectedObjectIsEmpty())
         {
+            VerifyIfEveryBodyIsAlive();
             foreach (var i in _selectedObject)
             {
-                i.ClearAllOrder();
-                i.StopPath();
-                i.Stay = false;
+                if (i)
+                {
+                    i.ClearAllOrder();
+                    i.StopPath();
+                    i.Stay = false;
+                }
             }
         }
     }
@@ -114,6 +139,7 @@ public class SelectManager : MonoBehaviour
     {
         if (!SelectedObjectIsEmpty())
         {
+            VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
                 if (!_addingMoreThanOne)
@@ -135,6 +161,7 @@ public class SelectManager : MonoBehaviour
     {
         if (!SelectedObjectIsEmpty())
         {
+            VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
                 i.GetComponent<EntityController>().AddAggressivePath(point);
@@ -147,6 +174,7 @@ public class SelectManager : MonoBehaviour
     {
         if (!SelectedObjectIsEmpty())
         {
+            VerifyIfEveryBodyIsAlive();
             ResetOrder();
             foreach (var i in _selectedObject)
             {

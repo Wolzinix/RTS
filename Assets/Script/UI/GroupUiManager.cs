@@ -21,7 +21,7 @@ public class GroupUiManager : MonoBehaviour
     public void AddEntity(EntityManager entity)
     {
         _listOfEntity.Add(entity);
-        GameObject newCadre = Instantiate(cadre,new Vector3(250 * _listOfCadreControllers.Count + 35,125,0),transform.rotation,_image.transform);
+        GameObject newCadre = Instantiate(cadre,new Vector3(150 * _listOfCadreControllers.Count + 50,125,0),transform.rotation,_image.transform);
         CadreController newCadreController = newCadre.GetComponent<CadreController>();
         newCadreController.SetEntity(entity);
         
@@ -30,9 +30,16 @@ public class GroupUiManager : MonoBehaviour
 
     private void SortAffichage()
     {
-        foreach (GameObject i in _listOfCadreControllers)
+        if (_listOfCadreControllers.Count == 0)
         {
-            i.transform.position = new Vector3(250 * _listOfCadreControllers.IndexOf(i) + 35,125,0);
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            foreach (GameObject i in _listOfCadreControllers)
+            {
+                i.transform.position = new Vector3(150 * _listOfCadreControllers.IndexOf(i) + 50,125,0);
+            }
         }
     }
 

@@ -37,6 +37,7 @@ public class CadreController : MonoBehaviour
         FindObjectOfType<GroupUiManager>().RemoveCadre(transform.gameObject);
         _entity.changeStats.RemoveListener(ActualiseHp);
         _entity.deathEvent.RemoveListener(DestroyHimSelf);
+        Destroy(gameObject);
     }
     
 }

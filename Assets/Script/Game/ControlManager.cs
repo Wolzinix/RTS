@@ -148,12 +148,25 @@ public class ControlManager : MonoBehaviour
             groupUi.gameObject.SetActive(true);
             groupUi.AddEntity(entityUi.GetEntity());
             groupUi.AddEntity(entity);
+            
             entityUi.gameObject.SetActive(false);
         }
-        else
+        else if (groupUi.gameObject.activeSelf && _multiSelectionIsActive)
+        {
+            groupUi.AddEntity(entity);
+        }
+
+        if (!entityUi.gameObject.activeSelf && _multiSelectionIsActive && !groupUi.gameObject.activeSelf )
+        {
+            entityUi.gameObject.SetActive(true);
+            entityUi.SetEntity(entity); 
+        }
+        
+        if(!entityUi.gameObject.activeSelf && !_multiSelectionIsActive)
         {
             groupUi.ClearListOfEntity();
             groupUi.gameObject.SetActive(false);
+            
             entityUi.gameObject.SetActive(true);
             entityUi.SetEntity(entity); 
         }
@@ -232,6 +245,8 @@ public class ControlManager : MonoBehaviour
             if (UnitInDragBox(_camera.WorldToScreenPoint(i.transform.position), bounds))
             {
                 _selectManager.AddSelect(i);
+                groupUi.gameObject.SetActive(true);
+                groupUi.AddEntity(i.gameObject.GetComponent<EntityManager>());
             }
         }
         
