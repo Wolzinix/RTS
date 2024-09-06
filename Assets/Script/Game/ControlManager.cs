@@ -152,6 +152,8 @@ public class ControlManager : MonoBehaviour
         }
         else
         {
+            groupUi.ClearListOfEntity();
+            groupUi.gameObject.SetActive(false);
             entityUi.gameObject.SetActive(true);
             entityUi.SetEntity(entity); 
         }

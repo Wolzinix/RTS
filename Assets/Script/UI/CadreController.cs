@@ -28,11 +28,17 @@ public class CadreController : MonoBehaviour
     public void SetEntity(EntityManager entity)
     {
         _entity = entity;
-        Actualise();
+        _entity.changeStats.AddListener(ActualiseHp);
+        SetCadre();
     }
-    public void Actualise()
+    public void SetCadre()
     {
         image.sprite = _entity.GetSprit();
+        text.text = _entity.Hp + "/" + _entity.MaxHp;
+    }
+
+    private void ActualiseHp()
+    {
         text.text = _entity.Hp + "/" + _entity.MaxHp;
     }
     
