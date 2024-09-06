@@ -139,13 +139,16 @@ public class ControlManager : MonoBehaviour
     {
         if (groupUi.gameObject.activeSelf && !_multiSelectionIsActive)
         {
+            groupUi.ClearListOfEntity();
             groupUi.gameObject.SetActive(false);
         }
         
         if (entityUi.gameObject.activeSelf && _multiSelectionIsActive)
         {
-            entityUi.gameObject.SetActive(false);
             groupUi.gameObject.SetActive(true);
+            groupUi.AddEntity(entityUi.GetEntity());
+            groupUi.AddEntity(entity);
+            entityUi.gameObject.SetActive(false);
         }
         else
         {

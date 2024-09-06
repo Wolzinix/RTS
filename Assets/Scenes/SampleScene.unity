@@ -349,8 +349,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7238911219419136317, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7390247396222793466, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: _image
+      value: 
+      objectReference: {fileID: 1679428878}
     - target: {fileID: 7425194148958150823, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1057,6 +1061,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
+      propertyPath: hp
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: range
       value: 6
       objectReference: {fileID: 0}
@@ -1064,6 +1072,10 @@ PrefabInstance:
       propertyPath: speed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: -2413806693520163455, guid: b53783ba57e90b7459ad2e55992892da, type: 3}
     - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: seeRange
       value: 3
@@ -1208,6 +1220,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1679428878 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7183190456508084959, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+  m_PrefabInstance: {fileID: 129768503}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1840127080
 GameObject:
   m_ObjectHideFlags: 0

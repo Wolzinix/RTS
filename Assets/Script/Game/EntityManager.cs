@@ -25,6 +25,11 @@ public class EntityManager : MonoBehaviour
     public UnityEvent deathEvent = new UnityEvent();
     
     private Animator _animator;
+
+    public Sprite GetSprit()
+    {
+        return sprite;
+    }
     public float Range
     {
         get => range;
