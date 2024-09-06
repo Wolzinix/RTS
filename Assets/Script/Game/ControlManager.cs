@@ -57,7 +57,6 @@ public class ControlManager : MonoBehaviour
         _travelAttack = false;
     }
     private void ActiveMultiPath(InputAction.CallbackContext obj) { _multiPathIsActive = true; }
-    
     private void OnDestroy()
     {
         selectEntityInput.action.started -= DoASelection;
@@ -69,7 +68,6 @@ public class ControlManager : MonoBehaviour
         dragSelect.action.performed -= StartDragSelect;
         dragSelect.action.canceled -= EndDragSelect;
     }
-    
     private void FixedUpdate()
     {
         if (_dragging)
@@ -83,6 +81,7 @@ public class ControlManager : MonoBehaviour
     }
     private void DoASelection(InputAction.CallbackContext context )
     {
+        Physics.SyncTransforms();
         if (_order)
         {
             RaycastHit hit = DoARayCast();
@@ -109,6 +108,7 @@ public class ControlManager : MonoBehaviour
             {
                 RaycastHit hit = DoARayCast();
                 ResetUiOrder();
+                Debug.DrawLine(_camera.transform.position, hit.point, Color.green,100f);
                 
                 if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
                 if (hit.transform)
@@ -169,7 +169,6 @@ public class ControlManager : MonoBehaviour
         Ray ray = _camera.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast (ray, out hit, Mathf.Infinity)){ return hit;}
-        Debug.DrawLine(transform.position, hit.point, Color.green,1f);
         return hit;
     }
 
