@@ -110,39 +110,54 @@ public class ControlManager : MonoBehaviour
             {
                 RaycastHit hit = DoARayCast();
                 ResetUiOrder();
-                Debug.DrawLine(_camera.transform.position, hit.point, Color.green,100f);
                 
                 if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
                 if (hit.transform)
                 {
                     if (hit.transform.GetComponent<EntityController>())
                     {
-                        if (entityUi.gameObject.activeSelf && _multiSelectionIsActive)
-                        {
-                            entityUi.gameObject.SetActive(false);
-                            groupUi.gameObject.SetActive(true);
-                        }
-                        entityUi.gameObject.SetActive(true);
-                        entityUi.SetEntity(hit.transform.gameObject.GetComponent<EntityManager>());
-                        
+                        UIGestion(hit.transform.gameObject.GetComponent<EntityManager>());
                         _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
                     }
 
                     else
                     {
                         _selectManager.ClearList();
-                        entityUi.gameObject.SetActive(false);
-                        groupUi.gameObject.SetActive(false);
+                        DesactiveUi();
                     }
                 }
                 else
                 {
                     _selectManager.ClearList();
-                    entityUi.gameObject.SetActive(false);
-                    groupUi.gameObject.SetActive(false);
+                    DesactiveUi();
                 }
             }
         }
+    }
+
+    private void UIGestion(EntityManager entity)
+    {
+        if (groupUi.gameObject.activeSelf && !_multiSelectionIsActive)
+        {
+            groupUi.gameObject.SetActive(false);
+        }
+        
+        if (entityUi.gameObject.activeSelf && _multiSelectionIsActive)
+        {
+            entityUi.gameObject.SetActive(false);
+            groupUi.gameObject.SetActive(true);
+        }
+        else
+        {
+            entityUi.gameObject.SetActive(true);
+            entityUi.SetEntity(entity); 
+        }
+    }
+
+    private void DesactiveUi()
+    {
+        entityUi.gameObject.SetActive(false);
+        groupUi.gameObject.SetActive(false);
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
