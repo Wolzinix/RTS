@@ -13,22 +13,12 @@ public class CadreController : MonoBehaviour
     [SerializeField] private Image image;
 
     [SerializeField] private TMP_Text text;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void SetEntity(EntityManager entity)
     {
         _entity = entity;
         _entity.changeStats.AddListener(ActualiseHp);
+        _entity.deathEvent.AddListener(DestroyHimSelf);
         SetCadre();
     }
     public void SetCadre()
@@ -40,6 +30,13 @@ public class CadreController : MonoBehaviour
     private void ActualiseHp()
     {
         text.text = _entity.Hp + "/" + _entity.MaxHp;
+    }
+
+    private void DestroyHimSelf()
+    {
+        FindObjectOfType<GroupUiManager>().RemoveCadre(transform.gameObject);
+        _entity.changeStats.RemoveListener(ActualiseHp);
+        _entity.deathEvent.RemoveListener(DestroyHimSelf);
     }
     
 }

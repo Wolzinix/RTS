@@ -7,13 +7,13 @@ public class GroupUiManager : MonoBehaviour
     private List<EntityManager> _listOfEntity;
     [SerializeField] private GameObject cadre;
 
-    private List<CadreController> _listOfCadreControllers;
+    private List<GameObject> _listOfCadreControllers;
     [SerializeField] private GameObject _image;
     
     void Start()
     {
         _listOfEntity = new List<EntityManager>();
-        _listOfCadreControllers = new List<CadreController>();
+        _listOfCadreControllers = new List<GameObject>();
         
         gameObject.SetActive(false);
     }
@@ -25,7 +25,15 @@ public class GroupUiManager : MonoBehaviour
         CadreController newCadreController = newCadre.GetComponent<CadreController>();
         newCadreController.SetEntity(entity);
         
-        _listOfCadreControllers.Add(newCadreController);
+        _listOfCadreControllers.Add(newCadre);
+    }
+
+    private void SortAffichage()
+    {
+        foreach (GameObject i in _listOfCadreControllers)
+        {
+            i.transform.position = new Vector3(250 * _listOfCadreControllers.IndexOf(i) + 35,125,0);
+        }
     }
 
     public void ClearListOfEntity()
@@ -41,5 +49,13 @@ public class GroupUiManager : MonoBehaviour
             Destroy(i.gameObject);
         }
         _listOfCadreControllers.Clear();
+    }
+
+    public void RemoveCadre(GameObject cadre)
+    {
+        int index = _listOfCadreControllers.IndexOf(cadre);
+        _listOfCadreControllers.RemoveAt(index);
+        _listOfEntity.RemoveAt(index);
+        SortAffichage();
     }
 }

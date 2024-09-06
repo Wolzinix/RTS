@@ -1073,6 +1073,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
+      propertyPath: attack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: sprite
       value: 
       objectReference: {fileID: -2413806693520163455, guid: b53783ba57e90b7459ad2e55992892da, type: 3}
