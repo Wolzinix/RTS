@@ -347,6 +347,10 @@ PrefabInstance:
       propertyPath: m_RaycastTarget
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7238911219419136317, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7425194148958150823, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_Camera
       value: 
@@ -447,6 +451,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 066c1495622456c4d861f92b2f982140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &459987563 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7390247396222793466, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+  m_PrefabInstance: {fileID: 129768503}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f440c62095ba8d9489b66bb722794547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &489314560
@@ -1638,6 +1653,14 @@ PrefabInstance:
       propertyPath: dragBox
       value: 
       objectReference: {fileID: 667709670}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: groupUi
+      value: 
+      objectReference: {fileID: 459987563}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: entityUi
+      value: 
+      objectReference: {fileID: 129768504}
     - target: {fileID: 6683642087610167980, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: m_RootOrder
       value: 4

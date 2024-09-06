@@ -308,6 +308,7 @@ MonoBehaviour:
   speed: 2
   range: 1
   seeRange: 3
+  sprite: {fileID: -9095717837082945937, guid: ff8e1e5671dc11d42ae7322385cb3432, type: 3}
   changeStats:
     m_PersistentCalls:
       m_Calls: []

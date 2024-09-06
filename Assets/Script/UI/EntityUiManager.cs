@@ -47,6 +47,7 @@ public class EntityUiManager : MonoBehaviour
     private void DisableUI()
     {
         gameObject.SetActive(false);
+        Debug.Log("ahahah");
     }
 
     private void OnDisable()

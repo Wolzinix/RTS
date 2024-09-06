@@ -28,7 +28,9 @@ public class ControlManager : MonoBehaviour
     private bool _order;
     private bool _travelAttack;
     
-    [SerializeField] private EntityUiManager ui;
+    [SerializeField] private EntityUiManager entityUi;
+    
+    [SerializeField] private GroupUiManager groupUi;
     void Start()
     {
         _selectManager = FindObjectOfType<SelectManager>();
@@ -115,22 +117,29 @@ public class ControlManager : MonoBehaviour
                 {
                     if (hit.transform.GetComponent<EntityController>())
                     {
-                        ui.SetEntity(hit.transform.gameObject.GetComponent<EntityManager>());
-                        ui.gameObject.SetActive(true);
-                        _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
+                        if (entityUi.gameObject.activeSelf && _multiSelectionIsActive)
+                        {
+                            entityUi.gameObject.SetActive(false);
+                            groupUi.gameObject.SetActive(true);
+                        }
+                        entityUi.gameObject.SetActive(true);
+                        entityUi.SetEntity(hit.transform.gameObject.GetComponent<EntityManager>());
                         
+                        _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
                     }
 
                     else
                     {
                         _selectManager.ClearList();
-                        ui.gameObject.SetActive(false);
+                        entityUi.gameObject.SetActive(false);
+                        groupUi.gameObject.SetActive(false);
                     }
                 }
                 else
                 {
                     _selectManager.ClearList();
-                    ui.gameObject.SetActive(false);
+                    entityUi.gameObject.SetActive(false);
+                    groupUi.gameObject.SetActive(false);
                 }
             }
         }

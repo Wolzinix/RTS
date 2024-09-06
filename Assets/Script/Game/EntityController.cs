@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -81,10 +82,13 @@ public class EntityController : MonoBehaviour
         return listOfGameObejct;
     }
 
-    void FixedUpdate()
+    private void Update()
     {
         Physics.SyncTransforms();
-        
+    }
+
+    void FixedUpdate()
+    {
         if (_navMesh.pathPending && _navMesh.hasPath || _navMesh.remainingDistance >=1) { _animator.SetBool(Moving,true);}
         else { _animator.SetBool(Moving,false);}
         
