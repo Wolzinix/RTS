@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using TMPro;
-using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,5 +35,9 @@ public class CadreController : MonoBehaviour
         _entity.deathEvent.RemoveListener(DestroyHimSelf);
         Destroy(gameObject);
     }
-    
+
+    public EntityManager GetEntity()
+    {
+        return _entity;
+    }
 }

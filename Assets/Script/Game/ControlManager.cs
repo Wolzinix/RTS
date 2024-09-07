@@ -106,7 +106,8 @@ public class ControlManager : MonoBehaviour
         }
         else
         {
-            if (DoUiRayCast().Count == 0)
+            List<RaycastResult> listOfUIRay = DoUiRayCast();
+            if (listOfUIRay.Count == 0)
             {
                 RaycastHit hit = DoARayCast();
                 ResetUiOrder();
@@ -135,6 +136,19 @@ public class ControlManager : MonoBehaviour
                     {
                         _selectManager.ClearList();
                         DesactiveUi();
+                    }
+                }
+            }
+            else
+            {
+                foreach (RaycastResult raycastResult in listOfUIRay)
+                {
+                    if (raycastResult.gameObject.GetComponent<CadreController>())
+                    {
+                        _selectManager.ClearList();
+                        CadreController groupUI = raycastResult.gameObject.GetComponent<CadreController>();
+                        UIGestion(groupUI.GetEntity());
+                        _selectManager.AddSelect(groupUI.GetEntity().GetComponent<EntityController>());
                     }
                 }
             }

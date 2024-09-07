@@ -144,7 +144,7 @@ public class EntityManager : MonoBehaviour
         if (hp <= 0)
         {
             deathEvent.Invoke();
-            Destroy(gameObject);
+            Destroy(gameObject); 
         }
     }
 }

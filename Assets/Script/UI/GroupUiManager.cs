@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ public class GroupUiManager : MonoBehaviour
     [SerializeField] private GameObject cadre;
 
     private List<GameObject> _listOfCadreControllers;
-    [SerializeField] private GameObject _image;
+    [SerializeField] private GameObject image;
     
     void Awake()
     {
@@ -26,7 +25,7 @@ public class GroupUiManager : MonoBehaviour
     public void AddEntity(EntityManager entity)
     {
         _listOfEntity.Add(entity);
-        GameObject newCadre = Instantiate(cadre,new Vector3(150 * _listOfCadreControllers.Count + 50,125,0),transform.rotation,_image.transform);
+        GameObject newCadre = Instantiate(cadre,new Vector3(150 * _listOfCadreControllers.Count + 50,125,0),transform.rotation,image.transform);
         CadreController newCadreController = newCadre.GetComponent<CadreController>();
         newCadreController.SetEntity(entity);
         
@@ -66,9 +65,9 @@ public class GroupUiManager : MonoBehaviour
         _listOfCadreControllers.Clear();
     }
 
-    public void RemoveCadre(GameObject cadre)
+    public void RemoveCadre(GameObject cadreToRemove)
     {
-        int index = _listOfCadreControllers.IndexOf(cadre);
+        int index = _listOfCadreControllers.IndexOf(cadreToRemove);
         _listOfCadreControllers.RemoveAt(index);
         _listOfEntity.RemoveAt(index);
         SortAffichage();
