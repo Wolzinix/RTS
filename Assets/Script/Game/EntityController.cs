@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,7 +15,7 @@ public class EntityController : MonoBehaviour
 {
     private NavMeshAgent _navMesh;
 
-    private List<Order> _listForOrder;
+    public List<Order> _listForOrder;
     private List<Vector3> _listOfPath;
     private List<EntityManager> _listOfTarget;
     private List<EntityManager> _listOfAllie;
@@ -94,7 +93,7 @@ public class EntityController : MonoBehaviour
         
         if(_listForOrder.Count == 0 || _listForOrder[0] != Order.Target){_animator.SetBool(Attacking,false);}
         
-        if (_listForOrder.Count == 0 || _listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive)
+        if (_listForOrder.Count == 0  && isStillOnTrajet() || _listForOrder.Count != 0  && ( _listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive))
         {
             List<GameObject> listOfRayTuch = DoCircleRaycast();
             foreach (var target in listOfRayTuch)
@@ -113,12 +112,12 @@ public class EntityController : MonoBehaviour
             }
             listOfRayTuch.Clear();
         }
-        
+
         if (_listForOrder.Count > 0)
         {
             if (_listForOrder[0] == Order.Move)
             {
-                if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= 1)
+                if (isStillOnTrajet())
                 {
                     GetNewPath(_listOfPath[0]);
                     _listOfPath.RemoveAt(0);
@@ -128,7 +127,7 @@ public class EntityController : MonoBehaviour
 
             else if (_listForOrder[0] == Order.Aggressive)
             {
-                if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= 1)
+                if (isStillOnTrajet())
                 {
                     GetNewPath(_listForAttackingOnTravel[0]);
 
@@ -142,7 +141,7 @@ public class EntityController : MonoBehaviour
 
             else if (_listForOrder[0] == Order.Patrol)
             {
-                if (!_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= 1)
+                if (isStillOnTrajet())
                 {
                     if (_patrolIteration == _listForPatrol.Count)
                     {
@@ -153,7 +152,7 @@ public class EntityController : MonoBehaviour
                     _patrolIteration += 1;
                 }
             }
-
+        
             else if (_listForOrder[0] == Order.Target)
             {
                 if (!_listOfTarget[0])
@@ -215,12 +214,19 @@ public class EntityController : MonoBehaviour
                 }
                 else
                 {
-                    if (_navMesh.remainingDistance is >= 2 or 0) { ActualisePath( _listOfAllie[0]); }
+                    if (_navMesh.remainingDistance is >= 2 or 0)
+                    {
+                        ActualisePath(_listOfAllie[0]);
+                    }
                 }
             }
         }
     }
 
+    private bool isStillOnTrajet()
+    {
+        return !_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= 1;
+    }
     void GetNewPath(Vector3 point)
     {
         _navMesh.SetDestination(point);
@@ -265,6 +271,7 @@ public class EntityController : MonoBehaviour
     private void ClearAllTarget() { _listOfTarget.Clear(); }
     private void ClearPatrol() {_listForPatrol.Clear();}
     private void ClearAggressivePath() {_listForAttackingOnTravel.Clear();}
+    private void ClearAllFollow(){_listOfAllie.Clear();}
     public void ClearAllOrder()
     {
         _listForOrder.Clear();
@@ -272,6 +279,7 @@ public class EntityController : MonoBehaviour
         ClearAllTarget();
         ClearPatrol();
         ClearAggressivePath();
+        ClearAllFollow();
     }
     public void OnSelected() { selectedSprite.gameObject.SetActive(true); }
     public void OnDeselected() { selectedSprite.gameObject.SetActive(false); }
