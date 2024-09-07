@@ -38,7 +38,7 @@ public class EntityController : MonoBehaviour
 
     
     
-    void Start()
+    void Awake()
     {
         _navMesh = GetComponent<NavMeshAgent>();
 
@@ -166,6 +166,7 @@ public class EntityController : MonoBehaviour
 
                     if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
                     {
+                        
                         _animator.SetBool(Moving, false);
 
                         if (!_animator.IsInTransition(0) &&

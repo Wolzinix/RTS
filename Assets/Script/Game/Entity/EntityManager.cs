@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public class EntityManager : MonoBehaviour
 {
@@ -46,12 +45,15 @@ public class EntityManager : MonoBehaviour
     
     void Start()
     {
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        _navMeshAgent.speed = speed;
-        
-        _animator = GetComponentInChildren<Animator>();
-        _animator.SetFloat(WalkSpeed,speed);
-        _animator.SetFloat(AttackSpeedAnim, attackSpeed);
+        if (GetComponent<NavMeshAgent>() && GetComponentInChildren<Animator>())
+        {
+            _navMeshAgent = GetComponent<NavMeshAgent>();
+            _navMeshAgent.speed = speed;
+
+            _animator = GetComponentInChildren<Animator>();
+            _animator.SetFloat(WalkSpeed, speed);
+            _animator.SetFloat(AttackSpeedAnim, attackSpeed);
+        }
 
         _maxHp = hp;
     }
@@ -90,7 +92,10 @@ public class EntityManager : MonoBehaviour
     public void SetAttackSpeed(float nb)
     {
         attackSpeed = nb;
-        _animator.SetFloat(AttackSpeedAnim, attackSpeed);
+        if (_animator)
+        {
+            _animator.SetFloat(AttackSpeedAnim, attackSpeed);
+        }
     }
     public float Speed
     {
@@ -100,8 +105,11 @@ public class EntityManager : MonoBehaviour
     public void SetSpeed(float nb)
     {
         speed = nb;
-        _navMeshAgent.speed = speed;
-        _animator.SetFloat(WalkSpeed,speed);
+        if (_navMeshAgent && _animator)
+        {
+            _navMeshAgent.speed = speed;
+            _animator.SetFloat(WalkSpeed,speed); 
+        }
     }
 
     public void AddHp(float nb)
@@ -124,14 +132,20 @@ public class EntityManager : MonoBehaviour
     public void AddAttackSpeed(float nb)
     {
         attackSpeed += nb;
-        _animator.SetFloat(AttackSpeedAnim, attackSpeed);
+        if (_animator)
+        {
+            _animator.SetFloat(AttackSpeedAnim, attackSpeed);
+        }
     }
     
     public void AddSpeed(float nb)
     {
         speed += nb;
-        _navMeshAgent.speed = speed;
-        _animator.SetFloat(WalkSpeed,speed);
+        if (_navMeshAgent && _animator)
+        {
+            _navMeshAgent.speed = speed;
+            _animator.SetFloat(WalkSpeed, speed);
+        }
     }
     
     public void AddRange(float nb)
