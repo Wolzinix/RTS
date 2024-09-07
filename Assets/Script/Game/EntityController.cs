@@ -97,7 +97,6 @@ public class EntityController : MonoBehaviour
         if (_listForOrder.Count == 0 || _listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive)
         {
             List<GameObject> listOfRayTuch = DoCircleRaycast();
-
             foreach (var target in listOfRayTuch)
             {
                 if (target != gameObject && !_listOfTarget.Contains(target.GetComponent<EntityManager>()))
@@ -107,7 +106,11 @@ public class EntityController : MonoBehaviour
                 }
             }
 
-            _listOfTarget.Sort(SortTargetByProximity);
+            if (_listOfTarget.Count > 0)
+            {
+                _listOfTarget.Sort(SortTargetByProximity);
+                StopPath();
+            }
             listOfRayTuch.Clear();
         }
         
