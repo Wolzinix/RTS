@@ -43,9 +43,18 @@ public class BuildingController : MonoBehaviour
     private void SpawnEntity(GameObject entityToSpawn)
     {
         GameObject newEntity = Instantiate(entityToSpawn,
-            new Vector3(transform.position.x + 2, transform.position.y, transform.position.z), 
+            new Vector3(transform.position.x+transform.forward.x + 2, transform.position.y+transform.forward.y, transform.position.z+transform.forward.z), 
             transform.rotation);
-
+        
+        if (newEntity.GetComponent<EntityController>())
+        {
+            SetPath(newEntity.GetComponent<EntityController>());
+        }
         newEntity.tag = transform.tag;
+    }
+    
+    private void SetPath(EntityController entity)
+    {
+        entity.AddAggressivePath(new Vector3(transform.position.x+transform.forward.x + 3, transform.position.y+transform.forward.y, transform.position.z+transform.forward.z));
     }
 }

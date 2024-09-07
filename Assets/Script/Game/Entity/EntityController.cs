@@ -38,7 +38,7 @@ public class EntityController : MonoBehaviour
 
     
     
-    void Start()
+    void Awake()
     {
         _navMesh = GetComponent<NavMeshAgent>();
 
