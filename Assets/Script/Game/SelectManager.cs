@@ -86,6 +86,7 @@ public class SelectManager : MonoBehaviour
             }
         }
 
+        indexToRemove.Reverse();
         foreach (int i in indexToRemove)
         {
             _selectedObject.RemoveAt(i);
