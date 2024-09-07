@@ -7,6 +7,8 @@ public class SelectManager : MonoBehaviour
     private List<EntityController> _selectedObject;
     
     private bool _addingMoreThanOne;
+
+    private EntityController _selected;
     
     void Start()
     {
@@ -40,13 +42,30 @@ public class SelectManager : MonoBehaviour
             }
         }
         _selectedObject.Clear();
+        if (_selected)
+        {
+            _selected.OnDeselected();
+        }
     }
 
     public void AddSelect(EntityController toAdd)
     {
         if (toAdd.gameObject.CompareTag("Allie"))
         {
-            _selectedObject.Add(toAdd);
+            if (_selectedObject.IndexOf(toAdd) != -1)
+            {
+                _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd));
+                toAdd.OnDeselected();
+            }
+            else
+            {
+                _selectedObject.Add(toAdd);
+                toAdd.OnSelected();
+            }
+        }
+        else
+        {
+            _selected = toAdd;
             toAdd.OnSelected();
         }
     }

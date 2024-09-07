@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GroupUiManager : MonoBehaviour
 {
-    private List<EntityManager> _listOfEntity;
+    public List<EntityManager> _listOfEntity;
     [SerializeField] private GameObject cadre;
 
     private List<GameObject> _listOfCadreControllers;
@@ -24,12 +24,24 @@ public class GroupUiManager : MonoBehaviour
 
     public void AddEntity(EntityManager entity)
     {
-        _listOfEntity.Add(entity);
-        GameObject newCadre = Instantiate(cadre,new Vector3(150 * _listOfCadreControllers.Count + 50,125,0),transform.rotation,image.transform);
-        CadreController newCadreController = newCadre.GetComponent<CadreController>();
-        newCadreController.SetEntity(entity);
+        int index = _listOfEntity.IndexOf(entity);
+        if (index == -1)
+        {
+            _listOfEntity.Add(entity);
+            GameObject newCadre = Instantiate(cadre,new Vector3(150 * _listOfCadreControllers.Count + 50,125,0),transform.rotation,image.transform);
+            CadreController newCadreController = newCadre.GetComponent<CadreController>();
+            newCadreController.SetEntity(entity);
         
-        _listOfCadreControllers.Add(newCadre);
+            _listOfCadreControllers.Add(newCadre);
+        }
+        else
+        {
+            Destroy(_listOfCadreControllers[index]);
+            _listOfCadreControllers.RemoveAt(index);
+            _listOfEntity.RemoveAt(index);
+            SortAffichage();
+        }
+        
     }
 
     private void SortAffichage()
