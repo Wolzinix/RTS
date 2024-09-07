@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -81,10 +82,13 @@ public class EntityController : MonoBehaviour
         return listOfGameObejct;
     }
 
-    void FixedUpdate()
+    private void Update()
     {
         Physics.SyncTransforms();
-        
+    }
+
+    void FixedUpdate()
+    {
         if (_navMesh.pathPending && _navMesh.hasPath || _navMesh.remainingDistance >=1) { _animator.SetBool(Moving,true);}
         else { _animator.SetBool(Moving,false);}
         
@@ -93,7 +97,6 @@ public class EntityController : MonoBehaviour
         if (_listForOrder.Count == 0 || _listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive)
         {
             List<GameObject> listOfRayTuch = DoCircleRaycast();
-
             foreach (var target in listOfRayTuch)
             {
                 if (target != gameObject && !_listOfTarget.Contains(target.GetComponent<EntityManager>()))
@@ -103,7 +106,11 @@ public class EntityController : MonoBehaviour
                 }
             }
 
-            _listOfTarget.Sort(SortTargetByProximity);
+            if (_listOfTarget.Count > 0)
+            {
+                _listOfTarget.Sort(SortTargetByProximity);
+                StopPath();
+            }
             listOfRayTuch.Clear();
         }
         

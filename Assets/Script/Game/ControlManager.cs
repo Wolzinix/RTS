@@ -28,7 +28,9 @@ public class ControlManager : MonoBehaviour
     private bool _order;
     private bool _travelAttack;
     
-    [SerializeField] private EntityUiManager ui;
+    [SerializeField] private EntityUiManager entityUi;
+    
+    [SerializeField] private GroupUiManager groupUi;
     void Start()
     {
         _selectManager = FindObjectOfType<SelectManager>();
@@ -108,32 +110,78 @@ public class ControlManager : MonoBehaviour
             {
                 RaycastHit hit = DoARayCast();
                 ResetUiOrder();
-                Debug.DrawLine(_camera.transform.position, hit.point, Color.green,100f);
                 
                 if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
                 if (hit.transform)
                 {
                     if (hit.transform.GetComponent<EntityController>())
                     {
-                        ui.SetEntity(hit.transform.gameObject.GetComponent<EntityManager>());
-                        ui.gameObject.SetActive(true);
+                        UIGestion(hit.transform.gameObject.GetComponent<EntityManager>());
                         _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
-                        
                     }
 
                     else
                     {
-                        _selectManager.ClearList();
-                        ui.gameObject.SetActive(false);
+                        if (!_multiSelectionIsActive)
+                        {
+                            _selectManager.ClearList();
+                            DesactiveUi();
+                        }
                     }
                 }
                 else
                 {
-                    _selectManager.ClearList();
-                    ui.gameObject.SetActive(false);
+                    if (!_multiSelectionIsActive)
+                    {
+                        _selectManager.ClearList();
+                        DesactiveUi();
+                    }
                 }
             }
         }
+    }
+
+    private void UIGestion(EntityManager entity)
+    {
+        if (!_multiSelectionIsActive)
+        {
+            if (groupUi.gameObject.activeSelf) { groupUi.gameObject.SetActive(false); }
+
+            if (!entityUi.gameObject.activeSelf)
+            {
+                groupUi.gameObject.SetActive(false);
+        
+                entityUi.gameObject.SetActive(true);
+                entityUi.SetEntity(entity);   
+            }
+        }
+        else
+        {
+            
+            if (entityUi.gameObject.activeSelf)
+            {
+                groupUi.gameObject.SetActive(true);
+                groupUi.AddEntity(entityUi.GetEntity());
+                groupUi.AddEntity(entity);
+            
+                entityUi.gameObject.SetActive(false);
+            }
+            else
+            {
+                if (groupUi.gameObject.activeSelf) { groupUi.AddEntity(entity); }
+                else
+                {
+                    entityUi.gameObject.SetActive(true);
+                    entityUi.SetEntity(entity); 
+                }
+            }
+        }
+    }
+
+    private void DesactiveUi()
+    {
+        entityUi.gameObject.SetActive(false);
+        groupUi.gameObject.SetActive(false);
     }
 
     private void MooveSelected(InputAction.CallbackContext context)
@@ -200,9 +248,11 @@ public class ControlManager : MonoBehaviour
         
         foreach (EntityController i in FindObjectsOfType<EntityController>() )
         {
-            if (UnitInDragBox(_camera.WorldToScreenPoint(i.transform.position), bounds))
+            if (UnitInDragBox(_camera.WorldToScreenPoint(i.transform.position), bounds) && i.CompareTag("Allie"))
             {
                 _selectManager.AddSelect(i);
+                groupUi.gameObject.SetActive(true);
+                groupUi.AddEntity(i.gameObject.GetComponent<EntityManager>());
             }
         }
         

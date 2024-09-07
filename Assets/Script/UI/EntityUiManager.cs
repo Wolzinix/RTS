@@ -57,4 +57,9 @@ public class EntityUiManager : MonoBehaviour
             _entity.deathEvent.RemoveListener(DisableUI);
         }
     }
+
+    public EntityManager GetEntity()
+    {
+        return _entity;
+    }
 }

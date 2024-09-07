@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class EntityManager : MonoBehaviour
 {
@@ -17,11 +18,18 @@ public class EntityManager : MonoBehaviour
     private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
 
+    [SerializeField] private Sprite sprite;
+
     public UnityEvent changeStats = new UnityEvent();
     
     public UnityEvent deathEvent = new UnityEvent();
     
     private Animator _animator;
+
+    public Sprite GetSprit()
+    {
+        return sprite;
+    }
     public float Range
     {
         get => range;
