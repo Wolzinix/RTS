@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,12 +10,17 @@ public class GroupUiManager : MonoBehaviour
     private List<GameObject> _listOfCadreControllers;
     [SerializeField] private GameObject _image;
     
-    void Start()
+    void Awake()
     {
         _listOfEntity = new List<EntityManager>();
         _listOfCadreControllers = new List<GameObject>();
         
         gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        ClearListOfEntity();
     }
 
     public void AddEntity(EntityManager entity)
@@ -43,10 +48,13 @@ public class GroupUiManager : MonoBehaviour
         }
     }
 
-    public void ClearListOfEntity()
+    private void ClearListOfEntity()
     {
-        _listOfEntity.Clear();
-        ClearListOfCadre();
+        if (_listOfEntity.Count > 0)
+        {
+            _listOfEntity.Clear();
+            ClearListOfCadre();
+        }
     }
 
     private void ClearListOfCadre()

@@ -122,14 +122,20 @@ public class ControlManager : MonoBehaviour
 
                     else
                     {
-                        _selectManager.ClearList();
-                        DesactiveUi();
+                        if (!_multiSelectionIsActive)
+                        {
+                            _selectManager.ClearList();
+                            DesactiveUi();
+                        }
                     }
                 }
                 else
                 {
-                    _selectManager.ClearList();
-                    DesactiveUi();
+                    if (!_multiSelectionIsActive)
+                    {
+                        _selectManager.ClearList();
+                        DesactiveUi();
+                    }
                 }
             }
         }
@@ -137,38 +143,38 @@ public class ControlManager : MonoBehaviour
 
     private void UIGestion(EntityManager entity)
     {
-        if (groupUi.gameObject.activeSelf && !_multiSelectionIsActive)
+        if (!_multiSelectionIsActive)
         {
-            groupUi.ClearListOfEntity();
-            groupUi.gameObject.SetActive(false);
-        }
-        
-        if (entityUi.gameObject.activeSelf && _multiSelectionIsActive)
-        {
-            groupUi.gameObject.SetActive(true);
-            groupUi.AddEntity(entityUi.GetEntity());
-            groupUi.AddEntity(entity);
-            
-            entityUi.gameObject.SetActive(false);
-        }
-        else if (groupUi.gameObject.activeSelf && _multiSelectionIsActive)
-        {
-            groupUi.AddEntity(entity);
-        }
+            if (groupUi.gameObject.activeSelf) { groupUi.gameObject.SetActive(false); }
 
-        if (!entityUi.gameObject.activeSelf && _multiSelectionIsActive && !groupUi.gameObject.activeSelf )
-        {
-            entityUi.gameObject.SetActive(true);
-            entityUi.SetEntity(entity); 
-        }
+            if (!entityUi.gameObject.activeSelf)
+            {
+                groupUi.gameObject.SetActive(false);
         
-        if(!entityUi.gameObject.activeSelf && !_multiSelectionIsActive)
+                entityUi.gameObject.SetActive(true);
+                entityUi.SetEntity(entity);   
+            }
+        }
+        else
         {
-            groupUi.ClearListOfEntity();
-            groupUi.gameObject.SetActive(false);
             
-            entityUi.gameObject.SetActive(true);
-            entityUi.SetEntity(entity); 
+            if (entityUi.gameObject.activeSelf)
+            {
+                groupUi.gameObject.SetActive(true);
+                groupUi.AddEntity(entityUi.GetEntity());
+                groupUi.AddEntity(entity);
+            
+                entityUi.gameObject.SetActive(false);
+            }
+            else
+            {
+                if (groupUi.gameObject.activeSelf) { groupUi.AddEntity(entity); }
+                else
+                {
+                    entityUi.gameObject.SetActive(true);
+                    entityUi.SetEntity(entity); 
+                }
+            }
         }
     }
 
@@ -242,7 +248,7 @@ public class ControlManager : MonoBehaviour
         
         foreach (EntityController i in FindObjectsOfType<EntityController>() )
         {
-            if (UnitInDragBox(_camera.WorldToScreenPoint(i.transform.position), bounds))
+            if (UnitInDragBox(_camera.WorldToScreenPoint(i.transform.position), bounds) && i.CompareTag("Allie"))
             {
                 _selectManager.AddSelect(i);
                 groupUi.gameObject.SetActive(true);
