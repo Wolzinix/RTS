@@ -1,37 +1,51 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-
 public class BuildingController : MonoBehaviour
 {
-    [SerializeField] private Dictionary<EntityController, List<float>> entityDictionary;
+    private Dictionary<GameObject, SpawnTime> entityDictionary;
+
+    [SerializeField] private List<GameObject> prefabToSpawn;
+    [Serializable] public class SpawnTime {
+        public float actualTime;
+        public float statsTime;
+    }
+    public List<SpawnTime> MySpawns = new List<SpawnTime>();
     
     void Start()
     {
-        entityDictionary = new Dictionary<EntityController, List<float>>();
+        entityDictionary = new Dictionary<GameObject, SpawnTime>();
+
+        if (prefabToSpawn.Count == MySpawns.Count)
+        {
+            for (int i = 0; i < prefabToSpawn.Count; i++)
+            {
+                MySpawns[i].actualTime = MySpawns[i].statsTime;
+                entityDictionary.Add(prefabToSpawn[i],MySpawns[i]);
+            }
+        }
     }
 
     private void Update()
     {
         Physics.SyncTransforms();
-        foreach (EntityController i in entityDictionary.Keys)
+        foreach (GameObject i in entityDictionary.Keys)
         {
-            entityDictionary[i][0] -= Time.deltaTime;
-            if (entityDictionary[i][0] <= 0)
+            entityDictionary[i].actualTime -= Time.deltaTime;
+            if (entityDictionary[i].actualTime <= 0)
             {
                 SpawnEntity(i);
+                entityDictionary[i].actualTime = entityDictionary[i].statsTime;
             }
         }
     }
 
-    private void SpawnEntity(EntityController entityToSpawn)
+    private void SpawnEntity(GameObject entityToSpawn)
     {
-        EntityController newEntity = Instantiate(entityToSpawn,
+        GameObject newEntity = Instantiate(entityToSpawn,
             new Vector3(transform.position.x + 2, transform.position.y, transform.position.z), 
             transform.rotation);
 
-        newEntity.gameObject.tag = transform.tag;
+        newEntity.tag = transform.tag;
     }
 }

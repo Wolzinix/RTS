@@ -120,7 +120,11 @@ public class ControlManager : MonoBehaviour
                         UIGestion(hit.transform.gameObject.GetComponent<EntityManager>());
                         _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
                     }
-
+                    else if (hit.transform.gameObject.GetComponent<EntityManager>())
+                    {
+                        UIGestion(hit.transform.gameObject.GetComponent<EntityManager>());
+                        _selectManager.ClearList();
+                    }
                     else
                     {
                         if (!_multiSelectionIsActive)

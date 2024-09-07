@@ -45,7 +45,7 @@ public class EntityManager : MonoBehaviour
     
     void Start()
     {
-        if (_navMeshAgent && _animator)
+        if (GetComponent<NavMeshAgent>() && GetComponentInChildren<Animator>())
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _navMeshAgent.speed = speed;
