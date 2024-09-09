@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class BuildingController : MonoBehaviour
 {
+    [SerializeField] private Sprite sprite;
     private Dictionary<GameObject, SpawnTime> entityDictionary;
 
     [SerializeField] private List<GameObject> prefabToSpawn;
@@ -49,7 +50,8 @@ public class BuildingController : MonoBehaviour
         if (newEntity.GetComponent<EntityController>())
         {
             SetPath(newEntity.GetComponent<EntityController>());
-        }
+        } 
+        
         newEntity.tag = transform.tag;
     }
     

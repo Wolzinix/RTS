@@ -43,7 +43,7 @@ public class EntityManager : MonoBehaviour
 
     private NavMeshAgent _navMeshAgent; 
     
-    void Start()
+    void Awake()
     {
         if (GetComponent<NavMeshAgent>() && GetComponentInChildren<Animator>())
         {

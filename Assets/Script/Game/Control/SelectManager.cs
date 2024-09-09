@@ -7,11 +7,11 @@ public class SelectManager : MonoBehaviour
     private List<EntityController> _selectedObject;
     
     private bool _addingMoreThanOne;
+
+    private EntityController _selected;
     
     void Start()
     {
-        if (FindObjectOfType<SelectManager>()) { Destroy(gameObject); }
-        
         _selectedObject = new List<EntityController>();
     }
 
@@ -38,15 +38,37 @@ public class SelectManager : MonoBehaviour
             {
                 i.OnDeselected();
             }
+            _selectedObject.Clear();
         }
-        _selectedObject.Clear();
+        
+        if (_selected)
+        {
+            _selected.OnDeselected();
+        }
     }
 
     public void AddSelect(EntityController toAdd)
     {
         if (toAdd.gameObject.CompareTag("Allie"))
         {
-            _selectedObject.Add(toAdd);
+            if (_selectedObject.IndexOf(toAdd) > -1)
+            {
+                _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd));
+                toAdd.OnDeselected();
+            }
+            else
+            {
+                _selectedObject.Add(toAdd);
+                toAdd.OnSelected();
+            }
+        }
+        else
+        {
+            if(_selected != toAdd)
+            {
+                _selected.OnDeselected();
+            }
+            _selected = toAdd;
             toAdd.OnSelected();
         }
     }
@@ -77,6 +99,7 @@ public class SelectManager : MonoBehaviour
 
     private void VerifyIfEveryBodyIsAlive()
     {
+
         List<int> indexToRemove = new List<int>();
         foreach (EntityController i in _selectedObject)
         {
@@ -91,6 +114,7 @@ public class SelectManager : MonoBehaviour
         {
             _selectedObject.RemoveAt(i);
         }
+
     }
 
     private void AttackSelected(RaycastHit hit)
@@ -155,7 +179,7 @@ public class SelectManager : MonoBehaviour
 
     private bool SelectedObjectIsEmpty()
     {
-        return _selectedObject.Count < 0;
+        return _selectedObject.Count <= 0;
     }
 
     public void AttackingOnTravel(Vector3 point)

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -22,6 +23,7 @@ public class ControlManager : MonoBehaviour
     private Vector3 _dragCoord;
     [SerializeField] private RectTransform dragBox;
     private bool _dragging;
+    private float _timeOfDragging;
 
     private SelectManager _selectManager;
 
@@ -70,15 +72,18 @@ public class ControlManager : MonoBehaviour
         dragSelect.action.performed -= StartDragSelect;
         dragSelect.action.canceled -= EndDragSelect;
     }
-    private void FixedUpdate()
+    private void Update()
     {
         if (_dragging)
         {
-            float longueur =  Input.mousePosition.x - _dragCoord.x;
-            float largeur =  Input.mousePosition.y - _dragCoord.y;
+            _timeOfDragging += Time.deltaTime;
+            
+                float longueur =  Input.mousePosition.x - _dragCoord.x;
+                float largeur =  Input.mousePosition.y - _dragCoord.y;
 
-            dragBox.anchoredPosition = new Vector2(_dragCoord.x,_dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
-            dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
+                dragBox.anchoredPosition = new Vector2(_dragCoord.x,_dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
+                dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
+            
         }
     }
     private void DoASelection(InputAction.CallbackContext context )
@@ -112,9 +117,10 @@ public class ControlManager : MonoBehaviour
                 RaycastHit hit = DoARayCast();
                 ResetUiOrder();
                 
-                if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
-                if (hit.transform)
+                if (!_multiSelectionIsActive) {_selectManager.ClearList();  }
+                if (hit.collider)
                 {
+                    Debug.DrawLine(_camera.transform.position, hit.point, color:Color.green, 10f);
                     if (hit.transform.GetComponent<EntityController>())
                     {
                         UIGestion(hit.transform.gameObject.GetComponent<EntityManager>());
@@ -171,6 +177,10 @@ public class ControlManager : MonoBehaviour
         
                 entityUi.gameObject.SetActive(true);
                 entityUi.SetEntity(entity);   
+            }
+            if(entityUi.gameObject.activeSelf)
+            {
+                entityUi.SetEntity(entity);
             }
         }
         else
@@ -252,33 +262,43 @@ public class ControlManager : MonoBehaviour
         _dragCoord = Input.mousePosition;
         dragBox.GameObject().SetActive(true);
         _dragging = true;
+        _timeOfDragging = 0;
     }
 
     private void EndDragSelect(InputAction.CallbackContext obj)
     {
-        float longueur =  Input.mousePosition.x - _dragCoord.x;
-        float largeur =  Input.mousePosition.y - _dragCoord.y;
 
-        dragBox.anchoredPosition = new Vector2(_dragCoord.x,_dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
+        if(_timeOfDragging > 0.1) { StartCoroutine(IsOnDragBox()); }
+        dragBox.anchoredPosition = new Vector2(0, 0);
+        dragBox.sizeDelta = new Vector2(0, 0);
+       
+        dragBox.GameObject().SetActive(false);
+        _dragging = false;
+
+    }
+
+    IEnumerator IsOnDragBox()
+    {
+        yield return new WaitForEndOfFrame();
+
+        float longueur = Input.mousePosition.x - _dragCoord.x;
+        float largeur = Input.mousePosition.y - _dragCoord.y;
+
+        dragBox.anchoredPosition = new Vector2(_dragCoord.x, _dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
         dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
-        
         Bounds bounds = new Bounds(dragBox.anchoredPosition, dragBox.sizeDelta);
-        
-        foreach (EntityController i in FindObjectsOfType<EntityController>() )
+
+        foreach (EntityController i in FindObjectsOfType<EntityController>())
         {
-            if (UnitInDragBox(_camera.WorldToScreenPoint(i.transform.position), bounds) && i.CompareTag("Allie"))
+            Vector3 point = _camera.WorldToScreenPoint(i.transform.position);
+
+            if (UnitInDragBox(point, bounds) && i.CompareTag("Allie"))
             {
                 _selectManager.AddSelect(i);
                 groupUi.gameObject.SetActive(true);
                 groupUi.AddEntity(i.gameObject.GetComponent<EntityManager>());
             }
         }
-        
-        dragBox.anchoredPosition = new Vector2(0, 0);
-        dragBox.sizeDelta = new Vector2(0, 0);
-        
-        dragBox.GameObject().SetActive(false);
-        _dragging = false;
     }
 
     private bool UnitInDragBox(Vector2 coords, Bounds bounds)
