@@ -64,7 +64,7 @@ public class SelectManager : MonoBehaviour
         }
         else
         {
-            if(_selected != toAdd)
+            if(_selected && _selected != toAdd)
             {
                 _selected.OnDeselected();
             }

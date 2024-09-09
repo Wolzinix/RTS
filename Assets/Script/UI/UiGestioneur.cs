@@ -12,6 +12,8 @@ public class UiGestioneur : MonoBehaviour
 
     [SerializeField] private GameObject orderUi;
 
+    [SerializeField] private BuildingUiManager buildingUi;
+
 
     private bool _multiSelectionIsActive;
 
@@ -20,7 +22,6 @@ public class UiGestioneur : MonoBehaviour
 
     public void ActualiseUi(EntityManager entity)
     {
-        orderUi.gameObject.SetActive(true);
         if (!_multiSelectionIsActive)
         {
             if (groupUi.gameObject.activeSelf) { groupUi.gameObject.SetActive(false); }
@@ -58,6 +59,17 @@ public class UiGestioneur : MonoBehaviour
                 }
             }
         }
+
+        if(entity.gameObject.GetComponent<EntityController>())
+        {
+
+            orderUi.gameObject.SetActive(true);
+        }
+        else if (entity.gameObject.GetComponent<BuildingController>())
+        {
+            buildingUi.gameObject.SetActive(true);
+            buildingUi.SetBuilding(entity.gameObject.GetComponent<BuildingController>());
+        }
     }
 
     public void AddOnGroupUi(EntityManager entity)
@@ -74,5 +86,7 @@ public class UiGestioneur : MonoBehaviour
         entityUi.gameObject.SetActive(false);
         groupUi.gameObject.SetActive(false);
         orderUi.gameObject.SetActive(false);
+
+        buildingUi.gameObject.SetActive(false);
     }
 }
