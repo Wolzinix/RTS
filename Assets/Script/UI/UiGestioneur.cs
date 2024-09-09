@@ -62,11 +62,12 @@ public class UiGestioneur : MonoBehaviour
 
         if(entity.gameObject.GetComponent<EntityController>())
         {
-
             orderUi.gameObject.SetActive(true);
+            buildingUi.gameObject.SetActive(false);
         }
         else if (entity.gameObject.GetComponent<BuildingController>())
         {
+            orderUi.gameObject.SetActive(false);
             buildingUi.gameObject.SetActive(true);
             buildingUi.SetBuilding(entity.gameObject.GetComponent<BuildingController>());
         }

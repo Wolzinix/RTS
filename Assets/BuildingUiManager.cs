@@ -18,7 +18,7 @@ public class BuildingUiManager : MonoBehaviour
 
     void Start()
     {
-      
+      gameObject.SetActive(false);
     }
 
     public void SetBuilding(BuildingController building) 
@@ -55,6 +55,7 @@ public class BuildingUiManager : MonoBehaviour
         {
             if (_ListOfButton.IndexOf(button)+ _numberOfbutton < listOfGameobject.Count())
             {
+                button.gameObject.SetActive(true);
                 GameObject entity = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton];
                 button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<EntityManager>().GetSprit();
 
@@ -78,7 +79,7 @@ public class BuildingUiManager : MonoBehaviour
         {
             if(_building.GetEntityDictionary().Keys.ToArray().Length >= _ListOfButton.Count())
             {
-                _numberOfbutton = _building.GetEntityDictionary().Keys.ToArray().Length - _ListOfButton.Count();
+                _numberOfbutton =  _ListOfButton.Count() *( _building.GetEntityDictionary().Keys.ToArray().Length / _ListOfButton.Count());
             }
             else
             {
