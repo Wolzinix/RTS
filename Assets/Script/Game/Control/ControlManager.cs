@@ -118,8 +118,9 @@ public class ControlManager : MonoBehaviour
                 ResetUiOrder();
                 
                 if (!_multiSelectionIsActive) {_selectManager.ClearList();  }
-                if (hit.transform)
+                if (hit.collider)
                 {
+                    Debug.DrawLine(_camera.transform.position, hit.point, color:Color.green, 10f);
                     if (hit.transform.GetComponent<EntityController>())
                     {
                         UIGestion(hit.transform.gameObject.GetComponent<EntityManager>());
@@ -176,6 +177,10 @@ public class ControlManager : MonoBehaviour
         
                 entityUi.gameObject.SetActive(true);
                 entityUi.SetEntity(entity);   
+            }
+            if(entityUi.gameObject.activeSelf)
+            {
+                entityUi.SetEntity(entity);
             }
         }
         else

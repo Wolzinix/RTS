@@ -1465,10 +1465,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: a0260988fc24ae042a294cfa58404502, type: 2}
-    - target: {fileID: 3648613589935070831, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
-      propertyPath: m_Constraints
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4825870592483654779, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: m_Name
       value: Entity (2)
