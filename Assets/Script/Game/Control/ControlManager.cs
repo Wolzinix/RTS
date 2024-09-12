@@ -107,7 +107,14 @@ public class ControlManager : MonoBehaviour
         {
             RaycastHit hit = DoARayCast();
             IsMultipathActive();
-            _selectManager.AttackingOnTravel(hit.point);
+            if(hit.transform && hit.transform.GetComponent<EntityManager>())
+            {
+                _selectManager.AddTarget(hit.transform.GetComponent<EntityManager>());
+            }
+            else
+            {
+                _selectManager.AttackingOnTravel(hit.point);
+            }
         }
 
         else if (_patrolOrder)

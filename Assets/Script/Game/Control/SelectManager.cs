@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 
 public class SelectManager : MonoBehaviour
 {
@@ -126,6 +127,22 @@ public class SelectManager : MonoBehaviour
             {
                 i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
                 i.Stay = false;
+            }
+        }
+    }
+
+    public void AddTarget(EntityManager controller)
+    {
+        if (!SelectedObjectIsEmpty())
+        {
+            VerifyIfEveryBodyIsAlive();
+            foreach (EntityController i in _selectedObject)
+            {
+                if(i.gameObject.GetComponent<EntityManager>() != controller)
+                {
+                    i.GetComponent<EntityController>().AddTarget(controller);
+                    i.Stay = false;
+                }
             }
         }
     }
