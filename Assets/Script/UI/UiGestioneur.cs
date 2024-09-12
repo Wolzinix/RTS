@@ -60,7 +60,7 @@ public class UiGestioneur : MonoBehaviour
             }
         }
 
-        if(entity.gameObject.GetComponent<EntityController>())
+        if(entity.gameObject.GetComponent<EntityController>() && entity.CompareTag("Allie"))
         {
             orderUi.gameObject.SetActive(true);
             buildingUi.gameObject.SetActive(false);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 
 public class SelectManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class SelectManager : MonoBehaviour
     
     private bool _addingMoreThanOne;
 
-    private EntityController _selected;
+    private EntityManager _selected;
     
     void Start()
     {
@@ -36,35 +37,36 @@ public class SelectManager : MonoBehaviour
             VerifyIfEveryBodyIsAlive();
             foreach (var i in _selectedObject)
             {
-                i.OnDeselected();
+                i.gameObject.GetComponent<EntityManager>().OnDeselected();;
             }
             _selectedObject.Clear();
         }
         
         if (_selected)
         {
-            _selected.OnDeselected();
+            _selected.OnDeselected();;
         }
     }
 
-    public void AddSelect(EntityController toAdd)
+    public void AddSelect(EntityManager toAdd)
     {
-        if (toAdd.gameObject.CompareTag("Allie"))
+        if (toAdd.gameObject.CompareTag("Allie") && toAdd.gameObject.GetComponent<EntityController>())
         {
-            if (_selectedObject.IndexOf(toAdd) > -1)
+            if (_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()) > -1)
             {
-                _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd));
-                toAdd.OnDeselected();
+                _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
+                toAdd.gameObject.GetComponent<EntityManager>().OnDeselected();
             }
             else
             {
-                _selectedObject.Add(toAdd);
-                toAdd.OnSelected();
+                _selectedObject.Add(toAdd.gameObject.GetComponent<EntityController>());
+                toAdd.gameObject.GetComponent<EntityManager>().OnSelected();
             }
         }
         else
         {
-            if(_selected && _selected != toAdd)
+            ClearList();
+            if (_selected && _selected != toAdd)
             {
                 _selected.OnDeselected();
             }
@@ -126,6 +128,22 @@ public class SelectManager : MonoBehaviour
             {
                 i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
                 i.Stay = false;
+            }
+        }
+    }
+
+    public void AddTarget(EntityManager controller)
+    {
+        if (!SelectedObjectIsEmpty())
+        {
+            VerifyIfEveryBodyIsAlive();
+            foreach (EntityController i in _selectedObject)
+            {
+                if(i.gameObject.GetComponent<EntityManager>() != controller)
+                {
+                    i.GetComponent<EntityController>().AddTarget(controller);
+                    i.Stay = false;
+                }
             }
         }
     }

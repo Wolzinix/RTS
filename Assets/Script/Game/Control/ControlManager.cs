@@ -107,7 +107,14 @@ public class ControlManager : MonoBehaviour
         {
             RaycastHit hit = DoARayCast();
             IsMultipathActive();
-            _selectManager.AttackingOnTravel(hit.point);
+            if(hit.transform && hit.transform.GetComponent<EntityManager>())
+            {
+                _selectManager.AddTarget(hit.transform.GetComponent<EntityManager>());
+            }
+            else
+            {
+                _selectManager.AttackingOnTravel(hit.point);
+            }
         }
 
         else if (_patrolOrder)
@@ -129,15 +136,10 @@ public class ControlManager : MonoBehaviour
                 if (hit.collider)
                 {
                     Debug.DrawLine(_camera.transform.position, hit.point, color:Color.green, 10f);
-                    if (hit.transform.GetComponent<EntityController>())
+                    if (hit.transform.GetComponent<EntityManager>())
                     {
                         _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<EntityManager>());
-                        _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityController>());
-                    }
-                    else if (hit.transform.gameObject.GetComponent<EntityManager>())
-                    {
-                        _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<EntityManager>());
-                        _selectManager.ClearList();
+                        _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityManager>());
                     }
                     else
                     {
@@ -166,7 +168,7 @@ public class ControlManager : MonoBehaviour
                         _selectManager.ClearList();
                         CadreController groupUI = raycastResult.gameObject.GetComponent<CadreController>();
                         _UiGestioneur.ActualiseUi(groupUI.GetEntity());
-                        _selectManager.AddSelect(groupUI.GetEntity().GetComponent<EntityController>());
+                        _selectManager.AddSelect(groupUI.GetEntity().GetComponent<EntityManager>());
                     }
                 }
             }
@@ -255,7 +257,7 @@ public class ControlManager : MonoBehaviour
 
             if (UnitInDragBox(point, bounds) && i.CompareTag("Allie"))
             {
-                _selectManager.AddSelect(i);
+                _selectManager.AddSelect(i.gameObject.GetComponent<EntityManager>());
                 _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<EntityManager>());
             }
         }

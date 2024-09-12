@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class BuildingController : MonoBehaviour
 {
-    [SerializeField] private Sprite sprite;
     private Dictionary<GameObject, SpawnTime> entityDictionary;
 
     public UnityEvent entitySpawnNow = new UnityEvent();
@@ -84,13 +83,13 @@ public class BuildingController : MonoBehaviour
     {
         if(_ally && !_ennemie)
         {
-            SpawnEntity(entityToSpawn);
+            SpawnEntity(entityToSpawn, "Allie");
         }
     }
 
-    private void SpawnEntity(GameObject entityToSpawn)
+    private void SpawnEntity(GameObject entityToSpawn, string tag)
     {
-        if(_canSpawn)
+        if(_canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
         {
             if (entityDictionary[entityToSpawn].actualStock > 0)
             {
@@ -103,7 +102,7 @@ public class BuildingController : MonoBehaviour
                     SetPath(newEntity.GetComponent<EntityController>());
                 }
 
-                newEntity.tag = transform.tag;
+                newEntity.tag = tag;
 
                 entityDictionary[entityToSpawn].actualStock -= 1;
                 entitySpawnNow.Invoke();
@@ -116,7 +115,7 @@ public class BuildingController : MonoBehaviour
         if (!_ally && _ennemie)
         {
             _canSpawn = true;
-            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i);}
+            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i,"ennemie");}
         }
         else if(_ally) { _canSpawn = true; }
         else { _canSpawn = false; }

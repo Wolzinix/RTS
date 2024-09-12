@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Allie
   - ennemie
+  - neutral
   layers:
   - Default
   - TransparentFX
