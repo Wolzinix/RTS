@@ -71,7 +71,7 @@ public class EntityController : MonoBehaviour
             
             Physics.Raycast(ray, out hit , _entityManager.SeeRange);
 
-            if (hit.transform && !hit.transform.gameObject.CompareTag(gameObject.tag) && hit.transform.gameObject.GetComponent<EntityManager>())
+            if (hit.transform && !hit.transform.gameObject.CompareTag(gameObject.tag) && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<EntityManager>())
             {
                 Debug.DrawLine(transform.position, hit.point, Color.green,1f);
                 listOfGameObejct.Add( hit.transform.gameObject);
