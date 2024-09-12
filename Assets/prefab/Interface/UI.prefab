@@ -392,7 +392,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
         m_TargetAssemblyTypeName: ControlManager, Assembly-CSharp
         m_MethodName: ResetOrder
         m_Mode: 1
@@ -1199,7 +1199,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
         m_TargetAssemblyTypeName: ControlManager, Assembly-CSharp
         m_MethodName: MoveOrder
         m_Mode: 1
@@ -1284,7 +1284,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be453866fabc8b40adee10414c7e904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ListOfButton: []
+  _ListOfButton:
+  - {fileID: 4399135008167249768}
+  - {fileID: 3805956342582127584}
+  - {fileID: 1740478950673318496}
 --- !u!1 &2773291845177637546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1542,7 +1545,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
         m_TargetAssemblyTypeName: ControlManager, Assembly-CSharp
         m_MethodName: DoTravelAttack
         m_Mode: 1
@@ -1810,7 +1813,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
         m_TargetAssemblyTypeName: ControlManager, Assembly-CSharp
         m_MethodName: DoPatrouille
         m_Mode: 1
@@ -2159,7 +2162,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
         m_TargetAssemblyTypeName: ControlManager, Assembly-CSharp
         m_MethodName: TenirPosition
         m_Mode: 1

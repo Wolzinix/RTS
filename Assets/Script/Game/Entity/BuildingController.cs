@@ -11,7 +11,7 @@ public class BuildingController : MonoBehaviour
 
     private float _rangeDetection;
 
-    [SerializeField]  private bool _ally;
+    private bool _ally;
     private bool _ennemie;
     private bool _canSpawn;
 
@@ -58,23 +58,28 @@ public class BuildingController : MonoBehaviour
         }
 
         List<GameObject> ListOfHit= DoCircleRaycast();
+        int nbAllies = 0;
+        int nbEnnemie = 0;
 
         foreach (GameObject i in ListOfHit)
         {
             if(i.CompareTag("Allie"))
             {
-                _ally = true;
+                nbAllies += 1;
             }
             else if(i.CompareTag("ennemie"))
             {
-                _ennemie = true;
-            }
-            else
-            {
-                _ennemie = false;
-                _ally = false;
+                nbEnnemie += 1;
             }
         }
+
+        if(nbAllies > 0 ) { _ally = true; }
+        else{ _ally = false; }
+
+        if (nbEnnemie > 0) { _ennemie = true; }
+        else { _ennemie = false; }
+
+
         proximityGestion();
         
     }
