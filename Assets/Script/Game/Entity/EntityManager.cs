@@ -17,7 +17,11 @@ public class EntityManager : MonoBehaviour
     private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
 
-    [SerializeField] private Sprite sprite;
+    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Sprite spriteImage;
+
+    [SerializeField] public Sprite Allisprite;
+    [SerializeField] public Sprite Ennemisprite;
 
     public UnityEvent changeStats = new UnityEvent();
     
@@ -27,7 +31,7 @@ public class EntityManager : MonoBehaviour
 
     public Sprite GetSprit()
     {
-        return sprite;
+        return spriteImage;
     }
     public float Range
     {
@@ -54,6 +58,17 @@ public class EntityManager : MonoBehaviour
             _animator.SetFloat(WalkSpeed, speed);
             _animator.SetFloat(AttackSpeedAnim, attackSpeed);
         }
+
+        if(CompareTag("Allie"))
+        {
+            sprite.sprite = Allisprite;
+        }
+        else if(CompareTag("ennemie"))
+        {
+            sprite.sprite = Ennemisprite;
+        }
+
+        sprite.gameObject.SetActive(false);
 
         _maxHp = hp;
     }
@@ -161,4 +176,7 @@ public class EntityManager : MonoBehaviour
             Destroy(gameObject); 
         }
     }
+
+    public void OnSelected() { sprite.gameObject.SetActive(true); }
+    public void OnDeselected() { sprite.gameObject.SetActive(false); }
 }

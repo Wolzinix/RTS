@@ -125,7 +125,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4554085821723888230}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &9072740189486899932
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 2033893907195975481}
   - component: {fileID: 6208376071361995173}
   - component: {fileID: 7207345613144918307}
-  - component: {fileID: 1448527202929963815}
+  - component: {fileID: 7516939702130909472}
   m_Layer: 6
   m_Name: Entity 1
   m_TagString: Allie
@@ -267,7 +267,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _listForOrder: 
-  selectedSprite: {fileID: 7706548414058156727}
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -303,21 +302,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
-  attack: 1
+  attack: 2
   defense: 1
   attackSpeed: 1
   speed: 2
-  range: 1
+  range: 6
   seeRange: 3
-  sprite: {fileID: -9095717837082945937, guid: ff8e1e5671dc11d42ae7322385cb3432, type: 3}
+  sprite: {fileID: 7706548414058156727}
+  spriteImage: {fileID: -2413806693520163455, guid: b53783ba57e90b7459ad2e55992892da, type: 3}
+  Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
+  Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   changeStats:
     m_PersistentCalls:
       m_Calls: []
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!136 &1448527202929963815
-CapsuleCollider:
+--- !u!135 &7516939702130909472
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -334,8 +336,6 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Radius: 0.6
-  m_Height: 2
-  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}

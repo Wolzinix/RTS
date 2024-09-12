@@ -26,8 +26,6 @@ public class EntityController : MonoBehaviour
     private bool _attacking;
     private int _patrolIteration;
 
-    [SerializeField] private SpriteRenderer selectedSprite;
-
     private EntityManager _entityManager;
 
     
@@ -49,7 +47,6 @@ public class EntityController : MonoBehaviour
         _listForPatrol = new List<Vector3>();
         _listForAttackingOnTravel = new List<Vector3>();
         
-        selectedSprite.gameObject.SetActive(false);
         _entityManager = GetComponent<EntityManager>();
         
         _animator = GetComponentInChildren<Animator>();
@@ -282,8 +279,7 @@ public class EntityController : MonoBehaviour
         ClearAggressivePath();
         ClearAllFollow();
     }
-    public void OnSelected() { selectedSprite.gameObject.SetActive(true); }
-    public void OnDeselected() { selectedSprite.gameObject.SetActive(false); }
+  
 
     public void StopPath() { gameObject.GetComponent<NavMeshAgent>().ResetPath(); }
 

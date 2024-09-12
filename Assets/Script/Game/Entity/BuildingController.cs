@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class BuildingController : MonoBehaviour
 {
-    [SerializeField] private Sprite sprite;
     private Dictionary<GameObject, SpawnTime> entityDictionary;
 
     public UnityEvent entitySpawnNow = new UnityEvent();
