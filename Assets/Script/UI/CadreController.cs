@@ -30,9 +30,16 @@ public class CadreController : MonoBehaviour
 
     private void DestroyHimSelf()
     {
-        FindObjectOfType<GroupUiManager>().RemoveCadre(transform.gameObject);
-        _entity.changeStats.RemoveListener(ActualiseHp);
-        _entity.deathEvent.RemoveListener(DestroyHimSelf);
+        if(FindObjectOfType<GroupUiManager>())
+        {
+            FindObjectOfType<GroupUiManager>().RemoveCadre(transform.gameObject);
+        }
+        if(_entity)
+        {
+            _entity.changeStats.RemoveListener(ActualiseHp);
+            _entity.deathEvent.RemoveListener(DestroyHimSelf);
+        }
+        
         Destroy(gameObject);
     }
 

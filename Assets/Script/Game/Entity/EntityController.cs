@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.HID;
@@ -22,6 +23,9 @@ public class EntityController : MonoBehaviour
     private List<EntityManager> _listOfAllie;
     private List<Vector3> _listForPatrol;
     private List<Vector3> _listForAttackingOnTravel;
+
+    private List<GameObject> _listOfalliesOnRange;
+
 
     private bool _stayPosition;
     private bool _attacking;
@@ -47,6 +51,8 @@ public class EntityController : MonoBehaviour
         _listOfAllie = new List<EntityManager>();
         _listForPatrol = new List<Vector3>();
         _listForAttackingOnTravel = new List<Vector3>();
+
+        _listOfalliesOnRange = new List<GameObject>();
         
         _entityManager = GetComponent<EntityManager>();
         
@@ -88,15 +94,18 @@ public class EntityController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_navMesh) { isUnit(); }
-        else { isTower(); }
+         isUnit();
     }
 
     private void SearchTarget()
     {
-        if ((_navMesh && _listForOrder.Count == 0 && isStillOnTrajet()) || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive))
+        if (((_navMesh != null && _listForOrder.Count == 0 && isStillOnTrajet()) || _navMesh == null) || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive))
         {
             List<GameObject> listOfRayTuch = DoCircleRaycast();
+            List<GameObject> listOfAlly = new List<GameObject>();
+            List<GameObject> listToRemove = new List<GameObject>();
+
+
             foreach (GameObject target in listOfRayTuch)
             {
                 if (target != gameObject && !_listOfTarget.Contains(target.GetComponent<EntityManager>()) && !target.CompareTag(gameObject.tag))
@@ -104,11 +113,35 @@ public class EntityController : MonoBehaviour
                     _listOfTarget.Insert(0, target.GetComponent<EntityManager>());
                     _listForOrder.Insert(0, Order.Target);
                 }
+                if(target != gameObject  && target.CompareTag(gameObject.tag))
+                {
+                    if (!_listOfalliesOnRange.Contains(target))
+                    {
+                        target.GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddTarget);
+                        _listOfalliesOnRange.Add(target);
+                    }
+                    listOfAlly.Add(target);
+                }
+            }
+           
+            foreach(GameObject i in _listOfalliesOnRange)
+            {
+                if(!listOfAlly.Contains(i))
+                {
+                    i.GetComponent<EntityManager>().TakingDamageFromEntity.RemoveListener(AddTarget);
+                    listToRemove.Add(i);
+                }
+            }
+
+            foreach(GameObject i in listToRemove)
+            {
+                _listOfalliesOnRange.Remove(i);
             }
 
             if (_listOfTarget.Count > 0)
             {
                 _listOfTarget.Sort(SortTargetByProximity);
+                
                 StopPath();
             }
             listOfRayTuch.Clear();
@@ -168,26 +201,17 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    private void isTower()
-    {
-        if (_listForOrder.Count == 0 || _listForOrder[0] != Order.Target) { _animator.SetBool(Attacking, false); }
-
-        SearchTarget();
-        if (_listForOrder.Count > 0)
-        {
-            if (_listForOrder[0] == Order.Target)
-            {
-                AggressTarget();
-            }
-        }
-
-    }
     private void isUnit()
     {
-        if (_navMesh.pathPending && _navMesh.hasPath) { _animator.SetBool(Moving, true); }
+        if (_navMesh.pathPending && _navMesh.hasPath || _navMesh.remainingDistance > _navMesh.stoppingDistance) 
+        { 
+            _animator.SetBool(Moving, true); 
+        }
         else { _animator.SetBool(Moving, false); }
 
-        if (_listForOrder.Count == 0 || _listForOrder[0] != Order.Target) { _animator.SetBool(Attacking, false); }
+        if (_listForOrder.Count == 0 || _listForOrder[0] != Order.Target) {
+            _animator.SetBool(Attacking, false); 
+        }
 
         SearchTarget();
 
@@ -255,14 +279,18 @@ public class EntityController : MonoBehaviour
     }
     private bool isStillOnTrajet()
     {
-        return !_navMesh.pathPending && !_navMesh.hasPath;
+        return !_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= _navMesh.stoppingDistance;
     }
     void GetNewPath(Vector3 point)
     {
         _navMesh.SetDestination(point);
     }
 
-    void ActualisePath(EntityManager target) { _navMesh.SetDestination(target.transform.position); }
+    void ActualisePath(EntityManager target)
+    {
+        if (_navMesh != null)
+        { _navMesh.SetDestination(target.transform.position); }
+    }
 
     void DoAttack(EntityManager target) {_entityManager.DoAttack(target); }
 
@@ -313,7 +341,12 @@ public class EntityController : MonoBehaviour
     }
   
 
-    public void StopPath() { gameObject.GetComponent<NavMeshAgent>().ResetPath(); }
+    public void StopPath() {
+        if (_navMesh != null)
+        {
+            gameObject.GetComponent<NavMeshAgent>().ResetPath();
+        }
+    }
 
     public bool Stay
     {
@@ -328,7 +361,7 @@ public class EntityController : MonoBehaviour
 
     private void AddAggresseurTarget(EntityManager entityToAggresse)
     {
-        if(_listForOrder.Count == 0){AddTarget(entityToAggresse);}
+        if(_listForOrder.Count == 0 && isStillOnTrajet()){AddTarget(entityToAggresse);}
     }
 
 
