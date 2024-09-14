@@ -50,6 +50,8 @@ public class EntityController : MonoBehaviour
         _entityManager = GetComponent<EntityManager>();
         
         _animator = GetComponentInChildren<Animator>();
+
+        GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
     }
 
     private List<GameObject> DoCircleRaycast()
@@ -232,7 +234,7 @@ public class EntityController : MonoBehaviour
 
     void ActualisePath(EntityManager target) { _navMesh.SetDestination(target.transform.position); }
 
-    void DoAttack(EntityManager target) { target.AddHp(-_entityManager.Attack); }
+    void DoAttack(EntityManager target) {_entityManager.DoAttack(target); }
 
     public void AddPath(Vector3 newPath)
     {
@@ -293,5 +295,11 @@ public class EntityController : MonoBehaviour
         return Vector3.Distance(transform.position, entity1.gameObject.transform.position)
             .CompareTo(Vector3.Distance(transform.position, entity2.gameObject.transform.position));
     }
-    
+
+    private void AddAggresseurTarget(EntityManager entityToAggresse)
+    {
+        if(_listForOrder.Count == 0){AddTarget(entityToAggresse);}
+    }
+
+
 }

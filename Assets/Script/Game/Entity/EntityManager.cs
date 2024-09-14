@@ -26,6 +26,8 @@ public class EntityManager : MonoBehaviour
     public UnityEvent changeStats = new UnityEvent();
     
     public UnityEvent deathEvent = new UnityEvent();
+
+    public UnityEvent<EntityManager> TakingDamageFromEntity = new UnityEvent<EntityManager>();
     
     private Animator _animator;
 
@@ -133,6 +135,12 @@ public class EntityManager : MonoBehaviour
         changeStats.Invoke();
         Death();
     }
+    public void TakeDamage(float nb)
+    {
+        hp -= nb;
+        changeStats.Invoke();
+        Death();
+    }
     
     public void AddAttack(float nb)
     {
@@ -179,4 +187,10 @@ public class EntityManager : MonoBehaviour
 
     public void OnSelected() { sprite.gameObject.SetActive(true); }
     public void OnDeselected() { sprite.gameObject.SetActive(false); }
+
+    public void DoAttack(EntityManager entityToAttack)
+    {
+        entityToAttack.TakeDamage(attack);
+        entityToAttack.TakingDamageFromEntity.Invoke(this);
+    }
 }
