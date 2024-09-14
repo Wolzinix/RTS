@@ -85,7 +85,7 @@ public class EntityController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_navMesh.pathPending && _navMesh.hasPath || _navMesh.remainingDistance >=1) { _animator.SetBool(Moving,true);}
+        if (_navMesh.pathPending && _navMesh.hasPath) { _animator.SetBool(Moving,true);}
         else { _animator.SetBool(Moving,false);}
         
         if(_listForOrder.Count == 0 || _listForOrder[0] != Order.Target){_animator.SetBool(Attacking,false);}
