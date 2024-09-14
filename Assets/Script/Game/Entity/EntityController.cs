@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.HID;
 
 public enum Order
 {
@@ -21,6 +23,9 @@ public class EntityController : MonoBehaviour
     private List<EntityManager> _listOfAllie;
     private List<Vector3> _listForPatrol;
     private List<Vector3> _listForAttackingOnTravel;
+
+    private List<GameObject> _listOfalliesOnRange;
+
 
     private bool _stayPosition;
     private bool _attacking;
@@ -46,10 +51,14 @@ public class EntityController : MonoBehaviour
         _listOfAllie = new List<EntityManager>();
         _listForPatrol = new List<Vector3>();
         _listForAttackingOnTravel = new List<Vector3>();
+
+        _listOfalliesOnRange = new List<GameObject>();
         
         _entityManager = GetComponent<EntityManager>();
         
         _animator = GetComponentInChildren<Animator>();
+
+        GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
     }
 
     private List<GameObject> DoCircleRaycast()
@@ -68,7 +77,7 @@ public class EntityController : MonoBehaviour
             
             Physics.Raycast(ray, out hit , _entityManager.SeeRange);
 
-            if (hit.transform && !hit.transform.gameObject.CompareTag(gameObject.tag) && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<EntityManager>())
+            if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<EntityManager>())
             {
                 Debug.DrawLine(transform.position, hit.point, Color.green,1f);
                 listOfGameObejct.Add( hit.transform.gameObject);
@@ -85,30 +94,126 @@ public class EntityController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_navMesh.pathPending && _navMesh.hasPath) { _animator.SetBool(Moving,true);}
-        else { _animator.SetBool(Moving,false);}
-        
-        if(_listForOrder.Count == 0 || _listForOrder[0] != Order.Target){_animator.SetBool(Attacking,false);}
-        
-        if (_listForOrder.Count == 0  && isStillOnTrajet() || _listForOrder.Count != 0  && ( _listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive))
+         isUnit();
+    }
+
+    private void SearchTarget()
+    {
+        if (((_navMesh != null && _listForOrder.Count == 0 && isStillOnTrajet()) || _navMesh == null) || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive))
         {
             List<GameObject> listOfRayTuch = DoCircleRaycast();
-            foreach (var target in listOfRayTuch)
+            List<GameObject> listOfAlly = new List<GameObject>();
+            List<GameObject> listToRemove = new List<GameObject>();
+
+
+            foreach (GameObject target in listOfRayTuch)
             {
-                if (target != gameObject && !_listOfTarget.Contains(target.GetComponent<EntityManager>()))
+                if (target != gameObject && !_listOfTarget.Contains(target.GetComponent<EntityManager>()) && !target.CompareTag(gameObject.tag))
                 {
-                    _listOfTarget.Insert(0,target.GetComponent<EntityManager>());
-                    _listForOrder.Insert(0,Order.Target);
+                    _listOfTarget.Insert(0, target.GetComponent<EntityManager>());
+                    _listForOrder.Insert(0, Order.Target);
                 }
+                if(target != gameObject  && target.CompareTag(gameObject.tag))
+                {
+                    if (!_listOfalliesOnRange.Contains(target))
+                    {
+                        target.GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddTarget);
+                        _listOfalliesOnRange.Add(target);
+                    }
+                    listOfAlly.Add(target);
+                }
+            }
+           
+            foreach(GameObject i in _listOfalliesOnRange)
+            {
+                if(!listOfAlly.Contains(i))
+                {
+                    i.GetComponent<EntityManager>().TakingDamageFromEntity.RemoveListener(AddTarget);
+                    listToRemove.Add(i);
+                }
+            }
+
+            foreach(GameObject i in listToRemove)
+            {
+                _listOfalliesOnRange.Remove(i);
             }
 
             if (_listOfTarget.Count > 0)
             {
                 _listOfTarget.Sort(SortTargetByProximity);
+                
                 StopPath();
             }
             listOfRayTuch.Clear();
         }
+    }
+
+    private void AggressTarget()
+    {
+        if (!_listOfTarget[0])
+        {
+            _listOfTarget.RemoveAt(0);
+            _listForOrder.RemoveAt(0);
+        }
+        else
+        {
+            EntityManager target = _listOfTarget[0];
+
+            if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
+            {
+
+                _animator.SetBool(Moving, false);
+
+                if (!_animator.IsInTransition(0) &&
+                    _animator.GetBool(Attacking) &&
+                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
+                    _attacking)
+                {
+                    DoAttack(target);
+                    _attacking = false;
+                }
+
+                if (!_animator.IsInTransition(0) &&
+                    _animator.GetBool(Attacking) &&
+                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+
+                {
+                    _animator.SetBool(Attacking, false);
+                }
+
+                else
+                {
+                    _animator.SetBool(Attacking, true);
+                }
+
+                if (_animator.IsInTransition(0) && _animator.GetBool(Attacking))
+                {
+                    _attacking = true;
+                }
+            }
+            else
+            {
+                if (!_stayPosition)
+                {
+                    ActualisePath(target);
+                }
+            }
+        }
+    }
+
+    private void isUnit()
+    {
+        if (_navMesh.pathPending && _navMesh.hasPath || _navMesh.remainingDistance > _navMesh.stoppingDistance) 
+        { 
+            _animator.SetBool(Moving, true); 
+        }
+        else { _animator.SetBool(Moving, false); }
+
+        if (_listForOrder.Count == 0 || _listForOrder[0] != Order.Target) {
+            _animator.SetBool(Attacking, false); 
+        }
+
+        SearchTarget();
 
         if (_listForOrder.Count > 0)
         {
@@ -149,58 +254,10 @@ public class EntityController : MonoBehaviour
                     _patrolIteration += 1;
                 }
             }
-        
+
             else if (_listForOrder[0] == Order.Target)
             {
-                if (!_listOfTarget[0])
-                {
-                    _listOfTarget.RemoveAt(0);
-                    _listForOrder.RemoveAt(0);
-                }
-                else
-                {
-                    EntityManager target = _listOfTarget[0];
-
-                    if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
-                    {
-                        
-                        _animator.SetBool(Moving, false);
-
-                        if (!_animator.IsInTransition(0) &&
-                            _animator.GetBool(Attacking) &&
-                            _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
-                            _attacking)
-                        {
-                            DoAttack(target);
-                            _attacking = false;
-                        }
-
-                        if (!_animator.IsInTransition(0) &&
-                            _animator.GetBool(Attacking) &&
-                            _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-
-                        {
-                            _animator.SetBool(Attacking, false);
-                        }
-
-                        else
-                        {
-                            _animator.SetBool(Attacking, true);
-                        }
-
-                        if (_animator.IsInTransition(0) && _animator.GetBool(Attacking))
-                        {
-                            _attacking = true;
-                        }
-                    }
-                    else
-                    {
-                        if (!_stayPosition)
-                        {
-                            ActualisePath(target);
-                        }
-                    }
-                }
+                AggressTarget();
             }
 
             else if (_listForOrder[0] == Order.Follow)
@@ -220,19 +277,22 @@ public class EntityController : MonoBehaviour
             }
         }
     }
-
     private bool isStillOnTrajet()
     {
-        return !_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= 1;
+        return !_navMesh.pathPending && !_navMesh.hasPath || _navMesh.remainingDistance <= _navMesh.stoppingDistance;
     }
     void GetNewPath(Vector3 point)
     {
         _navMesh.SetDestination(point);
     }
 
-    void ActualisePath(EntityManager target) { _navMesh.SetDestination(target.transform.position); }
+    void ActualisePath(EntityManager target)
+    {
+        if (_navMesh != null)
+        { _navMesh.SetDestination(target.transform.position); }
+    }
 
-    void DoAttack(EntityManager target) { target.AddHp(-_entityManager.Attack); }
+    void DoAttack(EntityManager target) {_entityManager.DoAttack(target); }
 
     public void AddPath(Vector3 newPath)
     {
@@ -281,7 +341,12 @@ public class EntityController : MonoBehaviour
     }
   
 
-    public void StopPath() { gameObject.GetComponent<NavMeshAgent>().ResetPath(); }
+    public void StopPath() {
+        if (_navMesh != null)
+        {
+            gameObject.GetComponent<NavMeshAgent>().ResetPath();
+        }
+    }
 
     public bool Stay
     {
@@ -293,5 +358,11 @@ public class EntityController : MonoBehaviour
         return Vector3.Distance(transform.position, entity1.gameObject.transform.position)
             .CompareTo(Vector3.Distance(transform.position, entity2.gameObject.transform.position));
     }
-    
+
+    private void AddAggresseurTarget(EntityManager entityToAggresse)
+    {
+        if(_listForOrder.Count == 0 && isStillOnTrajet()){AddTarget(entityToAggresse);}
+    }
+
+
 }
