@@ -46,6 +46,7 @@ public class GroupUiManager : MonoBehaviour
 
     private void SortAffichage()
     {
+
         if (_listOfCadreControllers.Count == 0)
         {
             gameObject.SetActive(false);
