@@ -598,7 +598,7 @@ PrefabInstance:
     - target: {fileID: 2657328506366978631, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      objectReference: {fileID: 1124640742}
     - target: {fileID: 2657328506366978631, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: DoTravelAttack
@@ -2139,6 +2139,10 @@ PrefabInstance:
       propertyPath: dragBox
       value: 
       objectReference: {fileID: 55111504}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: _travelAttack
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6683642087610167980, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: m_RootOrder
       value: 11
