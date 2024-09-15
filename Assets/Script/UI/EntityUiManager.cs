@@ -44,7 +44,7 @@ public class EntityUiManager : MonoBehaviour
         }
     }
 
-    private void DisableUI()
+    private void DisableUI(EntityManager entity)
     {
         gameObject.SetActive(false);
     }

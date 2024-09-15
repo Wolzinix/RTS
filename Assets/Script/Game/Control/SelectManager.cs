@@ -219,5 +219,10 @@ public class SelectManager : MonoBehaviour
             }
         }
     }
+
+    public List<EntityController> getSelectList()
+    {
+        return _selectedObject;
+    }
 }
 

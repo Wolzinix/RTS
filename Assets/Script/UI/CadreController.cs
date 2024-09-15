@@ -28,7 +28,7 @@ public class CadreController : MonoBehaviour
         text.text = _entity.Hp + "/" + _entity.MaxHp;
     }
 
-    private void DestroyHimSelf()
+    private void DestroyHimSelf(EntityManager entity)
     {
         if(FindObjectOfType<GroupUiManager>())
         {

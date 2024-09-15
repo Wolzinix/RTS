@@ -25,7 +25,7 @@ public class EntityManager : MonoBehaviour
 
     public UnityEvent changeStats = new UnityEvent();
     
-    public UnityEvent deathEvent = new UnityEvent();
+    public UnityEvent<EntityManager> deathEvent = new UnityEvent<EntityManager>();
 
     public UnityEvent<EntityManager> TakingDamageFromEntity = new UnityEvent<EntityManager>();
     
@@ -193,7 +193,7 @@ public class EntityManager : MonoBehaviour
     {
         if (hp <= 0)
         {
-            deathEvent.Invoke();
+            deathEvent.Invoke(this);
             Destroy(gameObject); 
         }
     }
