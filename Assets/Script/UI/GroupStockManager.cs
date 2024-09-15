@@ -78,8 +78,12 @@ public class GroupStockManager : MonoBehaviour
         {
             foreach ( EntityController entityController in _listOfEntityManager)
             {
-                FindObjectOfType<SelectManager>().AddSelect(entityController.gameObject.GetComponent<EntityManager>());
+                EntityManager entityManager = entityController.gameObject.GetComponent<EntityManager>();
+                FindObjectOfType<SelectManager>().AddSelect(entityManager);
+                FindObjectOfType<UiGestioneur>().SetMulitSelection(true);
+                FindObjectOfType<UiGestioneur>().ActualiseUi(entityManager);
             }
+            FindObjectOfType<UiGestioneur>().SetMulitSelection(false);
         }
         
     }

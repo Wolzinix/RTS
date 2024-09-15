@@ -2167,6 +2167,10 @@ PrefabInstance:
       propertyPath: _travelAttack
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: _selectManager
+      value: 
+      objectReference: {fileID: 2032398455}
     - target: {fileID: 6683642087610167980, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -2658,6 +2662,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2032398455 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4498654110156348523, guid: 2d6b142194aeb17488162919b05adb5b, type: 3}
+  m_PrefabInstance: {fileID: 1537159517}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0036ae9fdfeb74995f1b3a1715c28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &2039913467 stripped
