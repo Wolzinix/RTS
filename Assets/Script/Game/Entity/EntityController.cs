@@ -12,7 +12,9 @@ public enum Order
 
 public class EntityController : MonoBehaviour
 {
-    public NavMeshController _navMesh;
+    private NavMeshController _navMesh;
+
+    [SerializeField] private ProjectilManager _projectile;
 
     public List<Order> _listForOrder;
     private List<Vector3> _listOfPath;
@@ -171,6 +173,10 @@ public class EntityController : MonoBehaviour
 
             if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
             {
+                if(_navMesh)
+                {
+                    _navMesh.StopPath();
+                }
                 _animator.SetBool(Moving, false);
 
                 if (!_animator.IsInTransition(0) &&
@@ -271,7 +277,22 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    void DoAttack(EntityManager target) {_entityManager.DoAttack(target); }
+    void DoAttack(EntityManager target) 
+    {
+        if(_projectile)
+        {
+            ProjectilManager pj = Instantiate(_projectile);
+            pj.SetDamage(GetComponent<EntityManager>().Attack);
+            pj.SetTarget(target.gameObject);
+            pj.SetInvoker(gameObject);
+            pj.gameObject.transform.position = new Vector3( transform.position.x , transform.position.y +1, transform.position.z);
+        }
+        else
+        {
+            _entityManager.DoAttack(target);
+        }
+        
+    }
 
     public void AddPath(Vector3 newPath)
     {
