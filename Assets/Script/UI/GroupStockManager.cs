@@ -51,9 +51,12 @@ public class GroupStockManager : MonoBehaviour
     {
         foreach(EntityController entityManager in listOfEntityManager)
         {
-            _listOfEntityManager.Add(entityManager);
-            entityManager.gameObject.GetComponent<EntityManager>().deathEvent.AddListener(RemoveEntity);
-            _nbOfEntity += 1;
+            if(!_listOfEntityManager.Contains(entityManager))
+            {
+                _listOfEntityManager.Add(entityManager);
+                entityManager.gameObject.GetComponent<EntityManager>().deathEvent.AddListener(RemoveEntity);
+                _nbOfEntity += 1;
+            }
         }
         ActualiseAffichage();
     }
@@ -70,12 +73,17 @@ public class GroupStockManager : MonoBehaviour
             if(list.Count > 0)
             {
                 if (AddMore){AddToList(list); }
-                else {AddList(list);}
+                else 
+                {
+                    ResetList();
+                    AddList(list);
+                }
             }
            
         }
         if (eventData.button == PointerEventData.InputButton.Left)
         {
+            FindObjectOfType<SelectManager>().ClearList();
             foreach ( EntityController entityController in _listOfEntityManager)
             {
                 EntityManager entityManager = entityController.gameObject.GetComponent<EntityManager>();
