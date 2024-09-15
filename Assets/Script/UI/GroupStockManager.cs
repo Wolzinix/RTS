@@ -110,7 +110,7 @@ public class GroupStockManager : MonoBehaviour
         _nbOfEntity -= 1;
         if(_nbOfEntity == 0)
         {
-            Destroy(this); return;
+            Destroy(gameObject); return;
         }
         ActualiseAffichage();
     }
