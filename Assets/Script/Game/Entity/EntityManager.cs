@@ -30,6 +30,7 @@ public class EntityManager : MonoBehaviour
     public UnityEvent<EntityManager> TakingDamageFromEntity = new UnityEvent<EntityManager>();
     
     private Animator _animator;
+    private NavMeshAgent _navMeshAgent;
 
     public Sprite GetSprit()
     {
@@ -47,15 +48,18 @@ public class EntityManager : MonoBehaviour
         set => seeRange = value;
     }
 
-    private NavMeshAgent _navMeshAgent; 
+    
     
     void Awake()
     {
-        if (GetComponent<NavMeshAgent>() && GetComponentInChildren<Animator>())
+        if(GetComponent<NavMeshAgent>())
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
-            _navMeshAgent.speed = speed;
+            SetNavMeshSpeed(speed);
+        }
 
+        if (GetComponentInChildren<Animator>())
+        {
             _animator = GetComponentInChildren<Animator>();
             _animator.SetFloat(WalkSpeed, speed);
             _animator.SetFloat(AttackSpeedAnim, attackSpeed);
@@ -122,9 +126,9 @@ public class EntityManager : MonoBehaviour
     public void SetSpeed(float nb)
     {
         speed = nb;
-        if (_navMeshAgent && _animator)
+        SetNavMeshSpeed(nb);
+        if ( _animator)
         {
-            _navMeshAgent.speed = speed;
             _animator.SetFloat(WalkSpeed,speed); 
         }
     }
@@ -164,10 +168,19 @@ public class EntityManager : MonoBehaviour
     public void AddSpeed(float nb)
     {
         speed += nb;
-        if (_navMeshAgent && _animator)
+        SetNavMeshSpeed(nb);
+        if (_animator)
+        {
+            _animator.SetFloat(WalkSpeed, speed);
+        }
+    }
+
+    private void SetNavMeshSpeed(float speed)
+    {
+        if (_navMeshAgent)
         {
             _navMeshAgent.speed = speed;
-            _animator.SetFloat(WalkSpeed, speed);
+
         }
     }
     

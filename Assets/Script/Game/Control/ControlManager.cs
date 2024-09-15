@@ -25,10 +25,10 @@ public class ControlManager : MonoBehaviour
     private bool _dragging;
     private float _timeOfDragging;
 
-    private SelectManager _selectManager;
+    public SelectManager _selectManager;
 
     private bool _order;
-    private bool _travelAttack;
+    public bool _travelAttack;
     
     private UiGestioneur _UiGestioneur;
 
@@ -64,9 +64,7 @@ public class ControlManager : MonoBehaviour
     private void DesactiveMultiPath(InputAction.CallbackContext obj)
     {
         _multiPathIsActive = false;
-        _order = false;  
-        _patrolOrder = false;
-        _travelAttack = false;
+        ResetUiOrder();
     }
     private void ActiveMultiPath(InputAction.CallbackContext obj) { _multiPathIsActive = true; }
     private void OnDestroy()
@@ -130,7 +128,6 @@ public class ControlManager : MonoBehaviour
             if (listOfUIRay.Count == 0)
             {
                 RaycastHit hit = DoARayCast();
-                ResetUiOrder();
                 
                 if (!_multiSelectionIsActive) {_selectManager.ClearList();  }
                 if (hit.collider)
@@ -165,6 +162,7 @@ public class ControlManager : MonoBehaviour
                 {
                     if (raycastResult.gameObject.GetComponent<CadreController>())
                     {
+                        ResetUiOrder();
                         _selectManager.ClearList();
                         CadreController groupUI = raycastResult.gameObject.GetComponent<CadreController>();
                         _UiGestioneur.ActualiseUi(groupUI.GetEntity());
@@ -268,20 +266,27 @@ public class ControlManager : MonoBehaviour
         return coords.x >= bounds.min.x && coords.x <= bounds.max.x && coords.y >= bounds.min.y && coords.y <= bounds.max.y;
     }
 
-    public void ResetOrder()
-    {
-        _selectManager.ResetOrder();
-    }
+    public void ResetOrder() { _selectManager.ResetOrder();}
 
     public void TenirPosition() { _selectManager.TenirPositionOrder(); }
 
-    public void MoveOrder() { _order = true; }
+    public void MoveOrder() {
+
+        ResetUiOrder(); 
+        _order = true; }
 
     public void DoPatrouille()
     {
+
+        ResetUiOrder();
         _patrolOrder = true;
         _selectManager.setAddingMoreThanOne(false);
     }
 
-    public void DoTravelAttack() { _travelAttack = true; }
+    public void DoTravelAttack()
+    {
+
+        ResetUiOrder(); 
+        _travelAttack = true;
+    }
 }
