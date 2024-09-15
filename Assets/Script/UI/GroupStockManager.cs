@@ -37,7 +37,7 @@ public class GroupStockManager : MonoBehaviour
     }
     private void AddList(List<EntityController> listOfEntityManager)
     {
-        _listOfEntityManager = listOfEntityManager;
+        _listOfEntityManager = new List<EntityController>(listOfEntityManager);
         _nbOfEntity = _listOfEntityManager.Count;
         ActualiseAffichage();
         foreach (EntityController entityManager in _listOfEntityManager)

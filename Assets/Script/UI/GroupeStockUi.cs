@@ -17,9 +17,12 @@ public class GroupeStockUi : MonoBehaviour
     }
     public void AddEntity()
     {
-        GameObject newGroup = Instantiate(groupUi, new Vector3(150 * _listOfGroup.Count + 50, 1250, 0), transform.rotation, image.transform);
-        _listOfGroup.Add(newGroup);
-        SortAffichage();
+        if(_listOfGroup.Count < 6 ) 
+        { 
+            GameObject newGroup = Instantiate(groupUi, new Vector3(150 * _listOfGroup.Count + 50, 1250, 0), transform.rotation, image.transform);
+            _listOfGroup.Add(newGroup);
+            SortAffichage();
+        }
     }
 
     private void SortAffichage()
