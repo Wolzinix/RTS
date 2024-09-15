@@ -25,7 +25,7 @@ public class ControlManager : MonoBehaviour
     private bool _dragging;
     private float _timeOfDragging;
 
-    private SelectManager _selectManager;
+    public SelectManager _selectManager;
 
     private bool _order;
     private bool _travelAttack;
@@ -268,10 +268,7 @@ public class ControlManager : MonoBehaviour
         return coords.x >= bounds.min.x && coords.x <= bounds.max.x && coords.y >= bounds.min.y && coords.y <= bounds.max.y;
     }
 
-    public void ResetOrder()
-    {
-        _selectManager.ResetOrder();
-    }
+    public void ResetOrder() { _selectManager.ResetOrder();}
 
     public void TenirPosition() { _selectManager.TenirPositionOrder(); }
 

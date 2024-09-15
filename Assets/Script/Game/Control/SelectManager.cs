@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
 
 public class SelectManager : MonoBehaviour
 {
@@ -168,12 +167,7 @@ public class SelectManager : MonoBehaviour
             VerifyIfEveryBodyIsAlive();
             foreach (var i in _selectedObject)
             {
-                if (i)
-                {
-                    i.ClearAllOrder();
-                    i.StopPath();
-                    i.Stay = false;
-                }
+                if (i){ i.ClearAllOrder();}
             }
         }
     }
