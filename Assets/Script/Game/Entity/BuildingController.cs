@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEditor.FilePathAttribute;
 
 public class BuildingController : MonoBehaviour
 {
@@ -98,22 +99,40 @@ public class BuildingController : MonoBehaviour
         {
             if (entityDictionary[entityToSpawn].actualStock > 0)
             {
-                GameObject newEntity = Instantiate(entityToSpawn,
-                    new Vector3(transform.position.x + transform.forward.x + 2, transform.position.y + transform.forward.y, transform.position.z + transform.forward.z),
-                    transform.rotation);
+                Vector3 spawnPosition = new Vector3(transform.position.x + transform.forward.x + 2,
+                    transform.position.y + transform.forward.y, 
+                    transform.position.z + transform.forward.z) ;
 
-                if (newEntity.GetComponent<EntityController>())
+
+
+                int colliders = DoAOverlap(spawnPosition);
+
+                if (colliders == 1  )
                 {
-                    SetPath(newEntity.GetComponent<EntityController>());
+                    GameObject newEntity = Instantiate(entityToSpawn, spawnPosition, transform.rotation)
+                    ;
+
+                    if (newEntity.GetComponent<EntityController>())
+                    {
+                        SetPath(newEntity.GetComponent<EntityController>());
+                    }
+
+                    newEntity.tag = tag;
+
+                    entityDictionary[entityToSpawn].actualStock -= 1;
+                    entitySpawnNow.Invoke();
                 }
-
-                newEntity.tag = tag;
-
-                entityDictionary[entityToSpawn].actualStock -= 1;
-                entitySpawnNow.Invoke();
+              
             }
         }
     }
+
+ 
+    private int DoAOverlap(Vector3 spawnPosition)
+    {
+        return Physics.OverlapSphere(spawnPosition, 1).Length;
+    }
+
 
     private void proximityGestion()
     {
