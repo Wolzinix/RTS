@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +11,7 @@ public class NavMeshController : MonoBehaviour
     void Start()
     {
         _navMesh = GetComponent<NavMeshAgent>();
+        _navMesh.stoppingDistance = GetComponentInChildren<MeshRenderer>().bounds.size.x + GetComponentInChildren<MeshRenderer>().bounds.size.z;
     }
     public bool isStillOnTrajet()
     {
@@ -18,7 +20,14 @@ public class NavMeshController : MonoBehaviour
 
     public void GetNewPath(Vector3 point)
     {
-        _navMesh.SetDestination(point);
+        if(!_navMesh.SetDestination(point))
+        {
+            NavMeshHit ClosestPoint;
+            NavMeshPath NavPath = new NavMeshPath();
+            NavMesh.SamplePosition(point, out ClosestPoint, 200, 0);
+            _navMesh.CalculatePath(ClosestPoint.position, NavPath);
+            _navMesh.SetPath(NavPath);
+        }
     }
 
     public void ActualisePath(EntityManager target)
