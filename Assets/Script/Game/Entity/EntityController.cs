@@ -339,6 +339,7 @@ public class EntityController : MonoBehaviour
         ClearAggressivePath();
         ClearAllFollow();
         Stay = false;
+        
         if(_navMesh){_navMesh.StopPath();}
     }
 
@@ -349,6 +350,8 @@ public class EntityController : MonoBehaviour
 
     private int SortTargetByProximity(EntityManager entity1, EntityManager entity2)
     {
+        if(entity1 == null) return 1;
+        if (entity2 == null) return 0;
         return Vector3.Distance(transform.position, entity1.gameObject.transform.position)
             .CompareTo(Vector3.Distance(transform.position, entity2.gameObject.transform.position));
     }

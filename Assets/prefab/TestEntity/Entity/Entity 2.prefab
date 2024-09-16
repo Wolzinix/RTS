@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3521267180626295269}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0.855, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5592201362407160647}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &7706548414058156727
 SpriteRenderer:
@@ -110,13 +110,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4554085821723888230}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5592201362407160647}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5076267101342751066
 MeshFilter:
@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 6208376071361995173}
   - component: {fileID: 7207345613144918307}
   - component: {fileID: 1448527202929963815}
+  - component: {fileID: 5448539714544530716}
   m_Layer: 6
   m_Name: Entity 2
   m_TagString: Allie
@@ -217,6 +218,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4825870592483654779}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -225,7 +227,6 @@ Transform:
   - {fileID: 6174072497533667599}
   - {fileID: 3763644759705615025}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3648613589935070831
 Rigidbody:
@@ -266,6 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3591858989714b43970e271f2d63062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _projectile: {fileID: 0}
   _listForOrder: 
 --- !u!195 &6208376071361995173
 NavMeshAgent:
@@ -276,12 +278,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 4825870592483654779}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -318,6 +320,9 @@ MonoBehaviour:
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
+  TakingDamageFromEntity:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &1448527202929963815
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -341,3 +346,15 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5448539714544530716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
