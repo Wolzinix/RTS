@@ -18,6 +18,15 @@ public class NavMeshController : MonoBehaviour
         return !_navMesh.pathPending && !_navMesh.hasPath || !notAtLocation();
     }
 
+    private void Update()
+    {
+        if(!notAtLocation())
+        {
+            StopPath();
+            if (GetComponent<Rigidbody>()) { GetComponent<Rigidbody>().velocity = Vector3.zero; }
+        }
+    }
+
     public void GetNewPath(Vector3 point)
     {
         if(!_navMesh.SetDestination(point))
@@ -37,7 +46,7 @@ public class NavMeshController : MonoBehaviour
 
     public void StopPath()
     {
-        gameObject.GetComponent<NavMeshAgent>().ResetPath();
+        _navMesh.ResetPath();
     }
 
     public bool notAtLocation()
