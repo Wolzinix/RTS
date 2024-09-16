@@ -269,6 +269,10 @@ PrefabInstance:
       propertyPath: m_ObstacleAvoidanceType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7207345613144918307, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
+      propertyPath: attack
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1525,7 +1529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7207345613144918307, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: hp
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

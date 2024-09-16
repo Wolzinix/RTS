@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainObjectiveToDestroy : MonoBehaviour
@@ -12,6 +10,5 @@ public class MainObjectiveToDestroy : MonoBehaviour
     {
         _UI.SetActive(false);
         _FinalScreen.SetActive(true);
-        Application.Quit();
     }
 }
