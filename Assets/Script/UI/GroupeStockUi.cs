@@ -9,7 +9,6 @@ public class GroupeStockUi : MonoBehaviour
     [SerializeField] private GameObject image;
 
     private List<GameObject> _listOfGroup;
-    // Start is called before the first frame update
     void Start()
     {
         _listOfGroup = new List<GameObject>();
@@ -18,10 +17,10 @@ public class GroupeStockUi : MonoBehaviour
     public void AddEntity()
     {
         if(_listOfGroup.Count < 6 ) 
-        { 
-            GameObject newGroup = Instantiate(groupUi, new Vector3(150 * _listOfGroup.Count + 50, 0, 0), transform.rotation, image.transform);
+        {
+            GameObject newGroup = Instantiate(groupUi, image.transform);
+
             _listOfGroup.Add(newGroup);
-            newGroup.transform.position = new Vector3(newGroup.transform.position.x , 0 , newGroup.transform.position.z);
             SortAffichage();
         }
     }
@@ -30,7 +29,7 @@ public class GroupeStockUi : MonoBehaviour
     {
         foreach (GameObject i in _listOfGroup)
         {
-            i.transform.position = new Vector3(150 * _listOfGroup.IndexOf(i) + 50, 125, 0);
+            i.GetComponent<RectTransform>().anchoredPosition = new Vector3(55 * _listOfGroup.IndexOf(i) + 25, 0, 0);
         }
         
     }

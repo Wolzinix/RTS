@@ -7,7 +7,7 @@ public class UiGestioneur : MonoBehaviour
 
     [SerializeField] private EntityUiManager entityUi;
 
-    [SerializeField] private GroupUiManager groupUi;
+    [SerializeField] private GroupeUiManager groupUi;
 
 
     [SerializeField] private GameObject orderUi;

@@ -30,9 +30,9 @@ public class CadreController : MonoBehaviour
 
     private void DestroyHimSelf(EntityManager entity)
     {
-        if(FindObjectOfType<GroupUiManager>())
+        if(FindObjectOfType<GroupeUiManager>())
         {
-            FindObjectOfType<GroupUiManager>().RemoveCadre(transform.gameObject);
+            FindObjectOfType<GroupeUiManager>().RemoveCadre(transform.gameObject);
         }
         if(_entity)
         {

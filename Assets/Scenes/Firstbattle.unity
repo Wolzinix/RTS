@@ -548,6 +548,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1776465426891097384, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1776465426891097384, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1776465426891097384, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1776465426891097384, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -617,7 +629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4390174251704619730, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -164
+      value: -174
       objectReference: {fileID: 0}
     - target: {fileID: 4399135008167249768, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -630,6 +642,18 @@ PrefabInstance:
     - target: {fileID: 6247906509608917779, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: DoPatrouille
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743226076369169857, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425194148958150823, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1372857281}
+    - target: {fileID: 7425194148958150823, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8964144638394215571, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_Name
@@ -2023,6 +2047,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!20 &1372857281 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 7521301567870833608, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
+  m_PrefabInstance: {fileID: 1229190208}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1388603801
 PrefabInstance:
   m_ObjectHideFlags: 0

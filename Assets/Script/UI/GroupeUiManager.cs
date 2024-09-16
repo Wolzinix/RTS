@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroupUiManager : MonoBehaviour
+public class GroupeUiManager : MonoBehaviour
 {
     public List<EntityManager> _listOfEntity;
     [SerializeField] private GameObject cadre;

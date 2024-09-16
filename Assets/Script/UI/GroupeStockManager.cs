@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class GroupStockManager : MonoBehaviour
+public class GroupeStockManager : MonoBehaviour
 {
     private List<EntityController> _listOfEntityManager;
     [SerializeField] private InputActionReference multiSelectionInput;
