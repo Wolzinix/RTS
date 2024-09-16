@@ -67,9 +67,11 @@ public class GroupeStockManager : MonoBehaviour
         
         PointerEventData eventData = data as PointerEventData;
 
+        SelectManager selectManager = FindObjectOfType<SelectManager>();
+
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            List<EntityController> list = FindObjectOfType<SelectManager>().getSelectList();
+            List<EntityController> list = selectManager.getSelectList();
             if(list.Count > 0)
             {
                 if (AddMore){AddToList(list); }
@@ -83,15 +85,14 @@ public class GroupeStockManager : MonoBehaviour
         }
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            FindObjectOfType<SelectManager>().ClearList();
+            UiGestioneur uiGestioneur = FindObjectOfType<UiGestioneur>();
+            selectManager.ClearList();
             foreach ( EntityController entityController in _listOfEntityManager)
             {
                 EntityManager entityManager = entityController.gameObject.GetComponent<EntityManager>();
-                FindObjectOfType<SelectManager>().AddSelect(entityManager);
-                FindObjectOfType<UiGestioneur>().SetMulitSelection(true);
-                FindObjectOfType<UiGestioneur>().ActualiseUi(entityManager);
+                selectManager.AddSelect(entityManager);
+                uiGestioneur.AddOnGroupUi(entityManager);
             }
-            FindObjectOfType<UiGestioneur>().SetMulitSelection(false);
         }
         
     }
