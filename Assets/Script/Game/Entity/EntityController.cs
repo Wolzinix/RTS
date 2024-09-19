@@ -232,7 +232,7 @@ public class EntityController : MonoBehaviour
                 {
                     _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
 
-                    if (_navMesh.isStillOnTrajet())
+                    if (!_navMesh.isStillOnTrajet())
                     {
                         _listForAttackingOnTravel.RemoveAt(0);
                         _listForOrder.RemoveAt(0);
