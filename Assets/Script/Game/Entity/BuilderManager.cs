@@ -8,6 +8,7 @@ public class BuilderManager : MonoBehaviour
 
     private int _nb = -1;
     private Vector3 _spawnPosition = Vector3.zero;
+    
     public List<GameObject> getBuildings()
     {
         return _buildings;
@@ -29,19 +30,22 @@ public class BuilderManager : MonoBehaviour
     {
         if(_nb != -1)
         {
-            bool location = !gameObject.GetComponent<NavMeshController>().notAtLocation() && gameObject.GetComponent<NavMeshController>().isStillOnTrajet();
-            if (gameObject.GetComponent<NavMeshController>() && location)
+
+            bool location = gameObject.GetComponent<NavMeshController>().isStillOnTrajet();
+            bool distance = Vector3.Distance(gameObject.transform.position, _spawnPosition) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5;
+            if (location && distance)
             {
                 Build();
             }
+
         }
     }
 
     private void Build()
     {
-        int colliders = DoAOverlap(_spawnPosition);
+        Collider[] colliders = DoAOverlap(_spawnPosition);
 
-        if (colliders == 1)
+        if (colliders.Length == 1 ||( colliders.Length == 2 && (colliders[1] == gameObject || colliders[0] == gameObject)))
         {
             EntityManager gm = Instantiate(_buildings[_nb], _spawnPosition + new Vector3(0,2,0), transform.rotation).GetComponent<EntityManager>();
             gm.gameObject.tag = gameObject.tag;
@@ -57,8 +61,8 @@ public class BuilderManager : MonoBehaviour
         _nb = -1;
         _spawnPosition = Vector3.zero;
     }
-    private int DoAOverlap(Vector3 spawnPosition)
+    private Collider[] DoAOverlap(Vector3 spawnPosition)
     {
-        return Physics.OverlapSphere(spawnPosition, 1).Length;
+        return Physics.OverlapSphere(spawnPosition, 1);
     }
 }
