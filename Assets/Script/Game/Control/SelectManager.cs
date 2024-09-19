@@ -147,6 +147,21 @@ public class SelectManager : MonoBehaviour
         }
     }
 
+    public void DoABuild(int nb, RaycastHit hit)
+    {
+        if (!SelectedObjectIsEmpty())
+        {
+            VerifyIfEveryBodyIsAlive();
+            foreach (EntityController i in _selectedObject)
+            {
+                if (i.gameObject.GetComponent<BuilderManager>())
+                {
+                    i.gameObject.GetComponent<BuilderManager>().DoAbuild(nb, hit);
+                }
+            }
+        }
+    }
+
     private void FollowSelected(RaycastHit hit)
     {
         if (!SelectedObjectIsEmpty())

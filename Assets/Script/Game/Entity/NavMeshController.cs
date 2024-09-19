@@ -22,6 +22,11 @@ public class NavMeshController : MonoBehaviour
         return !_navMesh.pathPending && !_navMesh.hasPath || !notAtLocation();
     }
 
+    public float HaveStoppingDistance()
+    {
+        return _navMesh.stoppingDistance;
+    }
+
     private void Update()
     {
         if(!notAtLocation())

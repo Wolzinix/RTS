@@ -79,6 +79,21 @@ public class EntityManager : MonoBehaviour
         _maxHp = hp;
     }
 
+    public void ActualiseSprite()
+    {
+        sprite.gameObject.SetActive(true);
+        if (CompareTag("Allie"))
+        {
+            sprite.sprite = Allisprite;
+        }
+        else if (CompareTag("ennemie"))
+        {
+            sprite.sprite = Ennemisprite;
+        }
+
+        sprite.gameObject.SetActive(false);
+    }
+
     public float Hp => hp;
 
     public void SetHp(float nb)

@@ -29,6 +29,9 @@ public class ControlManager : MonoBehaviour
 
     private bool _order;
     private bool _travelAttack;
+
+    private bool _buildingOrder;
+    private int _nbOfBuilding;
     
     private UiGestioneur _UiGestioneur;
 
@@ -95,7 +98,13 @@ public class ControlManager : MonoBehaviour
     private void DoASelection(InputAction.CallbackContext context )
     {
         Physics.SyncTransforms();
-        if (_order)
+        if(_buildingOrder)
+        {
+            RaycastHit hit = DoARayCast();
+            IsMultipathActive();
+            _selectManager.DoABuild(_nbOfBuilding, hit);
+        }
+        else if (_order)
         {
             RaycastHit hit = DoARayCast();
             IsMultipathActive();
@@ -198,6 +207,7 @@ public class ControlManager : MonoBehaviour
     {
         _order = false;
         _patrolOrder = false;
+        _buildingOrder = false;
         _travelAttack = false;
     }
     
@@ -288,5 +298,11 @@ public class ControlManager : MonoBehaviour
 
         ResetUiOrder(); 
         _travelAttack = true;
+    }
+
+    public void DoABuilding(int nb)
+    {
+        _buildingOrder = true;
+        _nbOfBuilding = nb;
     }
 }

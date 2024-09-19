@@ -204,8 +204,9 @@ GameObject:
   - component: {fileID: 7207345613144918307}
   - component: {fileID: 1448527202929963815}
   - component: {fileID: 5448539714544530716}
+  - component: {fileID: -6371443958968251076}
   m_Layer: 6
-  m_Name: Entity 2
+  m_Name: Builder
   m_TagString: Allie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,13 +304,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a9e5c15c907f443afd801685ef2280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
-  attack: 2
+  hp: 5
+  attack: 1
   defense: 1
   attackSpeed: 1
-  speed: 2
+  speed: 1
   range: 2
-  seeRange: 3
+  seeRange: 2
   sprite: {fileID: 7706548414058156727}
   spriteImage: {fileID: -2413806693520163455, guid: b53783ba57e90b7459ad2e55992892da, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
@@ -358,3 +359,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6371443958968251076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68612980fd6fd284e8e874fbe65a4178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buildings:
+  - {fileID: 4825870592483654779, guid: a65b938add593874782dc2957ec066e7, type: 3}
