@@ -786,6 +786,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: DoPatrouille
       objectReference: {fileID: 0}
+    - target: {fileID: 6643087070157189468, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6743226076369169857, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0

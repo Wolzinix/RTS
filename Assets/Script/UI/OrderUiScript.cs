@@ -7,6 +7,7 @@ public class OrderUiScript : MonoBehaviour
     GameObject _entity;
 
     [SerializeField] Button _button;
+    [SerializeField] BuildUi _buildUi;
 
     public void SetEntity(GameObject entity)
     {
@@ -24,5 +25,12 @@ public class OrderUiScript : MonoBehaviour
         {
             _button.gameObject.SetActive(false);
         }
+    }
+
+    public void GoToBuildUi()
+    {
+        _buildUi.gameObject.SetActive(true);
+        _buildUi.SetBuilder(_entity.GetComponent<BuilderManager>());
+        gameObject.SetActive(false);
     }
 }

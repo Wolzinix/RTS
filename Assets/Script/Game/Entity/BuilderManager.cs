@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class BuilderManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] List<GameObject> _buildings;
 
-    // Update is called once per frame
-    void Update()
+
+    public List<GameObject> getBuildings()
     {
-        
+        return _buildings;
     }
 }
