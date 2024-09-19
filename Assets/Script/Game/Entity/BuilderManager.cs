@@ -6,9 +6,49 @@ public class BuilderManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> _buildings;
 
-
+    private int _nb = -1;
+    private Vector3 _spawnPosition = Vector3.zero;
     public List<GameObject> getBuildings()
     {
         return _buildings;
+    }
+
+
+    public void DoAbuild(int nb, RaycastHit hit)
+    {
+        _nb = nb;
+        gameObject.GetComponent<EntityController>().AddPath(hit.point);
+        _spawnPosition = hit.point;
+
+    }
+
+    private void Update()
+    {
+        if(_nb != -1)
+        {
+            if(gameObject.GetComponent<NavMeshController>() && !gameObject.GetComponent<NavMeshController>().isStillOnTrajet())
+            {
+                Build();
+            }
+        }
+    }
+
+    private void Build()
+    {
+        int colliders = DoAOverlap(_spawnPosition);
+
+        if (colliders == 1)
+        {
+            EntityManager gm = Instantiate(_buildings[_nb], _spawnPosition + new Vector3(0,2,0), transform.rotation).GetComponent<EntityManager>();
+             gm.gameObject.tag = gameObject.tag;
+            gm.ActualiseSprite();
+
+        }
+
+        _nb = -1;
+    }
+    private int DoAOverlap(Vector3 spawnPosition)
+    {
+        return Physics.OverlapSphere(spawnPosition, 1).Length;
     }
 }

@@ -36,7 +36,7 @@ public class BuildUi : MonoBehaviour
             {
                 if (button.IsActive())
                 {
-                    button.GetComponentInChildren<TMP_Text>().text = "tchoutchou";
+                    button.GetComponentInChildren<TMP_Text>().text = _builder.getBuildings()[_ListOfButton.IndexOf(button)].name;
                 }
             }
         }
@@ -53,6 +53,7 @@ public class BuildUi : MonoBehaviour
             {
                 button.gameObject.SetActive(true);
                 button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<EntityManager>().GetSprit();
+                button.onClick.AddListener(delegate { FindAnyObjectByType<ControlManager>().DoABuilding(_ListOfButton.IndexOf(button) + _numberOfbutton); });
             }
             else
             {
