@@ -8,7 +8,8 @@ public class MainObjectiveToDestroy : MonoBehaviour
 
     private void OnDestroy()
     {
-        _UI.SetActive(false);
-        _FinalScreen.SetActive(true);
+        if (_UI) { _UI.SetActive(false); }
+        
+        if(_FinalScreen) { _FinalScreen.SetActive(true); }
     }
 }
