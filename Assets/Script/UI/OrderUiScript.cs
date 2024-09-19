@@ -16,13 +16,13 @@ public class OrderUiScript : MonoBehaviour
 
     private void ActualiseUi()
     {
-        if (_entity && _entity.GetComponent<EntityController>())
+        if (_entity && _entity.GetComponent<BuilderManager>())
         {
-            _button.enabled = true;
+            _button.gameObject.SetActive(true);
         }
         else
         {
-            _button.enabled = false;
+            _button.gameObject.SetActive(false);
         }
     }
 }
