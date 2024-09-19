@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiGestioneur : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class UiGestioneur : MonoBehaviour
     [SerializeField] private BuildingUiManager buildingUi;
 
 
+    [SerializeField] private GameObject NoUi;
+
     private bool _multiSelectionIsActive;
 
 
@@ -20,6 +23,7 @@ public class UiGestioneur : MonoBehaviour
 
     public void ActualiseUi(EntityManager entity)
     {
+        NoUi.gameObject.SetActive(false);
         if (!_multiSelectionIsActive)
         {
             if (groupUi.gameObject.activeSelf) { groupUi.gameObject.SetActive(false); }
@@ -58,21 +62,49 @@ public class UiGestioneur : MonoBehaviour
             }
         }
 
-        if(entity.gameObject.GetComponent<EntityController>() && entity.CompareTag("Allie"))
+        if(entity.gameObject.GetComponent<EntityController>())
         {
-            orderUi.gameObject.SetActive(true);
+            if ( entity.CompareTag("Allie"))
+            {
+                orderUi.gameObject.SetActive(true);
+                entityUi.GetComponentInChildren<Image>().color = Color.green;
+            }
+            else if (entity.CompareTag("ennemie"))
+            {
+                entityUi.GetComponentInChildren<Image>().color = Color.red;
+            }
+            else
+            {
+                entityUi.GetComponentInChildren<Image>().color = Color.grey;
+            }
             buildingUi.gameObject.SetActive(false);
         }
         else if (entity.gameObject.GetComponent<BuildingController>())
         {
+            if (entity.CompareTag("Allie"))
+            {
+                orderUi.gameObject.SetActive(true);
+                entityUi.GetComponentInChildren<Image>().color = Color.blue;
+                buildingUi.gameObject.SetActive(true);
+                buildingUi.SetBuilding(entity.gameObject.GetComponent<BuildingController>());
+            }
+            else if (entity.CompareTag("ennemie"))
+            {
+                entityUi.GetComponentInChildren<Image>().color = Color.black;
+            }
+            else
+            {
+                entityUi.GetComponentInChildren<Image>().color = Color.grey;
+            }
+
             orderUi.gameObject.SetActive(false);
-            buildingUi.gameObject.SetActive(true);
-            buildingUi.SetBuilding(entity.gameObject.GetComponent<BuildingController>());
+            
         }
     }
 
     public void AddOnGroupUi(EntityManager entity)
     {
+        NoUi.gameObject.SetActive(false);
         groupUi.gameObject.SetActive(true);
         orderUi.gameObject.SetActive(true);
         groupUi.AddEntity(entity);
@@ -85,7 +117,7 @@ public class UiGestioneur : MonoBehaviour
         entityUi.gameObject.SetActive(false);
         groupUi.gameObject.SetActive(false);
         orderUi.gameObject.SetActive(false);
-
+        NoUi.gameObject.SetActive(true);
         buildingUi.gameObject.SetActive(false);
     }
 }
