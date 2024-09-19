@@ -98,9 +98,9 @@ public class EntityController : MonoBehaviour
 
     private void SearchTarget()
     {
-        if(_navMesh && _navMesh.isStillOnTrajet() || _navMesh == null)
+        if(_navMesh && !_navMesh.isStillOnTrajet() || _navMesh == null)
         {
-            if ((_listForOrder.Count == 0 ) || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive))
+            if (_listForOrder.Count == 0  || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive))
             {
                 List<GameObject> listOfRayTuch = DoCircleRaycast();
                 List<GameObject> listOfAlly = new List<GameObject>();
@@ -232,7 +232,7 @@ public class EntityController : MonoBehaviour
                 {
                     _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
 
-                    if (_navMesh.isStillOnTrajet())
+                    if (!_navMesh.isStillOnTrajet())
                     {
                         _listForAttackingOnTravel.RemoveAt(0);
                         _listForOrder.RemoveAt(0);

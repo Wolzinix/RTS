@@ -28,7 +28,7 @@ public class ControlManager : MonoBehaviour
     public SelectManager _selectManager;
 
     private bool _order;
-    public bool _travelAttack;
+    private bool _travelAttack;
     
     private UiGestioneur _UiGestioneur;
 

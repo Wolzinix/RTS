@@ -11,5 +11,6 @@ public class MainObjectiveToDestroy : MonoBehaviour
         if (_UI) { _UI.SetActive(false);}
         
         if(_FinalScreen) { _FinalScreen.SetActive(true);}
+
     }
 }
