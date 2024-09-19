@@ -16,6 +16,9 @@ public class UiGestioneur : MonoBehaviour
 
     [SerializeField] private GameObject NoUi;
 
+    [SerializeField] private BuildUi buildUI;
+
+
 
     private bool _multiSelectionIsActive;
 
@@ -123,5 +126,6 @@ public class UiGestioneur : MonoBehaviour
         orderUi.gameObject.SetActive(false);
         NoUi.gameObject.SetActive(true);
         buildingUi.gameObject.SetActive(false);
+        buildUI.gameObject.SetActive(false);
     }
 }

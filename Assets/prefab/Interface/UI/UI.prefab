@@ -6012,6 +6012,7 @@ MonoBehaviour:
   orderUi: {fileID: 4285718878466363201}
   buildingUi: {fileID: 8041432203170557212}
   NoUi: {fileID: 3356358002792380698}
+  buildUI: {fileID: 1171197594411671434}
 --- !u!1 &9119344556928802193
 GameObject:
   m_ObjectHideFlags: 0
