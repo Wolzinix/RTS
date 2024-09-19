@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum Order
 {
@@ -36,10 +37,12 @@ public class EntityController : MonoBehaviour
     private Animator _animator;
     private static readonly int Moving = Animator.StringToHash("Mooving");
     private static readonly int Attacking = Animator.StringToHash("Attacking");
-    
 
-    
-    
+    public UnityEvent resetEvent = new UnityEvent();
+
+
+
+
     void Awake()
     {
         _navMesh = GetComponent<NavMeshController>();
@@ -351,6 +354,8 @@ public class EntityController : MonoBehaviour
         Stay = false;
         
         if(_navMesh){_navMesh.StopPath();}
+
+        resetEvent.Invoke();
     }
 
     public bool Stay

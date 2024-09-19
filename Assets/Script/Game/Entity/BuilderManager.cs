@@ -13,7 +13,10 @@ public class BuilderManager : MonoBehaviour
         return _buildings;
     }
 
-
+    private void Start()
+    {
+        gameObject.GetComponent<EntityController>().resetEvent.AddListener(ResetBuildingOrder);
+    }
     public void DoAbuild(int nb, RaycastHit hit)
     {
         _nb = nb;
@@ -26,7 +29,8 @@ public class BuilderManager : MonoBehaviour
     {
         if(_nb != -1)
         {
-            if(gameObject.GetComponent<NavMeshController>() && !gameObject.GetComponent<NavMeshController>().isStillOnTrajet())
+            bool location = !gameObject.GetComponent<NavMeshController>().notAtLocation() && gameObject.GetComponent<NavMeshController>().isStillOnTrajet();
+            if (gameObject.GetComponent<NavMeshController>() && location)
             {
                 Build();
             }
@@ -40,12 +44,18 @@ public class BuilderManager : MonoBehaviour
         if (colliders == 1)
         {
             EntityManager gm = Instantiate(_buildings[_nb], _spawnPosition + new Vector3(0,2,0), transform.rotation).GetComponent<EntityManager>();
-             gm.gameObject.tag = gameObject.tag;
+            gm.gameObject.tag = gameObject.tag;
             gm.ActualiseSprite();
-
         }
 
         _nb = -1;
+        _spawnPosition = Vector3.zero;
+    }
+
+    private void ResetBuildingOrder()
+    {
+        _nb = -1;
+        _spawnPosition = Vector3.zero;
     }
     private int DoAOverlap(Vector3 spawnPosition)
     {
