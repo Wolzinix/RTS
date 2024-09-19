@@ -14,7 +14,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private float speedOfZoom = 10;
 
     private bool _accelerateIsActive;
-    private const float IncrementSpeed = 10;
+    private const float IncrementSpeed = 2;
     private bool _rotationActivated;
 
     private Rigidbody _rb;
@@ -69,7 +69,10 @@ public class CameraControl : MonoBehaviour
         Vector3 newPosition = new Vector3(moveCameraInput.action.ReadValue<Vector2>().y * transform.forward.x + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.x
             , 0
             , moveCameraInput.action.ReadValue<Vector2>().y * transform.forward.z + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.z);
-        
+
+        newPosition *= 10;
+
+
         if (_accelerateIsActive) { newPosition *= IncrementSpeed;}
         _rb.velocity = newPosition;
     }
@@ -77,7 +80,7 @@ public class CameraControl : MonoBehaviour
     private void RotateCameraY()
     {
         Quaternion rotation = transform.rotation;
-        rotation.eulerAngles += new Vector3(0, rotateCameraInput.action.ReadValue<Vector2>().x, 0);
+        rotation.eulerAngles += new Vector3(0, rotateCameraInput.action.ReadValue<Vector2>().x / 5, 0);
         transform.rotation = rotation;
     }
 
