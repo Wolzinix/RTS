@@ -118,7 +118,7 @@ public class EntityController : MonoBehaviour
                     {
                         if (!_listOfalliesOnRange.Contains(target))
                         {
-                            target.GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddTarget);
+                            target.GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
                             _listOfalliesOnRange.Add(target);
                         }
                         listOfAlly.Add(target);
@@ -131,7 +131,7 @@ public class EntityController : MonoBehaviour
                     {
                         if(i)
                         {
-                            i.GetComponent<EntityManager>().TakingDamageFromEntity.RemoveListener(AddTarget);
+                            i.GetComponent<EntityManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
                             listToRemove.Add(i);
                         }
                         else
@@ -298,6 +298,16 @@ public class EntityController : MonoBehaviour
     {
         _listOfPath.Add(newPath);
         _listForOrder.Add(Order.Move);
+    }
+
+    private void AddTargetAttacked(EntityManager target)
+    {
+        if(!target.gameObject.CompareTag(gameObject.tag))
+        {
+            _listOfTarget.Add(target);
+            _listForOrder.Add(Order.Target);
+        }
+       
     }
 
     public void AddTarget(EntityManager target)
