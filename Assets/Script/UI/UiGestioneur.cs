@@ -9,12 +9,13 @@ public class UiGestioneur : MonoBehaviour
     [SerializeField] private GroupeUiManager groupUi;
 
 
-    [SerializeField] private GameObject orderUi;
+    [SerializeField] private OrderUiScript orderUi;
 
     [SerializeField] private BuildingUiManager buildingUi;
 
 
     [SerializeField] private GameObject NoUi;
+
 
     private bool _multiSelectionIsActive;
 
@@ -67,6 +68,7 @@ public class UiGestioneur : MonoBehaviour
             if ( entity.CompareTag("Allie"))
             {
                 orderUi.gameObject.SetActive(true);
+                orderUi.SetEntity(entity.gameObject);
                 entityUi.GetComponentInChildren<Image>().color = Color.green;
             }
             else if (entity.CompareTag("ennemie"))
@@ -84,6 +86,7 @@ public class UiGestioneur : MonoBehaviour
             if (entity.CompareTag("Allie"))
             {
                 orderUi.gameObject.SetActive(true);
+                orderUi.SetEntity(entity.gameObject);
                 entityUi.GetComponentInChildren<Image>().color = Color.blue;
                 buildingUi.gameObject.SetActive(true);
                 buildingUi.SetBuilding(entity.gameObject.GetComponent<BuildingController>());
@@ -107,6 +110,7 @@ public class UiGestioneur : MonoBehaviour
         NoUi.gameObject.SetActive(false);
         groupUi.gameObject.SetActive(true);
         orderUi.gameObject.SetActive(true);
+        orderUi.SetEntity(entity.gameObject);
         groupUi.AddEntity(entity);
     }
 
