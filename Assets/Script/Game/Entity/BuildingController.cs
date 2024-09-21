@@ -146,7 +146,7 @@ public class BuildingController : MonoBehaviour
     
     private void SetPath(EntityController entity)
     {
-        //entity.AddAggressivePath(new Vector3(transform.position.x+transform.forward.x + 3, transform.position.y+transform.forward.y, transform.position.z+transform.forward.z));
+        entity.AddAggressivePath(new Vector3(transform.position.x+transform.forward.x + 3, transform.position.y+transform.forward.y, transform.position.z+transform.forward.z));
     }
 
     public Dictionary<GameObject, SpawnTime> GetEntityDictionary() { return entityDictionary; }
