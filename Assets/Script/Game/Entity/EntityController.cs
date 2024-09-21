@@ -113,10 +113,9 @@ public class EntityController : MonoBehaviour
 
                 foreach (GameObject target in listOfRayTuch)
                 {
-                    if (target != gameObject && !_listOfTarget.Contains(target.GetComponent<EntityManager>()) && !target.CompareTag(gameObject.tag) )
+                    if (target != gameObject && !target.CompareTag(gameObject.tag) )
                     {
-                        _listOfTarget.Insert(0, target.GetComponent<EntityManager>());
-                        _listForOrder.Insert(0, Order.Target);
+                        InsertTarget(target.GetComponent<EntityManager>());
                     }
                     if(target != gameObject  && target.CompareTag(gameObject.tag))
                     {
@@ -300,12 +299,7 @@ public class EntityController : MonoBehaviour
 
     private void AddTargetAttacked(EntityManager target)
     {
-        if(!target.gameObject.CompareTag(gameObject.tag) && !_listOfTarget.Contains(target))
-        {
-            _listOfTarget.Add(target);
-            _listForOrder.Add(Order.Target);
-        }
-       
+        InsertTarget(target);
     }
 
     public void AddTarget(EntityManager target )
@@ -315,7 +309,15 @@ public class EntityController : MonoBehaviour
             _listOfTarget.Add(target);
             _listForOrder.Add(Order.Target);
         }
-       
+    }
+
+    public void InsertTarget(EntityManager target)
+    {
+        if (!_listOfTarget.Contains(target))
+        {
+            _listOfTarget.Insert(0,target);
+            _listForOrder.Insert(0, Order.Target);
+        }
     }
 
     public void AddAllie(EntityManager target)
@@ -372,7 +374,7 @@ public class EntityController : MonoBehaviour
 
     private void AddAggresseurTarget(EntityManager entityToAggresse)
     {
-        if (_navMesh && _navMesh.isStillOnTrajet() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) {AddTarget(entityToAggresse);}
+        if (_navMesh && _navMesh.isStillOnTrajet() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse);}
     }
 
 
