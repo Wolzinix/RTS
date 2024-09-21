@@ -101,6 +101,8 @@ public class UiGestioneur : MonoBehaviour
             else
             {
                 entityUi.GetComponentInChildren<Image>().color = Color.grey;
+                buildingUi.gameObject.SetActive(true);
+                buildingUi.SetBuilding(entity.gameObject.GetComponent<BuildingController>());
             }
 
             orderUi.gameObject.SetActive(false);

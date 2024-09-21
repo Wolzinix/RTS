@@ -87,12 +87,11 @@ public class ControlManager : MonoBehaviour
         {
             _timeOfDragging += Time.deltaTime;
             
-                float longueur =  Input.mousePosition.x - _dragCoord.x;
-                float largeur =  Input.mousePosition.y - _dragCoord.y;
+            float longueur =  Input.mousePosition.x - _dragCoord.x;
+            float largeur =  Input.mousePosition.y - _dragCoord.y;
 
-                dragBox.anchoredPosition = new Vector2(_dragCoord.x,_dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
-                dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
-            
+            dragBox.anchoredPosition = new Vector2(_dragCoord.x,_dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
+            dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
         }
     }
     private void DoASelection(InputAction.CallbackContext context )
@@ -114,14 +113,8 @@ public class ControlManager : MonoBehaviour
         {
             RaycastHit hit = DoARayCast();
             IsMultipathActive();
-            if(hit.transform && hit.transform.GetComponent<EntityManager>())
-            {
-                _selectManager.AddTarget(hit.transform.GetComponent<EntityManager>());
-            }
-            else
-            {
-                _selectManager.AttackingOnTravel(hit.point);
-            }
+            if(hit.transform && hit.transform.GetComponent<EntityManager>()) { _selectManager.AddTarget(hit.transform.GetComponent<EntityManager>()); }
+            else {_selectManager.AttackingOnTravel(hit.point);}
         }
 
         else if (_patrolOrder)

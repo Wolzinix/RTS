@@ -75,14 +75,17 @@ public class EntityController : MonoBehaviour
             Vector3 dir = Quaternion.Euler(0, i * delta,0 ) * transform.forward;
             
             Ray ray = new Ray( transform.position,dir);
-            RaycastHit hit;
-            
-            Physics.Raycast(ray, out hit , _entityManager.SeeRange);
+            RaycastHit[] hits;
 
-            if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<EntityManager>())
+            hits = Physics.RaycastAll(ray, _entityManager.SeeRange);
+
+            foreach(RaycastHit hit in hits)
             {
-                Debug.DrawLine(transform.position, hit.point, Color.green,1f);
-                listOfGameObejct.Add( hit.transform.gameObject);
+                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<EntityManager>())
+                {
+                    Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
+                    listOfGameObejct.Add(hit.transform.gameObject);
+                }
             }
         }
 
@@ -101,10 +104,8 @@ public class EntityController : MonoBehaviour
 
     private void SearchTarget()
     {
-        if(_navMesh && !_navMesh.isStillOnTrajet() || _navMesh == null)
+        if(_navMesh && _navMesh.isStillOnTrajet() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive || _listForOrder[0] == Order.Follow) || _navMesh == null)
         {
-            if (_listForOrder.Count == 0  || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive))
-            {
                 List<GameObject> listOfRayTuch = DoCircleRaycast();
                 List<GameObject> listOfAlly = new List<GameObject>();
                 List<GameObject> listToRemove = new List<GameObject>();
@@ -112,10 +113,9 @@ public class EntityController : MonoBehaviour
 
                 foreach (GameObject target in listOfRayTuch)
                 {
-                    if (target != gameObject && !_listOfTarget.Contains(target.GetComponent<EntityManager>()) && !target.CompareTag(gameObject.tag))
+                    if (target != gameObject && !target.CompareTag(gameObject.tag) )
                     {
-                        _listOfTarget.Insert(0, target.GetComponent<EntityManager>());
-                        _listForOrder.Insert(0, Order.Target);
+                        InsertTarget(target.GetComponent<EntityManager>());
                     }
                     if(target != gameObject  && target.CompareTag(gameObject.tag))
                     {
@@ -137,29 +137,20 @@ public class EntityController : MonoBehaviour
                             i.GetComponent<EntityManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
                             listToRemove.Add(i);
                         }
-                        else
-                        {
-                            listOfAlly.Remove(i);
-                        }
+                        else { listOfAlly.Remove(i); }
                     }
                 }
 
-                foreach(GameObject i in listToRemove)
-                {
-                    _listOfalliesOnRange.Remove(i);
-                }
+                foreach(GameObject i in listToRemove) { _listOfalliesOnRange.Remove(i);}
 
                 if (_listOfTarget.Count > 0)
                 {
                     _listOfTarget.Sort(SortTargetByProximity);
                     
-                    if(_navMesh)
-                    {
-                        _navMesh.StopPath();
-                    }
+                    if(_navMesh) {_navMesh.StopPath();}
                 }
                 listOfRayTuch.Clear();
-            }
+            
         }
     }
 
@@ -224,8 +215,11 @@ public class EntityController : MonoBehaviour
                 if (_navMesh && _navMesh.isStillOnTrajet())
                 {
                     _navMesh.GetNewPath(_listOfPath[0]);
-                    _listOfPath.RemoveAt(0);
-                    _listForOrder.RemoveAt(0);
+                    if(Vector3.Distance(gameObject.transform.position, _listOfPath[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                    {
+                        _listOfPath.RemoveAt(0);
+                        _listForOrder.RemoveAt(0);
+                    }
                 }
             }
 
@@ -234,12 +228,11 @@ public class EntityController : MonoBehaviour
                 if (_navMesh && _navMesh.isStillOnTrajet())
                 {
                     _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
-
-                    if (!_navMesh.isStillOnTrajet())
-                    {
-                        _listForAttackingOnTravel.RemoveAt(0);
-                        _listForOrder.RemoveAt(0);
-                    }
+                }
+                if (!_navMesh.isStillOnTrajet() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                {
+                    _listForAttackingOnTravel.RemoveAt(0);
+                    _listForOrder.RemoveAt(0);
                 }
             }
 
@@ -299,24 +292,31 @@ public class EntityController : MonoBehaviour
 
     public void AddPath(Vector3 newPath)
     {
-        _listOfPath.Add(newPath);
         _listForOrder.Add(Order.Move);
+        _listOfPath.Add(newPath);
     }
 
     private void AddTargetAttacked(EntityManager target)
     {
-        if(!target.gameObject.CompareTag(gameObject.tag))
+        InsertTarget(target);
+    }
+
+    public void AddTarget(EntityManager target )
+    {
+        if(!_listOfTarget.Contains(target))
         {
             _listOfTarget.Add(target);
             _listForOrder.Add(Order.Target);
         }
-       
     }
 
-    public void AddTarget(EntityManager target)
+    public void InsertTarget(EntityManager target)
     {
-        _listOfTarget.Add(target);
-        _listForOrder.Add(Order.Target);
+        if (!_listOfTarget.Contains(target))
+        {
+            _listOfTarget.Insert(0,target);
+            _listForOrder.Insert(0, Order.Target);
+        }
     }
 
     public void AddAllie(EntityManager target)
@@ -373,7 +373,7 @@ public class EntityController : MonoBehaviour
 
     private void AddAggresseurTarget(EntityManager entityToAggresse)
     {
-        if(_listForOrder.Count == 0 && (_navMesh && _navMesh.isStillOnTrajet()|| !_navMesh)){AddTarget(entityToAggresse);}
+        if (_navMesh && _navMesh.isStillOnTrajet() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse);}
     }
 
 
