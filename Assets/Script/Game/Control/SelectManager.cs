@@ -94,7 +94,7 @@ public class SelectManager : MonoBehaviour
         {
             if (hit.transform.gameObject.CompareTag("ennemie")) { AttackSelected(hit); }
 
-            if (hit.transform.gameObject.CompareTag("Allie")) { FollowSelected(hit); }
+            else if (hit.transform.gameObject.CompareTag("Allie")) { FollowSelected(hit); }
             else { MooveSelected(hit); }
         }
     }
@@ -196,7 +196,7 @@ public class SelectManager : MonoBehaviour
         if (!SelectedObjectIsEmpty())
         {
             VerifyIfEveryBodyIsAlive();
-            foreach (var i in _selectedObject)
+            foreach (EntityController i in _selectedObject)
             {
                 if (i){ i.ClearAllOrder();}
             }

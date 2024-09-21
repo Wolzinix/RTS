@@ -101,10 +101,8 @@ public class EntityController : MonoBehaviour
 
     private void SearchTarget()
     {
-        if(_navMesh && _navMesh.isStillOnTrajet() || _navMesh == null)
+        if(_navMesh && _navMesh.isStillOnTrajet() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null)
         {
-            if (_listForOrder.Count == 0  || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive))
-            {
                 List<GameObject> listOfRayTuch = DoCircleRaycast();
                 List<GameObject> listOfAlly = new List<GameObject>();
                 List<GameObject> listToRemove = new List<GameObject>();
@@ -137,29 +135,20 @@ public class EntityController : MonoBehaviour
                             i.GetComponent<EntityManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
                             listToRemove.Add(i);
                         }
-                        else
-                        {
-                            listOfAlly.Remove(i);
-                        }
+                        else { listOfAlly.Remove(i); }
                     }
                 }
 
-                foreach(GameObject i in listToRemove)
-                {
-                    _listOfalliesOnRange.Remove(i);
-                }
+                foreach(GameObject i in listToRemove) { _listOfalliesOnRange.Remove(i);}
 
                 if (_listOfTarget.Count > 0)
                 {
                     _listOfTarget.Sort(SortTargetByProximity);
                     
-                    if(_navMesh)
-                    {
-                        _navMesh.StopPath();
-                    }
+                    if(_navMesh) {_navMesh.StopPath();}
                 }
                 listOfRayTuch.Clear();
-            }
+            
         }
     }
 
@@ -224,8 +213,11 @@ public class EntityController : MonoBehaviour
                 if (_navMesh && _navMesh.isStillOnTrajet())
                 {
                     _navMesh.GetNewPath(_listOfPath[0]);
-                    _listOfPath.RemoveAt(0);
-                    _listForOrder.RemoveAt(0);
+                    if(Vector3.Distance(gameObject.transform.position, _listOfPath[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                    {
+                        _listOfPath.RemoveAt(0);
+                        _listForOrder.RemoveAt(0);
+                    }
                 }
             }
 
@@ -299,8 +291,8 @@ public class EntityController : MonoBehaviour
 
     public void AddPath(Vector3 newPath)
     {
-        _listOfPath.Add(newPath);
         _listForOrder.Add(Order.Move);
+        _listOfPath.Add(newPath);
     }
 
     private void AddTargetAttacked(EntityManager target)
@@ -373,7 +365,7 @@ public class EntityController : MonoBehaviour
 
     private void AddAggresseurTarget(EntityManager entityToAggresse)
     {
-        if(_listForOrder.Count == 0 && (_navMesh && _navMesh.isStillOnTrajet()|| !_navMesh)){AddTarget(entityToAggresse);}
+        if (_navMesh && _navMesh.isStillOnTrajet() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) {AddTarget(entityToAggresse);}
     }
 
 
