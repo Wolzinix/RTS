@@ -101,7 +101,7 @@ public class EntityController : MonoBehaviour
 
     private void SearchTarget()
     {
-        if(_navMesh && !_navMesh.isStillOnTrajet() || _navMesh == null)
+        if(_navMesh && _navMesh.isStillOnTrajet() || _navMesh == null)
         {
             if (_listForOrder.Count == 0  || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive))
             {
