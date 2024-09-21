@@ -1830,6 +1830,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1662796192}
     m_Modifications:
+    - target: {fileID: 2033893907195975481, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: _listForOrder.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4825870592483654779, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
       propertyPath: m_Name
       value: Entity 2
