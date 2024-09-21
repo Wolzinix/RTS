@@ -228,12 +228,11 @@ public class EntityController : MonoBehaviour
                 if (_navMesh && _navMesh.isStillOnTrajet())
                 {
                     _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
-
-                    if (!_navMesh.isStillOnTrajet())
-                    {
-                        _listForAttackingOnTravel.RemoveAt(0);
-                        _listForOrder.RemoveAt(0);
-                    }
+                }
+                if (!_navMesh.isStillOnTrajet() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                {
+                    _listForAttackingOnTravel.RemoveAt(0);
+                    _listForOrder.RemoveAt(0);
                 }
             }
 
