@@ -9,6 +9,8 @@ public class BuildingController : MonoBehaviour
 
     public UnityEvent entitySpawnNow = new UnityEvent();
 
+    public UnityEvent<List<GameObject>,BuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, BuildingController>();
+
     private float _rangeDetection;
 
     private bool _ally;
@@ -58,6 +60,7 @@ public class BuildingController : MonoBehaviour
         }
 
         List<GameObject> ListOfHit= DoCircleRaycast();
+        EntityNextToEvent.Invoke(ListOfHit,this);
         int nbAllies = 0;
         int nbEnnemie = 0;
 
@@ -84,6 +87,10 @@ public class BuildingController : MonoBehaviour
         
     }
 
+    public bool GetCanSpawn()
+    {
+        return _canSpawn;
+    }
     public void AllySpawnEntity(GameObject entityToSpawn)
     {
         

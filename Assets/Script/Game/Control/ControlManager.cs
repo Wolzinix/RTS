@@ -134,7 +134,7 @@ public class ControlManager : MonoBehaviour
                 if (!_multiSelectionIsActive) {_selectManager.ClearList();  }
                 if (hit.collider)
                 {
-                    Debug.DrawLine(_camera.transform.position, hit.point, color:Color.green, 10f);
+                    Debug.DrawLine(_camera.transform.position, hit.point, color:Color.blue, 10f);
                     if (hit.transform.GetComponent<EntityManager>())
                     {
                         _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<EntityManager>());
