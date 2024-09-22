@@ -1376,6 +1376,10 @@ PrefabInstance:
       propertyPath: MySpawns.Array.data[2].totalStock
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4447898728907550784, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: seeRange
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_Name
       value: Building (3)

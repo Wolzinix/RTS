@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class IABrain : MonoBehaviour
 {
     [SerializeField] GameObject groupOfEntity;
     private  Dictionary<BuildingController, BuildingStats> DicoOfBuilding;
+
+    public delegate void NeedToSendEntityToBuildingDelegate(Vector3 location);
+
+    public static event NeedToSendEntityToBuildingDelegate NeedToSendEntityToBuildingEvent;
 
 
     public class BuildingStats
@@ -19,12 +24,20 @@ public class IABrain : MonoBehaviour
         {
             CanSpawn = building.GetCanSpawn();
 
-            EntityNextTo.Clear();
-            foreach (GameObject gameObject in Entity)
+            if(CanSpawn)
             {
-                if(CanSpawn) { TagOfEntity = gameObject.tag; }
-                EntityNextTo.Add(gameObject);
+                EntityNextTo.Clear();
+                foreach (GameObject gameObject in Entity)
+                {
+                    if (CanSpawn) { TagOfEntity = gameObject.tag; }
+                    EntityNextTo.Add(gameObject);
+                }
             }
+            else
+            {
+                IABrain.NeedToSendEntityToBuildingEvent(building.gameObject.transform.position);
+            }
+           
         }
     }
 
@@ -32,6 +45,8 @@ public class IABrain : MonoBehaviour
     {
 
         DicoOfBuilding = new Dictionary<BuildingController, BuildingStats>();
+
+        NeedToSendEntityToBuildingEvent += SendEntity;
 
         ActualiseBuilding();
     }
@@ -56,7 +71,7 @@ public class IABrain : MonoBehaviour
         {
             if (theClosetEntity == null) { theClosetEntity = theCloset.gameObject; }
 
-            if(Vector3.Distance(point,theClosetEntity.transform.position) < Vector3.Distance(point, theCloset.transform.position))
+            if(Vector3.Distance(point,theClosetEntity.transform.position) > Vector3.Distance(point, theCloset.transform.position))
             {
                 theClosetEntity = theCloset.gameObject;
             }
@@ -65,6 +80,11 @@ public class IABrain : MonoBehaviour
         return theClosetEntity;
     }
 
+
+    private void SendEntity(Vector3 point)
+    {
+        GetTheClosetEntityOfAPoint(point).GetComponent<EntityController>().AddPath(point);
+    }
     void Update()
     {
     }
