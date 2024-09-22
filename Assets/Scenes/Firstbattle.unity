@@ -2800,6 +2800,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 55111504}
     - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: _ennemieTag
+      value: ennemie
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: _travelAttack
       value: 0
       objectReference: {fileID: 0}
@@ -2854,6 +2858,10 @@ PrefabInstance:
     - target: {fileID: 7641045594078516449, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641045594078516449, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: m_TagString
+      value: Allie
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

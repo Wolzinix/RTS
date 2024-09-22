@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SelectManager : MonoBehaviour
@@ -11,6 +12,10 @@ public class SelectManager : MonoBehaviour
     private EntityManager _selected;
 
     private Vector3 _CenterOfGroup;
+
+    private string _ennemieTag;
+    private string _allieTag;
+
     
     void Start()
     {
@@ -18,6 +23,14 @@ public class SelectManager : MonoBehaviour
         _CenterOfGroup = new Vector3();
     }
 
+    public int getNumberOnGroup() { return _selectedObject.Count; }
+
+    public void SetEnnemieTag(string tag){  _ennemieTag = tag; }
+
+    public void SetAllieTag(string tag)
+    {
+        _allieTag = tag;
+    }
 
     private void getCenterofGroup()
     {
@@ -63,7 +76,7 @@ public class SelectManager : MonoBehaviour
 
     public void AddSelect(EntityManager toAdd)
     {
-        if (toAdd.gameObject.CompareTag("Allie") && toAdd.gameObject.GetComponent<EntityController>())
+        if (toAdd.gameObject.CompareTag(_allieTag) && toAdd.gameObject.GetComponent<EntityController>())
         {
             if (_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()) > -1)
             {
@@ -92,9 +105,9 @@ public class SelectManager : MonoBehaviour
     {
         if (hit.transform)
         {
-            if (hit.transform.gameObject.CompareTag("ennemie")) { AttackSelected(hit); }
+            if (hit.transform.gameObject.CompareTag(_ennemieTag)) { AttackSelected(hit); }
 
-            else if (hit.transform.gameObject.CompareTag("Allie")) { FollowSelected(hit); }
+            else if (hit.transform.gameObject.CompareTag(_allieTag)) { FollowSelected(hit); }
             else { MooveSelected(hit); }
         }
     }
