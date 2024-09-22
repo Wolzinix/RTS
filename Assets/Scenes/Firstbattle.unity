@@ -2627,6 +2627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groupOfEntity: {fileID: 1662796191}
+  _ennemieTag: Allie
 --- !u!4 &1381193391
 Transform:
   m_ObjectHideFlags: 0

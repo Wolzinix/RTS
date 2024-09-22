@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +30,7 @@ public class GroupManager
 
 
     public string GetAllieTag() { return _alliTag;}
-    private void getCenterofGroup()
+    public Vector3 getCenterofGroup()
     {
         _CenterOfGroup = new Vector3();
         foreach (EntityController controller in _selectedObject)
@@ -39,14 +38,14 @@ public class GroupManager
             _CenterOfGroup += controller.gameObject.transform.position;
         }
         _CenterOfGroup /= _selectedObject.Count;
+
+        return _CenterOfGroup;
     }
 
     public List<EntityController> GetSelectedObject()
     {
         return _selectedObject;
     }
-
-
     public void ClearList()
     {
         if (!SelectedObjectIsEmpty())
@@ -83,6 +82,15 @@ public class GroupManager
         }
     }
 
+
+    public void RemoveSelect(EntityManager toAdd)
+    {
+        
+        _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
+        toAdd.gameObject.GetComponent<EntityManager>().OnDeselected();
+          
+    }
+
     public void ActionGroup(RaycastHit hit)
     {
         if (hit.transform)
@@ -94,7 +102,7 @@ public class GroupManager
         }
     }
 
-    public void MooveSelected(RaycastHit hit)
+    public void MooveSelected(RaycastHit hit, bool dontGoOnPoint = true)
     {
         if (!SelectedObjectIsEmpty())
         {
@@ -103,7 +111,9 @@ public class GroupManager
             foreach (EntityController i in _selectedObject)
             {
                 Vector3 _PointToReach = _CenterOfGroup - i.transform.position;
-                i.GetComponent<EntityController>().AddPath(hit.point - _PointToReach);
+                if(dontGoOnPoint) {   i.GetComponent<EntityController>().AddPath(hit.point - _PointToReach);   }
+                else { i.GetComponent<EntityController>().AddPath(hit.point); }
+                
                 i.Stay = false;
             }
         }
@@ -251,4 +261,8 @@ public class GroupManager
         return _selectedObject;
     }
 
+    public bool GroupContainUnity(EntityController entity)
+    {
+        return _selectedObject.Contains(entity);
+    }
 }

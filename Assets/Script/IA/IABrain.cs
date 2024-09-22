@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class IABrain : MonoBehaviour
 {
@@ -12,7 +10,13 @@ public class IABrain : MonoBehaviour
 
     public static event NeedToSendEntityToBuildingDelegate NeedToSendEntityToBuildingEvent;
 
+    private List<GroupManager> _ListOfGroup;
 
+    public string _ennemieTag;
+
+    private int TailleDuGroupe = 3;
+
+    public int nbGroup;
 
 
     public class BuildingStats
@@ -48,10 +52,21 @@ public class IABrain : MonoBehaviour
 
         DicoOfBuilding = new Dictionary<BuildingController, BuildingStats>();
 
+        _ListOfGroup = new List<GroupManager>();
+
         NeedToSendEntityToBuildingEvent += SendEntity;
+        ActualiseGroup();
 
         ActualiseBuilding();
-    }
+
+        nbGroup = _ListOfGroup.Count;
+
+        foreach (GroupManager group in _ListOfGroup)
+        {
+
+            Debug.Log(group.getNumberOnGroup());
+        }
+        }
 
     private void ActualiseBuilding()
     {
@@ -85,13 +100,87 @@ public class IABrain : MonoBehaviour
 
     private void SendEntity(BuildingStats building, Vector3 point)
     {
-        if(gameObject.CompareTag(building.Tag)) 
-        { 
-            GetTheClosetEntityOfAPoint(point).GetComponent<EntityController>().AddPath(point); 
+        if (gameObject.CompareTag(building.Tag))
+        {
+            EntityController entity = GetTheClosetEntityOfAPoint(point).GetComponent<EntityController>();
+            entity.AddPath(point);
+            foreach (GroupManager group in _ListOfGroup)
+            {
+                if (group.GroupContainUnity(entity))
+                {
+                    group.RemoveSelect(entity.gameObject.GetComponent<EntityManager>());
+                }
+            }
         }
-        
     }
-    void Update()
+
+    private void ActualiseGroup()
     {
+        bool InGroup = false;
+
+        
+        foreach (EntityController theCloset in groupOfEntity.GetComponentsInChildren<EntityController>())
+        {
+            if(theCloset.CompareTag(gameObject.tag))
+            {
+                GroupManager groupeARejoindre = null;
+                if (_ListOfGroup.Count > 0)
+                {
+                    foreach (GroupManager group in _ListOfGroup)
+                    {
+                        if (group.GroupContainUnity(theCloset))
+                        {
+                            InGroup = true;
+                        }
+                    }
+                    if (!InGroup)
+                    {
+                        foreach (GroupManager group in _ListOfGroup)
+                        {
+                            if (group.getNumberOnGroup() < TailleDuGroupe)
+                            {
+                                if (groupeARejoindre == null)
+                                {
+                                    groupeARejoindre = group;
+                                }
+                                else
+                                {
+                                    if (Vector3.Distance(groupeARejoindre.getCenterofGroup(), theCloset.gameObject.transform.position) > Vector3.Distance(group.getCenterofGroup(), theCloset.gameObject.transform.position))
+                                    {
+                                        groupeARejoindre = group;
+                                    }
+                                }
+                            }
+                        }
+                        if (groupeARejoindre != null)
+                        {
+                            groupeARejoindre.AddSelect(theCloset.gameObject.GetComponent<EntityManager>());
+                            theCloset.AddPath(groupeARejoindre.getCenterofGroup());
+                        }
+                        else
+                        {
+                            Creategroup();
+                            _ListOfGroup.Reverse();
+                            _ListOfGroup[0].AddSelect(theCloset.gameObject.GetComponent<EntityManager>());
+                            _ListOfGroup.Reverse();
+                        }
+                    }
+                }
+                else
+                {
+                    Creategroup();
+                    _ListOfGroup[0].AddSelect(theCloset.gameObject.GetComponent<EntityManager>());
+                }
+            }
+            
+        }
+    }
+
+    private void Creategroup()
+    {
+        GroupManager groupToCreate = new GroupManager();
+        groupToCreate.SetAllieTag(tag);
+        groupToCreate.SetEnnemieTag(_ennemieTag);
+        _ListOfGroup.Add(groupToCreate);
     }
 }
