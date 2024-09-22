@@ -55,8 +55,8 @@ public class ControlManager : MonoBehaviour
 
         _UiGestioneur = FindObjectOfType<UiGestioneur>();
 
-        _selectManager.SetAllieTag(gameObject.tag);
         _selectManager.SetEnnemieTag(_ennemieTag);
+        _selectManager.SetAllieTag(gameObject.tag);
 
     }
 

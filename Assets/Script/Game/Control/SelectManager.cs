@@ -4,269 +4,123 @@ using UnityEngine;
 
 public class SelectManager : MonoBehaviour
 {
-    
-    private List<EntityController> _selectedObject;
-    
-    private bool _addingMoreThanOne;
+    public GroupManager _groupManager = new GroupManager();
 
-    private EntityManager _selected;
+    public GroupManager _selected = new GroupManager();
 
-    private Vector3 _CenterOfGroup;
 
     private string _ennemieTag;
-    private string _allieTag;
 
     
     void Start()
     {
-        _selectedObject = new List<EntityController>();
-        _CenterOfGroup = new Vector3();
     }
 
-    public int getNumberOnGroup() { return _selectedObject.Count; }
+    public int getNumberOnGroup() { return _groupManager.getNumberOnGroup(); }
 
-    public void SetEnnemieTag(string tag){  _ennemieTag = tag; }
+    public void SetEnnemieTag(string tag)
+    {
+        _groupManager.SetEnnemieTag(tag);
+        _selected.SetAllieTag(tag);
+        _ennemieTag = tag;
+    }
 
     public void SetAllieTag(string tag)
     {
-        _allieTag = tag;
-    }
-
-    private void getCenterofGroup()
-    {
-        _CenterOfGroup = new Vector3();
-        foreach(EntityController controller in _selectedObject)
-        {
-            _CenterOfGroup += controller.gameObject.transform.position;
-        }
-        _CenterOfGroup /= _selectedObject.Count;
+        _selected.SetEnnemieTag(tag);
+        _groupManager.SetAllieTag(tag);
     }
 
     public bool getAddingMoreThanOne()
     {
-        return _addingMoreThanOne;
+        return _groupManager.getAddingMoreThanOne();
     }
 
     public void setAddingMoreThanOne(bool val)
     {
-        _addingMoreThanOne = val;
+        _groupManager.setAddingMoreThanOne(val);
     }
     public List<EntityController> GetSelectedObject()
     {
-        return _selectedObject;
+        return _groupManager.GetSelectedObject();
     }
 
     public void ClearList()
     {
-        if (!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            foreach (var i in _selectedObject)
-            {
-                i.gameObject.GetComponent<EntityManager>().OnDeselected();;
-            }
-            _selectedObject.Clear();
-        }
         
-        if (_selected)
-        {
-            _selected.OnDeselected();;
-        }
+            _selected.ClearList();
+       
+            _groupManager.ClearList();
+        
     }
 
     public void AddSelect(EntityManager toAdd)
     {
-        if (toAdd.gameObject.CompareTag(_allieTag) && toAdd.gameObject.GetComponent<EntityController>())
+        if (toAdd.gameObject.CompareTag(_groupManager.GetAllieTag()))
         {
-            if (_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()) > -1)
-            {
-                _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
-                toAdd.gameObject.GetComponent<EntityManager>().OnDeselected();
-            }
-            else
-            {
-                _selectedObject.Add(toAdd.gameObject.GetComponent<EntityController>());
-                toAdd.gameObject.GetComponent<EntityManager>().OnSelected();
-            }
+            _groupManager.AddSelect(toAdd);
         }
         else
         {
             ClearList();
-            if (_selected && _selected != toAdd)
-            {
-                _selected.OnDeselected();
-            }
-            _selected = toAdd;
-            toAdd.OnSelected();
+            _selected.AddSelect(toAdd);
         }
+
     }
 
     public void ActionGroup(RaycastHit hit)
     {
-        if (hit.transform)
-        {
-            if (hit.transform.gameObject.CompareTag(_ennemieTag)) { AttackSelected(hit); }
-
-            else if (hit.transform.gameObject.CompareTag(_allieTag)) { FollowSelected(hit); }
-            else { MooveSelected(hit); }
-        }
+        _groupManager.ActionGroup(hit);
     }
 
     private void MooveSelected(RaycastHit hit)
     {
-        if(!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            getCenterofGroup();
-            foreach (EntityController i in _selectedObject)
-            {
-                Vector3 _PointToReach = _CenterOfGroup - i.transform.position;
-                i.GetComponent<EntityController>().AddPath(hit.point - _PointToReach);
-                i.Stay = false;
-            }
-        }
-    }
-
-    private void VerifyIfEveryBodyIsAlive()
-    {
-
-        List<int> indexToRemove = new List<int>();
-        foreach (EntityController i in _selectedObject)
-        {
-            if (!i)
-            {
-                indexToRemove.Add(_selectedObject.IndexOf(i));
-            }
-        }
-
-        indexToRemove.Reverse();
-        foreach (int i in indexToRemove)
-        {
-            _selectedObject.RemoveAt(i);
-        }
-
+        _groupManager.MooveSelected(hit);
     }
 
     private void AttackSelected(RaycastHit hit)
     {
-        if (!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            foreach (EntityController i in _selectedObject)
-            {
-                i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<EntityManager>());
-                i.Stay = false;
-            }
-        }
+        _groupManager.AttackSelected(hit);
     }
 
     public void AddTarget(EntityManager controller)
     {
-        if (!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            foreach (EntityController i in _selectedObject)
-            {
-                if(i.gameObject.GetComponent<EntityManager>() != controller)
-                {
-                    i.GetComponent<EntityController>().AddTarget(controller);
-                    i.Stay = false;
-                }
-            }
-        }
+        _groupManager.AddTarget(controller);
     }
 
     public void DoABuild(int nb, RaycastHit hit)
     {
-        if (!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            foreach (EntityController i in _selectedObject)
-            {
-                if (i.gameObject.GetComponent<BuilderManager>())
-                {
-                    i.gameObject.GetComponent<BuilderManager>().DoAbuild(nb, hit);
-                }
-            }
-        }
+        _groupManager.DoABuild(nb, hit);
     }
 
     private void FollowSelected(RaycastHit hit)
     {
-        if (!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            foreach (EntityController i in _selectedObject)
-            {
-                i.GetComponent<EntityController>().AddAllie(hit.transform.gameObject.GetComponent<EntityManager>());
-                i.Stay = false;
-            }
-        }
+        _groupManager.FollowSelected(hit);
     }
 
     public void ResetOrder()
     {
-        if (!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            foreach (EntityController i in _selectedObject)
-            {
-                if (i){ i.ClearAllOrder();}
-            }
-        }
+        _groupManager.ResetOrder();
     }
 
     public void PatrouilleOrder(Vector3 point)
     {
-        if (!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            foreach (EntityController i in _selectedObject)
-            {
-                if (!_addingMoreThanOne)
-                {
-                    i.GetComponent<EntityController>().AddPatrol(i.gameObject.transform.position);
-                }
-                i.GetComponent<EntityController>().AddPatrol(point);
-                i.Stay = false;
-            }
-        }
-    }
-
-    private bool SelectedObjectIsEmpty()
-    {
-        return _selectedObject.Count <= 0;
+        _groupManager.PatrouilleOrder(point);
     }
 
     public void AttackingOnTravel(Vector3 point)
     {
-        if (!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            foreach (EntityController i in _selectedObject)
-            {
-                i.GetComponent<EntityController>().AddAggressivePath(point);
-                i.Stay = false;
-            }
-        }
+        _groupManager.AttackingOnTravel(point);
     }
 
     public void TenirPositionOrder()
     {
-        if (!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            ResetOrder();
-            foreach (var i in _selectedObject)
-            {
-                i.Stay = true;
-            }
-        }
+        _groupManager.TenirPositionOrder();
     }
 
     public List<EntityController> getSelectList()
     {
-        return _selectedObject;
+        return _groupManager.getSelectList();
     }
 }
 
