@@ -48,6 +48,23 @@ public class IABrain : MonoBehaviour
         }
     }
 
+    private GameObject GetTheClosetEntityOfAPoint(Vector3 point)
+    {
+        GameObject theClosetEntity = null;
+
+        foreach(EntityController theCloset in groupOfEntity.GetComponentsInChildren<EntityController>())
+        {
+            if (theClosetEntity == null) { theClosetEntity = theCloset.gameObject; }
+
+            if(Vector3.Distance(point,theClosetEntity.transform.position) < Vector3.Distance(point, theCloset.transform.position))
+            {
+                theClosetEntity = theCloset.gameObject;
+            }
+        }
+
+        return theClosetEntity;
+    }
+
     void Update()
     {
     }
