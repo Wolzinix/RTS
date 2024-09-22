@@ -8,7 +8,7 @@ public class IABrain : MonoBehaviour
     [SerializeField] GameObject groupOfEntity;
     private  Dictionary<BuildingController, BuildingStats> DicoOfBuilding;
 
-    public delegate void NeedToSendEntityToBuildingDelegate(Vector3 location);
+    public delegate void NeedToSendEntityToBuildingDelegate(BuildingStats building, Vector3 location);
 
     public static event NeedToSendEntityToBuildingDelegate NeedToSendEntityToBuildingEvent;
 
@@ -35,7 +35,7 @@ public class IABrain : MonoBehaviour
             }
             else
             {
-                IABrain.NeedToSendEntityToBuildingEvent(building.gameObject.transform.position);
+                IABrain.NeedToSendEntityToBuildingEvent(this, building.gameObject.transform.position);
             }
            
         }
@@ -81,9 +81,13 @@ public class IABrain : MonoBehaviour
     }
 
 
-    private void SendEntity(Vector3 point)
+    private void SendEntity(BuildingStats building, Vector3 point)
     {
-        GetTheClosetEntityOfAPoint(point).GetComponent<EntityController>().AddPath(point);
+        if(gameObject.CompareTag(building.Tag)) 
+        { 
+            GetTheClosetEntityOfAPoint(point).GetComponent<EntityController>().AddPath(point); 
+        }
+        
     }
     void Update()
     {
