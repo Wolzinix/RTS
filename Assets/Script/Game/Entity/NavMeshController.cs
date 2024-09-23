@@ -56,7 +56,11 @@ public class NavMeshController : MonoBehaviour
 
     public void StopPath()
     { 
-        _navMesh.ResetPath();
+        if(_navMesh != null)
+        {
+
+            _navMesh.ResetPath();
+        }
     }
 
     public bool notAtLocation()

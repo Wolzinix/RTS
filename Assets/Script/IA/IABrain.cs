@@ -19,6 +19,8 @@ public class IABrain : MonoBehaviour
 
     public int nbGroup;
 
+    private List<GroupManager> _ListOfGroupToBuilding;
+
 
     public class BuildingStats
     {
@@ -54,8 +56,9 @@ public class IABrain : MonoBehaviour
         DicoOfBuilding = new Dictionary<BuildingController, BuildingStats>();
 
         _ListOfGroup = new List<GroupManager>();
+        _ListOfGroupToBuilding = new List<GroupManager>();
 
-        NeedToSendEntityToBuildingEvent += SendEntity;
+        NeedToSendEntityToBuildingEvent += SendEntityToBuilding;
         ActualiseGroup();
 
         ActualiseBuilding();
@@ -109,7 +112,7 @@ public class IABrain : MonoBehaviour
     }
 
 
-    private void SendEntity(BuildingStats building, Vector3 point)
+    private void SendEntityToBuilding(BuildingStats building, Vector3 point)
     {
         if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
         {
@@ -125,6 +128,7 @@ public class IABrain : MonoBehaviour
             Creategroup();
             _ListOfGroup.Last().AddSelect(entity.GetComponent<EntityManager>());
             ClearUselessGroup();
+            _ListOfGroupToBuilding.Add(_ListOfGroup.Last());
             DebugGroup();
         }
        
@@ -175,7 +179,7 @@ public class IABrain : MonoBehaviour
                     {
                         foreach (GroupManager group in _ListOfGroup)
                         {
-                            if (group.getNumberOnGroup() < TailleDuGroupe)
+                            if (group.getNumberOnGroup() < TailleDuGroupe && !_ListOfGroupToBuilding.Contains(group))
                             {
                                 if (groupeARejoindre == null)
                                 {
@@ -192,8 +196,11 @@ public class IABrain : MonoBehaviour
                         }
                         if (groupeARejoindre != null)
                         {
-                            groupeARejoindre.AddSelect(theCloset.gameObject.GetComponent<EntityManager>());
+                            theCloset.ClearAllOrder();
                             theCloset.AddPath(groupeARejoindre.getCenterofGroup());
+                           
+                            groupeARejoindre.AddSelect(theCloset.gameObject.GetComponent<EntityManager>());
+                            
                         }
                         else
                         {
