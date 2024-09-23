@@ -14,6 +14,8 @@ public class SelectManager : MonoBehaviour
     
     void Start()
     {
+        _groupManager.IsPlayer = true;
+        _selected.IsPlayer = true;
     }
 
     public int getNumberOnGroup() { return _groupManager.getNumberOnGroup(); }

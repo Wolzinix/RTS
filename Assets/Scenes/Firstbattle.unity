@@ -262,6 +262,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+--- !u!1 &167806440 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+  m_PrefabInstance: {fileID: 1228723849}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &211551998
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2627,6 +2632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groupOfEntity: {fileID: 1662796191}
+  Objectif: {fileID: 167806440}
   _ennemieTag: Allie
   nbGroup: 0
 --- !u!4 &1381193391

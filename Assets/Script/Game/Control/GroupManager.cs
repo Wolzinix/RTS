@@ -16,6 +16,8 @@ public class GroupManager
 
     private string _alliTag;
 
+    public bool IsPlayer;
+
     public UnityEvent<GroupManager> GroupIsDeadevent = new UnityEvent<GroupManager>();
 
     public GroupManager()
@@ -76,13 +78,21 @@ public class GroupManager
             else
             {
                 _selectedObject.Add(toAdd.gameObject.GetComponent<EntityController>());
-                toAdd.gameObject.GetComponent<EntityManager>().OnSelected();
+                if(IsPlayer)
+                {
+
+                    toAdd.gameObject.GetComponent<EntityManager>().OnSelected();
+                }
             }
         }
         else
         {
             ClearList();
-            toAdd.OnSelected();
+            if(IsPlayer)
+            {
+
+                toAdd.OnSelected();
+            }
         }
     }
 

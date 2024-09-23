@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.FilePathAttribute;
 
 public class IABrain : MonoBehaviour
 {
@@ -13,6 +12,8 @@ public class IABrain : MonoBehaviour
     public static event NeedToSendToBuildingDelegate NeedToSendEntityToBuildingEvent;
 
     public static event NeedToSendToBuildingDelegate NeedToSendGroupToBuildingEvent;
+
+    [SerializeField] private GameObject Objectif;
 
     private List<GroupManager> _ListOfGroup;
 
@@ -210,7 +211,7 @@ public class IABrain : MonoBehaviour
             _ListOfGroup.Last().AddSelect(entity.GetComponent<EntityManager>());
             ClearUselessGroup();
             _ListOfGroupToSpawnEntity.Add(_ListOfGroup.Last());
-            DebugGroup();
+            //DebugGroup();
         }
        
     }
@@ -239,6 +240,11 @@ public class IABrain : MonoBehaviour
         }
     }
 
+    private void SendToAttack(GroupManager group,GameObject objectif)
+    {
+        group.AttackingOnTravel(objectif.transform.position);
+    }
+
     private void ActualiseGroup()
     {
         foreach (EntityController theCloset in groupOfEntity.GetComponentsInChildren<EntityController>())
@@ -260,6 +266,10 @@ public class IABrain : MonoBehaviour
                     {
                         foreach (GroupManager group in _ListOfGroup)
                         {
+                            if(group.getNumberOnGroup() >= TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group) && !_ListOfGroupToProtectBuilding.Contains(group))
+                            {
+                                SendToAttack(group,Objectif);
+                            }
                             if (group.getNumberOnGroup() < TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group))
                             {
                                 if (groupeARejoindre == null)
@@ -299,7 +309,7 @@ public class IABrain : MonoBehaviour
             
         }
         ClearUselessGroup();
-        DebugGroup();
+      //  DebugGroup();
     }
 
     private void Creategroup()
