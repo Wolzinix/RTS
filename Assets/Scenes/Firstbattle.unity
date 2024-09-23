@@ -514,7 +514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.51
+      value: 5.46
       objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -522,7 +522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.51
+      value: -11.63
       objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1197,7 +1197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.25
+      value: 3.1999998
       objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2229,7 +2229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4447898728907550784, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: seeRange
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_Name
@@ -2495,7 +2495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4447898728907550784, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: seeRange
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4447898728907550784, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: changeStats.m_PersistentCalls.m_Calls.Array.size
@@ -2628,6 +2628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groupOfEntity: {fileID: 1662796191}
   _ennemieTag: Allie
+  nbGroup: 0
 --- !u!4 &1381193391
 Transform:
   m_ObjectHideFlags: 0
@@ -3103,7 +3104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.58
+      value: 5.5299997
       objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_LocalPosition.y

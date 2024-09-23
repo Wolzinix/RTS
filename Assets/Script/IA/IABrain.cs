@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class IABrain : MonoBehaviour
@@ -59,14 +60,23 @@ public class IABrain : MonoBehaviour
 
         ActualiseBuilding();
 
-        nbGroup = _ListOfGroup.Count;
+    }
 
-        foreach (GroupManager group in _ListOfGroup)
+    private List<BuildingController> GetAllieBuilding()
+    {
+        List<BuildingController> list = new List<BuildingController>();
+
+        foreach(BuildingController i in  DicoOfBuilding.Keys)
         {
-
-            Debug.Log(group.getNumberOnGroup());
+            i.entityAsBeenBuy.RemoveAllListeners();
+            if(!i.CompareTag(_ennemieTag)|| DicoOfBuilding[i].CanSpawn) 
+            {
+                i.entityAsBeenBuy.AddListener(ActualiseGroup);
+                list.Add(i); 
+            }
         }
-        }
+        return list;
+    }
 
     private void ActualiseBuilding()
     {
@@ -78,6 +88,7 @@ public class IABrain : MonoBehaviour
             building.EntityNextToEvent.AddListener(stats.changeHaveEntity);
             DicoOfBuilding[building] = stats;
         }
+        GetAllieBuilding();
     }
 
     private GameObject GetTheClosetEntityOfAPoint(Vector3 point)
@@ -100,7 +111,8 @@ public class IABrain : MonoBehaviour
 
     private void SendEntity(BuildingStats building, Vector3 point)
     {
-        if (gameObject.CompareTag(building.Tag))
+        Debug.Log(building.Tag);
+        if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
         {
             EntityController entity = GetTheClosetEntityOfAPoint(point).GetComponent<EntityController>();
             entity.AddPath(point);
@@ -110,6 +122,34 @@ public class IABrain : MonoBehaviour
                 {
                     group.RemoveSelect(entity.gameObject.GetComponent<EntityManager>());
                 }
+            }
+            Creategroup();
+            _ListOfGroup.Last().AddSelect(entity.GetComponent<EntityManager>());
+            ClearUselessGroup();
+            DebugGroup();
+        }
+       
+    }
+
+
+    private void DebugGroup()
+    {
+        nbGroup = _ListOfGroup.Count;
+        foreach (var group in _ListOfGroup)
+        {
+            Debug.Log(group.getNumberOnGroup());
+        }
+    }
+
+
+    private void ClearUselessGroup()
+    {
+        List<GroupManager> groupManagers = new List<GroupManager>(_ListOfGroup);
+        foreach(GroupManager group in groupManagers)
+        {
+            if(group.getNumberOnGroup() == 0)
+            {
+                _ListOfGroup.Remove(group);
             }
         }
     }
@@ -174,6 +214,8 @@ public class IABrain : MonoBehaviour
             }
             
         }
+        ClearUselessGroup();
+        DebugGroup();
     }
 
     private void Creategroup()

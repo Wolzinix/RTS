@@ -9,6 +9,8 @@ public class BuildingController : MonoBehaviour
 
     public UnityEvent entitySpawnNow = new UnityEvent();
 
+    public UnityEvent entityAsBeenBuy = new UnityEvent();
+
     public UnityEvent<List<GameObject>,BuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, BuildingController>();
 
     private float _rangeDetection;
@@ -128,6 +130,7 @@ public class BuildingController : MonoBehaviour
 
                     entityDictionary[entityToSpawn].actualStock -= 1;
                     entitySpawnNow.Invoke();
+                    entityAsBeenBuy.Invoke();
                 }
               
             }
