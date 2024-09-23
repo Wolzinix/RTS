@@ -128,6 +128,8 @@ public class BuildingController : MonoBehaviour
 
                     newEntity.tag = tag;
 
+                    newEntity.GetComponent<EntityManager>().ActualiseSprite();
+
                     entityDictionary[entityToSpawn].actualStock -= 1;
                     entitySpawnNow.Invoke();
                     entityAsBeenBuy.Invoke();
