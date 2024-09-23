@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GroupManager
 {
@@ -13,6 +15,8 @@ public class GroupManager
     private string _ennemieTag;
 
     private string _alliTag;
+
+    public UnityEvent<GroupManager> GroupIsDeadevent = new UnityEvent<GroupManager>();
 
     public GroupManager()
     {
@@ -98,11 +102,16 @@ public class GroupManager
             if (hit.transform.gameObject.CompareTag(_ennemieTag)) { AttackSelected(hit); }
 
             else if (hit.transform.gameObject.CompareTag(_alliTag)) { FollowSelected(hit); }
-            else { MooveSelected(hit); }
+            else { MooveSelected(hit.point); }
         }
     }
 
-    public void MooveSelected(RaycastHit hit, bool dontGoOnPoint = true)
+    void OnDestroy()
+    {
+        GroupIsDeadevent.Invoke(this);
+    }
+
+    public void MooveSelected(Vector3 point, bool dontGoOnPoint = true)
     {
         if (!SelectedObjectIsEmpty())
         {
@@ -111,8 +120,8 @@ public class GroupManager
             foreach (EntityController i in _selectedObject)
             {
                 Vector3 _PointToReach = _CenterOfGroup - i.transform.position;
-                if(dontGoOnPoint) {   i.GetComponent<EntityController>().AddPath(hit.point - _PointToReach);   }
-                else { i.GetComponent<EntityController>().AddPath(hit.point); }
+                if(dontGoOnPoint) {   i.GetComponent<EntityController>().AddPath(point - _PointToReach);   }
+                else { i.GetComponent<EntityController>().AddPath(point); }
                 
                 i.Stay = false;
             }

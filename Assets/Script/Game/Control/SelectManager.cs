@@ -75,7 +75,7 @@ public class SelectManager : MonoBehaviour
 
     private void MooveSelected(RaycastHit hit)
     {
-        _groupManager.MooveSelected(hit);
+        _groupManager.MooveSelected(hit.point);
     }
 
     private void AttackSelected(RaycastHit hit)
