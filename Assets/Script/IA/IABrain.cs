@@ -111,7 +111,6 @@ public class IABrain : MonoBehaviour
 
     private void SendEntity(BuildingStats building, Vector3 point)
     {
-        Debug.Log(building.Tag);
         if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
         {
             EntityController entity = GetTheClosetEntityOfAPoint(point).GetComponent<EntityController>();
@@ -139,6 +138,7 @@ public class IABrain : MonoBehaviour
         {
             Debug.Log(group.getNumberOnGroup());
         }
+        Debug.Log("---------------");
     }
 
 
@@ -156,12 +156,10 @@ public class IABrain : MonoBehaviour
 
     private void ActualiseGroup()
     {
-        bool InGroup = false;
-
-        
         foreach (EntityController theCloset in groupOfEntity.GetComponentsInChildren<EntityController>())
         {
-            if(theCloset.CompareTag(gameObject.tag))
+            bool InGroup = false;
+            if (theCloset.CompareTag(gameObject.tag))
             {
                 GroupManager groupeARejoindre = null;
                 if (_ListOfGroup.Count > 0)
@@ -200,9 +198,7 @@ public class IABrain : MonoBehaviour
                         else
                         {
                             Creategroup();
-                            _ListOfGroup.Reverse();
-                            _ListOfGroup[0].AddSelect(theCloset.gameObject.GetComponent<EntityManager>());
-                            _ListOfGroup.Reverse();
+                            _ListOfGroup.Last().AddSelect(theCloset.gameObject.GetComponent<EntityManager>());
                         }
                     }
                 }
