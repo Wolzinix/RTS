@@ -49,11 +49,8 @@ public class SelectManager : MonoBehaviour
 
     public void ClearList()
     {
-        
-            _selected.ClearList();
-       
-            _groupManager.ClearList();
-        
+        _selected.ClearList();
+        _groupManager.ClearList();
     }
 
     public void AddSelect(EntityManager toAdd)
