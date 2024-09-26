@@ -9,6 +9,10 @@ public class BuildingController : MonoBehaviour
 
     public UnityEvent entitySpawnNow = new UnityEvent();
 
+    public UnityEvent entityAsBeenBuy = new UnityEvent();
+
+    public UnityEvent<List<GameObject>,BuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, BuildingController>();
+
     private float _rangeDetection;
 
     private bool _ally;
@@ -58,6 +62,7 @@ public class BuildingController : MonoBehaviour
         }
 
         List<GameObject> ListOfHit= DoCircleRaycast();
+        EntityNextToEvent.Invoke(ListOfHit,this);
         int nbAllies = 0;
         int nbEnnemie = 0;
 
@@ -80,19 +85,24 @@ public class BuildingController : MonoBehaviour
         else { _ennemie = false; }
 
 
-        proximityGestion();
+        proximityGestion(ListOfHit);
         
     }
 
+    public bool GetCanSpawn()
+    {
+        return _canSpawn;
+    }
     public void AllySpawnEntity(GameObject entityToSpawn)
     {
+        
         if(_ally && !_ennemie)
         {
-            SpawnEntity(entityToSpawn, "Allie");
+            SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0]);
         }
     }
 
-    private void SpawnEntity(GameObject entityToSpawn, string tag)
+    private void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity)
     {
         if(_canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
         {
@@ -108,7 +118,7 @@ public class BuildingController : MonoBehaviour
 
                 if (colliders == 1  )
                 {
-                    GameObject newEntity = Instantiate(entityToSpawn, spawnPosition, transform.rotation)
+                    GameObject newEntity = Instantiate(entityToSpawn, spawnPosition, transform.rotation, entity.transform.parent)
                     ;
 
                     if (newEntity.GetComponent<EntityController>())
@@ -118,8 +128,11 @@ public class BuildingController : MonoBehaviour
 
                     newEntity.tag = tag;
 
+                    newEntity.GetComponent<EntityManager>().ActualiseSprite();
+
                     entityDictionary[entityToSpawn].actualStock -= 1;
                     entitySpawnNow.Invoke();
+                    entityAsBeenBuy.Invoke();
                 }
               
             }
@@ -133,12 +146,12 @@ public class BuildingController : MonoBehaviour
     }
 
 
-    private void proximityGestion()
+    private void proximityGestion(List<GameObject> list)
     {
         if (!_ally && _ennemie)
         {
             _canSpawn = true;
-            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i,"ennemie");}
+            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i,"ennemie", list[0]);}
         }
         else if(_ally) { _canSpawn = true; }
         else { _canSpawn = false; }
@@ -163,14 +176,17 @@ public class BuildingController : MonoBehaviour
             Vector3 dir = Quaternion.Euler(0, i * delta, 0) * transform.forward;
 
             Ray ray = new Ray(transform.position, dir);
-            RaycastHit hit;
+            RaycastHit[] hits;
 
-            Physics.Raycast(ray, out hit, _rangeDetection);
+            hits = Physics.RaycastAll(ray, _rangeDetection);
 
-            if (hit.transform && hit.transform.gameObject.GetComponent<EntityManager>())
+            foreach (RaycastHit hit in hits)
             {
-                Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
-                listOfGameObejct.Add(hit.transform.gameObject);
+                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<EntityManager>())
+                {
+                    Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
+                    listOfGameObejct.Add(hit.transform.gameObject);
+                }
             }
         }
 

@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 1448527202929963815}
   - component: {fileID: -2430026522903451483}
   m_Layer: 6
-  m_Name: Entity 3
+  m_Name: Eclaireur
   m_TagString: Allie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

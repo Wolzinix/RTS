@@ -35,6 +35,9 @@ public class ControlManager : MonoBehaviour
     
     private UiGestioneur _UiGestioneur;
 
+
+    [SerializeField] string _ennemieTag;
+
     void Start()
     {
         _selectManager = FindObjectOfType<SelectManager>();
@@ -50,6 +53,10 @@ public class ControlManager : MonoBehaviour
         dragSelect.action.canceled += EndDragSelect;
 
         _UiGestioneur = FindObjectOfType<UiGestioneur>();
+
+        _selectManager.SetEnnemieTag(_ennemieTag);
+        _selectManager.SetAllieTag(gameObject.tag);
+
     }
 
     private void ActiveMultiSelection(InputAction.CallbackContext obj)
@@ -134,7 +141,7 @@ public class ControlManager : MonoBehaviour
                 if (!_multiSelectionIsActive) {_selectManager.ClearList();  }
                 if (hit.collider)
                 {
-                    Debug.DrawLine(_camera.transform.position, hit.point, color:Color.green, 10f);
+                    Debug.DrawLine(_camera.transform.position, hit.point, color:Color.blue, 10f);
                     if (hit.transform.GetComponent<EntityManager>())
                     {
                         _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<EntityManager>());
@@ -256,7 +263,7 @@ public class ControlManager : MonoBehaviour
         {
             Vector3 point = _camera.WorldToScreenPoint(i.transform.position);
 
-            if (UnitInDragBox(point, bounds) && i.CompareTag("Allie"))
+            if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag))
             {
                 _selectManager.AddSelect(i.gameObject.GetComponent<EntityManager>());
                 _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<EntityManager>());

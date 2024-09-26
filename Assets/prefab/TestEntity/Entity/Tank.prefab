@@ -125,7 +125,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4554085821723888230}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &9072740189486899932
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -200,12 +200,13 @@ GameObject:
   - component: {fileID: 5592201362407160647}
   - component: {fileID: 3648613589935070831}
   - component: {fileID: 2033893907195975481}
+  - component: {fileID: 97933223646041361}
   - component: {fileID: 6208376071361995173}
   - component: {fileID: 7207345613144918307}
-  - component: {fileID: 7516939702130909472}
-  - component: {fileID: 6933795875318003325}
+  - component: {fileID: 1448527202929963815}
+  - component: {fileID: -6948177359517586646}
   m_Layer: 6
-  m_Name: Entity 1
+  m_Name: Tank
   m_TagString: Allie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -267,11 +268,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3591858989714b43970e271f2d63062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectile: {fileID: 6611384894665667933, guid: 064a87588d0069342aa228859eb93adc, type: 3}
+  _projectile: {fileID: 0}
   _listForOrder: 
   resetEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &97933223646041361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -306,15 +319,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a9e5c15c907f443afd801685ef2280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
-  attack: 2
-  defense: 1
+  hp: 20
+  attack: 1
+  defense: 3
   attackSpeed: 1
   speed: 2
-  range: 6
-  seeRange: 8
+  range: 3
+  seeRange: 6
   sprite: {fileID: 7706548414058156727}
-  spriteImage: {fileID: -2413806693520163455, guid: b53783ba57e90b7459ad2e55992892da, type: 3}
+  spriteImage: {fileID: -9095717837082945937, guid: ff8e1e5671dc11d42ae7322385cb3432, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   changeStats:
@@ -326,8 +339,8 @@ MonoBehaviour:
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
---- !u!135 &7516939702130909472
-SphereCollider:
+--- !u!136 &1448527202929963815
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -344,10 +357,12 @@ SphereCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 2
   m_Radius: 0.6
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6933795875318003325
+--- !u!114 &-6948177359517586646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

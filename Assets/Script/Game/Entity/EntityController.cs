@@ -26,6 +26,8 @@ public class EntityController : MonoBehaviour
 
     private List<GameObject> _listOfalliesOnRange;
 
+    public UnityEvent EntityIsArrive = new UnityEvent();
+
 
     private bool _stayPosition;
     private bool _attacking;
@@ -40,7 +42,7 @@ public class EntityController : MonoBehaviour
 
     public UnityEvent resetEvent = new UnityEvent();
 
-
+    public int GroupNumber;
 
 
     void Awake()
@@ -108,15 +110,13 @@ public class EntityController : MonoBehaviour
         {
                 List<GameObject> listOfRayTuch = DoCircleRaycast();
                 List<GameObject> listOfAlly = new List<GameObject>();
-                List<GameObject> listToRemove = new List<GameObject>();
+                
 
 
                 foreach (GameObject target in listOfRayTuch)
                 {
-                    if (target != gameObject && !target.CompareTag(gameObject.tag) )
-                    {
-                        InsertTarget(target.GetComponent<EntityManager>());
-                    }
+                    if (target != gameObject && !target.CompareTag(gameObject.tag) )  { InsertTarget(target.GetComponent<EntityManager>());}
+
                     if(target != gameObject  && target.CompareTag(gameObject.tag))
                     {
                         if (!_listOfalliesOnRange.Contains(target))
@@ -124,33 +124,39 @@ public class EntityController : MonoBehaviour
                             target.GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
                             _listOfalliesOnRange.Add(target);
                         }
-                        listOfAlly.Add(target);
-                    }
-                }
-           
-                foreach(GameObject i in _listOfalliesOnRange)
-                {
-                    if(!listOfAlly.Contains(i))
-                    {
-                        if(i)
-                        {
-                            i.GetComponent<EntityManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
-                            listToRemove.Add(i);
-                        }
-                        else { listOfAlly.Remove(i); }
+                        if(!listOfAlly.Contains(target)) { listOfAlly.Add(target);}   
+                       
                     }
                 }
 
-                foreach(GameObject i in listToRemove) { _listOfalliesOnRange.Remove(i);}
-
-                if (_listOfTarget.Count > 0)
-                {
-                    _listOfTarget.Sort(SortTargetByProximity);
-                    
-                    if(_navMesh) {_navMesh.StopPath();}
-                }
+                ClearListOfAlly(listOfAlly);
                 listOfRayTuch.Clear();
-            
+        }
+    }
+
+    private void ClearListOfAlly(List<GameObject> list)
+    {
+        List<GameObject> listToRemove = new List<GameObject>();
+        foreach (GameObject i in _listOfalliesOnRange)
+        {
+            if (!list.Contains(i))
+            {
+                if (i)
+                {
+                    i.GetComponent<EntityManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
+                    listToRemove.Add(i);
+                }
+                else { listToRemove.Add(i); }
+            }
+        }
+
+        foreach (GameObject i in listToRemove) { _listOfalliesOnRange.Remove(i); }
+
+        if (_listOfTarget.Count > 0)
+        {
+            _listOfTarget.Sort(SortTargetByProximity);
+
+            if (_navMesh) { _navMesh.StopPath(); }
         }
     }
 
@@ -188,7 +194,11 @@ public class EntityController : MonoBehaviour
 
                 { _animator.SetBool(Attacking, false); }
 
-                else{ _animator.SetBool(Attacking, true); }
+                else
+                {
+                    transform.LookAt(target.transform);
+                    _animator.SetBool(Attacking, true); 
+                }
 
                 if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) {_attacking = true;}
             }
@@ -219,20 +229,24 @@ public class EntityController : MonoBehaviour
                     {
                         _listOfPath.RemoveAt(0);
                         _listForOrder.RemoveAt(0);
+                        EntityIsArrive.Invoke();
                     }
                 }
             }
 
             else if (_listForOrder[0] == Order.Aggressive)
             {
-                if (_navMesh && _navMesh.isStillOnTrajet())
+                if(_navMesh)
                 {
-                    _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
-                }
-                if (!_navMesh.isStillOnTrajet() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
-                {
-                    _listForAttackingOnTravel.RemoveAt(0);
-                    _listForOrder.RemoveAt(0);
+                    if (_navMesh.isStillOnTrajet())
+                    {
+                        _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
+                    }
+                    if (!_navMesh.isStillOnTrajet() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                    {
+                        _listForAttackingOnTravel.RemoveAt(0);
+                        _listForOrder.RemoveAt(0);
+                    }
                 }
             }
 
@@ -275,7 +289,7 @@ public class EntityController : MonoBehaviour
 
     void DoAttack(EntityManager target) 
     {
-        if(_projectile)
+        if (_projectile)
         {
             ProjectilManager pj = Instantiate(_projectile);
             pj.SetDamage(GetComponent<EntityManager>().Attack);
@@ -292,8 +306,12 @@ public class EntityController : MonoBehaviour
 
     public void AddPath(Vector3 newPath)
     {
-        _listForOrder.Add(Order.Move);
-        _listOfPath.Add(newPath);
+        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+        {
+            _listForOrder.Add(Order.Move);
+            _listOfPath.Add(newPath);
+        }
+           
     }
 
     private void AddTargetAttacked(EntityManager target)
@@ -356,6 +374,8 @@ public class EntityController : MonoBehaviour
         if(_navMesh){_navMesh.StopPath();}
 
         resetEvent.Invoke();
+
+        ClearListOfAlly(new List<GameObject>());
     }
 
     public bool Stay

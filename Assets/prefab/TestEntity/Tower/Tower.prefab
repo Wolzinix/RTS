@@ -266,8 +266,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3591858989714b43970e271f2d63062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectile: {fileID: 0}
+  _projectile: {fileID: 6611384894665667933, guid: 064a87588d0069342aa228859eb93adc, type: 3}
   _listForOrder: 
+  resetEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7207345613144918307
 MonoBehaviour:
   m_ObjectHideFlags: 0

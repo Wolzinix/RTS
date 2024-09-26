@@ -83,6 +83,7 @@ public class UiGestioneur : MonoBehaviour
                 entityUi.GetComponentInChildren<Image>().color = Color.grey;
             }
             buildingUi.gameObject.SetActive(false);
+            buildUI.gameObject.SetActive(false);
         }
         else if (entity.gameObject.GetComponent<BuildingController>())
         {
@@ -104,7 +105,7 @@ public class UiGestioneur : MonoBehaviour
                 buildingUi.gameObject.SetActive(true);
                 buildingUi.SetBuilding(entity.gameObject.GetComponent<BuildingController>());
             }
-
+            buildUI.gameObject.SetActive(false);
             orderUi.gameObject.SetActive(false);
             
         }
