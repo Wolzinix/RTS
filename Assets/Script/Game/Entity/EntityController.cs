@@ -122,10 +122,7 @@ public class EntityController : MonoBehaviour
                             target.GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
                             _listOfalliesOnRange.Add(target);
                         }
-                        if(!listOfAlly.Contains(target))
-                          {
-                        listOfAlly.Add(target);
-                          }   
+                        if(!listOfAlly.Contains(target)) { listOfAlly.Add(target);}   
                        
                     }
                 }
