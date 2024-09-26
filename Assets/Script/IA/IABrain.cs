@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -59,10 +60,7 @@ public class IABrain : MonoBehaviour
             }
         }
 
-        public void NeedAGroup()
-        {
-            IABrain.NeedToSendGroupToBuildingEvent(this, building.transform.position);
-        }
+        public void NeedAGroup() { IABrain.NeedToSendGroupToBuildingEvent(this, building.transform.position);}
 
         public void changeHaveEntity(List<GameObject> Entity, BuildingController building) 
         {
@@ -77,10 +75,7 @@ public class IABrain : MonoBehaviour
                     EntityNextTo.Add(gameObject);
                 }
             }
-            else
-            {
-                IABrain.NeedToSendEntityToBuildingEvent(this, building.gameObject.transform.position);
-            }
+            else { IABrain.NeedToSendEntityToBuildingEvent(this, building.gameObject.transform.position);  }
            
         }
     }
@@ -208,11 +203,10 @@ public class IABrain : MonoBehaviour
                     group.RemoveSelect(entity.gameObject.GetComponent<EntityManager>());
                 }
             }
-            Creategroup();
-            _ListOfGroup.Last().AddSelect(entity.GetComponent<EntityManager>());
+            Creategroup(entity.GetComponent<EntityManager>());
             ClearUselessGroup();
             _ListOfGroupToSpawnEntity.Add(_ListOfGroup.Last());
-            //DebugGroup();
+            DebugGroup();
         }
        
     }
@@ -221,10 +215,7 @@ public class IABrain : MonoBehaviour
     private void DebugGroup()
     {
         nbGroup = _ListOfGroup.Count;
-        foreach (var group in _ListOfGroup)
-        {
-            Debug.Log(group.getNumberOnGroup());
-        }
+        foreach (var group in _ListOfGroup) { Debug.Log(group.getNumberOnGroup()); }
         Debug.Log("---------------");
     }
 
@@ -234,11 +225,25 @@ public class IABrain : MonoBehaviour
         List<GroupManager> groupManagers = new List<GroupManager>(_ListOfGroup);
         foreach(GroupManager group in groupManagers)
         {
-            if(group.getNumberOnGroup() == 0)
-            {
-                _ListOfGroup.Remove(group);
-            }
+            if(group.getNumberOnGroup() == 0){ RemoveAGroup(group); }
         }
+    }
+
+    private void Update()
+    {
+        //StartCoroutine(ActualiseGroupAfter20S());
+    }
+
+    IEnumerator ActualiseGroupAfter20S()
+    {
+        yield return new WaitForSeconds(30f);
+        ActualiseGroup();
+    }
+    private void RemoveAGroup(GroupManager groupToRemove)
+    {
+        if(_ListOfGroupToProtectBuilding.Contains(groupToRemove)) { _ListOfGroupToProtectBuilding.Remove(groupToRemove);  }
+        if(_ListOfGroupToSpawnEntity.Contains(groupToRemove)) { _ListOfGroupToSpawnEntity.Remove(groupToRemove); }
+        _ListOfGroup.Remove(groupToRemove);
     }
 
     private void SendToAttack(GroupManager group,GameObject objectif)
@@ -246,6 +251,48 @@ public class IABrain : MonoBehaviour
         group.AttackingOnTravel(objectif.transform.position);
     }
 
+    private void GroupToAttack(GroupManager group)
+    {
+        if (group.getNumberOnGroup() >= TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group) && !_ListOfGroupToProtectBuilding.Contains(group))
+        {
+            group.ResetOrder();
+            SendToAttack(group, Objectif);
+        }
+    }
+
+
+    private void AddEntityToGroup(GroupManager group, EntityController entity )
+    {
+        entity.ClearAllOrder();
+        entity.AddPath(group.getCenterofGroup());
+
+        //group.MooveSelected(group.getCenterofGroup());
+        group.AddSelect(entity.gameObject.GetComponent<EntityManager>());
+
+        entity.GroupNumber = _ListOfGroup.IndexOf(group);
+    }
+
+    private void SendEverybodyToTheCenter(GroupManager group)
+    {
+        foreach (EntityController entity in group.getSelectList())
+        {
+            entity.ClearAllOrder();
+            entity.AddPath(group.getCenterofGroup());
+        }
+    }
+
+    private bool EverybodyIsImmobile(GroupManager group)
+    {
+        bool Immobile = true;
+        foreach(EntityController entity in group.getSelectList())
+        {
+            if(entity._listForOrder.Count>0)
+            {
+                Immobile = false;
+            }
+        }
+        return Immobile;
+    }
     private void ActualiseGroup()
     {
         foreach (EntityController theCloset in groupOfEntity.GetComponentsInChildren<EntityController>())
@@ -258,25 +305,16 @@ public class IABrain : MonoBehaviour
                 {
                     foreach (GroupManager group in _ListOfGroup)
                     {
-                        if (group.GroupContainUnity(theCloset))
-                        {
-                            InGroup = true;
-                        }
+                        if (group.GroupContainUnity(theCloset)) { InGroup = true;}
                     }
+
                     if (!InGroup)
                     {
                         foreach (GroupManager group in _ListOfGroup)
                         {
-                            if(group.getNumberOnGroup() >= TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group) && !_ListOfGroupToProtectBuilding.Contains(group))
-                            {
-                                SendToAttack(group,Objectif);
-                            }
                             if (group.getNumberOnGroup() < TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group))
                             {
-                                if (groupeARejoindre == null)
-                                {
-                                    groupeARejoindre = group;
-                                }
+                                if (groupeARejoindre == null) { groupeARejoindre = group; }
                                 else
                                 {
                                     if (Vector3.Distance(groupeARejoindre.getCenterofGroup(), theCloset.gameObject.transform.position) > Vector3.Distance(group.getCenterofGroup(), theCloset.gameObject.transform.position))
@@ -286,39 +324,38 @@ public class IABrain : MonoBehaviour
                                 }
                             }
                         }
-                        if (groupeARejoindre != null)
-                        {
-                            theCloset.ClearAllOrder();
-                            theCloset.AddPath(groupeARejoindre.getCenterofGroup());
-                           
-                            groupeARejoindre.AddSelect(theCloset.gameObject.GetComponent<EntityManager>());
-                            
-                        }
-                        else
-                        {
-                            Creategroup();
-                            _ListOfGroup.Last().AddSelect(theCloset.gameObject.GetComponent<EntityManager>());
-                        }
+                        if (groupeARejoindre != null)  { AddEntityToGroup(groupeARejoindre, theCloset); }
+                        else { Creategroup(theCloset.gameObject.GetComponent<EntityManager>()); }
                     }
                 }
-                else
-                {
-                    Creategroup();
-                    _ListOfGroup[0].AddSelect(theCloset.gameObject.GetComponent<EntityManager>());
-                }
+                else { Creategroup(theCloset.gameObject.GetComponent<EntityManager>()); }
             }
-            
         }
         ClearUselessGroup();
-      //  DebugGroup();
+        DebugGroup();
     }
 
-    private void Creategroup()
+    private void ActualiseTheGroup(GroupManager group)
+    {
+        SendEverybodyToTheCenter(group);
+        if(EverybodyIsImmobile(group)){
+            GroupToAttack(group);
+        }
+        
+    }
+
+    private void Creategroup(EntityManager entity)
     {
         GroupManager groupToCreate = new GroupManager();
         groupToCreate.SetAllieTag(tag);
         groupToCreate.SetEnnemieTag(_ennemieTag);
         _ListOfGroup.Add(groupToCreate);
+
+        groupToCreate.GroupIsDeadevent.AddListener(RemoveAGroup);
+        groupToCreate.SomeoneIsImmobile.AddListener(ActualiseTheGroup);
+
+        groupToCreate.AddSelect(entity);
+        entity.gameObject.GetComponent<EntityController>().GroupNumber = _ListOfGroup.IndexOf(groupToCreate);
     }
 
    

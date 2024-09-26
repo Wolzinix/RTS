@@ -26,6 +26,8 @@ public class EntityController : MonoBehaviour
 
     private List<GameObject> _listOfalliesOnRange;
 
+    public UnityEvent EntityIsArrive = new UnityEvent();
+
 
     private bool _stayPosition;
     private bool _attacking;
@@ -40,7 +42,7 @@ public class EntityController : MonoBehaviour
 
     public UnityEvent resetEvent = new UnityEvent();
 
-
+    public int GroupNumber;
 
 
     void Awake()
@@ -227,6 +229,7 @@ public class EntityController : MonoBehaviour
                     {
                         _listOfPath.RemoveAt(0);
                         _listForOrder.RemoveAt(0);
+                        EntityIsArrive.Invoke();
                     }
                 }
             }
@@ -303,8 +306,12 @@ public class EntityController : MonoBehaviour
 
     public void AddPath(Vector3 newPath)
     {
-        _listForOrder.Add(Order.Move);
-        _listOfPath.Add(newPath);
+        if (Vector3.Distance(gameObject.transform.position, newPath) >= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+        {
+            _listForOrder.Add(Order.Move);
+            _listOfPath.Add(newPath);
+        }
+           
     }
 
     private void AddTargetAttacked(EntityManager target)

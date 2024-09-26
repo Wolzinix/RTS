@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class NavMeshController : MonoBehaviour
 {
     private NavMeshAgent _navMesh;
-
 
     void Start()
     { 
@@ -21,7 +21,9 @@ public class NavMeshController : MonoBehaviour
 
     public float HaveStoppingDistance()
     {
-        return _navMesh.stoppingDistance;
+        if(_navMesh) { return _navMesh.stoppingDistance; }
+        else { return 0f; }
+        
     }
 
     private void Update()
@@ -29,10 +31,11 @@ public class NavMeshController : MonoBehaviour
         if(!notAtLocation())
         {
             StopPath();
-
+            
             if (GetComponent<Rigidbody>()) { GetComponent<Rigidbody>().velocity = Vector3.zero;
                 GetComponent<Rigidbody>().freezeRotation = true;
             }
+
         }
     }
 
@@ -65,7 +68,8 @@ public class NavMeshController : MonoBehaviour
 
     public bool notAtLocation()
     {
-
-        return _navMesh.remainingDistance > _navMesh.stoppingDistance;
+        bool isnotarrived = _navMesh.remainingDistance > _navMesh.stoppingDistance;
+        
+        return isnotarrived;
     }
 }

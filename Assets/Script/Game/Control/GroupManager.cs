@@ -20,10 +20,26 @@ public class GroupManager
 
     public UnityEvent<GroupManager> GroupIsDeadevent = new UnityEvent<GroupManager>();
 
+    public UnityEvent<GroupManager> SomeoneIsImmobile = new UnityEvent<GroupManager>();
+
     public GroupManager()
     {
         _selectedObject = new List<EntityController>();
         _CenterOfGroup = new Vector3();
+    }
+
+    public bool IsMoving()
+    {
+        bool mooving = false;
+        foreach (EntityController controller in _selectedObject)
+        {
+            if(!mooving )
+            {
+                mooving = controller.GetComponent<NavMeshController>().notAtLocation();
+                break;
+            }
+        }
+        return mooving;
     }
 
     public bool getAddingMoreThanOne()  { return _addingMoreThanOne; }
@@ -69,6 +85,11 @@ public class GroupManager
         }
     }
 
+    private void SomeOneIsImmobile()
+    {
+        SomeoneIsImmobile.Invoke(this);
+    }
+
 
     public void AddSelect(EntityManager toAdd)
     {
@@ -82,9 +103,9 @@ public class GroupManager
             else
             {
                 _selectedObject.Add(toAdd.gameObject.GetComponent<EntityController>());
+                toAdd.GetComponent<EntityController>().EntityIsArrive.AddListener(SomeOneIsImmobile);
                 if(IsPlayer)
                 {
-
                     toAdd.gameObject.GetComponent<EntityManager>().OnSelected();
                 }
             }
