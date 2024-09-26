@@ -41,7 +41,11 @@ public class GroupManager
         _CenterOfGroup = new Vector3();
         foreach (EntityController controller in _selectedObject)
         {
-            _CenterOfGroup += controller.gameObject.transform.position;
+            if(controller)
+            {
+                _CenterOfGroup += controller.gameObject.transform.position;
+            }
+            
         }
         _CenterOfGroup /= _selectedObject.Count;
 

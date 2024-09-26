@@ -183,6 +183,7 @@ public class IABrain : MonoBehaviour
             pos.y = location.y;
             pos.z = location.z + DistanceOfSecurity * Mathf.Sin(Vector3.Angle(location, group.getCenterofGroup()));
 
+            group.ResetOrder();
             SendAGroup(group, pos);
 
             building.SetAProtectionGroup(group);
