@@ -306,7 +306,7 @@ public class EntityController : MonoBehaviour
 
     public void AddPath(Vector3 newPath)
     {
-        if (Vector3.Distance(gameObject.transform.position, newPath) >= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
         {
             _listForOrder.Add(Order.Move);
             _listOfPath.Add(newPath);
