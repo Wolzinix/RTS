@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GroupeUiManager : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class GroupeUiManager : MonoBehaviour
 
     private void OnEnable()
     {
-        ClearListOfEntity();
+        ClearList();
     }
 
     public void AddEntity(EntityManager entity)
@@ -28,45 +29,37 @@ public class GroupeUiManager : MonoBehaviour
         if (index == -1)
         {
             _listOfEntity.Add(entity);
-            GameObject newCadre = Instantiate(cadre,new Vector3(150 * _listOfCadreControllers.Count + 50,125,0),transform.rotation,image.transform);
-            CadreController newCadreController = newCadre.GetComponent<CadreController>();
-            newCadreController.SetEntity(entity);
+            GameObject newCadre = Instantiate(cadre,image.transform);
+            newCadre.GetComponent<CadreController>().SetEntity(entity);
         
             _listOfCadreControllers.Add(newCadre);
         }
-        else
-        {
-            Destroy(_listOfCadreControllers[index]);
-            _listOfCadreControllers.RemoveAt(index);
-            _listOfEntity.RemoveAt(index);
-            SortAffichage();
-        }
-        
+        else { RemoveCadre(_listOfCadreControllers[index]); }
+        SortAffichage();
     }
 
     private void SortAffichage()
     {
-
-        if (_listOfCadreControllers.Count == 0)
-        {
-            gameObject.SetActive(false);
-        }
+        if (_listOfCadreControllers.Count == 0) { gameObject.SetActive(false); }
         else
         {
             foreach (GameObject i in _listOfCadreControllers)
             {
-                i.transform.position = new Vector3(150 * _listOfCadreControllers.IndexOf(i) + 50,125,0);
+                Rect rect = i.GetComponent<RectTransform>().rect;
+                Rect rectParent = i.transform.parent.GetComponent<RectTransform>().rect;
+                int index = _listOfCadreControllers.IndexOf(i);
+                
+                i.transform.position = new Vector3(
+                    (150 * index + rect.width/2) - (rectParent.width * ((int)((150 * index + rect.width) / rectParent.width))) ,
+                    rect.height * (0.5f + (int)((150 * index + rect.width) / rectParent.width)),
+                    0);
             }
         }
     }
 
     private void ClearListOfEntity()
     {
-        if (_listOfEntity.Count > 0)
-        {
-            _listOfEntity.Clear();
-            ClearListOfCadre();
-        }
+        if (_listOfEntity.Count > 0)  {_listOfEntity.Clear();}
     }
 
     private void ClearListOfCadre()
@@ -78,9 +71,16 @@ public class GroupeUiManager : MonoBehaviour
         _listOfCadreControllers.Clear();
     }
 
+    public void ClearList()
+    {
+        ClearListOfEntity();
+        ClearListOfCadre();
+    }
+
     public void RemoveCadre(GameObject cadreToRemove)
     {
         int index = _listOfCadreControllers.IndexOf(cadreToRemove);
+        Destroy(cadreToRemove);
         _listOfCadreControllers.RemoveAt(index);
         _listOfEntity.RemoveAt(index);
         SortAffichage();
