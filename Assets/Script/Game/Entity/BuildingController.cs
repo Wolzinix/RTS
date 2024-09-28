@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
 public class BuildingController : MonoBehaviour
 {
     private Dictionary<GameObject, SpawnTime> entityDictionary;
@@ -18,6 +17,10 @@ public class BuildingController : MonoBehaviour
     private bool _ally;
     private bool _ennemie;
     private bool _canSpawn;
+
+    int NbSpawnpoint = 10;
+    public float spawnrayon = 2f;
+    public LineRenderer lineRenderer;
 
     [SerializeField] private List<GameObject> prefabToSpawn;
     [Serializable] public class SpawnTime {
@@ -89,16 +92,22 @@ public class BuildingController : MonoBehaviour
         
     }
 
-    public bool GetCanSpawn()
-    {
-        return _canSpawn;
-    }
+    public bool GetCanSpawn() { return _canSpawn; }
+    public Dictionary<GameObject, SpawnTime> GetEntityDictionary() { return entityDictionary; }
     public void AllySpawnEntity(GameObject entityToSpawn)
     {
-        if(_ally && !_ennemie)
+        if(_ally && !_ennemie) { SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0]); }
+    }
+
+    private void proximityGestion(List<GameObject> list)
+    {
+        if (!_ally && _ennemie)
         {
-            SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0]);
+            _canSpawn = true;
+            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i, "ennemie", list[0]); }
         }
+        else if (_ally) { _canSpawn = true; }
+        else { _canSpawn = false; }
     }
 
     private void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity)
@@ -107,61 +116,57 @@ public class BuildingController : MonoBehaviour
         {
             if (entityDictionary[entityToSpawn].actualStock > 0)
             {
-                Vector3 spawnPosition = new Vector3(transform.position.x + transform.forward.x + 2,
-                    transform.position.y + transform.forward.y, 
-                    transform.position.z + transform.forward.z) ;
 
+                if (lineRenderer != null)
+                { lineRenderer.positionCount = NbSpawnpoint; }
 
-
-                int colliders = DoAOverlap(spawnPosition);
-
-                if (colliders == 1  )
+                for (int w = 0; w < NbSpawnpoint; w++)
                 {
-                    GameObject newEntity = Instantiate(entityToSpawn, spawnPosition, transform.rotation, entity.transform.parent)
-                    ;
+                    Vector3 pos = new Vector3();
 
-                    if (newEntity.GetComponent<EntityController>())
+                    float Theta = 2f * (float)Mathf.PI * ((float)w / NbSpawnpoint);
+
+
+                    float x = spawnrayon * Mathf.Cos(Theta);
+                    float y = spawnrayon * Mathf.Sin(Theta);
+
+                    pos = new Vector3(x, 1, y);
+
+                    pos.x += transform.position.x;
+                    pos.y += transform.position.z;
+
+                    if (lineRenderer != null)
+                    { lineRenderer.SetPosition(w, pos); }
+                        
+
+                    int colliders = DoAOverlap(pos);
+
+                    if (colliders == 1)
                     {
-                        SetPath(newEntity.GetComponent<EntityController>());
+                        GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
+
+                        newEntity.tag = tag;
+
+                        newEntity.GetComponent<EntityManager>().ActualiseSprite();
+
+                        entityDictionary[entityToSpawn].actualStock -= 1;
+                        entitySpawnNow.Invoke();
+                        entityAsBeenBuy.Invoke();
+                        break;
                     }
-
-                    newEntity.tag = tag;
-
-                    newEntity.GetComponent<EntityManager>().ActualiseSprite();
-
-                    entityDictionary[entityToSpawn].actualStock -= 1;
-                    entitySpawnNow.Invoke();
-                    entityAsBeenBuy.Invoke();
                 }
-              
             }
         }
     }
 
- 
-    private int DoAOverlap(Vector3 spawnPosition)
-    {
-        return Physics.OverlapSphere(spawnPosition, 1).Length;
-    }
-
-
-    private void proximityGestion(List<GameObject> list)
-    {
-        if (!_ally && _ennemie)
-        {
-            _canSpawn = true;
-            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i,"ennemie", list[0]);}
-        }
-        else if(_ally) { _canSpawn = true; }
-        else { _canSpawn = false; }
-    }
-    
     private void SetPath(EntityController entity)
     {
         entity.AddAggressivePath(new Vector3(transform.position.x+transform.forward.x + 3, transform.position.y+transform.forward.y, transform.position.z+transform.forward.z));
     }
-
-    public Dictionary<GameObject, SpawnTime> GetEntityDictionary() { return entityDictionary; }
+    private int DoAOverlap(Vector3 spawnPosition)
+    {
+        return Physics.OverlapSphere(spawnPosition, 1f).Length;
+    }
 
     private List<GameObject> DoCircleRaycast()
     {
