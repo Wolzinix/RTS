@@ -98,6 +98,13 @@ public class IABrain : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        NeedToSendEntityToBuildingEvent -= SendEntityToBuilding;
+
+        NeedToSendGroupToBuildingEvent -= SendRenfortToBuilding;
+    }
+
     private List<BuildingController> GetAllieBuilding()
     {
         List<BuildingController> list = new List<BuildingController>();

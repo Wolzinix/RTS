@@ -95,7 +95,6 @@ public class BuildingController : MonoBehaviour
     }
     public void AllySpawnEntity(GameObject entityToSpawn)
     {
-        
         if(_ally && !_ennemie)
         {
             SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0]);
