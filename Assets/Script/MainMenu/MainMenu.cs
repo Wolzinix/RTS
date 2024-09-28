@@ -5,15 +5,6 @@ public class MainMenu : MonoBehaviour
 {
 
     [SerializeField] string SceneToload;
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 
     public void QuitGame()
     {

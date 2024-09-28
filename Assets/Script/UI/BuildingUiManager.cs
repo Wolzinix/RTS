@@ -78,10 +78,7 @@ public class BuildingUiManager : MonoBehaviour
             {
                 _numberOfbutton =  _ListOfButton.Count() *( _building.GetEntityDictionary().Keys.ToArray().Length / _ListOfButton.Count());
             }
-            else
-            {
-                _numberOfbutton = 0;
-            }
+            else { _numberOfbutton = 0; }
         }
         ActualiseButtons();
     }

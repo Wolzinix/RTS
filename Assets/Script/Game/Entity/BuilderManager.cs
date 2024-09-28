@@ -1,17 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 
 public class BuilderManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> _buildings;
 
-    private int _nb = -1;
-    private Vector3 _spawnPosition = Vector3.zero;
-    
-    public List<GameObject> getBuildings()
-    {
-        return _buildings;
-    }
+    private List<int> ListOfBuildsIndex = new List<int>();
+    private List<Vector3> ListOfBuildPosition = new List<Vector3>();
+    public List<GameObject> getBuildings() { return _buildings; }
 
     private void Start()
     {
@@ -19,46 +16,43 @@ public class BuilderManager : MonoBehaviour
     }
     public void DoAbuild(int nb, RaycastHit hit)
     {
-        _nb = nb;
-        gameObject.GetComponent<EntityController>().AddPath(hit.point);
-        _spawnPosition = hit.point;
-
+        ListOfBuildsIndex.Add(nb);
+        ListOfBuildPosition.Add(hit.point);
     }
 
     private void Update()
     {
-        if(_nb != -1)
+        if(ListOfBuildsIndex.Count != 0)
         {
 
             bool location = gameObject.GetComponent<NavMeshController>().isStillOnTrajet();
-            bool distance = Vector3.Distance(gameObject.transform.position, _spawnPosition) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5;
-            if (location && distance)
-            {
-                Build();
-            }
+            bool distance = Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5;
+
+            if (location && distance) { Build(); }
+            else if(location && !distance)  {  gameObject.GetComponent<EntityController>().AddPath(ListOfBuildPosition[0]); }
 
         }
     }
 
     private void Build()
     {
-        Collider[] colliders = DoAOverlap(_spawnPosition);
+        Collider[] colliders = DoAOverlap(ListOfBuildPosition[0]);
 
         if (colliders.Length == 1 ||( colliders.Length == 2 && (colliders[1] == gameObject || colliders[0] == gameObject)))
         {
-            EntityManager gm = Instantiate(_buildings[_nb], _spawnPosition + new Vector3(0,2,0), transform.rotation).GetComponent<EntityManager>();
+            EntityManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]], ListOfBuildPosition[0] + new Vector3(0,2,0), transform.rotation).GetComponent<EntityManager>();
             gm.gameObject.tag = gameObject.tag;
             gm.ActualiseSprite();
         }
 
-        _nb = -1;
-        _spawnPosition = Vector3.zero;
+        ListOfBuildPosition.RemoveAt(0);
+        ListOfBuildsIndex.RemoveAt(0);
     }
 
     private void ResetBuildingOrder()
     {
-        _nb = -1;
-        _spawnPosition = Vector3.zero;
+        ListOfBuildPosition.Clear();
+        ListOfBuildsIndex.Clear();
     }
     private Collider[] DoAOverlap(Vector3 spawnPosition)
     {
