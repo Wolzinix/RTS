@@ -2723,10 +2723,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3003755845867527487, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3003755845867527487, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.68
       objectReference: {fileID: 0}
@@ -2777,10 +2773,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7708114876128369604, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1372857277}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
 --- !u!1001 &1254033841
 PrefabInstance:
@@ -2961,27 +2954,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
---- !u!1 &1372857271 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7708114876128369604, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
-  m_PrefabInstance: {fileID: 1229190208}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1372857277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372857271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EventMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_MaxRayIntersections: 0
 --- !u!20 &1372857281 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 7521301567870833608, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
@@ -3269,6 +3241,10 @@ PrefabInstance:
       propertyPath: _ennemieTag
       value: ennemie
       objectReference: {fileID: 0}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: mapModInput
+      value: 
+      objectReference: {fileID: 4023398279261331368, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
     - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: _travelAttack
       value: 0
