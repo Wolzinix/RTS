@@ -12,8 +12,10 @@ public class ControlManager : MonoBehaviour
     [SerializeField] private InputActionReference dragSelect;
     [SerializeField] private InputActionReference selectEntityInput;
     [SerializeField] private InputActionReference moveEntityInput;
-   
-    private Camera _camera;
+    [SerializeField] private InputActionReference mapModInput;
+
+    [SerializeField] private Camera _camera;
+    [SerializeField] private Camera _mapCamera;
     private bool _multiSelectionIsActive;
     private bool _multiPathIsActive;
 
@@ -35,14 +37,15 @@ public class ControlManager : MonoBehaviour
     
     private UiGestioneur _UiGestioneur;
 
-
+    private bool _isMapMod;
     [SerializeField] string _ennemieTag;
 
     void Start()
     {
         _selectManager = FindObjectOfType<SelectManager>();
-        _camera = Camera.main;
-        
+
+        _mapCamera.GetComponent<CameraControl>().DesactiveZoom();
+
         selectEntityInput.action.started += DoASelection;
         moveEntityInput.action.started += MooveSelected;
         multiSelectionInput.action.performed += ActiveMultiSelection;
@@ -51,6 +54,7 @@ public class ControlManager : MonoBehaviour
         multiPathInput.action.canceled += DesactiveMultiPath;
         dragSelect.action.performed += StartDragSelect;
         dragSelect.action.canceled += EndDragSelect;
+        mapModInput.action.started += MapModActive;
 
         _UiGestioneur = FindObjectOfType<UiGestioneur>();
 
@@ -76,6 +80,52 @@ public class ControlManager : MonoBehaviour
         _multiPathIsActive = false;
         ResetUiOrder();
     }
+
+    private void MapModActive(InputAction.CallbackContext obj)
+    {
+        
+        _isMapMod = !_isMapMod ;
+        _camera.enabled = !_camera.enabled;
+        _camera.GetComponent<CameraControl>().enabled = _camera.enabled;
+        _mapCamera.enabled = !_mapCamera.enabled;
+        _mapCamera.GetComponent<CameraControl>().enabled = _mapCamera.enabled;
+        if (_isMapMod)
+        {
+            _camera.GetComponent<CameraControl>().DesactiveZoom();
+            _selectManager.ClearList();
+            _UiGestioneur.DesactiveUi();
+            DesactiveAllInput();
+        }
+
+        else { ActiveAllInput();
+            _camera.GetComponent<CameraControl>().ActiveZoom();
+        }
+    }
+
+    private void ActiveAllInput()
+    {
+        selectEntityInput.action.started += DoASelection;
+        moveEntityInput.action.started += MooveSelected;
+        multiSelectionInput.action.performed += ActiveMultiSelection;
+        multiSelectionInput.action.canceled += DesactiveMultiSelection;
+        multiPathInput.action.performed += ActiveMultiPath;
+        multiPathInput.action.canceled += DesactiveMultiPath;
+        dragSelect.action.performed += StartDragSelect;
+        dragSelect.action.canceled += EndDragSelect;
+    }
+
+    private void DesactiveAllInput()
+    {
+        selectEntityInput.action.started -= DoASelection;
+        moveEntityInput.action.started -= MooveSelected;
+        multiSelectionInput.action.performed -= ActiveMultiSelection;
+        multiSelectionInput.action.canceled -= ActiveMultiSelection;
+        multiPathInput.action.performed -= ActiveMultiPath;
+        multiPathInput.action.canceled -= ActiveMultiPath;
+        dragSelect.action.performed -= StartDragSelect;
+        dragSelect.action.canceled -= EndDragSelect;
+    }
+
     private void ActiveMultiPath(InputAction.CallbackContext obj) { _multiPathIsActive = true; }
     private void OnDestroy()
     {
@@ -87,6 +137,7 @@ public class ControlManager : MonoBehaviour
         multiPathInput.action.canceled -= ActiveMultiPath;
         dragSelect.action.performed -= StartDragSelect;
         dragSelect.action.canceled -= EndDragSelect;
+        mapModInput.action.started -= MapModActive;
     }
     private void Update()
     {
