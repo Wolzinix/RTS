@@ -14,7 +14,7 @@ public class NavMeshController : MonoBehaviour
 
         _navMesh.radius =( meshrender.bounds.size.x + meshrender.bounds.size.z) /2;
     }
-    public bool isStillOnTrajet()
+    public bool notOnTraject()
     {
         return !_navMesh.pathPending && !_navMesh.hasPath || !notAtLocation();
     }

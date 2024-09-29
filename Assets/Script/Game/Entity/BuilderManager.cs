@@ -25,7 +25,7 @@ public class BuilderManager : MonoBehaviour
         if(ListOfBuildsIndex.Count != 0)
         {
 
-            bool location = gameObject.GetComponent<NavMeshController>().isStillOnTrajet();
+            bool location = gameObject.GetComponent<NavMeshController>().notOnTraject();
             bool distance = Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5;
 
             if (location && distance) { Build(); }

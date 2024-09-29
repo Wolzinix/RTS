@@ -22,6 +22,8 @@ public class GroupManager
 
     public UnityEvent<GroupManager> SomeoneIsImmobile = new UnityEvent<GroupManager>();
 
+    private EntityManager _OneSelected; 
+
     public GroupManager()
     {
         _selectedObject = new List<EntityController>();
@@ -82,6 +84,12 @@ public class GroupManager
                 i.gameObject.GetComponent<EntityManager>().OnDeselected(); ;
             }
             _selectedObject.Clear();
+           
+        }
+        else if (_OneSelected)
+        {
+            _OneSelected.OnDeselected();
+            _OneSelected = null;
         }
     }
 
@@ -117,6 +125,7 @@ public class GroupManager
             {
 
                 toAdd.OnSelected();
+                _OneSelected = toAdd;
             }
         }
     }
