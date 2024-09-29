@@ -14,7 +14,8 @@ public class ControlManager : MonoBehaviour
     [SerializeField] private InputActionReference moveEntityInput;
     [SerializeField] private InputActionReference mapModInput;
 
-    private Camera _camera;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private Camera _mapCamera;
     private bool _multiSelectionIsActive;
     private bool _multiPathIsActive;
 
@@ -42,8 +43,9 @@ public class ControlManager : MonoBehaviour
     void Start()
     {
         _selectManager = FindObjectOfType<SelectManager>();
-        _camera = Camera.main;
-        
+
+        _mapCamera.GetComponent<CameraControl>().DesactiveZoom();
+
         selectEntityInput.action.started += DoASelection;
         moveEntityInput.action.started += MooveSelected;
         multiSelectionInput.action.performed += ActiveMultiSelection;
@@ -81,15 +83,23 @@ public class ControlManager : MonoBehaviour
 
     private void MapModActive(InputAction.CallbackContext obj)
     {
+        
         _isMapMod = !_isMapMod ;
+        _camera.enabled = !_camera.enabled;
+        _camera.GetComponent<CameraControl>().enabled = _camera.enabled;
+        _mapCamera.enabled = !_mapCamera.enabled;
+        _mapCamera.GetComponent<CameraControl>().enabled = _mapCamera.enabled;
         if (_isMapMod)
         {
+            _camera.GetComponent<CameraControl>().DesactiveZoom();
             _selectManager.ClearList();
             _UiGestioneur.DesactiveUi();
             DesactiveAllInput();
         }
 
-        else { ActiveAllInput(); }
+        else { ActiveAllInput();
+            _camera.GetComponent<CameraControl>().ActiveZoom();
+        }
     }
 
     private void ActiveAllInput()

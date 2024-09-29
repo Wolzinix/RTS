@@ -17,7 +17,9 @@ public class CameraControl : MonoBehaviour
     private const float IncrementSpeed = 2;
     private bool _rotationActivated;
 
-    public float xmax, xmin, zmax, zmin;
+    public bool isMapCamera;
+
+    private float xmax, xmin, zmax, zmin;
 
     private Rigidbody _rb;
 
@@ -65,6 +67,16 @@ public class CameraControl : MonoBehaviour
         accelerateInput.action.performed -= AccelerateInputPressed;
         accelerateInput.action.canceled -= AccelerateInputCanceled;
     }
+
+    public void DesactiveZoom()
+    {
+        zoomCameraInput.action.performed -= Zoom;
+    }
+
+    public void ActiveZoom()
+    {
+        zoomCameraInput.action.performed += Zoom;
+    }
     private void AccelerateInputPressed(InputAction.CallbackContext obj) { _accelerateIsActive = true; }
     private void AccelerateInputCanceled(InputAction.CallbackContext obj) { _accelerateIsActive = false; }
     private void Zoom(InputAction.CallbackContext obj)
@@ -79,7 +91,7 @@ public class CameraControl : MonoBehaviour
 
             if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
             
-            transform.position += newPosition;
+            _rb.MovePosition(transform.position + newPosition);
         }
     }
     private void ActiveRotation(InputAction.CallbackContext obj) {_rotationActivated = true; }
@@ -91,7 +103,16 @@ public class CameraControl : MonoBehaviour
             , 0
             , moveCameraInput.action.ReadValue<Vector2>().y * transform.forward.z + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.z);
 
+
+        if (isMapCamera)
+        {
+            newPosition = new Vector3(moveCameraInput.action.ReadValue<Vector2>().y * transform.up.x + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.x
+            , 0
+            , moveCameraInput.action.ReadValue<Vector2>().y * transform.up.z + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.z);
+        }
         newPosition *= 10;
+
+       
 
 
         if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
@@ -110,7 +131,7 @@ public class CameraControl : MonoBehaviour
     {
         Quaternion rotation = transform.rotation;
         rotation.eulerAngles += new Vector3(0, rotateCameraInput.action.ReadValue<Vector2>().x / 5, 0);
-        transform.rotation = rotation;
+        _rb.MoveRotation( rotation);
     }
 
 }
