@@ -28,7 +28,7 @@ public class IABrain : MonoBehaviour
 
     private List<GroupManager> _ListOfGroupToProtectBuilding;
 
-    private int DistanceOfSecurity = 3;
+    private float DistanceOfSecurity = 3f;
 
     public class BuildingStats
     {
@@ -179,11 +179,18 @@ public class IABrain : MonoBehaviour
             GroupManager group = GetTheClosetGroupOfAPoint(location);
             _ListOfGroupToProtectBuilding.Add(group);
 
-            Vector3 pos = new Vector3();
+            Vector3 centerOfGroup = group.getCenterofGroup();
 
-            pos.x = location.x + DistanceOfSecurity * Mathf.Cos(Vector3.Angle( location,group.getCenterofGroup()));
-            pos.y = location.y;
-            pos.z = location.z + DistanceOfSecurity * Mathf.Sin(Vector3.Angle(location, group.getCenterofGroup()));
+            float angle = Vector3.Angle(centerOfGroup, location);
+            angle = Vector3.Cross(centerOfGroup, location).y > 0 ? angle : 360 - angle;
+
+            float x = DistanceOfSecurity * Mathf.Cos((float)angle);
+            float y = DistanceOfSecurity * Mathf.Sin((float)angle);
+
+            Vector3 pos = new Vector3(x, 1, y);
+
+            pos.x += centerOfGroup.x;
+            pos.z += centerOfGroup.z;
 
             group.ResetOrder();
             SendAGroup(group, pos);
@@ -213,7 +220,7 @@ public class IABrain : MonoBehaviour
             Creategroup(entity.GetComponent<EntityManager>());
             ClearUselessGroup();
             _ListOfGroupToSpawnEntity.Add(_ListOfGroup.Last());
-            DebugGroup();
+            //DebugGroup();
         }
        
     }
@@ -339,7 +346,7 @@ public class IABrain : MonoBehaviour
             }
         }
         ClearUselessGroup();
-        DebugGroup();
+        //DebugGroup();
     }
 
     private void ActualiseTheGroup(GroupManager group)

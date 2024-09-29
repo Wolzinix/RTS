@@ -122,15 +122,14 @@ public class BuildingController : MonoBehaviour
 
                 for (int w = 0; w < NbSpawnpoint; w++)
                 {
-                    Vector3 pos = new Vector3();
-
+                    
                     float Theta = 2f * (float)Mathf.PI * ((float)w / NbSpawnpoint);
 
 
                     float x = spawnrayon * Mathf.Cos(Theta);
                     float y = spawnrayon * Mathf.Sin(Theta);
 
-                    pos = new Vector3(x, 1, y);
+                    Vector3 pos = new Vector3(x, 1, y);
 
                     pos.x += transform.position.x;
                     pos.y += transform.position.z;
