@@ -5,12 +5,7 @@ using UnityEngine;
 public class SelectManager : MonoBehaviour
 {
     public GroupManager _groupManager = new GroupManager();
-
     public GroupManager _selected = new GroupManager();
-
-
-    private string _ennemieTag;
-
     
     void Start()
     {
@@ -24,7 +19,6 @@ public class SelectManager : MonoBehaviour
     {
         _groupManager.SetEnnemieTag(tag);
         _selected.SetAllieTag(tag);
-        _ennemieTag = tag;
     }
 
     public void SetAllieTag(string tag)
@@ -64,24 +58,12 @@ public class SelectManager : MonoBehaviour
             ClearList();
             _selected.AddSelect(toAdd);
         }
-
     }
 
     public void ActionGroup(RaycastHit hit)
     {
         _groupManager.ActionGroup(hit);
     }
-
-    private void MooveSelected(RaycastHit hit)
-    {
-        _groupManager.MooveSelected(hit.point);
-    }
-
-    private void AttackSelected(RaycastHit hit)
-    {
-        _groupManager.AttackSelected(hit);
-    }
-
     public void AddTarget(EntityManager controller)
     {
         _groupManager.AddTarget(controller);
@@ -90,11 +72,6 @@ public class SelectManager : MonoBehaviour
     public void DoABuild(int nb, RaycastHit hit)
     {
         _groupManager.DoABuild(nb, hit);
-    }
-
-    private void FollowSelected(RaycastHit hit)
-    {
-        _groupManager.FollowSelected(hit);
     }
 
     public void ResetOrder()

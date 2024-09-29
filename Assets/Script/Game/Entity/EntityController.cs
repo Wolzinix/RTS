@@ -106,7 +106,7 @@ public class EntityController : MonoBehaviour
 
     private void SearchTarget()
     {
-        if(_navMesh && _navMesh.isStillOnTrajet() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive || _listForOrder[0] == Order.Follow) || _navMesh == null)
+        if(_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive || _listForOrder[0] == Order.Follow) || _navMesh == null)
         {
                 List<GameObject> listOfRayTuch = DoCircleRaycast();
                 List<GameObject> listOfAlly = new List<GameObject>();
@@ -211,7 +211,7 @@ public class EntityController : MonoBehaviour
 
     private void isUnit()
     {
-        if (_navMesh && !_navMesh.isStillOnTrajet()) { _animator.SetBool(Moving, true); }
+        if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); }
         else { _animator.SetBool(Moving, false); }
 
         if (_listForOrder.Count == 0 || _listForOrder[0] != Order.Target) {_animator.SetBool(Attacking, false);}
@@ -222,7 +222,7 @@ public class EntityController : MonoBehaviour
         {
             if (_listForOrder[0] == Order.Move)
             {
-                if (_navMesh && _navMesh.isStillOnTrajet())
+                if (_navMesh && _navMesh.notOnTraject())
                 {
                     _navMesh.GetNewPath(_listOfPath[0]);
                     if(Vector3.Distance(gameObject.transform.position, _listOfPath[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
@@ -238,11 +238,11 @@ public class EntityController : MonoBehaviour
             {
                 if(_navMesh)
                 {
-                    if (_navMesh.isStillOnTrajet())
+                    if (_navMesh.notOnTraject())
                     {
                         _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
                     }
-                    if (!_navMesh.isStillOnTrajet() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                    if (!_navMesh.notOnTraject() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
                     {
                         _listForAttackingOnTravel.RemoveAt(0);
                         _listForOrder.RemoveAt(0);
@@ -252,7 +252,7 @@ public class EntityController : MonoBehaviour
 
             else if (_listForOrder[0] == Order.Patrol)
             {
-                if (_navMesh && _navMesh.isStillOnTrajet())
+                if (_navMesh && _navMesh.notOnTraject())
                 {
                     if (_patrolIteration == _listForPatrol.Count)
                     {
@@ -393,7 +393,7 @@ public class EntityController : MonoBehaviour
 
     private void AddAggresseurTarget(EntityManager entityToAggresse)
     {
-        if (_navMesh && _navMesh.isStillOnTrajet() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse);}
+        if (_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse);}
     }
 
 

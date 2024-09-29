@@ -104,21 +104,20 @@ public class ControlManager : MonoBehaviour
     private void DoASelection(InputAction.CallbackContext context )
     {
         Physics.SyncTransforms();
-        if(_buildingOrder)
+        RaycastHit hit = DoARayCast();
+
+        if (_buildingOrder)
         {
-            RaycastHit hit = DoARayCast();
             IsMultipathActive();
             _selectManager.DoABuild(_nbOfBuilding, hit);
         }
         else if (_order)
         {
-            RaycastHit hit = DoARayCast();
             IsMultipathActive();
             _selectManager.ActionGroup(hit);
         }
         else if (_travelAttack)
         {
-            RaycastHit hit = DoARayCast();
             IsMultipathActive();
             if(hit.transform && hit.transform.GetComponent<EntityManager>()) { _selectManager.AddTarget(hit.transform.GetComponent<EntityManager>()); }
             else {_selectManager.AttackingOnTravel(hit.point);}
@@ -126,7 +125,6 @@ public class ControlManager : MonoBehaviour
 
         else if (_patrolOrder)
         {
-            RaycastHit hit = DoARayCast();
             IsMultipathActive();
             _selectManager.PatrouilleOrder(hit.point);
             if (!_selectManager.getAddingMoreThanOne()) { _selectManager.setAddingMoreThanOne(true); }
@@ -136,8 +134,6 @@ public class ControlManager : MonoBehaviour
             List<RaycastResult> listOfUIRay = DoUiRayCast();
             if (listOfUIRay.Count == 0)
             {
-                RaycastHit hit = DoARayCast();
-                
                 if (!_multiSelectionIsActive) {_selectManager.ClearList();  }
                 if (hit.collider)
                 {

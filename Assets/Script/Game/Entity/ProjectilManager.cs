@@ -21,10 +21,10 @@ public class ProjectilManager : MonoBehaviour
         transform.LookAt(_target.gameObject.transform);
 
 
-        _rb.velocity = new Vector3(
+        _rb.AddForce( new Vector3(
             _target.transform.position.x - transform.position.x, 
             _target.transform.position.y - transform.position.y, 
-            _target.transform.position.z - transform.position.z);
+            _target.transform.position.z - transform.position.z),ForceMode.Impulse);
     }
 
     public void SetDamage(float damage){_damage = damage;}
