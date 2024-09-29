@@ -17,7 +17,7 @@ public class CameraControl : MonoBehaviour
     private const float IncrementSpeed = 2;
     private bool _rotationActivated;
 
-    private float xmax, xmin, zmax, zmin;
+    public float xmax, xmin, zmax, zmin;
 
     private Rigidbody _rb;
 
@@ -33,6 +33,11 @@ public class CameraControl : MonoBehaviour
 
         _rb = GetComponent<Rigidbody>();
         SetLimitation();
+
+        transform.position = new Vector3(
+            transform.position.x > xmax ? xmax: transform.position.x < xmin? xmin : transform.position.x
+            , transform.position.y
+            , transform.position.z > zmax ? zmax : transform.position.z < zmin ? zmin : transform.position.z);
     }
 
 
@@ -40,10 +45,10 @@ public class CameraControl : MonoBehaviour
     {
         Vector3 sizeOfGround = mainGround.GetComponent<Renderer>().bounds.size;
         xmax = sizeOfGround.x / 2 + mainGround.transform.position.x;
-        xmin = sizeOfGround.x / 2 - mainGround.transform.position.x;
+        xmin = -sizeOfGround.x / 2 - mainGround.transform.position.x;
 
         zmax = sizeOfGround.z / 2 + mainGround.transform.position.z;
-        zmin = sizeOfGround.z / 2 - mainGround.transform.position.z;
+        zmin = -sizeOfGround.z / 2 - mainGround.transform.position.z;
     }
 
     void Update()
@@ -89,10 +94,18 @@ public class CameraControl : MonoBehaviour
         newPosition *= 10;
 
 
-        if (_accelerateIsActive) { newPosition *= IncrementSpeed;}
+        if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
+       
         _rb.velocity = newPosition;
+
+        transform.position = new Vector3(
+            transform.position.x > xmax ? xmax : transform.position.x < xmin ? xmin : transform.position.x
+            , transform.position.y
+            , transform.position.z > zmax ? zmax : transform.position.z < zmin ? zmin : transform.position.z);
+
+
     }
-    
+
     private void RotateCameraY()
     {
         Quaternion rotation = transform.rotation;
