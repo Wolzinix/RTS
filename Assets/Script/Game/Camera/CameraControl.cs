@@ -17,7 +17,11 @@ public class CameraControl : MonoBehaviour
     private const float IncrementSpeed = 2;
     private bool _rotationActivated;
 
+    private float xmax, xmin, zmax, zmin;
+
     private Rigidbody _rb;
+
+    [SerializeField] private GameObject mainGround;
     
     void Start()
     {
@@ -28,6 +32,18 @@ public class CameraControl : MonoBehaviour
         accelerateInput.action.canceled += AccelerateInputCanceled;
 
         _rb = GetComponent<Rigidbody>();
+        SetLimitation();
+    }
+
+
+    private void SetLimitation()
+    {
+        Vector3 sizeOfGround = mainGround.GetComponent<Renderer>().bounds.size;
+        xmax = sizeOfGround.x / 2 + mainGround.transform.position.x;
+        xmin = sizeOfGround.x / 2 - mainGround.transform.position.x;
+
+        zmax = sizeOfGround.z / 2 + mainGround.transform.position.z;
+        zmin = sizeOfGround.z / 2 - mainGround.transform.position.z;
     }
 
     void Update()
