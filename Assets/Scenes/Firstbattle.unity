@@ -878,7 +878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4861956091645059146, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -165.8014
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4861956091645059146, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_SizeDelta.y
@@ -886,7 +886,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4861956091645059146, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -82.900696
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4861956091645059146, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2827,6 +2827,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4508567379230480443, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7521301567870833608, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -2869,6 +2873,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3396275611280201753, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: lineRenderer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3396275611280201753, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: MySpawns.Array.size
       value: 1

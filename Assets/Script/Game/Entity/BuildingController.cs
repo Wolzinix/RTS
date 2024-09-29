@@ -132,14 +132,13 @@ public class BuildingController : MonoBehaviour
                     Vector3 pos = new Vector3(x, 1, y);
 
                     pos.x += transform.position.x;
-                    pos.y += transform.position.z;
+                    pos.z += transform.position.z;
 
                     if (lineRenderer != null)
                     { lineRenderer.SetPosition(w, pos); }
                         
 
                     int colliders = DoAOverlap(pos);
-
                     if (colliders == 1)
                     {
                         GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
