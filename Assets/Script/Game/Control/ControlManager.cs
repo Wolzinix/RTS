@@ -78,8 +78,16 @@ public class ControlManager : MonoBehaviour
     {
         _isMapMod = !_isMapMod ;
 
-        if (_isMapMod){ DesactiveAllInput(); }
-        else {  ActiveAllInput(); }
+        if (_isMapMod)
+        {
+            _UiGestioneur.gameObject.SetActive(false);
+            DesactiveAllInput(); 
+        }
+        else 
+        {
+            _UiGestioneur.gameObject.SetActive(true); 
+            ActiveAllInput(); 
+        }
 
         CameraGestion();
         SelectGestionMapMod();
