@@ -86,6 +86,7 @@ public class ControlManager : MonoBehaviour
 
         if (_mapMod._isMapMod)
         {
+            selectEntityInput.action.started += TeleporteOnMap;
             _UiGestioneur.gameObject.SetActive(false);
             DesactiveAllInput();
             _selectManager.ClearList();
@@ -96,7 +97,14 @@ public class ControlManager : MonoBehaviour
             _UiGestioneur.gameObject.SetActive(true); 
             ActiveAllInput(); 
         }
-       
+    }
+
+    private void TeleporteOnMap(InputAction.CallbackContext obj)
+    {
+        _mapMod.TeleporteMainCamera(DoARayCast(_mapCamera).point);
+        selectEntityInput.action.started -= TeleporteOnMap;
+        _UiGestioneur.gameObject.SetActive(true);
+        ActiveAllInput();
     }
 
     private void ActiveAllInput()
@@ -145,7 +153,7 @@ public class ControlManager : MonoBehaviour
     private void DoASelection(InputAction.CallbackContext context )
     {
         Physics.SyncTransforms();
-        RaycastHit hit = DoARayCast();
+        RaycastHit hit = DoARayCast(_camera);
 
         if (_buildingOrder)
         {
@@ -224,7 +232,7 @@ public class ControlManager : MonoBehaviour
         if (!_order && !_patrolOrder && !_travelAttack)
         {
             IsMultipathActive();
-            RaycastHit hit = DoARayCast();
+            RaycastHit hit = DoARayCast(_camera);
             
             _selectManager.ActionGroup(hit);
         }
@@ -248,9 +256,9 @@ public class ControlManager : MonoBehaviour
         _travelAttack = false;
     }
     
-    private RaycastHit DoARayCast()
+    private RaycastHit DoARayCast(Camera camera)
     {
-        Ray ray = _camera.ScreenPointToRay (Input.mousePosition);
+        Ray ray = camera.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast (ray, out hit, Mathf.Infinity)){ return hit;}
         return hit;

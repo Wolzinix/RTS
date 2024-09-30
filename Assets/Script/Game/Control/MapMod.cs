@@ -57,4 +57,13 @@ public class MapMod
             else { i.entitySpawnNow.RemoveListener(SelectGestionMapMod); }
         }
     }
+
+    public void TeleporteMainCamera(Vector3 destination)
+    {
+        if (_mapCamera && _camera) 
+        {
+            _camera.gameObject.transform.position = new Vector3(destination.x, _camera.gameObject.transform.position.y, destination.z);
+            MapModActive();
+        }
+    }
 }
