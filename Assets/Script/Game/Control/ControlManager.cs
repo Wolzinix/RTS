@@ -83,6 +83,7 @@ public class ControlManager : MonoBehaviour
 
         CameraGestion();
         SelectGestionMapMod();
+        ConnectToEventNewEtentity();
     }
 
     private void CameraGestion()
@@ -114,6 +115,16 @@ public class ControlManager : MonoBehaviour
             else { i.OnDeselected(); }
         }
        
+    }
+
+    private void ConnectToEventNewEtentity()
+    {
+        foreach (BuildingController i in Resources.FindObjectsOfTypeAll<BuildingController>())
+        {
+            if (_isMapMod) { i.entitySpawnNow.AddListener(SelectGestionMapMod); }
+            else { i.entitySpawnNow.RemoveListener(SelectGestionMapMod) ; }
+        }
+        
     }
 
     private void ActiveAllInput()
