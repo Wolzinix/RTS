@@ -22,6 +22,7 @@ public class EntityManager : MonoBehaviour
 
     [SerializeField] public Sprite Allisprite;
     [SerializeField] public Sprite Ennemisprite;
+    [SerializeField] public Sprite Neutralprite;
 
     public UnityEvent changeStats = new UnityEvent();
     
@@ -65,14 +66,7 @@ public class EntityManager : MonoBehaviour
             _animator.SetFloat(AttackSpeedAnim, attackSpeed);
         }
 
-        if(CompareTag("Allie"))
-        {
-            sprite.sprite = Allisprite;
-        }
-        else if(CompareTag("ennemie"))
-        {
-            sprite.sprite = Ennemisprite;
-        }
+        ActualiseSprite();
 
         sprite.gameObject.SetActive(false);
 
@@ -89,6 +83,10 @@ public class EntityManager : MonoBehaviour
         else if (CompareTag("ennemie"))
         {
             sprite.sprite = Ennemisprite;
+        }
+        else
+        {
+            sprite.sprite = Neutralprite;
         }
 
         sprite.gameObject.SetActive(false);

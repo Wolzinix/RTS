@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6174072497533667599
 Transform:
   m_ObjectHideFlags: 0
@@ -270,9 +270,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _projectile: {fileID: 0}
   _listForOrder: 
+  EntityIsArrive:
+    m_PersistentCalls:
+      m_Calls: []
   resetEvent:
     m_PersistentCalls:
       m_Calls: []
+  GroupNumber: 0
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0
