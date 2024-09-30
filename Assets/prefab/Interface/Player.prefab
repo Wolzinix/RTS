@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7641045594078516449}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.48368883, y: -0.58157396, z: 1.0175877}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5339753763599323432
 MonoBehaviour:
@@ -80,5 +80,11 @@ MonoBehaviour:
   dragSelect: {fileID: 6812050830421308770, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   selectEntityInput: {fileID: -244919997710551446, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   moveEntityInput: {fileID: 8433083119221864085, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  mapModInput: {fileID: 4023398279261331368, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  PauseInput: {fileID: 4958215242506485333, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  _camera: {fileID: 0}
+  _mapCamera: {fileID: 0}
   dragBox: {fileID: 0}
-  ui: {fileID: 0}
+  _selectManager: {fileID: 0}
+  _ennemieTag: ennemie
+  _pauseCanvas: {fileID: 0}
