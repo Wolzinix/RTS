@@ -85,20 +85,26 @@ public class ControlManager : MonoBehaviour
     {
         
         _isMapMod = !_isMapMod ;
+
         _camera.enabled = !_camera.enabled;
-        _camera.GetComponent<CameraControl>().enabled = _camera.enabled;
+        CameraControl cameraControl = _camera.GetComponent<CameraControl>();
+        cameraControl.enabled = _camera.enabled;
+        cameraControl.StopMoving();
+
         _mapCamera.enabled = !_mapCamera.enabled;
         _mapCamera.GetComponent<CameraControl>().enabled = _mapCamera.enabled;
+        _mapCamera.GetComponent<CameraControl>().StopMoving();
+
         if (_isMapMod)
         {
-            _camera.GetComponent<CameraControl>().DesactiveZoom();
+            cameraControl.DesactiveZoom();
             _selectManager.ClearList();
             _UiGestioneur.DesactiveUi();
             DesactiveAllInput();
         }
 
         else { ActiveAllInput();
-            _camera.GetComponent<CameraControl>().ActiveZoom();
+            cameraControl.ActiveZoom();
         }
     }
 
