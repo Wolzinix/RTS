@@ -42,17 +42,6 @@ public class CameraControl : MonoBehaviour
             , transform.position.z > zmax ? zmax : transform.position.z < zmin ? zmin : transform.position.z);
     }
 
-
-    private void SetLimitation()
-    {
-        Vector3 sizeOfGround = mainGround.GetComponent<Renderer>().bounds.size;
-        xmax = sizeOfGround.x / 2 + mainGround.transform.position.x;
-        xmin = -sizeOfGround.x / 2 - mainGround.transform.position.x;
-
-        zmax = sizeOfGround.z / 2 + mainGround.transform.position.z;
-        zmin = -sizeOfGround.z / 2 - mainGround.transform.position.z;
-    }
-
     void Update()
     {
         MoveCamera();
@@ -68,17 +57,23 @@ public class CameraControl : MonoBehaviour
         accelerateInput.action.canceled -= AccelerateInputCanceled;
     }
 
-    public void DesactiveZoom()
-    {
-        zoomCameraInput.action.performed -= Zoom;
-    }
+    public void DesactiveZoom() { zoomCameraInput.action.performed -= Zoom; }
 
-    public void ActiveZoom()
-    {
-        zoomCameraInput.action.performed += Zoom;
-    }
+    public void ActiveZoom() { zoomCameraInput.action.performed += Zoom; }
     private void AccelerateInputPressed(InputAction.CallbackContext obj) { _accelerateIsActive = true; }
     private void AccelerateInputCanceled(InputAction.CallbackContext obj) { _accelerateIsActive = false; }
+    private void ActiveRotation(InputAction.CallbackContext obj) { _rotationActivated = true; }
+    private void DesactiveRotation(InputAction.CallbackContext obj) { _rotationActivated = false; }
+    public void StopMoving() { _rb.velocity = Vector3.zero; }
+    private void SetLimitation()
+    {
+        Vector3 sizeOfGround = mainGround.GetComponent<Renderer>().bounds.size;
+        xmax = sizeOfGround.x / 2 + mainGround.transform.position.x;
+        xmin = -sizeOfGround.x / 2 - mainGround.transform.position.x;
+
+        zmax = sizeOfGround.z / 2 + mainGround.transform.position.z;
+        zmin = -sizeOfGround.z / 2 - mainGround.transform.position.z;
+    }
     private void Zoom(InputAction.CallbackContext obj)
     {
         if (transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0 || 
@@ -94,9 +89,6 @@ public class CameraControl : MonoBehaviour
             _rb.MovePosition(transform.position + newPosition);
         }
     }
-    private void ActiveRotation(InputAction.CallbackContext obj) {_rotationActivated = true; }
-    private void DesactiveRotation(InputAction.CallbackContext obj) {_rotationActivated = false; }
-    
     private void MoveCamera()
     {
         Vector3 newPosition = new Vector3(moveCameraInput.action.ReadValue<Vector2>().y * transform.forward.x + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.x

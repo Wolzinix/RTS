@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1974872821757856839
 Transform:
   m_ObjectHideFlags: 0
@@ -242,6 +242,7 @@ MonoBehaviour:
   spriteImage: {fileID: 7482667652216324306, guid: 233ca442b7ce8dd4a953c88b6d64f2e8, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
+  Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
   changeStats:
     m_PersistentCalls:
       m_Calls: []

@@ -16,6 +16,7 @@ public class ControlManager : MonoBehaviour
 
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera _mapCamera;
+
     private bool _multiSelectionIsActive;
     private bool _multiPathIsActive;
 
@@ -37,8 +38,9 @@ public class ControlManager : MonoBehaviour
     
     private UiGestioneur _UiGestioneur;
 
-    private bool _isMapMod;
     [SerializeField] string _ennemieTag;
+
+    private MapMod _mapMod;
 
     void Start()
     {
@@ -46,20 +48,17 @@ public class ControlManager : MonoBehaviour
 
         _mapCamera.GetComponent<CameraControl>().DesactiveZoom();
 
-        selectEntityInput.action.started += DoASelection;
-        moveEntityInput.action.started += MooveSelected;
-        multiSelectionInput.action.performed += ActiveMultiSelection;
-        multiSelectionInput.action.canceled += DesactiveMultiSelection;
-        multiPathInput.action.performed += ActiveMultiPath;
-        multiPathInput.action.canceled += DesactiveMultiPath;
-        dragSelect.action.performed += StartDragSelect;
-        dragSelect.action.canceled += EndDragSelect;
+        ActiveAllInput();
         mapModInput.action.started += MapModActive;
 
         _UiGestioneur = FindObjectOfType<UiGestioneur>();
 
         _selectManager.SetEnnemieTag(_ennemieTag);
         _selectManager.SetAllieTag(gameObject.tag);
+
+        _mapMod = new MapMod();
+        _mapMod.SetMainCamera(_camera);
+        _mapMod.SetMapCamera(_mapCamera);
 
     }
 
@@ -83,23 +82,29 @@ public class ControlManager : MonoBehaviour
 
     private void MapModActive(InputAction.CallbackContext obj)
     {
-        
-        _isMapMod = !_isMapMod ;
-        _camera.enabled = !_camera.enabled;
-        _camera.GetComponent<CameraControl>().enabled = _camera.enabled;
-        _mapCamera.enabled = !_mapCamera.enabled;
-        _mapCamera.GetComponent<CameraControl>().enabled = _mapCamera.enabled;
-        if (_isMapMod)
+        _mapMod.MapModActive();
+
+        if (_mapMod._isMapMod)
         {
-            _camera.GetComponent<CameraControl>().DesactiveZoom();
+            selectEntityInput.action.started += TeleporteOnMap;
+            _UiGestioneur.gameObject.SetActive(false);
+            DesactiveAllInput();
             _selectManager.ClearList();
             _UiGestioneur.DesactiveUi();
-            DesactiveAllInput();
         }
+        else 
+        {
+            _UiGestioneur.gameObject.SetActive(true); 
+            ActiveAllInput(); 
+        }
+    }
 
-        else { ActiveAllInput();
-            _camera.GetComponent<CameraControl>().ActiveZoom();
-        }
+    private void TeleporteOnMap(InputAction.CallbackContext obj)
+    {
+        _mapMod.TeleporteMainCamera(DoARayCast(_mapCamera).point);
+        selectEntityInput.action.started -= TeleporteOnMap;
+        _UiGestioneur.gameObject.SetActive(true);
+        ActiveAllInput();
     }
 
     private void ActiveAllInput()
@@ -129,14 +134,7 @@ public class ControlManager : MonoBehaviour
     private void ActiveMultiPath(InputAction.CallbackContext obj) { _multiPathIsActive = true; }
     private void OnDestroy()
     {
-        selectEntityInput.action.started -= DoASelection;
-        moveEntityInput.action.started -= MooveSelected;
-        multiSelectionInput.action.performed -= ActiveMultiSelection;
-        multiSelectionInput.action.canceled -= ActiveMultiSelection;
-        multiPathInput.action.performed -= ActiveMultiPath;
-        multiPathInput.action.canceled -= ActiveMultiPath;
-        dragSelect.action.performed -= StartDragSelect;
-        dragSelect.action.canceled -= EndDragSelect;
+        DesactiveAllInput();
         mapModInput.action.started -= MapModActive;
     }
     private void Update()
@@ -155,7 +153,7 @@ public class ControlManager : MonoBehaviour
     private void DoASelection(InputAction.CallbackContext context )
     {
         Physics.SyncTransforms();
-        RaycastHit hit = DoARayCast();
+        RaycastHit hit = DoARayCast(_camera);
 
         if (_buildingOrder)
         {
@@ -234,7 +232,7 @@ public class ControlManager : MonoBehaviour
         if (!_order && !_patrolOrder && !_travelAttack)
         {
             IsMultipathActive();
-            RaycastHit hit = DoARayCast();
+            RaycastHit hit = DoARayCast(_camera);
             
             _selectManager.ActionGroup(hit);
         }
@@ -258,9 +256,9 @@ public class ControlManager : MonoBehaviour
         _travelAttack = false;
     }
     
-    private RaycastHit DoARayCast()
+    private RaycastHit DoARayCast(Camera camera)
     {
-        Ray ray = _camera.ScreenPointToRay (Input.mousePosition);
+        Ray ray = camera.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast (ray, out hit, Mathf.Infinity)){ return hit;}
         return hit;
