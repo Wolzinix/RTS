@@ -16,6 +16,7 @@ public class ControlManager : MonoBehaviour
 
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera _mapCamera;
+
     private bool _multiSelectionIsActive;
     private bool _multiPathIsActive;
 
@@ -37,8 +38,9 @@ public class ControlManager : MonoBehaviour
     
     private UiGestioneur _UiGestioneur;
 
-    private bool _isMapMod;
     [SerializeField] string _ennemieTag;
+
+    private MapMod _mapMod;
 
     void Start()
     {
@@ -53,6 +55,10 @@ public class ControlManager : MonoBehaviour
 
         _selectManager.SetEnnemieTag(_ennemieTag);
         _selectManager.SetAllieTag(gameObject.tag);
+
+        _mapMod = new MapMod();
+        _mapMod.SetMainCamera(_camera);
+        _mapMod.SetMapCamera(_mapCamera);
 
     }
 
@@ -76,63 +82,21 @@ public class ControlManager : MonoBehaviour
 
     private void MapModActive(InputAction.CallbackContext obj)
     {
-        _isMapMod = !_isMapMod ;
+        _mapMod.MapModActive();
 
-        if (_isMapMod)
+        if (_mapMod._isMapMod)
         {
             _UiGestioneur.gameObject.SetActive(false);
-            DesactiveAllInput(); 
+            DesactiveAllInput();
+            _selectManager.ClearList();
+            _UiGestioneur.DesactiveUi();
         }
         else 
         {
             _UiGestioneur.gameObject.SetActive(true); 
             ActiveAllInput(); 
         }
-
-        CameraGestion();
-        SelectGestionMapMod();
-        ConnectToEventNewEtentity();
-    }
-
-    private void CameraGestion()
-    {
-        _camera.enabled = !_camera.enabled;
-        CameraControl cameraControl = _camera.GetComponent<CameraControl>();
-        cameraControl.enabled = _camera.enabled;
-        cameraControl.StopMoving();
-
-        _mapCamera.enabled = !_mapCamera.enabled;
-        _mapCamera.GetComponent<CameraControl>().enabled = _mapCamera.enabled;
-        _mapCamera.GetComponent<CameraControl>().StopMoving();
-
-        if (_isMapMod)
-        {
-            cameraControl.DesactiveZoom();
-            _selectManager.ClearList();
-            _UiGestioneur.DesactiveUi();
-        }
-        else {  cameraControl.ActiveZoom();  }
-    }
-
-    private void SelectGestionMapMod()
-    {
        
-        foreach (EntityManager i in Resources.FindObjectsOfTypeAll<EntityManager>())
-        {
-            if (_isMapMod){ i.OnSelected(); }
-            else { i.OnDeselected(); }
-        }
-       
-    }
-
-    private void ConnectToEventNewEtentity()
-    {
-        foreach (BuildingController i in Resources.FindObjectsOfTypeAll<BuildingController>())
-        {
-            if (_isMapMod) { i.entitySpawnNow.AddListener(SelectGestionMapMod); }
-            else { i.entitySpawnNow.RemoveListener(SelectGestionMapMod) ; }
-        }
-        
     }
 
     private void ActiveAllInput()
