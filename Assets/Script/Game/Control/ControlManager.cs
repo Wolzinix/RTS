@@ -46,14 +46,7 @@ public class ControlManager : MonoBehaviour
 
         _mapCamera.GetComponent<CameraControl>().DesactiveZoom();
 
-        selectEntityInput.action.started += DoASelection;
-        moveEntityInput.action.started += MooveSelected;
-        multiSelectionInput.action.performed += ActiveMultiSelection;
-        multiSelectionInput.action.canceled += DesactiveMultiSelection;
-        multiPathInput.action.performed += ActiveMultiPath;
-        multiPathInput.action.canceled += DesactiveMultiPath;
-        dragSelect.action.performed += StartDragSelect;
-        dragSelect.action.canceled += EndDragSelect;
+        ActiveAllInput();
         mapModInput.action.started += MapModActive;
 
         _UiGestioneur = FindObjectOfType<UiGestioneur>();
@@ -83,9 +76,17 @@ public class ControlManager : MonoBehaviour
 
     private void MapModActive(InputAction.CallbackContext obj)
     {
-        
         _isMapMod = !_isMapMod ;
 
+        if (_isMapMod){ DesactiveAllInput(); }
+        else {  ActiveAllInput(); }
+
+        CameraGestion();
+        SelectGestionMapMod();
+    }
+
+    private void CameraGestion()
+    {
         _camera.enabled = !_camera.enabled;
         CameraControl cameraControl = _camera.GetComponent<CameraControl>();
         cameraControl.enabled = _camera.enabled;
@@ -100,12 +101,19 @@ public class ControlManager : MonoBehaviour
             cameraControl.DesactiveZoom();
             _selectManager.ClearList();
             _UiGestioneur.DesactiveUi();
-            DesactiveAllInput();
         }
+        else {  cameraControl.ActiveZoom();  }
+    }
 
-        else { ActiveAllInput();
-            cameraControl.ActiveZoom();
+    private void SelectGestionMapMod()
+    {
+       
+        foreach (EntityManager i in Resources.FindObjectsOfTypeAll<EntityManager>())
+        {
+            if (_isMapMod){ i.OnSelected(); }
+            else { i.OnDeselected(); }
         }
+       
     }
 
     private void ActiveAllInput()
@@ -135,14 +143,7 @@ public class ControlManager : MonoBehaviour
     private void ActiveMultiPath(InputAction.CallbackContext obj) { _multiPathIsActive = true; }
     private void OnDestroy()
     {
-        selectEntityInput.action.started -= DoASelection;
-        moveEntityInput.action.started -= MooveSelected;
-        multiSelectionInput.action.performed -= ActiveMultiSelection;
-        multiSelectionInput.action.canceled -= ActiveMultiSelection;
-        multiPathInput.action.performed -= ActiveMultiPath;
-        multiPathInput.action.canceled -= ActiveMultiPath;
-        dragSelect.action.performed -= StartDragSelect;
-        dragSelect.action.canceled -= EndDragSelect;
+        DesactiveAllInput();
         mapModInput.action.started -= MapModActive;
     }
     private void Update()
