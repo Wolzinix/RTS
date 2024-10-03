@@ -13,6 +13,7 @@ public class ControlManager : MonoBehaviour
     [SerializeField] private InputActionReference selectEntityInput;
     [SerializeField] private InputActionReference moveEntityInput;
     [SerializeField] private InputActionReference mapModInput;
+    [SerializeField] private InputActionReference PauseInput;
 
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera _mapCamera;
@@ -40,6 +41,8 @@ public class ControlManager : MonoBehaviour
 
     [SerializeField] string _ennemieTag;
 
+    [SerializeField] Canvas _pauseCanvas;
+
     private MapMod _mapMod;
 
     void Start()
@@ -50,6 +53,7 @@ public class ControlManager : MonoBehaviour
 
         ActiveAllInput();
         mapModInput.action.started += MapModActive;
+        PauseInput.action.started += SetPause;
 
         _UiGestioneur = FindObjectOfType<UiGestioneur>();
 
@@ -105,6 +109,23 @@ public class ControlManager : MonoBehaviour
         selectEntityInput.action.started -= TeleporteOnMap;
         _UiGestioneur.gameObject.SetActive(true);
         ActiveAllInput();
+        
+    }
+
+    public void SetPause(InputAction.CallbackContext obj){  ActivePause(); }
+
+    public void ActivePause()
+    {
+        if(_pauseCanvas.gameObject.activeSelf)
+        { 
+            Time.timeScale = 1;
+            _pauseCanvas.gameObject.SetActive(false);
+        }
+        else 
+        {
+            _pauseCanvas.gameObject.SetActive(true);
+            Time.timeScale = 0; 
+        } 
     }
 
     private void ActiveAllInput()
@@ -135,6 +156,7 @@ public class ControlManager : MonoBehaviour
     private void OnDestroy()
     {
         DesactiveAllInput();
+        PauseInput.action.started -= SetPause;
         mapModInput.action.started -= MapModActive;
     }
     private void Update()
