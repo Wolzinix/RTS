@@ -98,6 +98,7 @@ public class ControlManager : MonoBehaviour
         }
         else 
         {
+            selectEntityInput.action.started -= TeleporteOnMap;
             _UiGestioneur.gameObject.SetActive(true); 
             ActiveAllInput(); 
         }
