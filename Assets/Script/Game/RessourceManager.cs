@@ -11,7 +11,7 @@ public class RessourceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _ui = GetComponent<RessourceUi>();
+        _ui = FindAnyObjectByType<RessourceUi>();
     }
 
     public void AddGold(int gold)

@@ -294,7 +294,7 @@ public class EntityController : MonoBehaviour
             ProjectilManager pj = Instantiate(_projectile);
             pj.SetDamage(GetComponent<EntityManager>().Attack);
             pj.SetTarget(target.gameObject);
-            pj.SetInvoker(gameObject);
+            pj.SetInvoker(GetComponent<EntityManager>());
             pj.gameObject.transform.position = new Vector3( transform.position.x , transform.position.y +1, transform.position.z);
         }
         else

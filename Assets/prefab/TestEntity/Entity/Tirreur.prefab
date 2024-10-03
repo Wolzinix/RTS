@@ -331,6 +331,8 @@ MonoBehaviour:
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
+  PriceWhenDestroy: 2
+  ressources: {fileID: 0}
 --- !u!135 &7516939702130909472
 SphereCollider:
   m_ObjectHideFlags: 0

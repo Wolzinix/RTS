@@ -33,6 +33,9 @@ public class EntityManager : MonoBehaviour
     private Animator _animator;
     private NavMeshAgent _navMeshAgent;
 
+    public int PriceWhenDestroy = 1;
+    public RessourceManager ressources;
+
     public Sprite GetSprit()
     {
         return spriteImage;
@@ -71,6 +74,14 @@ public class EntityManager : MonoBehaviour
         sprite.gameObject.SetActive(false);
 
         _maxHp = hp;
+
+        foreach(RessourceManager i  in Resources.FindObjectsOfTypeAll<RessourceManager>())
+        {
+            if (i.gameObject.CompareTag(gameObject.tag))
+            {
+                ressources = i;
+            }
+        }
     }
 
     public void ActualiseSprite()
@@ -152,13 +163,24 @@ public class EntityManager : MonoBehaviour
         changeStats.Invoke();
         Death();
     }
-    public void TakeDamage(float nb)
+    public void TakeDamage(EntityManager entity,float nb)
     {
         hp -= nb;
         changeStats.Invoke();
+
+        if(hp<=0)
+        {
+            entity.AddToRessourcesKilledEntity(PriceWhenDestroy);
+        }
+
         Death();
     }
     
+
+    public void AddToRessourcesKilledEntity(int gold)
+    {
+        ressources.AddGold(gold);
+    }
     public void AddAttack(float nb)
     {
         attack += nb;
@@ -216,7 +238,7 @@ public class EntityManager : MonoBehaviour
 
     public void DoAttack(EntityManager entityToAttack)
     {
-        entityToAttack.TakeDamage(attack);
+        entityToAttack.TakeDamage(this,attack);
         entityToAttack.TakingDamageFromEntity.Invoke(this);
     }
 }

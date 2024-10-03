@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,7 +20,7 @@ public class GroupManager
     public UnityEvent<GroupManager> GroupIsDeadevent = new UnityEvent<GroupManager>();
 
     public UnityEvent<GroupManager> SomeoneIsImmobile = new UnityEvent<GroupManager>();
-
+     
     private EntityManager _OneSelected; 
 
     public GroupManager()
@@ -129,7 +128,6 @@ public class GroupManager
             }
         }
     }
-
 
     public void RemoveSelect(EntityManager toAdd)
     {
