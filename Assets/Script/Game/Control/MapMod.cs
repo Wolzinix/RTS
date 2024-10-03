@@ -41,7 +41,7 @@ public class MapMod
 
     private void SelectGestionMapMod()
     {
-        foreach (EntityManager i in Resources.FindObjectsOfTypeAll<EntityManager>())
+        foreach (TroupeManager i in Resources.FindObjectsOfTypeAll<TroupeManager>())
         {
             if (_isMapMod) { i.OnSelected(); }
             else { i.OnDeselected(); }

@@ -16,7 +16,7 @@ public class UiGestioneur : MonoBehaviour
     private bool _multiSelectionIsActive;
     public void SetMulitSelection(bool multi) {  _multiSelectionIsActive = multi; }
 
-    private void ActualiseEntityUI(EntityManager entity)
+    private void ActualiseEntityUI(TroupeManager entity)
     {
         if (!_multiSelectionIsActive)
         {
@@ -53,7 +53,7 @@ public class UiGestioneur : MonoBehaviour
         }
     }
 
-    private void ActualiseColorUi(EntityManager entity)
+    private void ActualiseColorUi(TroupeManager entity)
     {
         if (entity.gameObject.GetComponent<EntityController>())
         {
@@ -69,7 +69,7 @@ public class UiGestioneur : MonoBehaviour
         }
     }
 
-    public void ActualiseUi(EntityManager entity)
+    public void ActualiseUi(TroupeManager entity)
     {
         NoUi.gameObject.SetActive(false);
         ActualiseEntityUI(entity);
@@ -100,7 +100,7 @@ public class UiGestioneur : MonoBehaviour
         ActualiseColorUi(entity);
     }
 
-    public void AddOnGroupUi(EntityManager entity)
+    public void AddOnGroupUi(TroupeManager entity)
     {
         NoUi.gameObject.SetActive(false);
         groupUi.gameObject.SetActive(true);

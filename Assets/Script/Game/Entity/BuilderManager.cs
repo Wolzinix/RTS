@@ -40,7 +40,7 @@ public class BuilderManager : MonoBehaviour
 
         if (colliders.Length == 1 ||( colliders.Length == 2 && (colliders[1] == gameObject || colliders[0] == gameObject)))
         {
-            EntityManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]], ListOfBuildPosition[0] + new Vector3(0,2,0), transform.rotation).GetComponent<EntityManager>();
+            TroupeManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]], ListOfBuildPosition[0] + new Vector3(0,2,0), transform.rotation).GetComponent<TroupeManager>();
             gm.gameObject.tag = gameObject.tag;
             gm.ActualiseSprite();
         }

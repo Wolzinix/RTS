@@ -51,7 +51,7 @@ public class NavMeshController : MonoBehaviour
         }
     }
 
-    public void ActualisePath(EntityManager target)
+    public void ActualisePath(TroupeManager target)
     {
 
         _navMesh.SetDestination(target.transform.position);

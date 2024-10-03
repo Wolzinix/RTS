@@ -191,7 +191,7 @@ public class ControlManager : MonoBehaviour
         else if (_travelAttack)
         {
             IsMultipathActive();
-            if(hit.transform && hit.transform.GetComponent<EntityManager>()) { _selectManager.AddTarget(hit.transform.GetComponent<EntityManager>()); }
+            if(hit.transform && hit.transform.GetComponent<TroupeManager>()) { _selectManager.AddTarget(hit.transform.GetComponent<TroupeManager>()); }
             else {_selectManager.AttackingOnTravel(hit.point);}
         }
 
@@ -210,10 +210,10 @@ public class ControlManager : MonoBehaviour
                 if (hit.collider)
                 {
                     Debug.DrawLine(_camera.transform.position, hit.point, color:Color.blue, 10f);
-                    if (hit.transform.GetComponent<EntityManager>())
+                    if (hit.transform.GetComponent<TroupeManager>())
                     {
-                        _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<EntityManager>());
-                        _selectManager.AddSelect(hit.transform.gameObject.GetComponent<EntityManager>());
+                        _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<TroupeManager>());
+                        _selectManager.AddSelect(hit.transform.gameObject.GetComponent<TroupeManager>());
                     }
                     else
                     {
@@ -243,7 +243,7 @@ public class ControlManager : MonoBehaviour
                         _selectManager.ClearList();
                         CadreController groupUI = raycastResult.gameObject.GetComponent<CadreController>();
                         _UiGestioneur.ActualiseUi(groupUI.GetEntity());
-                        _selectManager.AddSelect(groupUI.GetEntity().GetComponent<EntityManager>());
+                        _selectManager.AddSelect(groupUI.GetEntity().GetComponent<TroupeManager>());
                     }
                 }
             }
@@ -333,8 +333,8 @@ public class ControlManager : MonoBehaviour
 
             if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag))
             {
-                _selectManager.AddSelect(i.gameObject.GetComponent<EntityManager>());
-                _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<EntityManager>());
+                _selectManager.AddSelect(i.gameObject.GetComponent<TroupeManager>());
+                _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<TroupeManager>());
             }
         }
     }

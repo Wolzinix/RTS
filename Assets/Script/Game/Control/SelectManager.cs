@@ -47,7 +47,7 @@ public class SelectManager : MonoBehaviour
         _groupManager.ClearList();
     }
 
-    public void AddSelect(EntityManager toAdd)
+    public void AddSelect(TroupeManager toAdd)
     {
         if (toAdd.gameObject.CompareTag(_groupManager.GetAllieTag()))
         {
@@ -64,7 +64,7 @@ public class SelectManager : MonoBehaviour
     {
         _groupManager.ActionGroup(hit);
     }
-    public void AddTarget(EntityManager controller)
+    public void AddTarget(TroupeManager controller)
     {
         _groupManager.AddTarget(controller);
     }

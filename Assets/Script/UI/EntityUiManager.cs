@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EntityUiManager : MonoBehaviour
 {
-    private EntityManager _entity;
+    private TroupeManager _entity;
 
     [SerializeField] private TMP_Text entityName;
     [SerializeField] private TMP_Text hp;
@@ -25,7 +25,7 @@ public class EntityUiManager : MonoBehaviour
         }
     }
 
-    public void SetEntity(EntityManager em)
+    public void SetEntity(TroupeManager em)
     {
         _entity = em;
         _entity.changeStats.AddListener(UpdateUI);
@@ -44,7 +44,7 @@ public class EntityUiManager : MonoBehaviour
         }
     }
 
-    private void DisableUI(EntityManager entity)
+    private void DisableUI(TroupeManager entity)
     {
         gameObject.SetActive(false);
     }
@@ -58,7 +58,7 @@ public class EntityUiManager : MonoBehaviour
         }
     }
 
-    public EntityManager GetEntity()
+    public TroupeManager GetEntity()
     {
         return _entity;
     }

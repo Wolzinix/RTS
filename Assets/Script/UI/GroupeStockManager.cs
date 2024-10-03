@@ -42,7 +42,7 @@ public class GroupeStockManager : MonoBehaviour
         ActualiseAffichage();
         foreach (EntityController entityManager in _listOfEntityManager)
         {
-            entityManager.gameObject.GetComponent<EntityManager>().deathEvent.AddListener(RemoveEntity);
+            entityManager.gameObject.GetComponent<TroupeManager>().deathEvent.AddListener(RemoveEntity);
         }
         FindObjectOfType<GroupeStockUi>().AddEntity();
     }
@@ -54,7 +54,7 @@ public class GroupeStockManager : MonoBehaviour
             if(!_listOfEntityManager.Contains(entityManager))
             {
                 _listOfEntityManager.Add(entityManager);
-                entityManager.gameObject.GetComponent<EntityManager>().deathEvent.AddListener(RemoveEntity);
+                entityManager.gameObject.GetComponent<TroupeManager>().deathEvent.AddListener(RemoveEntity);
                 _nbOfEntity += 1;
             }
         }
@@ -88,10 +88,10 @@ public class GroupeStockManager : MonoBehaviour
             UiGestioneur uiGestioneur = FindObjectOfType<UiGestioneur>();
             selectManager.ClearList();
 
-            uiGestioneur.ActualiseUi(_listOfEntityManager[0].gameObject.GetComponent<EntityManager>());
+            uiGestioneur.ActualiseUi(_listOfEntityManager[0].gameObject.GetComponent<TroupeManager>());
             foreach ( EntityController entityController in _listOfEntityManager)
             {
-                EntityManager entityManager = entityController.gameObject.GetComponent<EntityManager>();
+                TroupeManager entityManager = entityController.gameObject.GetComponent<TroupeManager>();
                 selectManager.AddSelect(entityManager);
                 
                 uiGestioneur.AddOnGroupUi(entityManager);
@@ -107,7 +107,7 @@ public class GroupeStockManager : MonoBehaviour
 
     public void ResetList (){ _listOfEntityManager.Clear(); }
 
-    private void RemoveEntity(EntityManager entityManager)
+    private void RemoveEntity(TroupeManager entityManager)
     {
         _listOfEntityManager.Remove(entityManager.gameObject.GetComponent<EntityController>());
         entityManager.deathEvent.RemoveListener(RemoveEntity);
@@ -122,7 +122,7 @@ public class GroupeStockManager : MonoBehaviour
     private  void ActualiseAffichage()
     {
         GetComponentInChildren<TMP_Text>().text = _nbOfEntity.ToString();
-        GetComponentInChildren<Image>().sprite = _listOfEntityManager[0].gameObject.GetComponent<EntityManager>().GetSprit();
+        GetComponentInChildren<Image>().sprite = _listOfEntityManager[0].gameObject.GetComponent<TroupeManager>().GetSprit();
 
     }
 

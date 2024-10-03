@@ -34,7 +34,7 @@ public class BuildingController : MonoBehaviour
     void Start()
     {
         entityDictionary = new Dictionary<GameObject, SpawnTime>();
-        _rangeDetection = gameObject.GetComponent<EntityManager>().SeeRange;
+        _rangeDetection = gameObject.GetComponent<TroupeManager>().SeeRange;
 
         if (prefabToSpawn.Count == MySpawns.Count)
         {
@@ -145,7 +145,7 @@ public class BuildingController : MonoBehaviour
 
                         newEntity.tag = tag;
 
-                        newEntity.GetComponent<EntityManager>().ActualiseSprite();
+                        newEntity.GetComponent<TroupeManager>().ActualiseSprite();
 
                         entityDictionary[entityToSpawn].actualStock -= 1;
                         entitySpawnNow.Invoke();
@@ -184,7 +184,7 @@ public class BuildingController : MonoBehaviour
 
             foreach (RaycastHit hit in hits)
             {
-                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<EntityManager>())
+                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<TroupeManager>())
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
                     listOfGameObejct.Add(hit.transform.gameObject);

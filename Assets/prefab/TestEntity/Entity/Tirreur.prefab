@@ -201,9 +201,9 @@ GameObject:
   - component: {fileID: 3648613589935070831}
   - component: {fileID: 2033893907195975481}
   - component: {fileID: 6208376071361995173}
-  - component: {fileID: 7207345613144918307}
   - component: {fileID: 7516939702130909472}
   - component: {fileID: 6933795875318003325}
+  - component: {fileID: 2875708092518566237}
   m_Layer: 6
   m_Name: Tirreur
   m_TagString: Allie
@@ -298,41 +298,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7207345613144918307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4825870592483654779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7a9e5c15c907f443afd801685ef2280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 10
-  attack: 2
-  defense: 1
-  attackSpeed: 1
-  speed: 2
-  range: 6
-  seeRange: 8
-  sprite: {fileID: 7706548414058156727}
-  spriteImage: {fileID: -2413806693520163455, guid: b53783ba57e90b7459ad2e55992892da, type: 3}
-  Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
-  Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
-  Neutralprite: {fileID: 0}
-  changeStats:
-    m_PersistentCalls:
-      m_Calls: []
-  deathEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  TakingDamageFromEntity:
-    m_PersistentCalls:
-      m_Calls: []
-  PriceWhenDestroy: 2
-  ressources: {fileID: 0}
 --- !u!135 &7516939702130909472
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -366,3 +331,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2875708092518566237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069a7d1dcb95cac4db81d0c4b22c0aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 10
+  sprite: {fileID: 7706548414058156727}
+  spriteImage: {fileID: -2413806693520163455, guid: b53783ba57e90b7459ad2e55992892da, type: 3}
+  Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
+  Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
+  Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
+  changeStats:
+    m_PersistentCalls:
+      m_Calls: []
+  attack: 2
+  defense: 1
+  attackSpeed: 2
+  speed: 2
+  range: 4
+  seeRange: 6
+  PriceWhenDestroy: 1
+  ressources: {fileID: 0}
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  TakingDamageFromEntity:
+    m_PersistentCalls:
+      m_Calls: []

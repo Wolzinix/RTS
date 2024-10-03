@@ -19,8 +19,8 @@ public class EntityController : MonoBehaviour
 
     public List<Order> _listForOrder;
     private List<Vector3> _listOfPath;
-    private List<EntityManager> _listOfTarget;
-    private List<EntityManager> _listOfAllie;
+    private List<TroupeManager> _listOfTarget;
+    private List<TroupeManager> _listOfAllie;
     private List<Vector3> _listForPatrol;
     private List<Vector3> _listForAttackingOnTravel;
 
@@ -33,7 +33,7 @@ public class EntityController : MonoBehaviour
     private bool _attacking;
     private int _patrolIteration;
 
-    private EntityManager _entityManager;
+    private TroupeManager _entityManager;
 
     
     private Animator _animator;
@@ -50,19 +50,19 @@ public class EntityController : MonoBehaviour
         _navMesh = GetComponent<NavMeshController>();
 
         _listOfPath = new List<Vector3>();
-        _listOfTarget = new List<EntityManager>();
+        _listOfTarget = new List<TroupeManager>();
         _listForOrder = new List<Order>();
-        _listOfAllie = new List<EntityManager>();
+        _listOfAllie = new List<TroupeManager>();
         _listForPatrol = new List<Vector3>();
         _listForAttackingOnTravel = new List<Vector3>();
 
         _listOfalliesOnRange = new List<GameObject>();
         
-        _entityManager = GetComponent<EntityManager>();
+        _entityManager = GetComponent<TroupeManager>();
         
         _animator = GetComponentInChildren<Animator>();
 
-        GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
+        GetComponent<TroupeManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
     }
 
     private List<GameObject> DoCircleRaycast()
@@ -83,7 +83,7 @@ public class EntityController : MonoBehaviour
 
             foreach(RaycastHit hit in hits)
             {
-                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<EntityManager>())
+                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<TroupeManager>())
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
                     listOfGameObejct.Add(hit.transform.gameObject);
@@ -115,13 +115,13 @@ public class EntityController : MonoBehaviour
 
                 foreach (GameObject target in listOfRayTuch)
                 {
-                    if (target != gameObject && !target.CompareTag(gameObject.tag) )  { InsertTarget(target.GetComponent<EntityManager>());}
+                    if (target != gameObject && !target.CompareTag(gameObject.tag) )  { InsertTarget(target.GetComponent<TroupeManager>());}
 
                     if(target != gameObject  && target.CompareTag(gameObject.tag))
                     {
                         if (!_listOfalliesOnRange.Contains(target))
                         {
-                            target.GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
+                            target.GetComponent<TroupeManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
                             _listOfalliesOnRange.Add(target);
                         }
                         if(!listOfAlly.Contains(target)) { listOfAlly.Add(target);}   
@@ -143,7 +143,7 @@ public class EntityController : MonoBehaviour
             {
                 if (i)
                 {
-                    i.GetComponent<EntityManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
+                    i.GetComponent<TroupeManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
                     listToRemove.Add(i);
                 }
                 else { listToRemove.Add(i); }
@@ -169,7 +169,7 @@ public class EntityController : MonoBehaviour
         }
         else
         {
-            EntityManager target = _listOfTarget[0];
+            TroupeManager target = _listOfTarget[0];
 
             if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
             {
@@ -287,14 +287,14 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    void DoAttack(EntityManager target) 
+    void DoAttack(TroupeManager target) 
     {
         if (_projectile)
         {
             ProjectilManager pj = Instantiate(_projectile);
-            pj.SetDamage(GetComponent<EntityManager>().Attack);
+            pj.SetDamage(GetComponent<TroupeManager>().Attack);
             pj.SetTarget(target.gameObject);
-            pj.SetInvoker(GetComponent<EntityManager>());
+            pj.SetInvoker(GetComponent<TroupeManager>());
             pj.gameObject.transform.position = new Vector3( transform.position.x , transform.position.y +1, transform.position.z);
         }
         else
@@ -314,12 +314,12 @@ public class EntityController : MonoBehaviour
            
     }
 
-    private void AddTargetAttacked(EntityManager target)
+    private void AddTargetAttacked(TroupeManager target)
     {
         InsertTarget(target);
     }
 
-    public void AddTarget(EntityManager target )
+    public void AddTarget(TroupeManager target )
     {
         if(!_listOfTarget.Contains(target))
         {
@@ -328,7 +328,7 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    public void InsertTarget(EntityManager target)
+    public void InsertTarget(TroupeManager target)
     {
         if (!_listOfTarget.Contains(target))
         {
@@ -337,7 +337,7 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    public void AddAllie(EntityManager target)
+    public void AddAllie(TroupeManager target)
     {
         _listOfAllie.Add(target);
         _listForOrder.Add(Order.Follow);
@@ -383,7 +383,7 @@ public class EntityController : MonoBehaviour
         set => _stayPosition = value;
     }
 
-    private int SortTargetByProximity(EntityManager entity1, EntityManager entity2)
+    private int SortTargetByProximity(TroupeManager entity1, TroupeManager entity2)
     {
         if(entity1 == null) return 1;
         if (entity2 == null) return 0;
@@ -391,7 +391,7 @@ public class EntityController : MonoBehaviour
             .CompareTo(Vector3.Distance(transform.position, entity2.gameObject.transform.position));
     }
 
-    private void AddAggresseurTarget(EntityManager entityToAggresse)
+    private void AddAggresseurTarget(TroupeManager entityToAggresse)
     {
         if (_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse);}
     }

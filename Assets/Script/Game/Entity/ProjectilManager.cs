@@ -3,7 +3,7 @@ using UnityEngine;
 public class ProjectilManager : MonoBehaviour
 {
     private GameObject _target;
-    private EntityManager _invoker;
+    private TroupeManager _invoker;
 
     [SerializeField] private Sprite _sprite;
 
@@ -35,15 +35,15 @@ public class ProjectilManager : MonoBehaviour
 
         transform.LookAt(_target.gameObject.transform);
     }
-    public void SetInvoker(EntityManager invoker) { _invoker = invoker; }
+    public void SetInvoker(TroupeManager invoker) { _invoker = invoker; }
 
 
     private void OnTriggerEnter(Collider other)
     {
         if(other != null && other.gameObject == _target)
         { 
-            _target.GetComponent<EntityManager>().TakeDamage(_invoker,_damage);
-            if( _invoker ) {_target.GetComponent<EntityManager>().TakingDamageFromEntity.Invoke(_invoker.GetComponent<EntityManager>());}
+            _target.GetComponent<TroupeManager>().TakeDamage(_invoker,_damage);
+            if( _invoker ) {_target.GetComponent<TroupeManager>().TakingDamageFromEntity.Invoke(_invoker.GetComponent<TroupeManager>());}
             
             Destroy(gameObject);
         }
