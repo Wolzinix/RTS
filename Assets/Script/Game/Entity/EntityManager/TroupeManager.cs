@@ -126,10 +126,15 @@ public class TroupeManager : SelectableManager
         range += nb;
     }
 
-    public void DoAttack(SelectableManager entityToAttack)
+    public void DoAttack(EntityManager entityToAttack)
     {
         entityToAttack.TakeDamage(this, attack);
-        entityToAttack.TakingDamageFromEntity.Invoke(this);
+        if(entityToAttack.GetType() == typeof(SelectableManager))
+        {
+           SelectableManager entityToAttack2 = (SelectableManager)entityToAttack;
+           entityToAttack2.TakingDamageFromEntity.Invoke(this);
+        }
+        
     }
 
     public void AddToRessourcesKilledEntity(int gold)

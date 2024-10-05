@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class BuilderController : EntityController
 {
@@ -7,7 +10,10 @@ public class BuilderController : EntityController
 
     private List<int> ListOfBuildsIndex = new List<int>();
     private List<Vector3> ListOfBuildPosition = new List<Vector3>();
+    private List<RessourceManager> _listOfRessource = new List<RessourceManager>();
     public List<GameObject> getBuildings() { return _buildings; }
+
+
 
     private void Start()
     {
@@ -30,6 +36,88 @@ public class BuilderController : EntityController
             if (location && distance) { Build(); }
             else if(location && !distance)  {  AddPath(ListOfBuildPosition[0]); }
 
+        }
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+    }
+
+    void DoAnAttackOnRessource(RessourceManager target)
+    {
+         _entityManager.DoAttack(target);
+    }
+
+    private void DoHarvest()
+    {
+        if (!_listOfRessource[0])
+        {
+            _listOfRessource.RemoveAt(0);
+            _listForOrder.RemoveAt(0);
+        }
+        else
+        {
+            RessourceManager target = _listOfRessource[0];
+
+            if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
+            {
+                if (_navMesh)
+                {
+                    _navMesh.StopPath();
+                }
+                _animator.SetBool(Moving, false);
+
+                if (!_animator.IsInTransition(0) &&
+                    _animator.GetBool(Attacking) &&
+                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
+                    _attacking)
+                {
+                    DoAnAttackOnRessource(target);
+                    _attacking = false;
+                }
+
+                if (!_animator.IsInTransition(0) &&
+                    _animator.GetBool(Attacking) &&
+                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+
+                { _animator.SetBool(Attacking, false); }
+
+                else
+                {
+                    transform.LookAt(target.transform);
+                    _animator.SetBool(Attacking, true);
+                }
+
+                if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) { _attacking = true; }
+            }
+            else
+            {
+                if (!_stayPosition && _navMesh) { _navMesh.ActualisePath(target); }
+            }
+        }
+    }
+
+    private bool DoAnHarvest()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Harvest)
+        {
+            etat = true;
+
+            DoHarvest();
+        }
+
+        return etat;
+    }
+    protected override void ExecuteOrder()
+    {
+        base.ExecuteOrder();
+
+        if(_listForOrder.Count > 0) 
+        {
+            DoAnHarvest();
         }
     }
 
@@ -60,6 +148,10 @@ public class BuilderController : EntityController
 
     public void AddHarvestTarget(GameObject hit)
     {
-
+        if (!_listOfRessource.Contains(hit.GetComponent<RessourceManager>()))
+        {
+            _listOfRessource.Add(hit.GetComponent<RessourceManager>());
+            _listForOrder.Add(Order.Harvest);
+        }
     }
 }

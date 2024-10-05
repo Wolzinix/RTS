@@ -14,32 +14,32 @@ public enum Order
 
 public class EntityController : MonoBehaviour
 {
-    private NavMeshController _navMesh;
+    protected NavMeshController _navMesh;
 
     [SerializeField] private ProjectilManager _projectile;
 
     public List<Order> _listForOrder;
-    private List<Vector3> _listOfPath;
-    private List<SelectableManager> _listOfTarget;
-    private List<SelectableManager> _listOfAllie;
-    private List<Vector3> _listForPatrol;
-    private List<Vector3> _listForAttackingOnTravel;
+    protected List<Vector3> _listOfPath;
+    protected List<SelectableManager> _listOfTarget;
+    protected List<SelectableManager> _listOfAllie;
+    protected List<Vector3> _listForPatrol;
+    protected List<Vector3> _listForAttackingOnTravel;
 
     private List<GameObject> _listOfalliesOnRange;
 
     public UnityEvent EntityIsArrive = new UnityEvent();
 
 
-    private bool _stayPosition;
-    private bool _attacking;
+    protected bool _stayPosition;
+    protected bool _attacking;
     private int _patrolIteration;
 
-    private TroupeManager _entityManager;
+    protected TroupeManager _entityManager;
 
     
-    private Animator _animator;
-    private static readonly int Moving = Animator.StringToHash("Mooving");
-    private static readonly int Attacking = Animator.StringToHash("Attacking");
+    protected Animator _animator;
+    protected static readonly int Moving = Animator.StringToHash("Mooving");
+    protected static readonly int Attacking = Animator.StringToHash("Attacking");
 
     public UnityEvent resetEvent = new UnityEvent();
 
@@ -100,7 +100,7 @@ public class EntityController : MonoBehaviour
         Physics.SyncTransforms();
     }
 
-    void FixedUpdate()
+    virtual protected void FixedUpdate()
     {
          isUnit();
     }
@@ -307,7 +307,7 @@ public class EntityController : MonoBehaviour
         return etat;
     }
 
-    protected void ExecuteOrder()
+    virtual protected void ExecuteOrder()
     {
         if (_listForOrder.Count > 0)
         {

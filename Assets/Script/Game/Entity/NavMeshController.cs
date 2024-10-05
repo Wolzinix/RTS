@@ -50,7 +50,7 @@ public class NavMeshController : MonoBehaviour
         }
     }
 
-    public void ActualisePath(SelectableManager target)
+    public void ActualisePath(EntityManager target)
     {
 
         _navMesh.SetDestination(target.transform.position);
