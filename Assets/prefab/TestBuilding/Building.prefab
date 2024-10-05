@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1974872821757856839
 Transform:
   m_ObjectHideFlags: 0
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 3396275611280201753}
   - component: {fileID: 7696095010799487015}
   - component: {fileID: 2140429094921462342}
-  - component: {fileID: 7843818613559919076}
+  - component: {fileID: 3885713406343502723}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -262,7 +262,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7843818613559919076
+--- !u!114 &3885713406343502723
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6084191280811076340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 069a7d1dcb95cac4db81d0c4b22c0aea, type: 3}
+  m_Script: {fileID: 11500000, guid: 87a61d5c26014b542bcf7cc4b3d17b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
@@ -280,17 +280,12 @@ MonoBehaviour:
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
+  defense: 1
   changeStats:
     m_PersistentCalls:
       m_Calls: []
-  attack: 0
-  defense: 1
-  attackSpeed: 0
-  speed: 0
-  range: 0
   seeRange: 6
   PriceWhenDestroy: 1
-  ressources: {fileID: 0}
   deathEvent:
     m_PersistentCalls:
       m_Calls: []

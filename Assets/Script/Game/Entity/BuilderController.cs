@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
 
-public class BuilderManager : MonoBehaviour
+public class BuilderController : MonoBehaviour
 {
     [SerializeField] List<GameObject> _buildings;
 

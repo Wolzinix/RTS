@@ -34,7 +34,7 @@ public class BuildingController : MonoBehaviour
     void Start()
     {
         entityDictionary = new Dictionary<GameObject, SpawnTime>();
-        _rangeDetection = gameObject.GetComponent<TroupeManager>().SeeRange;
+        _rangeDetection = gameObject.GetComponent<BuildingManager>().SeeRange;
 
         if (prefabToSpawn.Count == MySpawns.Count)
         {

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Events;
 
 public class NavMeshController : MonoBehaviour
 {
@@ -51,7 +50,7 @@ public class NavMeshController : MonoBehaviour
         }
     }
 
-    public void ActualisePath(TroupeManager target)
+    public void ActualisePath(SelectableManager target)
     {
 
         _navMesh.SetDestination(target.transform.position);

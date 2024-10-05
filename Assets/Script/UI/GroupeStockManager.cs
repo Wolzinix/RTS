@@ -42,7 +42,7 @@ public class GroupeStockManager : MonoBehaviour
         ActualiseAffichage();
         foreach (EntityController entityManager in _listOfEntityManager)
         {
-            entityManager.gameObject.GetComponent<TroupeManager>().deathEvent.AddListener(RemoveEntity);
+            entityManager.gameObject.GetComponent<SelectableManager>().deathEvent.AddListener(RemoveEntity);
         }
         FindObjectOfType<GroupeStockUi>().AddEntity();
     }
@@ -54,7 +54,7 @@ public class GroupeStockManager : MonoBehaviour
             if(!_listOfEntityManager.Contains(entityManager))
             {
                 _listOfEntityManager.Add(entityManager);
-                entityManager.gameObject.GetComponent<TroupeManager>().deathEvent.AddListener(RemoveEntity);
+                entityManager.gameObject.GetComponent<SelectableManager>().deathEvent.AddListener(RemoveEntity);
                 _nbOfEntity += 1;
             }
         }
@@ -107,7 +107,7 @@ public class GroupeStockManager : MonoBehaviour
 
     public void ResetList (){ _listOfEntityManager.Clear(); }
 
-    private void RemoveEntity(TroupeManager entityManager)
+    private void RemoveEntity(SelectableManager entityManager)
     {
         _listOfEntityManager.Remove(entityManager.gameObject.GetComponent<EntityController>());
         entityManager.deathEvent.RemoveListener(RemoveEntity);

@@ -1,5 +1,3 @@
-
-using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class MapMod
@@ -41,7 +39,7 @@ public class MapMod
 
     private void SelectGestionMapMod()
     {
-        foreach (TroupeManager i in Resources.FindObjectsOfTypeAll<TroupeManager>())
+        foreach (SelectableManager i in Resources.FindObjectsOfTypeAll<SelectableManager>())
         {
             if (_isMapMod) { i.OnSelected(); }
             else { i.OnDeselected(); }

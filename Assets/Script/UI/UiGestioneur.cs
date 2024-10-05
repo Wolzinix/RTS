@@ -16,7 +16,7 @@ public class UiGestioneur : MonoBehaviour
     private bool _multiSelectionIsActive;
     public void SetMulitSelection(bool multi) {  _multiSelectionIsActive = multi; }
 
-    private void ActualiseEntityUI(TroupeManager entity)
+    private void ActualiseEntityUI(SelectableManager entity)
     {
         if (!_multiSelectionIsActive)
         {
@@ -53,9 +53,9 @@ public class UiGestioneur : MonoBehaviour
         }
     }
 
-    private void ActualiseColorUi(TroupeManager entity)
+    private void ActualiseColorUi(SelectableManager entity)
     {
-        if (entity.gameObject.GetComponent<EntityController>())
+        if (entity.gameObject.GetComponent<SelectableManager>())
         {
             if (entity.CompareTag("Allie")) { entityUi.GetComponentInChildren<Image>().color = Color.green;  }
             else if (entity.CompareTag("ennemie")) { entityUi.GetComponentInChildren<Image>().color = Color.red; }
@@ -69,12 +69,12 @@ public class UiGestioneur : MonoBehaviour
         }
     }
 
-    public void ActualiseUi(TroupeManager entity)
+    public void ActualiseUi(SelectableManager entity)
     {
         NoUi.gameObject.SetActive(false);
         ActualiseEntityUI(entity);
 
-        if (entity.gameObject.GetComponent<EntityController>())
+        if (entity.gameObject.GetComponent<TroupeManager>())
         {
             if ( entity.CompareTag("Allie"))
             {
@@ -100,7 +100,7 @@ public class UiGestioneur : MonoBehaviour
         ActualiseColorUi(entity);
     }
 
-    public void AddOnGroupUi(TroupeManager entity)
+    public void AddOnGroupUi(SelectableManager entity)
     {
         NoUi.gameObject.SetActive(false);
         groupUi.gameObject.SetActive(true);

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class GroupeUiManager : MonoBehaviour
 {
-    public List<TroupeManager> _listOfEntity;
+    public List<SelectableManager> _listOfEntity;
     [SerializeField] private GameObject cadre;
 
     private List<GameObject> _listOfCadreControllers;
@@ -12,7 +12,7 @@ public class GroupeUiManager : MonoBehaviour
     
     void Awake()
     {
-        _listOfEntity = new List<TroupeManager>();
+        _listOfEntity = new List<SelectableManager>();
         _listOfCadreControllers = new List<GameObject>();
         
         gameObject.SetActive(false);
@@ -23,7 +23,7 @@ public class GroupeUiManager : MonoBehaviour
         ClearList();
     }
 
-    public void AddEntity(TroupeManager entity)
+    public void AddEntity(SelectableManager entity)
     {
         int index = _listOfEntity.IndexOf(entity);
         if (index == -1)

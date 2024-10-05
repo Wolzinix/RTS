@@ -2,29 +2,21 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class TroupeManager : EntityManager
+public class TroupeManager : SelectableManager
 {
 
     [SerializeField] private float attack = 1;
-    [SerializeField] private float defense = 1;
     [SerializeField] private float attackSpeed = 1;
     [SerializeField] private float speed = 2;
     [SerializeField] private float range = 1;
 
-    [SerializeField] private float seeRange = 3;
 
     private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
 
+
     private NavMeshAgent _navMeshAgent;
-
-    public int PriceWhenDestroy = 1;
     public RessourceManager ressources;
-
-
-    public UnityEvent<TroupeManager> deathEvent = new UnityEvent<TroupeManager>();
-
-    public UnityEvent<TroupeManager> TakingDamageFromEntity = new UnityEvent<TroupeManager>();
 
 
 
@@ -40,7 +32,6 @@ public class TroupeManager : EntityManager
 
         if (GetComponentInChildren<Animator>())
         {
-            _animator = GetComponentInChildren<Animator>();
             _animator.SetFloat(WalkSpeed, speed);
             _animator.SetFloat(AttackSpeedAnim, attackSpeed);
         }
@@ -60,24 +51,12 @@ public class TroupeManager : EntityManager
         set => range = value;
     }
 
-    public float SeeRange
-    {
-        get => seeRange;
-        set => seeRange = value;
-    }
-
-
     public float Attack
     {
         get => attack;
         set => attack = value;
     }
 
-    public float Defense
-    {
-        get => defense;
-        set => defense = value;
-    }
 
     public float AttackSpeed
     {
@@ -112,10 +91,7 @@ public class TroupeManager : EntityManager
         attack += nb;
     }
 
-    public void AddDefense(float nb)
-    {
-        defense += nb;
-    }
+   
 
     public void AddAttackSpeed(float nb)
     {
@@ -150,28 +126,10 @@ public class TroupeManager : EntityManager
         range += nb;
     }
 
-    public void DoAttack(TroupeManager entityToAttack)
+    public void DoAttack(SelectableManager entityToAttack)
     {
         entityToAttack.TakeDamage(this, attack);
         entityToAttack.TakingDamageFromEntity.Invoke(this);
-    }
-
-    public override void AddHp(float hp)
-    {
-        base.AddHp(hp);
-        changeStats.Invoke();
-    }
-
-    public override void TakeDamage(TroupeManager entity, float nb)
-    {
-        base.TakeDamage(entity, nb);
-
-        changeStats.Invoke();
-
-        if (hp <= 0)
-        {
-            entity.AddToRessourcesKilledEntity(PriceWhenDestroy);
-        }
     }
 
     public void AddToRessourcesKilledEntity(int gold)
@@ -179,14 +137,4 @@ public class TroupeManager : EntityManager
         ressources.AddGold(gold);
     }
 
-    override protected void Death()
-    {
-        base.Death();
-        if (hp <= 0)
-        {
-            deathEvent.Invoke(this);
-            Destroy(gameObject);
-        }
-        
-    }
 }

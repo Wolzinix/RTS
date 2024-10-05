@@ -21,7 +21,7 @@ public class GroupManager
 
     public UnityEvent<GroupManager> SomeoneIsImmobile = new UnityEvent<GroupManager>();
      
-    private TroupeManager _OneSelected; 
+    private SelectableManager _OneSelected; 
 
     public GroupManager()
     {
@@ -98,7 +98,7 @@ public class GroupManager
     }
 
 
-    public void AddSelect(TroupeManager toAdd)
+    public void AddSelect(SelectableManager toAdd)
     {
         if (toAdd.gameObject.CompareTag(_alliTag) && toAdd.gameObject.GetComponent<EntityController>())
         {
@@ -203,7 +203,7 @@ public class GroupManager
         }
     }
 
-    public void AddTarget(TroupeManager controller)
+    public void AddTarget(SelectableManager controller)
     {
         if (!SelectedObjectIsEmpty())
         {
@@ -226,9 +226,9 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
-                if (i.gameObject.GetComponent<BuilderManager>())
+                if (i.gameObject.GetComponent<BuilderController>())
                 {
-                    i.gameObject.GetComponent<BuilderManager>().DoAbuild(nb, hit);
+                    i.gameObject.GetComponent<BuilderController>().DoAbuild(nb, hit);
                 }
             }
         }

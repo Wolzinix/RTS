@@ -5,17 +5,10 @@ using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class EntityManager :  MonoBehaviour
-
 {
-
-
 
     [SerializeField] protected float hp = 10;
     protected float _maxHp;
-
-
-    private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
-    private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
 
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Sprite spriteImage;
@@ -24,9 +17,9 @@ public class EntityManager :  MonoBehaviour
     [SerializeField] public Sprite Ennemisprite;
     [SerializeField] public Sprite Neutralprite;
 
+    [SerializeField] protected float defense = 1;
+
     public UnityEvent changeStats = new UnityEvent();
-
-
 
     protected Animator _animator;
     public Sprite GetSprit()
@@ -34,9 +27,8 @@ public class EntityManager :  MonoBehaviour
         return spriteImage;
     }
   
-     virtual  protected void Awake()
+    virtual  protected void Awake()
     {
-      
         ActualiseSprite();
 
         sprite.gameObject.SetActive(false);
@@ -48,18 +40,9 @@ public class EntityManager :  MonoBehaviour
     public void ActualiseSprite()
     {
         sprite.gameObject.SetActive(true);
-        if (CompareTag("Allie"))
-        {
-            sprite.sprite = Allisprite;
-        }
-        else if (CompareTag("ennemie"))
-        {
-            sprite.sprite = Ennemisprite;
-        }
-        else
-        {
-            sprite.sprite = Neutralprite;
-        }
+        if (CompareTag("Allie")) {sprite.sprite = Allisprite; }
+        else if (CompareTag("ennemie")) { sprite.sprite = Ennemisprite;}
+        else { sprite.sprite = Neutralprite; }
 
         sprite.gameObject.SetActive(false);
     }
@@ -100,5 +83,14 @@ public class EntityManager :  MonoBehaviour
     public void OnSelected() { sprite.gameObject.SetActive(true); }
     public void OnDeselected() { sprite.gameObject.SetActive(false); }
 
+    public void AddDefense(float nb)
+    {
+        defense += nb;
+    }
+    public float Defense
+    {
+        get => defense;
+        set => defense = value;
+    }
 
 }

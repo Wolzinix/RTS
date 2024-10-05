@@ -42,8 +42,8 @@ public class ProjectilManager : MonoBehaviour
     {
         if(other != null && other.gameObject == _target)
         { 
-            _target.GetComponent<TroupeManager>().TakeDamage(_invoker,_damage);
-            if( _invoker ) {_target.GetComponent<TroupeManager>().TakingDamageFromEntity.Invoke(_invoker.GetComponent<TroupeManager>());}
+            _target.GetComponent<SelectableManager>().TakeDamage(_invoker,_damage);
+            if( _invoker ) {_target.GetComponent<SelectableManager>().TakingDamageFromEntity.Invoke(_invoker.GetComponent<TroupeManager>());}
             
             Destroy(gameObject);
         }

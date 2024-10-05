@@ -19,8 +19,8 @@ public class EntityController : MonoBehaviour
 
     public List<Order> _listForOrder;
     private List<Vector3> _listOfPath;
-    private List<TroupeManager> _listOfTarget;
-    private List<TroupeManager> _listOfAllie;
+    private List<SelectableManager> _listOfTarget;
+    private List<SelectableManager> _listOfAllie;
     private List<Vector3> _listForPatrol;
     private List<Vector3> _listForAttackingOnTravel;
 
@@ -50,9 +50,9 @@ public class EntityController : MonoBehaviour
         _navMesh = GetComponent<NavMeshController>();
 
         _listOfPath = new List<Vector3>();
-        _listOfTarget = new List<TroupeManager>();
+        _listOfTarget = new List<SelectableManager>();
         _listForOrder = new List<Order>();
-        _listOfAllie = new List<TroupeManager>();
+        _listOfAllie = new List<SelectableManager>();
         _listForPatrol = new List<Vector3>();
         _listForAttackingOnTravel = new List<Vector3>();
 
@@ -83,7 +83,7 @@ public class EntityController : MonoBehaviour
 
             foreach(RaycastHit hit in hits)
             {
-                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<TroupeManager>())
+                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<SelectableManager>())
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
                     listOfGameObejct.Add(hit.transform.gameObject);
@@ -110,18 +110,16 @@ public class EntityController : MonoBehaviour
         {
                 List<GameObject> listOfRayTuch = DoCircleRaycast();
                 List<GameObject> listOfAlly = new List<GameObject>();
-                
-
 
                 foreach (GameObject target in listOfRayTuch)
                 {
-                    if (target != gameObject && !target.CompareTag(gameObject.tag) )  { InsertTarget(target.GetComponent<TroupeManager>());}
+                    if (target != gameObject && !target.CompareTag(gameObject.tag) )  { InsertTarget(target.GetComponent<SelectableManager>());}
 
                     if(target != gameObject  && target.CompareTag(gameObject.tag))
                     {
                         if (!_listOfalliesOnRange.Contains(target))
                         {
-                            target.GetComponent<TroupeManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
+                            target.GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
                             _listOfalliesOnRange.Add(target);
                         }
                         if(!listOfAlly.Contains(target)) { listOfAlly.Add(target);}   
@@ -143,7 +141,7 @@ public class EntityController : MonoBehaviour
             {
                 if (i)
                 {
-                    i.GetComponent<TroupeManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
+                    i.GetComponent<SelectableManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
                     listToRemove.Add(i);
                 }
                 else { listToRemove.Add(i); }
@@ -169,7 +167,7 @@ public class EntityController : MonoBehaviour
         }
         else
         {
-            TroupeManager target = _listOfTarget[0];
+            SelectableManager target = _listOfTarget[0];
 
             if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
             {
@@ -287,7 +285,7 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    void DoAttack(TroupeManager target) 
+    void DoAttack(SelectableManager target) 
     {
         if (_projectile)
         {
@@ -314,12 +312,12 @@ public class EntityController : MonoBehaviour
            
     }
 
-    private void AddTargetAttacked(TroupeManager target)
+    private void AddTargetAttacked(SelectableManager target)
     {
         InsertTarget(target);
     }
 
-    public void AddTarget(TroupeManager target )
+    public void AddTarget(SelectableManager target )
     {
         if(!_listOfTarget.Contains(target))
         {
@@ -328,7 +326,7 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    public void InsertTarget(TroupeManager target)
+    public void InsertTarget(SelectableManager target)
     {
         if (!_listOfTarget.Contains(target))
         {
@@ -337,7 +335,7 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    public void AddAllie(TroupeManager target)
+    public void AddAllie(SelectableManager target)
     {
         _listOfAllie.Add(target);
         _listForOrder.Add(Order.Follow);
@@ -383,7 +381,7 @@ public class EntityController : MonoBehaviour
         set => _stayPosition = value;
     }
 
-    private int SortTargetByProximity(TroupeManager entity1, TroupeManager entity2)
+    private int SortTargetByProximity(SelectableManager entity1, SelectableManager entity2)
     {
         if(entity1 == null) return 1;
         if (entity2 == null) return 0;

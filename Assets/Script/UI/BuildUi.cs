@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class BuildUi : MonoBehaviour
 {
 
-    private BuilderManager _builder;
+    private BuilderController _builder;
 
     [SerializeField] private List<Button> _ListOfButton;
 
@@ -18,7 +18,7 @@ public class BuildUi : MonoBehaviour
       gameObject.SetActive(false);
     }
 
-    public void SetBuilder(BuilderManager builder) 
+    public void SetBuilder(BuilderController builder) 
     {
         _builder = builder;
         ActualiseButtons();
