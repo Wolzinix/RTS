@@ -1,6 +1,5 @@
 using UnityEngine;
-
-public class RessourceManager : MonoBehaviour
+public class RessourceController : MonoBehaviour
 {
     int _gold;
     int _wood;

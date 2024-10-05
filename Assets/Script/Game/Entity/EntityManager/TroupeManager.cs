@@ -16,7 +16,7 @@ public class TroupeManager : SelectableManager
 
 
     private NavMeshAgent _navMeshAgent;
-    public RessourceManager ressources;
+    public RessourceController ressources;
 
 
 
@@ -36,7 +36,7 @@ public class TroupeManager : SelectableManager
             _animator.SetFloat(AttackSpeedAnim, attackSpeed);
         }
 
-        foreach (RessourceManager i in Resources.FindObjectsOfTypeAll<RessourceManager>())
+        foreach (RessourceController i in Resources.FindObjectsOfTypeAll<RessourceController>())
         {
             if (i.gameObject.CompareTag(gameObject.tag))
             {

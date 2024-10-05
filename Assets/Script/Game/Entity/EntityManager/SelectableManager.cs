@@ -4,7 +4,7 @@ using UnityEngine.Events;
 public class SelectableManager : EntityManager
 {
     [SerializeField] private float seeRange = 3;
-    public int PriceWhenDestroy = 1;
+  
 
     public UnityEvent<SelectableManager> deathEvent = new UnityEvent<SelectableManager>();
     public UnityEvent<TroupeManager> TakingDamageFromEntity = new UnityEvent<TroupeManager>();
