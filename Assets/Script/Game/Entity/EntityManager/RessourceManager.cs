@@ -8,7 +8,7 @@ public class RessourceManager : EntityManager
     }
 
 
-    public void TakeDamage(TroupeManager entity, float nb)
+    override public void TakeDamage(TroupeManager entity, float nb)
     {
         base.TakeDamage(entity, nb);
 
@@ -19,4 +19,15 @@ public class RessourceManager : EntityManager
             entity.AddToRessourcesKilledEntity(PriceWhenDestroy);
         }
     }
+
+    override protected void Death()
+    {
+        base.Death();
+        if (hp <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+    }
+
 }

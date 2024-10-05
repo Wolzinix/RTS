@@ -8,7 +8,8 @@ public enum Order
     Target,
     Follow,
     Patrol,
-    Aggressive
+    Aggressive,
+    Harvest
 }
 
 public class EntityController : MonoBehaviour
@@ -207,6 +208,120 @@ public class EntityController : MonoBehaviour
         }
     }
 
+    protected bool DoAMove()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Move)
+        {
+            etat = true;
+            if (_navMesh && _navMesh.notOnTraject())
+            {
+                _navMesh.GetNewPath(_listOfPath[0]);
+                if (Vector3.Distance(gameObject.transform.position, _listOfPath[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                {
+                    _listOfPath.RemoveAt(0);
+                    _listForOrder.RemoveAt(0);
+                    EntityIsArrive.Invoke();
+                    
+                }
+            }
+        }
+
+        return etat;
+    }
+
+    protected bool DoAnAgressionPath()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Aggressive)
+        {
+            etat = true;
+            if (_navMesh)
+            {
+                if (_navMesh.notOnTraject())
+                {
+                    _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
+                }
+                if (!_navMesh.notOnTraject() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                {
+                    _listForAttackingOnTravel.RemoveAt(0);
+                    _listForOrder.RemoveAt(0);
+                }
+            }
+        }
+
+        return etat;
+    }
+
+    protected bool DoAPatrol()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Patrol)
+        {
+            etat = true;
+            if (_navMesh && _navMesh.notOnTraject())
+            {
+                if (_patrolIteration == _listForPatrol.Count)
+                {
+                    _patrolIteration = 0;
+                }
+
+                _navMesh.GetNewPath(_listForPatrol[_patrolIteration]);
+                _patrolIteration += 1;
+            }
+        }
+        return etat;
+    }
+
+    protected bool DoAFollow()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Follow)
+        {
+            etat = true;
+            if (!_listOfAllie[0])
+            {
+                _listOfAllie.RemoveAt(0);
+                _listForOrder.RemoveAt(0);
+            }
+            else
+            {
+                if (_navMesh && !_navMesh.notAtLocation())
+                {
+                    _navMesh.ActualisePath(_listOfAllie[0]);
+                }
+            }
+        }
+
+        return etat;
+    }
+
+    protected bool DoAnAggression()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Target)
+        {
+            etat = true;
+            AggressTarget();
+        }
+        return etat;
+    }
+
+    protected void ExecuteOrder()
+    {
+        if (_listForOrder.Count > 0)
+        {
+            if (DoAMove()) { }
+
+            else if (DoAnAgressionPath()) { }
+
+            else if (DoAPatrol()) { }
+
+            else if (DoAFollow()) { }
+
+            else if (DoAnAggression()) { }
+        }
+    }
     private void isUnit()
     {
         if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); }
@@ -216,73 +331,7 @@ public class EntityController : MonoBehaviour
 
         SearchTarget();
 
-        if (_listForOrder.Count > 0)
-        {
-            if (_listForOrder[0] == Order.Move)
-            {
-                if (_navMesh && _navMesh.notOnTraject())
-                {
-                    _navMesh.GetNewPath(_listOfPath[0]);
-                    if(Vector3.Distance(gameObject.transform.position, _listOfPath[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
-                    {
-                        _listOfPath.RemoveAt(0);
-                        _listForOrder.RemoveAt(0);
-                        EntityIsArrive.Invoke();
-                    }
-                }
-            }
-
-            else if (_listForOrder[0] == Order.Aggressive)
-            {
-                if(_navMesh)
-                {
-                    if (_navMesh.notOnTraject())
-                    {
-                        _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
-                    }
-                    if (!_navMesh.notOnTraject() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
-                    {
-                        _listForAttackingOnTravel.RemoveAt(0);
-                        _listForOrder.RemoveAt(0);
-                    }
-                }
-            }
-
-            else if (_listForOrder[0] == Order.Patrol)
-            {
-                if (_navMesh && _navMesh.notOnTraject())
-                {
-                    if (_patrolIteration == _listForPatrol.Count)
-                    {
-                        _patrolIteration = 0;
-                    }
-
-                    _navMesh.GetNewPath(_listForPatrol[_patrolIteration]);
-                    _patrolIteration += 1;
-                }
-            }
-
-            else if (_listForOrder[0] == Order.Follow)
-            {
-                if (!_listOfAllie[0])
-                {
-                    _listOfAllie.RemoveAt(0);
-                    _listForOrder.RemoveAt(0);
-                }
-                else
-                {
-                    if (_navMesh && !_navMesh.notAtLocation())
-                    {
-                        _navMesh.ActualisePath(_listOfAllie[0]);
-                    }
-                }
-            }
-
-            else if (_listForOrder[0] == Order.Target)
-            {
-                AggressTarget();
-            }
-        }
+        ExecuteOrder();
     }
 
     void DoAttack(SelectableManager target) 

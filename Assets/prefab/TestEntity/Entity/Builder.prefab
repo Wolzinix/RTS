@@ -199,7 +199,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5592201362407160647}
   - component: {fileID: 3648613589935070831}
-  - component: {fileID: 2033893907195975481}
   - component: {fileID: 6208376071361995173}
   - component: {fileID: 1448527202929963815}
   - component: {fileID: 5448539714544530716}
@@ -256,27 +255,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &2033893907195975481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4825870592483654779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3591858989714b43970e271f2d63062, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _projectile: {fileID: 0}
-  _listForOrder: 
-  EntityIsArrive:
-    m_PersistentCalls:
-      m_Calls: []
-  resetEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  GroupNumber: 0
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -347,6 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 30
+  PriceWhenDestroy: 1
   sprite: {fileID: 7706548414058156727}
   spriteImage: {fileID: -9095717837082945937, guid: ff8e1e5671dc11d42ae7322385cb3432, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
@@ -357,7 +336,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   seeRange: 6
-  PriceWhenDestroy: 1
   deathEvent:
     m_PersistentCalls:
       m_Calls: []

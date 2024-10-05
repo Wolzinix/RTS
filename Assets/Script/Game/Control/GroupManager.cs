@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.XR;
 
 public class GroupManager
 {
@@ -144,10 +145,26 @@ public class GroupManager
             if (hit.transform.gameObject.CompareTag(_ennemieTag)) { AttackSelected(hit); }
 
             else if (hit.transform.gameObject.CompareTag(_alliTag)) { FollowSelected(hit); }
+            else if (hit.transform.gameObject.GetComponent<RessourceManager>()) { GoHarvest(hit.transform.gameObject); }
             else { MooveSelected(hit.point); }
         }
     }
 
+    public void GoHarvest(GameObject hit)
+    {
+        if (!SelectedObjectIsEmpty())
+        {
+            VerifyIfEveryBodyIsAlive();
+            foreach (EntityController i in _selectedObject)
+            {
+                if (i.GetComponent<BuilderController>())
+                {
+                    i.GetComponent<BuilderController>().AddHarvestTarget(hit);
+                    i.Stay = false;
+                }
+            }
+        }
+    }
     void OnDestroy()
     {
         GroupIsDeadevent.Invoke(this);

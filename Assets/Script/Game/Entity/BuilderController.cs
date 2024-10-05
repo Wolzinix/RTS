@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuilderController : MonoBehaviour
+public class BuilderController : EntityController
 {
     [SerializeField] List<GameObject> _buildings;
 
@@ -11,7 +11,7 @@ public class BuilderController : MonoBehaviour
 
     private void Start()
     {
-        gameObject.GetComponent<EntityController>().resetEvent.AddListener(ResetBuildingOrder);
+        resetEvent.AddListener(ResetBuildingOrder);
     }
     public void DoAbuild(int nb, RaycastHit hit)
     {
@@ -28,7 +28,7 @@ public class BuilderController : MonoBehaviour
             bool distance = Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5;
 
             if (location && distance) { Build(); }
-            else if(location && !distance)  {  gameObject.GetComponent<EntityController>().AddPath(ListOfBuildPosition[0]); }
+            else if(location && !distance)  {  AddPath(ListOfBuildPosition[0]); }
 
         }
     }
@@ -56,5 +56,10 @@ public class BuilderController : MonoBehaviour
     private Collider[] DoAOverlap(Vector3 spawnPosition)
     {
         return Physics.OverlapSphere(spawnPosition, 1);
+    }
+
+    public void AddHarvestTarget(GameObject hit)
+    {
+
     }
 }
