@@ -37,7 +37,7 @@ public class EntityController : MonoBehaviour
     protected TroupeManager _entityManager;
 
     
-    protected Animator _animator;
+    public Animator _animator;
     protected static readonly int Moving = Animator.StringToHash("Mooving");
     protected static readonly int Attacking = Animator.StringToHash("Attacking");
 
@@ -179,7 +179,7 @@ public class EntityController : MonoBehaviour
                 _animator.SetBool(Moving, false);
 
                 if (!_animator.IsInTransition(0) &&
-                    _animator.GetBool(Attacking) &&
+                    _animator.GetInteger(Attacking) == 1 &&
                     _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
                     _attacking)
                 {
@@ -188,18 +188,18 @@ public class EntityController : MonoBehaviour
                 }
 
                 if (!_animator.IsInTransition(0) &&
-                    _animator.GetBool(Attacking) &&
+                   _animator.GetInteger(Attacking) == 1 &&
                     _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
 
-                { _animator.SetBool(Attacking, false); }
+                { _animator.SetInteger(Attacking, 0); }
 
                 else
                 {
                     transform.LookAt(target.transform);
-                    _animator.SetBool(Attacking, true); 
+                    _animator.SetInteger(Attacking, 1); 
                 }
 
-                if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) {_attacking = true;}
+                if (_animator.IsInTransition(0) && _animator.GetInteger(Attacking) == 1) {_attacking = true;}
             }
             else
             {
@@ -327,7 +327,7 @@ public class EntityController : MonoBehaviour
         if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); }
         else { _animator.SetBool(Moving, false); }
 
-        if (_listForOrder.Count == 0 || _listForOrder[0] != Order.Target) {_animator.SetBool(Attacking, false);}
+        if (_listForOrder.Count == 0 || _listForOrder[0] != Order.Target) {_animator.SetInteger(Attacking, 0);}
 
         SearchTarget();
 
@@ -408,7 +408,7 @@ public class EntityController : MonoBehaviour
     private void ClearPatrol() {_listForPatrol.Clear();}
     private void ClearAggressivePath() {_listForAttackingOnTravel.Clear();}
     private void ClearAllFollow(){_listOfAllie.Clear();}
-    public void ClearAllOrder()
+    virtual public void ClearAllOrder()
     {
         _listForOrder.Clear();
         ClearAllPath();

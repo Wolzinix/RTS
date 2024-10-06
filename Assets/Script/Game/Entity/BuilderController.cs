@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
-using static UnityEngine.GraphicsBuffer;
 
 public class BuilderController : EntityController
 {
@@ -54,7 +51,7 @@ public class BuilderController : EntityController
     {
         if (!_listOfRessource[0])
         {
-            _listOfRessource.RemoveAt(0);
+            _listOfRessource.RemoveAt(0);   
             _listForOrder.RemoveAt(0);
         }
         else
@@ -69,8 +66,11 @@ public class BuilderController : EntityController
                 }
                 _animator.SetBool(Moving, false);
 
+                int a = GetComponentInChildren<Animator>().GetInteger(Attacking);
+
+
                 if (!_animator.IsInTransition(0) &&
-                    _animator.GetBool(Attacking) &&
+                    _animator.GetInteger(Attacking) == 1 &&
                     _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
                     _attacking)
                 {
@@ -79,18 +79,18 @@ public class BuilderController : EntityController
                 }
 
                 if (!_animator.IsInTransition(0) &&
-                    _animator.GetBool(Attacking) &&
+                    _animator.GetInteger(Attacking) == 1 &&
                     _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
 
-                { _animator.SetBool(Attacking, false); }
+                { GetComponentInChildren<Animator>().SetInteger(Attacking, 0); }
 
                 else
                 {
                     transform.LookAt(target.transform);
-                    _animator.SetBool(Attacking, true);
+                    GetComponentInChildren<Animator>().SetInteger(Attacking, 1);
                 }
-
-                if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) { _attacking = true; }
+                int i = _animator.GetInteger("Attacking");
+                if (_animator.IsInTransition(0) && _animator.GetInteger(Attacking) == 1) { _attacking = true; }
             }
             else
             {
@@ -113,12 +113,11 @@ public class BuilderController : EntityController
     }
     protected override void ExecuteOrder()
     {
-        base.ExecuteOrder();
-
-        if(_listForOrder.Count > 0) 
+        if (_listForOrder.Count > 0)
         {
             DoAnHarvest();
         }
+        base.ExecuteOrder();
     }
 
     private void Build()
@@ -153,5 +152,11 @@ public class BuilderController : EntityController
             _listOfRessource.Add(hit.GetComponent<RessourceManager>());
             _listForOrder.Add(Order.Harvest);
         }
+    }
+
+    public override void ClearAllOrder()
+    {
+        base.ClearAllOrder();
+        _listOfRessource.Clear();
     }
 }
