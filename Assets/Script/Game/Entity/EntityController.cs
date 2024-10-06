@@ -327,11 +327,12 @@ public class EntityController : MonoBehaviour
         if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); }
         else { _animator.SetBool(Moving, false); }
 
-        if (_listForOrder.Count == 0 || _listForOrder[0] != Order.Target) {_animator.SetInteger(Attacking, 0);}
+        if (_listForOrder.Count == 0 && _animator.GetInteger(Attacking) == 1) { _animator.SetInteger(Attacking, 0); }
 
         SearchTarget();
 
         ExecuteOrder();
+      
     }
 
     void DoAttack(SelectableManager target) 

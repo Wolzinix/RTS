@@ -66,7 +66,7 @@ public class BuilderController : EntityController
                 }
                 _animator.SetBool(Moving, false);
 
-                int a = GetComponentInChildren<Animator>().GetInteger(Attacking);
+                Debug.Log( GetComponentInChildren<Animator>().GetInteger(Attacking));
 
 
                 if (!_animator.IsInTransition(0) &&
@@ -89,7 +89,7 @@ public class BuilderController : EntityController
                     transform.LookAt(target.transform);
                     GetComponentInChildren<Animator>().SetInteger(Attacking, 1);
                 }
-                int i = _animator.GetInteger("Attacking");
+                int i = _animator.GetInteger(Attacking);
                 if (_animator.IsInTransition(0) && _animator.GetInteger(Attacking) == 1) { _attacking = true; }
             }
             else
@@ -113,11 +113,15 @@ public class BuilderController : EntityController
     }
     protected override void ExecuteOrder()
     {
+        int i = _animator.GetInteger(Attacking);
         if (_listForOrder.Count > 0)
         {
             DoAnHarvest();
         }
         base.ExecuteOrder();
+
+        i = _animator.GetInteger(Attacking);
+        i = 0;
     }
 
     private void Build()
