@@ -33,7 +33,7 @@ public class SelectableManager : EntityManager
 
         if (hp <= 0)
         {
-            entity.AddToRessourcesKilledEntity(PriceWhenDestroy);
+            entity.AddToRessourcesKilledEntity(GoldAmount,WoodAmount);
         }
     }
 

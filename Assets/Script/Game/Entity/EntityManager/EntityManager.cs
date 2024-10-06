@@ -10,7 +10,9 @@ public class EntityManager :  MonoBehaviour
     [SerializeField] protected float hp = 10;
     protected float _maxHp;
 
-    public int PriceWhenDestroy = 1;
+    public int GoldAmount = 1;
+
+    public int WoodAmount = 1;
 
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Sprite spriteImage;

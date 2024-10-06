@@ -137,9 +137,10 @@ public class TroupeManager : SelectableManager
         
     }
 
-    public void AddToRessourcesKilledEntity(int gold)
+    public void AddToRessourcesKilledEntity(int gold, int wood)
     {
         ressources.AddGold(gold);
+        ressources.AddWood(wood);
     }
 
 }

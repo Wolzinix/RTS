@@ -1,6 +1,7 @@
 using UnityEngine;
 public class RessourceController : MonoBehaviour
 {
+
     int _gold;
     int _wood;
 
@@ -27,7 +28,9 @@ public class RessourceController : MonoBehaviour
         _wood += wood;
         if (GetComponent<ControlManager>())
         {
-            _ui.AddWood(-wood);
+            _ui.AddWood(wood);
         }
     }
+
+
 }
