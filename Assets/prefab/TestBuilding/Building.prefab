@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1974872821757856839
 Transform:
   m_ObjectHideFlags: 0
@@ -275,6 +275,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
+  GoldAmount: 1
+  WoodAmount: 1
   sprite: {fileID: 2491522434153671467}
   spriteImage: {fileID: 7482667652216324306, guid: 233ca442b7ce8dd4a953c88b6d64f2e8, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
@@ -285,7 +287,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   seeRange: 6
-  PriceWhenDestroy: 1
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
