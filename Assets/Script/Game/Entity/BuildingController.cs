@@ -168,7 +168,7 @@ public class BuildingController : MonoBehaviour
 
     private List<GameObject> DoCircleRaycast()
     {
-        float numberOfRay = 30;
+        float numberOfRay = 40;
         float delta = 360 / numberOfRay;
 
         List<GameObject> listOfGameObejct = new List<GameObject>();
