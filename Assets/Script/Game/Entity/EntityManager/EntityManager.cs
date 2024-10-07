@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -13,6 +14,8 @@ public class EntityManager :  MonoBehaviour
     public int GoldAmount = 1;
 
     public int WoodAmount = 1;
+
+
 
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Sprite spriteImage;
@@ -98,4 +101,9 @@ public class EntityManager :  MonoBehaviour
         set => defense = value;
     }
 
+
+    public bool CanDoIt(RessourceController ressource)
+    {
+        return ressource.CompareGold(GoldAmount) && ressource.CompareWood(WoodAmount);
+    }
 }
