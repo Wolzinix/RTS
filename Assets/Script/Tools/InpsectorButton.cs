@@ -15,5 +15,10 @@ public class InspectorButton : Editor
         {
             myTarget.DoA();
         }
+
+        if (GUILayout.Button("Accept Object"))
+        {
+            myTarget.ClearList();
+        }
     }
 }

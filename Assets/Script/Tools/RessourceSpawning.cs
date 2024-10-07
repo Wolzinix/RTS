@@ -9,13 +9,23 @@ public class RessourceSpawning : MonoBehaviour
 
     public List<GameObject> spawningItems;
 
-    public Collider collider;
+    public BoxCollider boxCollider;
 
     public void DoA()
     {
-        collider = GetComponent<Collider>();
+        boxCollider = GetComponent<BoxCollider>();
         DestroyAllGameObject();
-        spawningItems.Add(Instantiate(spawningGameObject));
+        Vector3 currentPosition = gameObject.transform.position;
+
+        Vector3 boxSize = boxCollider.size / 2;
+
+        
+        for(int i = 0; i < nbOfSpawningItem; i++)
+        {
+            float x = currentPosition.x + Random.Range(-boxSize.x, boxSize.x);
+            float z = currentPosition.z + Random.Range(-boxSize.z, boxSize.z);
+            spawningItems.Add(Instantiate(spawningGameObject,new Vector3(x,currentPosition.y,z),gameObject.transform.rotation));
+        }
     }
 
     public void DestroyAllGameObject()
@@ -24,6 +34,11 @@ public class RessourceSpawning : MonoBehaviour
         {
             DestroyImmediate(item);
         }
+        spawningItems.Clear();
+    }
+
+    public void ClearList()
+    {
         spawningItems.Clear();
     }
 }

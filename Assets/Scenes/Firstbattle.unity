@@ -2730,11 +2730,27 @@ PrefabInstance:
     - target: {fileID: 5294458358874154004, guid: 200ac89151d0e324997f360f278b613e, type: 3}
       propertyPath: collider
       value: 
-      objectReference: {fileID: 1561676800}
+      objectReference: {fileID: 1561676804}
+    - target: {fileID: 5294458358874154004, guid: 200ac89151d0e324997f360f278b613e, type: 3}
+      propertyPath: nbOfSpawningItem
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5294458358874154004, guid: 200ac89151d0e324997f360f278b613e, type: 3}
       propertyPath: spawningGameObject
       value: 
       objectReference: {fileID: 8398203929891896425, guid: cb7dfe488f8af714aa8f6f7c1fd182de, type: 3}
+    - target: {fileID: 5294458358874154004, guid: 200ac89151d0e324997f360f278b613e, type: 3}
+      propertyPath: spawningItems.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5294458358874154004, guid: 200ac89151d0e324997f360f278b613e, type: 3}
+      propertyPath: spawningItems.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5294458358874154004, guid: 200ac89151d0e324997f360f278b613e, type: 3}
+      propertyPath: spawningItems.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6364354740791224810, guid: 200ac89151d0e324997f360f278b613e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.88
@@ -2788,7 +2804,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 200ac89151d0e324997f360f278b613e, type: 3}
---- !u!65 &1561676800 stripped
+--- !u!65 &1561676804 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 8130528606570998287, guid: 200ac89151d0e324997f360f278b613e, type: 3}
   m_PrefabInstance: {fileID: 1561676799}
