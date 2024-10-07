@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class EntityManager :  MonoBehaviour
@@ -14,6 +10,10 @@ public class EntityManager :  MonoBehaviour
     public int GoldAmount = 1;
 
     public int WoodAmount = 1;
+
+    public int GoldCost = 1;
+
+    public int WoodCost = 1;
 
 
 
@@ -79,7 +79,7 @@ public class EntityManager :  MonoBehaviour
     {
         hp -= nb;
 
-        Death();
+        
     }
 
 
@@ -104,6 +104,6 @@ public class EntityManager :  MonoBehaviour
 
     public bool CanDoIt(RessourceController ressource)
     {
-        return ressource.CompareGold(GoldAmount) && ressource.CompareWood(WoodAmount);
+        return ressource.CompareGold(GoldCost) && ressource.CompareWood(WoodCost);
     }
 }

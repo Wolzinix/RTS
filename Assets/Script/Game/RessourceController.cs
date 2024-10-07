@@ -11,9 +11,13 @@ public class RessourceController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _ui = FindAnyObjectByType<RessourceUi>();
-        _ui.AddWood(_wood);
-        _ui.AddGold(_gold);
+        if(GetComponent<ControlManager>())
+        {
+            _ui = FindAnyObjectByType<RessourceUi>();
+            _ui.AddWood(_wood);
+            _ui.AddGold(_gold);
+        }
+     
     }
 
     public void AddGold(int gold)

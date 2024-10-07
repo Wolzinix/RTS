@@ -18,9 +18,11 @@ public class RessourceManager : EntityManager
 
         if (hp <= 0)
         {
-            
+            Death();
             entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
         }
+
+        
     }
 
     override protected void Death()
@@ -31,8 +33,6 @@ public class RessourceManager : EntityManager
             _animator.SetBool("Harvest", false);
             _animator.SetBool("IsDead", true);
             _animator.Play("Base Layer.TreeFall");
-            GoldAmount = 0;
-            WoodAmount = 0;
             StartCoroutine(DoDeathAnimation());
         }
     }

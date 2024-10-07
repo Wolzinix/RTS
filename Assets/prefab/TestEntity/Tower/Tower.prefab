@@ -328,6 +328,8 @@ MonoBehaviour:
   hp: 10
   GoldAmount: 0
   WoodAmount: 2
+  GoldCost: 0
+  WoodCost: 1
   sprite: {fileID: 7706548414058156727}
   spriteImage: {fileID: 7482667652216324306, guid: 408f369d49327ef439de9a2e3502538a, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}

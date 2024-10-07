@@ -33,8 +33,11 @@ public class SelectableManager : EntityManager
 
         if (hp <= 0)
         {
+            Death();
             entity.AddToRessourcesKilledEntity(GoldAmount,WoodAmount);
         }
+
+
     }
 
 

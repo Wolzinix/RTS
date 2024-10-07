@@ -126,13 +126,14 @@ public class BuilderController : EntityController
     {
         if(_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().CanDoIt(GetComponent<TroupeManager>().ressources))
         {
-            GetComponent<TroupeManager>().ressources.AddGold(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().GoldAmount);
-            GetComponent<TroupeManager>().ressources.AddWood(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().WoodAmount);
+            
             Collider[] colliders = DoAOverlap(ListOfBuildPosition[0]);
 
             if (colliders.Length == 1 || (colliders.Length == 2 && (colliders[1] == gameObject || colliders[0] == gameObject)))
             {
                 TroupeManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]], ListOfBuildPosition[0] + new Vector3(0, 2, 0), transform.rotation).GetComponent<TroupeManager>();
+                GetComponent<TroupeManager>().ressources.AddGold(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().GoldAmount);
+                GetComponent<TroupeManager>().ressources.AddWood(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().WoodAmount);
                 gm.gameObject.tag = gameObject.tag;
                 gm.ActualiseSprite();
             }
