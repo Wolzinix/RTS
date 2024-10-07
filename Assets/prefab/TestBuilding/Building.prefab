@@ -97,9 +97,9 @@ GameObject:
   - component: {fileID: 3271698958538956887}
   - component: {fileID: 2682517879739789765}
   - component: {fileID: 3396275611280201753}
-  - component: {fileID: 4447898728907550784}
   - component: {fileID: 7696095010799487015}
   - component: {fileID: 2140429094921462342}
+  - component: {fileID: 3885713406343502723}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -219,39 +219,6 @@ MonoBehaviour:
   lineRenderer: {fileID: 0}
   prefabToSpawn: []
   MySpawns: []
---- !u!114 &4447898728907550784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6084191280811076340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7a9e5c15c907f443afd801685ef2280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 10
-  attack: 0
-  defense: 1
-  attackSpeed: 0
-  speed: 0
-  range: 0
-  seeRange: 0
-  sprite: {fileID: 2491522434153671467}
-  spriteImage: {fileID: 7482667652216324306, guid: 233ca442b7ce8dd4a953c88b6d64f2e8, type: 3}
-  Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
-  Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
-  Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
-  changeStats:
-    m_PersistentCalls:
-      m_Calls: []
-  deathEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  TakingDamageFromEntity:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!208 &7696095010799487015
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -295,3 +262,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3885713406343502723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6084191280811076340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87a61d5c26014b542bcf7cc4b3d17b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 10
+  GoldAmount: 1
+  WoodAmount: 1
+  sprite: {fileID: 2491522434153671467}
+  spriteImage: {fileID: 7482667652216324306, guid: 233ca442b7ce8dd4a953c88b6d64f2e8, type: 3}
+  Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
+  Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
+  Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
+  defense: 1
+  changeStats:
+    m_PersistentCalls:
+      m_Calls: []
+  seeRange: 6
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  TakingDamageFromEntity:
+    m_PersistentCalls:
+      m_Calls: []

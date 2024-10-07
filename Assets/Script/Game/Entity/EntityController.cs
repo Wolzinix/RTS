@@ -8,37 +8,38 @@ public enum Order
     Target,
     Follow,
     Patrol,
-    Aggressive
+    Aggressive,
+    Harvest
 }
 
 public class EntityController : MonoBehaviour
 {
-    private NavMeshController _navMesh;
+    protected NavMeshController _navMesh;
 
     [SerializeField] private ProjectilManager _projectile;
 
     public List<Order> _listForOrder;
-    private List<Vector3> _listOfPath;
-    private List<EntityManager> _listOfTarget;
-    private List<EntityManager> _listOfAllie;
-    private List<Vector3> _listForPatrol;
-    private List<Vector3> _listForAttackingOnTravel;
+    protected List<Vector3> _listOfPath;
+    protected List<SelectableManager> _listOfTarget;
+    protected List<SelectableManager> _listOfAllie;
+    protected List<Vector3> _listForPatrol;
+    protected List<Vector3> _listForAttackingOnTravel;
 
     private List<GameObject> _listOfalliesOnRange;
 
     public UnityEvent EntityIsArrive = new UnityEvent();
 
 
-    private bool _stayPosition;
-    private bool _attacking;
+    protected bool _stayPosition;
+    protected bool _attacking;
     private int _patrolIteration;
 
-    private EntityManager _entityManager;
+    protected TroupeManager _entityManager;
 
     
-    private Animator _animator;
-    private static readonly int Moving = Animator.StringToHash("Mooving");
-    private static readonly int Attacking = Animator.StringToHash("Attacking");
+    public Animator _animator;
+    protected static readonly int Moving = Animator.StringToHash("Mooving");
+    protected static readonly int Attacking = Animator.StringToHash("Attacking");
 
     public UnityEvent resetEvent = new UnityEvent();
 
@@ -50,19 +51,19 @@ public class EntityController : MonoBehaviour
         _navMesh = GetComponent<NavMeshController>();
 
         _listOfPath = new List<Vector3>();
-        _listOfTarget = new List<EntityManager>();
+        _listOfTarget = new List<SelectableManager>();
         _listForOrder = new List<Order>();
-        _listOfAllie = new List<EntityManager>();
+        _listOfAllie = new List<SelectableManager>();
         _listForPatrol = new List<Vector3>();
         _listForAttackingOnTravel = new List<Vector3>();
 
         _listOfalliesOnRange = new List<GameObject>();
         
-        _entityManager = GetComponent<EntityManager>();
+        _entityManager = GetComponent<TroupeManager>();
         
         _animator = GetComponentInChildren<Animator>();
 
-        GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
+        GetComponent<TroupeManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
     }
 
     private List<GameObject> DoCircleRaycast()
@@ -83,7 +84,7 @@ public class EntityController : MonoBehaviour
 
             foreach(RaycastHit hit in hits)
             {
-                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<EntityManager>())
+                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<SelectableManager>())
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
                     listOfGameObejct.Add(hit.transform.gameObject);
@@ -99,7 +100,7 @@ public class EntityController : MonoBehaviour
         Physics.SyncTransforms();
     }
 
-    void FixedUpdate()
+    virtual protected void FixedUpdate()
     {
          isUnit();
     }
@@ -110,18 +111,16 @@ public class EntityController : MonoBehaviour
         {
                 List<GameObject> listOfRayTuch = DoCircleRaycast();
                 List<GameObject> listOfAlly = new List<GameObject>();
-                
-
 
                 foreach (GameObject target in listOfRayTuch)
                 {
-                    if (target != gameObject && !target.CompareTag(gameObject.tag) )  { InsertTarget(target.GetComponent<EntityManager>());}
+                    if (target != gameObject && !target.CompareTag(gameObject.tag) )  { InsertTarget(target.GetComponent<SelectableManager>());}
 
                     if(target != gameObject  && target.CompareTag(gameObject.tag))
                     {
                         if (!_listOfalliesOnRange.Contains(target))
                         {
-                            target.GetComponent<EntityManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
+                            target.GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
                             _listOfalliesOnRange.Add(target);
                         }
                         if(!listOfAlly.Contains(target)) { listOfAlly.Add(target);}   
@@ -143,7 +142,7 @@ public class EntityController : MonoBehaviour
             {
                 if (i)
                 {
-                    i.GetComponent<EntityManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
+                    i.GetComponent<SelectableManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);
                     listToRemove.Add(i);
                 }
                 else { listToRemove.Add(i); }
@@ -169,7 +168,7 @@ public class EntityController : MonoBehaviour
         }
         else
         {
-            EntityManager target = _listOfTarget[0];
+            SelectableManager target = _listOfTarget[0];
 
             if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
             {
@@ -180,7 +179,7 @@ public class EntityController : MonoBehaviour
                 _animator.SetBool(Moving, false);
 
                 if (!_animator.IsInTransition(0) &&
-                    _animator.GetBool(Attacking) &&
+                    _animator.GetInteger(Attacking) == 1 &&
                     _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
                     _attacking)
                 {
@@ -189,18 +188,18 @@ public class EntityController : MonoBehaviour
                 }
 
                 if (!_animator.IsInTransition(0) &&
-                    _animator.GetBool(Attacking) &&
+                   _animator.GetInteger(Attacking) == 1 &&
                     _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
 
-                { _animator.SetBool(Attacking, false); }
+                { _animator.SetInteger(Attacking, 0); }
 
                 else
                 {
                     transform.LookAt(target.transform);
-                    _animator.SetBool(Attacking, true); 
+                    _animator.SetInteger(Attacking, 1); 
                 }
 
-                if (_animator.IsInTransition(0) && _animator.GetBool(Attacking)) {_attacking = true;}
+                if (_animator.IsInTransition(0) && _animator.GetInteger(Attacking) == 1) {_attacking = true;}
             }
             else
             {
@@ -209,92 +208,141 @@ public class EntityController : MonoBehaviour
         }
     }
 
+    protected bool DoAMove()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Move)
+        {
+            etat = true;
+            if (_navMesh && _navMesh.notOnTraject())
+            {
+                _navMesh.GetNewPath(_listOfPath[0]);
+                if (Vector3.Distance(gameObject.transform.position, _listOfPath[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                {
+                    _listOfPath.RemoveAt(0);
+                    _listForOrder.RemoveAt(0);
+                    EntityIsArrive.Invoke();
+                    
+                }
+            }
+        }
+
+        return etat;
+    }
+
+    protected bool DoAnAgressionPath()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Aggressive)
+        {
+            etat = true;
+            if (_navMesh)
+            {
+                if (_navMesh.notOnTraject())
+                {
+                    _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
+                }
+                if (!_navMesh.notOnTraject() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                {
+                    _listForAttackingOnTravel.RemoveAt(0);
+                    _listForOrder.RemoveAt(0);
+                }
+            }
+        }
+
+        return etat;
+    }
+
+    protected bool DoAPatrol()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Patrol)
+        {
+            etat = true;
+            if (_navMesh && _navMesh.notOnTraject())
+            {
+                if (_patrolIteration == _listForPatrol.Count)
+                {
+                    _patrolIteration = 0;
+                }
+
+                _navMesh.GetNewPath(_listForPatrol[_patrolIteration]);
+                _patrolIteration += 1;
+            }
+        }
+        return etat;
+    }
+
+    protected bool DoAFollow()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Follow)
+        {
+            etat = true;
+            if (!_listOfAllie[0])
+            {
+                _listOfAllie.RemoveAt(0);
+                _listForOrder.RemoveAt(0);
+            }
+            else
+            {
+                if (_navMesh && !_navMesh.notAtLocation())
+                {
+                    _navMesh.ActualisePath(_listOfAllie[0]);
+                }
+            }
+        }
+
+        return etat;
+    }
+
+    protected bool DoAnAggression()
+    {
+        bool etat = false;
+        if (_listForOrder[0] == Order.Target)
+        {
+            etat = true;
+            AggressTarget();
+        }
+        return etat;
+    }
+
+    virtual protected void ExecuteOrder()
+    {
+        if (_listForOrder.Count > 0)
+        {
+            if (DoAMove()) { }
+
+            else if (DoAnAgressionPath()) { }
+
+            else if (DoAPatrol()) { }
+
+            else if (DoAFollow()) { }
+
+            else if (DoAnAggression()) { }
+        }
+    }
     private void isUnit()
     {
         if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); }
         else { _animator.SetBool(Moving, false); }
 
-        if (_listForOrder.Count == 0 || _listForOrder[0] != Order.Target) {_animator.SetBool(Attacking, false);}
+        if (_listForOrder.Count == 0 && _animator.GetInteger(Attacking) == 1) { _animator.SetInteger(Attacking, 0); }
 
         SearchTarget();
 
-        if (_listForOrder.Count > 0)
-        {
-            if (_listForOrder[0] == Order.Move)
-            {
-                if (_navMesh && _navMesh.notOnTraject())
-                {
-                    _navMesh.GetNewPath(_listOfPath[0]);
-                    if(Vector3.Distance(gameObject.transform.position, _listOfPath[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
-                    {
-                        _listOfPath.RemoveAt(0);
-                        _listForOrder.RemoveAt(0);
-                        EntityIsArrive.Invoke();
-                    }
-                }
-            }
-
-            else if (_listForOrder[0] == Order.Aggressive)
-            {
-                if(_navMesh)
-                {
-                    if (_navMesh.notOnTraject())
-                    {
-                        _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
-                    }
-                    if (!_navMesh.notOnTraject() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
-                    {
-                        _listForAttackingOnTravel.RemoveAt(0);
-                        _listForOrder.RemoveAt(0);
-                    }
-                }
-            }
-
-            else if (_listForOrder[0] == Order.Patrol)
-            {
-                if (_navMesh && _navMesh.notOnTraject())
-                {
-                    if (_patrolIteration == _listForPatrol.Count)
-                    {
-                        _patrolIteration = 0;
-                    }
-
-                    _navMesh.GetNewPath(_listForPatrol[_patrolIteration]);
-                    _patrolIteration += 1;
-                }
-            }
-
-            else if (_listForOrder[0] == Order.Follow)
-            {
-                if (!_listOfAllie[0])
-                {
-                    _listOfAllie.RemoveAt(0);
-                    _listForOrder.RemoveAt(0);
-                }
-                else
-                {
-                    if (_navMesh && !_navMesh.notAtLocation())
-                    {
-                        _navMesh.ActualisePath(_listOfAllie[0]);
-                    }
-                }
-            }
-
-            else if (_listForOrder[0] == Order.Target)
-            {
-                AggressTarget();
-            }
-        }
+        ExecuteOrder();
+      
     }
 
-    void DoAttack(EntityManager target) 
+    void DoAttack(SelectableManager target) 
     {
         if (_projectile)
         {
             ProjectilManager pj = Instantiate(_projectile);
-            pj.SetDamage(GetComponent<EntityManager>().Attack);
+            pj.SetDamage(GetComponent<TroupeManager>().Attack);
             pj.SetTarget(target.gameObject);
-            pj.SetInvoker(gameObject);
+            pj.SetInvoker(GetComponent<TroupeManager>());
             pj.gameObject.transform.position = new Vector3( transform.position.x , transform.position.y +1, transform.position.z);
         }
         else
@@ -314,12 +362,12 @@ public class EntityController : MonoBehaviour
            
     }
 
-    private void AddTargetAttacked(EntityManager target)
+    private void AddTargetAttacked(SelectableManager target)
     {
         InsertTarget(target);
     }
 
-    public void AddTarget(EntityManager target )
+    public void AddTarget(SelectableManager target )
     {
         if(!_listOfTarget.Contains(target))
         {
@@ -328,7 +376,7 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    public void InsertTarget(EntityManager target)
+    public void InsertTarget(SelectableManager target)
     {
         if (!_listOfTarget.Contains(target))
         {
@@ -337,7 +385,7 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    public void AddAllie(EntityManager target)
+    public void AddAllie(SelectableManager target)
     {
         _listOfAllie.Add(target);
         _listForOrder.Add(Order.Follow);
@@ -361,7 +409,7 @@ public class EntityController : MonoBehaviour
     private void ClearPatrol() {_listForPatrol.Clear();}
     private void ClearAggressivePath() {_listForAttackingOnTravel.Clear();}
     private void ClearAllFollow(){_listOfAllie.Clear();}
-    public void ClearAllOrder()
+    virtual public void ClearAllOrder()
     {
         _listForOrder.Clear();
         ClearAllPath();
@@ -383,7 +431,7 @@ public class EntityController : MonoBehaviour
         set => _stayPosition = value;
     }
 
-    private int SortTargetByProximity(EntityManager entity1, EntityManager entity2)
+    private int SortTargetByProximity(SelectableManager entity1, SelectableManager entity2)
     {
         if(entity1 == null) return 1;
         if (entity2 == null) return 0;
@@ -391,7 +439,7 @@ public class EntityController : MonoBehaviour
             .CompareTo(Vector3.Distance(transform.position, entity2.gameObject.transform.position));
     }
 
-    private void AddAggresseurTarget(EntityManager entityToAggresse)
+    private void AddAggresseurTarget(TroupeManager entityToAggresse)
     {
         if (_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse);}
     }

@@ -214,10 +214,10 @@ public class IABrain : MonoBehaviour
             {
                 if (group.GroupContainUnity(entity))
                 {
-                    group.RemoveSelect(entity.gameObject.GetComponent<EntityManager>());
+                    group.RemoveSelect(entity.gameObject.GetComponent<TroupeManager>());
                 }
             }
-            Creategroup(entity.GetComponent<EntityManager>());
+            Creategroup(entity.GetComponent<TroupeManager>());
             ClearUselessGroup();
             _ListOfGroupToSpawnEntity.Add(_ListOfGroup.Last());
             //DebugGroup();
@@ -281,7 +281,7 @@ public class IABrain : MonoBehaviour
         entity.AddPath(group.getCenterofGroup());
 
         //group.MooveSelected(group.getCenterofGroup());
-        group.AddSelect(entity.gameObject.GetComponent<EntityManager>());
+        group.AddSelect(entity.gameObject.GetComponent<TroupeManager>());
 
         entity.GroupNumber = _ListOfGroup.IndexOf(group);
     }
@@ -339,10 +339,10 @@ public class IABrain : MonoBehaviour
                             }
                         }
                         if (groupeARejoindre != null)  { AddEntityToGroup(groupeARejoindre, theCloset); }
-                        else { Creategroup(theCloset.gameObject.GetComponent<EntityManager>()); }
+                        else { Creategroup(theCloset.gameObject.GetComponent<TroupeManager>()); }
                     }
                 }
-                else { Creategroup(theCloset.gameObject.GetComponent<EntityManager>()); }
+                else { Creategroup(theCloset.gameObject.GetComponent<TroupeManager>()); }
             }
         }
         ClearUselessGroup();
@@ -358,7 +358,7 @@ public class IABrain : MonoBehaviour
         
     }
 
-    private void Creategroup(EntityManager entity)
+    private void Creategroup(TroupeManager entity)
     {
         GroupManager groupToCreate = new GroupManager();
         groupToCreate.SetAllieTag(tag);

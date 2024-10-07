@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EntityUiManager : MonoBehaviour
 {
-    private EntityManager _entity;
+    private SelectableManager _entity;
 
     [SerializeField] private TMP_Text entityName;
     [SerializeField] private TMP_Text hp;
@@ -25,7 +25,7 @@ public class EntityUiManager : MonoBehaviour
         }
     }
 
-    public void SetEntity(EntityManager em)
+    public void SetEntity(SelectableManager em)
     {
         _entity = em;
         _entity.changeStats.AddListener(UpdateUI);
@@ -39,12 +39,22 @@ public class EntityUiManager : MonoBehaviour
         {
             entityName.text = _entity.gameObject.name;
             hp.text = "HP:" + _entity.Hp +" / " + _entity.MaxHp;
-            attack.text = "Attack:" + _entity.Attack;
+            if(typeof(TroupeManager) == _entity.GetType() )
+            {
+                TroupeManager _entity2 = (TroupeManager) _entity ;
+                attack.enabled = true;
+                attack.text = "Attack:" + _entity2.Attack;
+            }
+            else
+            {
+                attack.enabled = false;
+            }
+           
             defense.text = "Defense:" + _entity.Defense;
         }
     }
 
-    private void DisableUI(EntityManager entity)
+    private void DisableUI(SelectableManager entity)
     {
         gameObject.SetActive(false);
     }
@@ -58,7 +68,7 @@ public class EntityUiManager : MonoBehaviour
         }
     }
 
-    public EntityManager GetEntity()
+    public SelectableManager GetEntity()
     {
         return _entity;
     }

@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class CadreController : MonoBehaviour
 {
-    private EntityManager _entity;
+    private SelectableManager _entity;
 
     [SerializeField] private Image image;
 
     [SerializeField] private TMP_Text text;
 
-    public void SetEntity(EntityManager entity)
+    public void SetEntity(SelectableManager entity)
     {
         _entity = entity;
         _entity.changeStats.AddListener(ActualiseHp);
@@ -28,7 +28,7 @@ public class CadreController : MonoBehaviour
         text.text = _entity.Hp + "/" + _entity.MaxHp;
     }
 
-    private void DestroyHimSelf(EntityManager entity)
+    private void DestroyHimSelf(SelectableManager entity)
     {
         if(FindObjectOfType<GroupeUiManager>())
         {
@@ -43,7 +43,7 @@ public class CadreController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public EntityManager GetEntity()
+    public SelectableManager GetEntity()
     {
         return _entity;
     }

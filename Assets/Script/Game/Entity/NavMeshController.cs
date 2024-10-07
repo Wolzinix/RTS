@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Events;
 
 public class NavMeshController : MonoBehaviour
 {

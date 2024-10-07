@@ -54,7 +54,7 @@ public class BuildingUiManager : MonoBehaviour
             {
                 button.gameObject.SetActive(true);
                 GameObject entity = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton];
-                button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<EntityManager>().GetSprit();
+                button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<TroupeManager>().GetSprit();
 
                 button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(delegate { _building.AllySpawnEntity(entity); });

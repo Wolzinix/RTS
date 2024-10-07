@@ -17,14 +17,14 @@ public class OrderUiScript : MonoBehaviour
 
     private void ActualiseUi()
     {
-        if (_entity && _entity.GetComponent<BuilderManager>()){ _button.gameObject.SetActive(true); }
+        if (_entity && _entity.GetComponent<BuilderController>()){ _button.gameObject.SetActive(true); }
         else { _button.gameObject.SetActive(false); }
     }
 
     public void GoToBuildUi()
     {
         _buildUi.gameObject.SetActive(true);
-        _buildUi.SetBuilder(_entity.GetComponent<BuilderManager>());
+        _buildUi.SetBuilder(_entity.GetComponent<BuilderController>());
         gameObject.SetActive(false);
     }
 }
