@@ -1,4 +1,5 @@
-
+using System.Collections;
+using UnityEngine;
 
 public class RessourceManager : EntityManager
 {
@@ -13,9 +14,11 @@ public class RessourceManager : EntityManager
         base.TakeDamage(entity, nb);
 
         changeStats.Invoke();
+        _animator.SetBool("Harvest", true);
 
         if (hp <= 0)
         {
+            
             entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
         }
     }
@@ -25,9 +28,18 @@ public class RessourceManager : EntityManager
         base.Death();
         if (hp <= 0)
         {
-            Destroy(gameObject);
+            _animator.SetBool("Harvest", false);
+            _animator.SetBool("IsDead", true);
+            _animator.Play("Base Layer.TreeFall");
+            GoldAmount = 0;
+            WoodAmount = 0;
+            StartCoroutine(DoDeathAnimation());
         }
-
+    }
+    IEnumerator DoDeathAnimation()
+    {
+         yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        Destroy(gameObject);
     }
 
 }

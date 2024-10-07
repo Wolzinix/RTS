@@ -66,8 +66,6 @@ public class BuilderController : EntityController
                 }
                 _animator.SetBool(Moving, false);
 
-                Debug.Log( GetComponentInChildren<Animator>().GetInteger(Attacking));
-
 
                 if (!_animator.IsInTransition(0) &&
                     _animator.GetInteger(Attacking) == 1 &&

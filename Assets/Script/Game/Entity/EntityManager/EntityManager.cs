@@ -36,6 +36,7 @@ public class EntityManager :  MonoBehaviour
         ActualiseSprite();
 
         sprite.gameObject.SetActive(false);
+        _animator = GetComponent<Animator>();
 
         _maxHp = hp;
 
