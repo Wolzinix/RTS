@@ -118,40 +118,58 @@ public class IABrain : MonoBehaviour
 
   
 
-    private GameObject GetTheClosetEntityOfAPoint(Vector3 point)
+    private GameObject GetThenearsetEntityOfAPoint(Vector3 point)
     {
-        GameObject theClosetEntity = null;
+        GameObject ThenearsetEntity = null;
 
-        foreach(EntityController theCloset in groupOfEntity.GetComponentsInChildren<EntityController>())
+        foreach(EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
         {
-            if (theClosetEntity == null) { theClosetEntity = theCloset.gameObject; }
+            if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset.gameObject; }
 
-            if(Vector3.Distance(point,theClosetEntity.transform.position) > Vector3.Distance(point, theCloset.transform.position))
+            if(Vector3.Distance(point,ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
             {
-                theClosetEntity = theCloset.gameObject;
+                ThenearsetEntity = Thenearset.gameObject;
             }
         }
 
-        return theClosetEntity;
+        return ThenearsetEntity;
     }
 
-    private GroupManager GetTheClosetGroupOfAPoint(Vector3 point)
+    private GroupManager GetThenearsetGroupOfAPoint(Vector3 point)
     {
-        GroupManager theClosetEntity = null;
+        GroupManager ThenearsetEntity = null;
 
-        foreach (GroupManager theCloset in _ListOfGroup)
+        foreach (GroupManager Thenearset in _ListOfGroup)
         {
-            if (theClosetEntity == null) { theClosetEntity = theCloset; }
+            if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
 
-            if (Vector3.Distance(point, theClosetEntity.getCenterofGroup()) > Vector3.Distance(point, theCloset.getCenterofGroup()))
+            if (Vector3.Distance(point, ThenearsetEntity.getCenterofGroup()) > Vector3.Distance(point, Thenearset.getCenterofGroup()))
             {
-                theClosetEntity = theCloset;
+                ThenearsetEntity = Thenearset;
             }
         }
 
-        return theClosetEntity;
+        return ThenearsetEntity;
     }
 
+    private RessourceManager GetThenearsetHarvestOfABuilder(BuilderController builder)
+    {
+        RessourceManager[] listOfRessources = Resources.FindObjectsOfTypeAll<RessourceManager>();
+        RessourceManager ThenearsetToReturn = listOfRessources[0];
+
+        foreach(RessourceManager Thenearset in listOfRessources)
+        {
+            if(ThenearsetToReturn != Thenearset)
+            {
+                if(Vector3.Distance(Thenearset.gameObject.transform.position,builder.gameObject.transform.position)< Vector3.Distance(ThenearsetToReturn.gameObject.transform.position, builder.gameObject.transform.position))
+                {
+                    ThenearsetToReturn = Thenearset;
+                }
+            }
+        }
+
+        return ThenearsetToReturn;
+    }
     private void DebugGroup()
     {
         nbGroup = _ListOfGroup.Count;
@@ -203,7 +221,7 @@ public class IABrain : MonoBehaviour
     {
         if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
         {
-            GroupManager group = GetTheClosetGroupOfAPoint(location);
+            GroupManager group = GetThenearsetGroupOfAPoint(location);
             _ListOfGroupToProtectBuilding.Add(group);
 
             Vector3 centerOfGroup = group.getCenterofGroup();
@@ -235,7 +253,7 @@ public class IABrain : MonoBehaviour
     {
         if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
         {
-            EntityController entity = GetTheClosetEntityOfAPoint(point).GetComponent<EntityController>();
+            EntityController entity = GetThenearsetEntityOfAPoint(point).GetComponent<EntityController>();
             entity.AddPath(point);
             foreach (GroupManager group in _ListOfGroup)
             {
@@ -252,9 +270,9 @@ public class IABrain : MonoBehaviour
 
     }
 
-    private void SendBuilderToHarvest()
+    private void SendBuilderToHarvest(BuilderController builder)
     {
-
+        builder.AddHarvestTarget(GetThenearsetHarvestOfABuilder(builder).gameObject);
     }
 
     private void AddEntityToGroup(GroupManager group, EntityController entity )
@@ -284,23 +302,25 @@ public class IABrain : MonoBehaviour
     }
     private void ActualiseGroup()
     {
-        foreach (EntityController theCloset in groupOfEntity.GetComponentsInChildren<EntityController>())
+        foreach (EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
         {
-            if(theCloset.GetComponent<BuilderController>())
+            if(Thenearset.GetComponent<BuilderController>())
             {
-                _ListOfBuilder.Add(theCloset.GetComponent<BuilderController>());
+                BuilderController builder = Thenearset.GetComponent<BuilderController>();
+                _ListOfBuilder.Add(builder);
+                SendBuilderToHarvest(builder);
             }
             else
             {
                 bool InGroup = false;
-                if (theCloset.CompareTag(gameObject.tag))
+                if (Thenearset.CompareTag(gameObject.tag))
                 {
                     GroupManager groupeARejoindre = null;
                     if (_ListOfGroup.Count > 0)
                     {
                         foreach (GroupManager group in _ListOfGroup)
                         {
-                            if (group.GroupContainUnity(theCloset)) { InGroup = true; }
+                            if (group.GroupContainUnity(Thenearset)) { InGroup = true; }
                         }
 
                         if (!InGroup)
@@ -312,18 +332,18 @@ public class IABrain : MonoBehaviour
                                     if (groupeARejoindre == null) { groupeARejoindre = group; }
                                     else
                                     {
-                                        if (Vector3.Distance(groupeARejoindre.getCenterofGroup(), theCloset.gameObject.transform.position) > Vector3.Distance(group.getCenterofGroup(), theCloset.gameObject.transform.position))
+                                        if (Vector3.Distance(groupeARejoindre.getCenterofGroup(), Thenearset.gameObject.transform.position) > Vector3.Distance(group.getCenterofGroup(), Thenearset.gameObject.transform.position))
                                         {
                                             groupeARejoindre = group;
                                         }
                                     }
                                 }
                             }
-                            if (groupeARejoindre != null) { AddEntityToGroup(groupeARejoindre, theCloset); }
-                            else { Creategroup(theCloset.gameObject.GetComponent<TroupeManager>()); }
+                            if (groupeARejoindre != null) { AddEntityToGroup(groupeARejoindre, Thenearset); }
+                            else { Creategroup(Thenearset.gameObject.GetComponent<TroupeManager>()); }
                         }
                     }
-                    else { Creategroup(theCloset.gameObject.GetComponent<TroupeManager>()); }
+                    else { Creategroup(Thenearset.gameObject.GetComponent<TroupeManager>()); }
                 }
             }
         }

@@ -50,7 +50,7 @@ public class BuilderController : EntityController
     private void SearchClosetHarvestTarget()
     {
         GameObject nextHarvest = DoCircleRaycastForHarvest();
-        if (nextHarvest)
+        if (nextHarvest != null)
         {
             AddHarvestTarget(nextHarvest);
         }
@@ -96,7 +96,7 @@ public class BuilderController : EntityController
         {
             RessourceManager target = _listOfRessource[0];
 
-            if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
+            if (Vector3.Distance(gameObject.transform.position, target.transform.position) <= _entityManager.Range)
             {
                 if (_navMesh)
                 {
