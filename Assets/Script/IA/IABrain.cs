@@ -306,27 +306,31 @@ public class IABrain : MonoBehaviour
         }
         return Immobile;
     }
+
+    private void AddBuilder(BuilderController builder)
+    {
+        if (!_ListOfBuilder.Contains(builder))
+        {
+            _ListOfBuilder.Add(builder);
+            builder.NoMoreToHarvest.AddListener(SendBuilderToHarvest);
+        }
+        if (builder._listForOrder.Count == 0)
+        {
+            SendBuilderToHarvest(builder);
+        }
+    }
     private void ActualiseGroup()
     {
         foreach (EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
         {
             if(Thenearset.GetComponent<BuilderController>())
             {
-                BuilderController builder = Thenearset.GetComponent<BuilderController>();
-                if(!_ListOfBuilder.Contains(builder))
-                {
-                    _ListOfBuilder.Add(builder);
-                    builder.NoMoreToHarvest.AddListener(SendBuilderToHarvest);
-                }
-                if(builder._listForOrder.Count == 0)
-                {
-                    SendBuilderToHarvest(builder);
-                }
+                AddBuilder(Thenearset.GetComponent<BuilderController>());
             }
             else
             {
                 bool InGroup = false;
-                if (Thenearset.CompareTag(gameObject.tag))
+                if (Thenearset.CompareTag(gameObject.tag) && Thenearset.GetComponent<TroupeManager>())
                 {
                     GroupManager groupeARejoindre = null;
                     if (_ListOfGroup.Count > 0)
