@@ -24,14 +24,14 @@ public class BuilderController : EntityController
 
     private void Update()
     {
-        if(ListOfBuildsIndex.Count != 0)
+        if (ListOfBuildsIndex.Count != 0)
         {
 
             bool location = gameObject.GetComponent<NavMeshController>().notOnTraject();
             bool distance = Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5;
 
             if (location && distance) { Build(); }
-            else if(location && !distance)  {  AddPath(ListOfBuildPosition[0]); }
+            else if (location && !distance) { AddPath(ListOfBuildPosition[0]); }
 
         }
     }
@@ -44,15 +44,53 @@ public class BuilderController : EntityController
 
     void DoAnAttackOnRessource(RessourceManager target)
     {
-         _entityManager.DoAttack(target);
+        _entityManager.DoAttack(target);
     }
 
+    private void SearchClosetHarvestTarget()
+    {
+        GameObject nextHarvest = DoCircleRaycastForHarvest();
+        if (nextHarvest)
+        {
+            AddHarvestTarget(nextHarvest);
+        }
+    }
+
+    private GameObject DoCircleRaycastForHarvest()
+    {
+        float numberOfRay = 30;
+        float delta = 360 / numberOfRay;
+
+        List<GameObject> listOfGameObejct = new List<GameObject>();
+
+        for (int i = 0; i < numberOfRay; i++)
+        {
+            Vector3 dir = Quaternion.Euler(0, i * delta, 0) * transform.forward;
+
+            Ray ray = new Ray(transform.position, dir);
+            RaycastHit[] hits;
+
+            hits = Physics.RaycastAll(ray, _entityManager.SeeRange);
+
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.transform &&  hit.transform.gameObject.GetComponent<RessourceManager>())
+                {
+                    Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
+                    return hit.transform.gameObject;
+                }
+            }
+        }
+        return null;
+    }
     private void DoHarvest()
     {
         if (!_listOfRessource[0])
         {
             _listOfRessource.RemoveAt(0);   
             _listForOrder.RemoveAt(0);
+
+            SearchClosetHarvestTarget();
         }
         else
         {
@@ -143,6 +181,8 @@ public class BuilderController : EntityController
         ListOfBuildPosition.RemoveAt(0);
         ListOfBuildsIndex.RemoveAt(0);
     }
+
+    protected override void SearchTarget(){}
 
     private void ResetBuildingOrder()
     {

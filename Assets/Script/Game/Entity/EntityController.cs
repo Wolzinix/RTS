@@ -105,7 +105,7 @@ public class EntityController : MonoBehaviour
          isUnit();
     }
 
-    private void SearchTarget()
+    virtual protected void SearchTarget()
     {
         if(_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive || _listForOrder[0] == Order.Follow) || _navMesh == null)
         {
@@ -322,7 +322,7 @@ public class EntityController : MonoBehaviour
             else if (DoAnAggression()) { }
         }
     }
-    private void isUnit()
+    virtual protected void isUnit()
     {
         if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); }
         else { _animator.SetBool(Moving, false); }
