@@ -29,7 +29,7 @@ public class ControlManager : MonoBehaviour
     private bool _dragging;
     private float _timeOfDragging;
 
-    public SelectManager _selectManager;
+    private SelectManager _selectManager;
 
     private bool _order;
     private bool _travelAttack;

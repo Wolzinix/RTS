@@ -8,7 +8,7 @@ public class RessourceSpawning : MonoBehaviour
     public int nbOfSpawningItem;
     public float MeterBetween2Object;
 
-    private List<GameObject> spawningItems;
+    public List<GameObject> spawningItems;
 
     private float size;
 

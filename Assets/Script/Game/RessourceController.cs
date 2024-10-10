@@ -2,8 +2,8 @@ using UnityEngine;
 public class RessourceController : MonoBehaviour
 {
 
-    int _gold;
-    int _wood;
+    public int _gold = 2;
+    public int _wood = 2;   
 
     RessourceUi _ui;
 
@@ -11,7 +11,13 @@ public class RessourceController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _ui = FindAnyObjectByType<RessourceUi>();
+        if(GetComponent<ControlManager>())
+        {
+            _ui = FindAnyObjectByType<RessourceUi>();
+            _ui.AddWood(_wood);
+            _ui.AddGold(_gold);
+        }
+     
     }
 
     public void AddGold(int gold)
@@ -32,5 +38,13 @@ public class RessourceController : MonoBehaviour
         }
     }
 
+    public bool CompareWood(int wood)
+    {
+        return _wood >= wood;
+    }
 
+    public bool CompareGold(int gold)
+    {
+        return _gold >= gold;
+    }
 }
