@@ -154,21 +154,22 @@ public class IABrain : MonoBehaviour
 
     private RessourceManager GetThenearsetHarvestOfABuilder(BuilderController builder)
     {
-        RessourceManager[] listOfRessources = Resources.FindObjectsOfTypeAll<RessourceManager>();
+       
+        RessourceManager[] listOfRessources =  FindObjectsOfType<RessourceManager>();
         RessourceManager ThenearsetToReturn = listOfRessources[0];
 
         foreach(RessourceManager Thenearset in listOfRessources)
         {
-            if(ThenearsetToReturn != Thenearset)
+            if(ThenearsetToReturn != Thenearset && Thenearset)
             {
-                if(Vector3.Distance(Thenearset.gameObject.transform.position,builder.gameObject.transform.position)< Vector3.Distance(ThenearsetToReturn.gameObject.transform.position, builder.gameObject.transform.position))
+                if(Vector3.Distance(Thenearset.gameObject.transform.position,builder.gameObject.transform.position) < Vector3.Distance(ThenearsetToReturn.gameObject.transform.position, builder.gameObject.transform.position))
                 {
                     ThenearsetToReturn = Thenearset;
                 }
             }
         }
-
-        return ThenearsetToReturn;
+        if(listOfRessources.Length > 0) {  return ThenearsetToReturn; }
+        else { return null;}
     }
     private void DebugGroup()
     {
@@ -272,7 +273,12 @@ public class IABrain : MonoBehaviour
 
     private void SendBuilderToHarvest(BuilderController builder)
     {
-        builder.AddHarvestTarget(GetThenearsetHarvestOfABuilder(builder).gameObject);
+        GameObject nextHarvest = GetThenearsetHarvestOfABuilder(builder).gameObject;
+        if(nextHarvest)
+        {
+            builder.AddHarvestTarget(nextHarvest);
+        }
+   
     }
 
     private void AddEntityToGroup(GroupManager group, EntityController entity )
@@ -307,8 +313,15 @@ public class IABrain : MonoBehaviour
             if(Thenearset.GetComponent<BuilderController>())
             {
                 BuilderController builder = Thenearset.GetComponent<BuilderController>();
-                _ListOfBuilder.Add(builder);
-                SendBuilderToHarvest(builder);
+                if(!_ListOfBuilder.Contains(builder))
+                {
+                    _ListOfBuilder.Add(builder);
+                    builder.NoMoreToHarvest.AddListener(SendBuilderToHarvest);
+                }
+                if(builder._listForOrder.Count == 0)
+                {
+                    SendBuilderToHarvest(builder);
+                }
             }
             else
             {
@@ -362,7 +375,7 @@ public class IABrain : MonoBehaviour
 
     private void ActualiseBuilding()
     {
-        BuildingController[] buildings = Resources.FindObjectsOfTypeAll(typeof(BuildingController)) as BuildingController[];
+        BuildingController[] buildings = FindObjectsOfType<BuildingController>();
         foreach (BuildingController building in buildings)
         {
             BuildingStats stats = new BuildingStats();

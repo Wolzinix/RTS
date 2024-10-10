@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BuilderController : EntityController
 {
@@ -10,7 +11,7 @@ public class BuilderController : EntityController
     private List<RessourceManager> _listOfRessource = new List<RessourceManager>();
     public List<GameObject> getBuildings() { return _buildings; }
 
-
+    public UnityEvent<BuilderController> NoMoreToHarvest = new UnityEvent<BuilderController>();
 
     private void Start()
     {
@@ -54,6 +55,10 @@ public class BuilderController : EntityController
         {
             AddHarvestTarget(nextHarvest);
         }
+        else
+        {
+            NoMoreToHarvest.Invoke(this);
+        }
     }
 
     private GameObject DoCircleRaycastForHarvest()
@@ -96,7 +101,7 @@ public class BuilderController : EntityController
         {
             RessourceManager target = _listOfRessource[0];
 
-            if (Vector3.Distance(gameObject.transform.position, target.transform.position) <= _entityManager.Range)
+            if (Vector3.Distance(gameObject.transform.position, target.transform.position) <= _entityManager.Range + target.size)
             {
                 if (_navMesh)
                 {

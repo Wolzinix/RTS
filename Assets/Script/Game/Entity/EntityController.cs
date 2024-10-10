@@ -170,7 +170,7 @@ public class EntityController : MonoBehaviour
         {
             SelectableManager target = _listOfTarget[0];
 
-            if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range)
+            if (Vector3.Distance(transform.position, target.transform.position) <= _entityManager.Range + target.size)
             {
                 if(_navMesh)
                 {
