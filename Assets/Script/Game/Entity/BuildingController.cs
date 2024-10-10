@@ -145,7 +145,7 @@ public class BuildingController : MonoBehaviour
 
                         newEntity.tag = tag;
 
-                        newEntity.GetComponent<TroupeManager>().ActualiseSprite();
+                        newEntity.GetComponent<AggressifEntityManager>().ActualiseSprite();
 
                         entityDictionary[entityToSpawn].actualStock -= 1;
                         entitySpawnNow.Invoke();
@@ -184,7 +184,7 @@ public class BuildingController : MonoBehaviour
 
             foreach (RaycastHit hit in hits)
             {
-                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<TroupeManager>())
+                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<AggressifEntityManager>())
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
                     listOfGameObejct.Add(hit.transform.gameObject);

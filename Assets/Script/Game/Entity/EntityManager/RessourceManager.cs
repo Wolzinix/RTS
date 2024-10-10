@@ -9,7 +9,7 @@ public class RessourceManager : EntityManager
     }
 
 
-    override public void TakeDamage(TroupeManager entity, float nb)
+    override public void TakeDamage(AggressifEntityManager entity, float nb)
     {
         base.TakeDamage(entity, nb);
 
@@ -55,5 +55,7 @@ public class RessourceManager : EntityManager
         }
         Destroy(gameObject);
     }
+
+  
 
 }

@@ -34,7 +34,7 @@ public class EntityController : MonoBehaviour
     protected bool _attacking;
     private int _patrolIteration;
 
-    protected TroupeManager _entityManager;
+    protected AggressifEntityManager _entityManager;
 
     
     public Animator _animator;
@@ -59,11 +59,11 @@ public class EntityController : MonoBehaviour
 
         _listOfalliesOnRange = new List<GameObject>();
         
-        _entityManager = GetComponent<TroupeManager>();
+        _entityManager = GetComponent<AggressifEntityManager>();
         
         _animator = GetComponentInChildren<Animator>();
 
-        GetComponent<TroupeManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
+        GetComponent<AggressifEntityManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
     }
 
     private List<GameObject> DoCircleRaycast()
@@ -340,9 +340,9 @@ public class EntityController : MonoBehaviour
         if (_projectile)
         {
             ProjectilManager pj = Instantiate(_projectile);
-            pj.SetDamage(GetComponent<TroupeManager>().Attack);
+            pj.SetDamage(GetComponent<AggressifEntityManager>().Attack);
             pj.SetTarget(target.gameObject);
-            pj.SetInvoker(GetComponent<TroupeManager>());
+            pj.SetInvoker(GetComponent<AggressifEntityManager>());
             pj.gameObject.transform.position = new Vector3( transform.position.x , transform.position.y +1, transform.position.z);
         }
         else
@@ -439,7 +439,7 @@ public class EntityController : MonoBehaviour
             .CompareTo(Vector3.Distance(transform.position, entity2.gameObject.transform.position));
     }
 
-    private void AddAggresseurTarget(TroupeManager entityToAggresse)
+    private void AddAggresseurTarget(AggressifEntityManager entityToAggresse)
     {
         if (_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse);}
     }

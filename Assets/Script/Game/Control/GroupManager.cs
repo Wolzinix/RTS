@@ -81,7 +81,7 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (var i in _selectedObject)
             {
-                i.gameObject.GetComponent<TroupeManager>().OnDeselected(); ;
+                i.gameObject.GetComponent<AggressifEntityManager>().OnDeselected(); ;
             }
             _selectedObject.Clear();
            
@@ -106,7 +106,7 @@ public class GroupManager
             if (_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()) > -1)
             {
                 _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
-                toAdd.gameObject.GetComponent<TroupeManager>().OnDeselected();
+                toAdd.gameObject.GetComponent<AggressifEntityManager>().OnDeselected();
             }
             else
             {
@@ -114,7 +114,7 @@ public class GroupManager
                 toAdd.GetComponent<EntityController>().EntityIsArrive.AddListener(SomeOneIsImmobile);
                 if(IsPlayer)
                 {
-                    toAdd.gameObject.GetComponent<TroupeManager>().OnSelected();
+                    toAdd.gameObject.GetComponent<AggressifEntityManager>().OnSelected();
                 }
             }
         }
@@ -130,11 +130,11 @@ public class GroupManager
         }
     }
 
-    public void RemoveSelect(TroupeManager toAdd)
+    public void RemoveSelect(AggressifEntityManager toAdd)
     {
         
         _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
-        toAdd.gameObject.GetComponent<TroupeManager>().OnDeselected();
+        toAdd.gameObject.GetComponent<AggressifEntityManager>().OnDeselected();
           
     }
 
@@ -214,7 +214,7 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
-                i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<TroupeManager>());
+                i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<AggressifEntityManager>());
                 i.Stay = false;
             }
         }
@@ -227,7 +227,7 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
-                if (i.gameObject.GetComponent<TroupeManager>() != controller)
+                if (i.gameObject.GetComponent<AggressifEntityManager>() != controller)
                 {
                     i.GetComponent<EntityController>().AddTarget(controller);
                     i.Stay = false;

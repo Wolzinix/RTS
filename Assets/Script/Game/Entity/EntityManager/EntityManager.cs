@@ -78,7 +78,7 @@ public class EntityManager :  MonoBehaviour
         hp += nb;
         Death();
     }
-    virtual public void TakeDamage(TroupeManager entity, float nb)
+    virtual public void TakeDamage(AggressifEntityManager entity, float nb)
     {
         hp -= nb;
     }

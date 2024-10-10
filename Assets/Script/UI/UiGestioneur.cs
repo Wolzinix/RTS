@@ -74,7 +74,7 @@ public class UiGestioneur : MonoBehaviour
         NoUi.gameObject.SetActive(false);
         ActualiseEntityUI(entity);
 
-        if (entity.gameObject.GetComponent<TroupeManager>())
+        if (entity.gameObject.GetComponent<AggressifEntityManager>())
         {
             if ( entity.CompareTag("Allie"))
             {

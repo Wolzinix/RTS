@@ -260,10 +260,10 @@ public class IABrain : MonoBehaviour
             {
                 if (group.GroupContainUnity(entity))
                 {
-                    group.RemoveSelect(entity.gameObject.GetComponent<TroupeManager>());
+                    group.RemoveSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
                 }
             }
-            Creategroup(entity.GetComponent<TroupeManager>());
+            Creategroup(entity.GetComponent<AggressifEntityManager>());
             ClearUselessGroup();
             _ListOfGroupToSpawnEntity.Add(_ListOfGroup.Last());
             //DebugGroup();
@@ -287,7 +287,7 @@ public class IABrain : MonoBehaviour
         entity.AddPath(group.getCenterofGroup());
 
         //group.MooveSelected(group.getCenterofGroup());
-        group.AddSelect(entity.gameObject.GetComponent<TroupeManager>());
+        group.AddSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
 
         entity.GroupNumber = _ListOfGroup.IndexOf(group);
     }
@@ -353,10 +353,10 @@ public class IABrain : MonoBehaviour
                                 }
                             }
                             if (groupeARejoindre != null) { AddEntityToGroup(groupeARejoindre, Thenearset); }
-                            else { Creategroup(Thenearset.gameObject.GetComponent<TroupeManager>()); }
+                            else { Creategroup(Thenearset.gameObject.GetComponent<AggressifEntityManager>()); }
                         }
                     }
-                    else { Creategroup(Thenearset.gameObject.GetComponent<TroupeManager>()); }
+                    else { Creategroup(Thenearset.gameObject.GetComponent<AggressifEntityManager>()); }
                 }
             }
         }
@@ -387,7 +387,7 @@ public class IABrain : MonoBehaviour
         GetAllieBuilding();
     }
 
-    private void Creategroup(TroupeManager entity)
+    private void Creategroup(AggressifEntityManager entity)
     {
         GroupManager groupToCreate = new GroupManager();
         groupToCreate.SetAllieTag(tag);

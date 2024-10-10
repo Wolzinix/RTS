@@ -39,9 +39,9 @@ public class EntityUiManager : MonoBehaviour
         {
             entityName.text = _entity.gameObject.name;
             hp.text = "HP:" + _entity.Hp +" / " + _entity.MaxHp;
-            if(typeof(TroupeManager) == _entity.GetType() )
+            if(typeof(AggressifEntityManager) == _entity.GetType() )
             {
-                TroupeManager _entity2 = (TroupeManager) _entity ;
+                AggressifEntityManager _entity2 = (AggressifEntityManager) _entity ;
                 attack.enabled = true;
                 attack.text = "Attack:" + _entity2.Attack;
             }
