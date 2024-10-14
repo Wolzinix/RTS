@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.XR;
 
 public class GroupManager
 {
@@ -295,7 +294,12 @@ public class GroupManager
 
     private bool SelectedObjectIsEmpty()
     {
-        return _selectedObject.Count <= 0;
+        if(_selectedObject.Count <= 0)
+        {
+            OnDestroy();
+            return true;
+        }
+        else { return false; }
     }
 
     public void AttackingOnTravel(Vector3 point)

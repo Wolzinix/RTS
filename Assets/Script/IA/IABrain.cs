@@ -5,6 +5,7 @@ using UnityEngine;
 public class IABrain : MonoBehaviour
 {
     [SerializeField] GameObject groupOfEntity;
+
     private  Dictionary<BuildingController, BuildingStats> DicoOfBuilding;
 
     public delegate void NeedToSendToBuildingDelegate(BuildingStats building, Vector3 location);
@@ -13,11 +14,12 @@ public class IABrain : MonoBehaviour
 
     [SerializeField] private GameObject Objectif;
 
+    private int TailleDuGroupe = 3;
     private List<GroupManager> _ListOfGroup;
     private List<GroupManager> _ListOfGroupToSpawnEntity;
     private List<GroupManager> _ListOfGroupToProtectBuilding;
     private List<BuilderController> _ListOfBuilder;
-    private int TailleDuGroupe = 3;
+   
 
     public string _ennemieTag;
     private float DistanceOfSecurity = 3f;
@@ -195,10 +197,7 @@ public class IABrain : MonoBehaviour
         _ListOfGroup.Remove(groupToRemove);
     }
 
-    private void SendToAttack(GroupManager group,GameObject objectif)
-    {
-        group.AttackingOnTravel(objectif.transform.position);
-    }
+    private void SendToAttack(GroupManager group,GameObject objectif) { group.AttackingOnTravel(objectif.transform.position);}
 
     private void GroupToAttack(GroupManager group)
     {
@@ -245,10 +244,7 @@ public class IABrain : MonoBehaviour
         }
     }
 
-    public void SendAGroup(GroupManager group, Vector3 point)
-    {
-        group.MooveSelected(point);
-    }
+    public void SendAGroup(GroupManager group, Vector3 point){ group.MooveSelected(point); }
 
     private void SendEntityToBuilding(BuildingStats building, Vector3 point)
     {
@@ -285,8 +281,6 @@ public class IABrain : MonoBehaviour
     {
         entity.ClearAllOrder();
         entity.AddPath(group.getCenterofGroup());
-
-        //group.MooveSelected(group.getCenterofGroup());
         group.AddSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
 
         entity.GroupNumber = _ListOfGroup.IndexOf(group);
@@ -327,42 +321,42 @@ public class IABrain : MonoBehaviour
             {
                 AddBuilder(Thenearset.GetComponent<BuilderController>());
             }
-            else
+
+            else if (Thenearset.CompareTag(gameObject.tag) && Thenearset.GetComponent<TroupeManager>())
             {
                 bool InGroup = false;
-                if (Thenearset.CompareTag(gameObject.tag) && Thenearset.GetComponent<TroupeManager>())
-                {
-                    GroupManager groupeARejoindre = null;
-                    if (_ListOfGroup.Count > 0)
+                GroupManager groupeARejoindre = null;
+                if (_ListOfGroup.Count > 0)
+                {  
+                    foreach (GroupManager group in _ListOfGroup)
                     {
-                        foreach (GroupManager group in _ListOfGroup)
-                        {
-                            if (group.GroupContainUnity(Thenearset)) { InGroup = true; }
-                        }
+                        if (group.GroupContainUnity(Thenearset)) { InGroup = true; }
 
                         if (!InGroup)
                         {
-                            foreach (GroupManager group in _ListOfGroup)
+                            if (group.getNumberOnGroup() < TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group))
                             {
-                                if (group.getNumberOnGroup() < TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group))
+                                if (groupeARejoindre == null) { groupeARejoindre = group; }
+                                else
                                 {
-                                    if (groupeARejoindre == null) { groupeARejoindre = group; }
-                                    else
+                                    if (Vector3.Distance(groupeARejoindre.getCenterofGroup(), Thenearset.gameObject.transform.position) > Vector3.Distance(group.getCenterofGroup(), Thenearset.gameObject.transform.position))
                                     {
-                                        if (Vector3.Distance(groupeARejoindre.getCenterofGroup(), Thenearset.gameObject.transform.position) > Vector3.Distance(group.getCenterofGroup(), Thenearset.gameObject.transform.position))
-                                        {
-                                            groupeARejoindre = group;
-                                        }
+                                        groupeARejoindre = group;
                                     }
                                 }
                             }
-                            if (groupeARejoindre != null) { AddEntityToGroup(groupeARejoindre, Thenearset); }
-                            else { Creategroup(Thenearset.gameObject.GetComponent<AggressifEntityManager>()); }
                         }
                     }
-                    else { Creategroup(Thenearset.gameObject.GetComponent<AggressifEntityManager>()); }
+                    if (!InGroup)
+                    {
+                        if (groupeARejoindre != null) { AddEntityToGroup(groupeARejoindre, Thenearset); }
+                        else { Creategroup(Thenearset.gameObject.GetComponent<AggressifEntityManager>()); }
+                    }
+                   
                 }
+                else { Creategroup(Thenearset.gameObject.GetComponent<AggressifEntityManager>()); }
             }
+            
         }
         ClearUselessGroup();
         //DebugGroup();
@@ -404,8 +398,4 @@ public class IABrain : MonoBehaviour
         groupToCreate.AddSelect(entity);
         entity.gameObject.GetComponent<EntityController>().GroupNumber = _ListOfGroup.IndexOf(groupToCreate);
     }
-
-
-
-   
 }
