@@ -18,6 +18,8 @@ public class BuildingController : MonoBehaviour
     private bool _ennemie;
     private bool _canSpawn;
 
+    public string tagOfNerestEntity;
+
     int NbSpawnpoint = 10;
     public float spawnrayon = 2f;
     public LineRenderer lineRenderer;
@@ -71,6 +73,7 @@ public class BuildingController : MonoBehaviour
 
         foreach (GameObject i in ListOfHit)
         {
+            tagOfNerestEntity = i.tag;
             if(i.CompareTag("Allie"))
             {
                 nbAllies += 1;

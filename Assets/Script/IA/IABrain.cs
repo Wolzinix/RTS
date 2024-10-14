@@ -12,7 +12,7 @@ public class IABrain : MonoBehaviour
     public static event NeedToSendToBuildingDelegate NeedToSendEntityToBuildingEvent;
     public static event NeedToSendToBuildingDelegate NeedToSendGroupToBuildingEvent;
 
-    [SerializeField] private GameObject Objectif;
+    [SerializeField] private List<GameObject> Objectif;
 
     private int TailleDuGroupe = 3;
     private List<GroupManager> _ListOfGroup;
@@ -27,6 +27,7 @@ public class IABrain : MonoBehaviour
     public int nbGroup;
     public class BuildingStats
     {
+        public IABrain IAbrain;
         public List<GameObject> EntityNextTo = new List<GameObject>();
         public string Tag;
         public bool CanSpawn;
@@ -50,8 +51,9 @@ public class IABrain : MonoBehaviour
             _ListOfProtector.Remove(group);
             if(_ListOfProtector.Count == 0)
             {
+                IAbrain.AddObjectif(building.gameObject);
+                NeedAGroup();
                 IsProtected = false;
-                IABrain.NeedToSendGroupToBuildingEvent(this, building.transform.position);
             }
         }
 
@@ -61,8 +63,9 @@ public class IABrain : MonoBehaviour
         {
             CanSpawn = building.GetCanSpawn();
 
-            if(CanSpawn)
+            if(CanSpawn && building.tagOfNerestEntity == IAbrain.gameObject.tag)
             {
+                IAbrain.RemoveObjectif(building.gameObject);
                 EntityNextTo.Clear();
                 foreach (GameObject gameObject in Entity)
                 {
@@ -70,7 +73,11 @@ public class IABrain : MonoBehaviour
                     EntityNextTo.Add(gameObject);
                 }
             }
-            else { IABrain.NeedToSendEntityToBuildingEvent(this, building.gameObject.transform.position);  }
+            else
+            {
+                IAbrain.AddObjectif(building.gameObject);
+                IABrain.NeedToSendEntityToBuildingEvent(this, building.gameObject.transform.position); 
+            }
            
         }
     }
@@ -99,6 +106,21 @@ public class IABrain : MonoBehaviour
         NeedToSendEntityToBuildingEvent -= SendEntityToBuilding;
 
         NeedToSendGroupToBuildingEvent -= SendRenfortToBuilding;
+    }
+
+    public void AddObjectif(GameObject newObject)
+    {
+        if(!Objectif.Contains(newObject)) 
+        {
+            Objectif.Reverse();
+            Objectif.Add(newObject);
+            Objectif.Reverse();
+        }
+    }
+
+    public void RemoveObjectif(GameObject oldObjectif)
+    {
+        Objectif.Remove( oldObjectif );
     }
 
     private List<BuildingController> GetAllieBuilding()
@@ -204,7 +226,15 @@ public class IABrain : MonoBehaviour
         if (group.getNumberOnGroup() >= TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group) && !_ListOfGroupToProtectBuilding.Contains(group))
         {
             group.ResetOrder();
-            SendToAttack(group, Objectif);
+            if(Objectif.Count>0)
+            {
+                if (Objectif[0]) { SendToAttack(group, Objectif[0]); }
+                else
+                {
+                    Objectif.RemoveAt(0);
+                    GroupToAttack(group);
+                }
+            }
         }
     }
     private void SendEverybodyToTheCenter(GroupManager group)
@@ -262,6 +292,8 @@ public class IABrain : MonoBehaviour
             Creategroup(entity.GetComponent<AggressifEntityManager>());
             ClearUselessGroup();
             _ListOfGroupToSpawnEntity.Add(_ListOfGroup.Last());
+
+
             //DebugGroup();
         }
 
@@ -379,6 +411,7 @@ public class IABrain : MonoBehaviour
             BuildingStats stats = new BuildingStats();
             stats.Tag = building.tag;
             stats.building = building;
+            stats.IAbrain = this;
             building.EntityNextToEvent.AddListener(stats.changeHaveEntity);
             DicoOfBuilding[building] = stats;
         }
