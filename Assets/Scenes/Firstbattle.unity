@@ -6365,11 +6365,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad3b29359b62124d8a551ef1591927c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _AllieBuilding: []
   groupOfEntity: {fileID: 1662796191}
+  NeedToSendEntityToBuildingEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  NeedToSendGroupToBuildingEvent:
+    m_PersistentCalls:
+      m_Calls: []
   Objectif:
   - {fileID: 167806440}
-  _ennemieTag: Allie
-  nbGroup: 0
+  ennemieTag: Allie
 --- !u!4 &1381193391
 Transform:
   m_ObjectHideFlags: 0
