@@ -1,23 +1,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class IABrain : MonoBehaviour
 {
     [SerializeField] GameObject groupOfEntity;
 
-    private  Dictionary<BuildingController, BuildingStats> DicoOfBuilding;
+    private  Dictionary<BuildingController, BuildingIA> DicoOfBuilding;
 
-    public delegate void NeedToSendToBuildingDelegate(BuildingStats building, Vector3 location);
-    public static event NeedToSendToBuildingDelegate NeedToSendEntityToBuildingEvent;
-    public static event NeedToSendToBuildingDelegate NeedToSendGroupToBuildingEvent;
+    public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
+    public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
 
     [SerializeField] private List<GameObject> Objectif;
 
     private int TailleDuGroupe = 3;
+   
     private List<GroupManager> _ListOfGroup;
     private List<GroupManager> _ListOfGroupToSpawnEntity;
     private List<GroupManager> _ListOfGroupToProtectBuilding;
+    private Dictionary<GroupManager,List<BuildingController>> _ListOfGroupPatrol;
+    private List<BuildingController> _AllieBuilding;
     private List<BuilderController> _ListOfBuilder;
    
 
@@ -25,76 +28,22 @@ public class IABrain : MonoBehaviour
     private float DistanceOfSecurity = 3f;
 
     public int nbGroup;
-    public class BuildingStats
-    {
-        public IABrain IAbrain;
-        public List<GameObject> EntityNextTo = new List<GameObject>();
-        public string Tag;
-        public bool CanSpawn;
-        public string TagOfEntity;
-
-        public BuildingController building;
-
-        public bool IsProtected;
-
-        public List<GroupManager> _ListOfProtector = new List<GroupManager>();
-
-        public void SetAProtectionGroup(GroupManager group)
-        {
-            _ListOfProtector.Add(group);
-            IsProtected = true;
-            group.GroupIsDeadevent.AddListener(RemoveAGroup);
-        }
-
-        public void RemoveAGroup(GroupManager group)
-        {
-            _ListOfProtector.Remove(group);
-            if(_ListOfProtector.Count == 0)
-            {
-                IAbrain.AddObjectif(building.gameObject);
-                NeedAGroup();
-                IsProtected = false;
-            }
-        }
-
-        public void NeedAGroup() { IABrain.NeedToSendGroupToBuildingEvent(this, building.transform.position);}
-
-        public void changeHaveEntity(List<GameObject> Entity, BuildingController building) 
-        {
-            CanSpawn = building.GetCanSpawn();
-
-            if(CanSpawn && building.tagOfNerestEntity == IAbrain.gameObject.tag)
-            {
-                IAbrain.RemoveObjectif(building.gameObject);
-                EntityNextTo.Clear();
-                foreach (GameObject gameObject in Entity)
-                {
-                    if (CanSpawn) { TagOfEntity = gameObject.tag; }
-                    EntityNextTo.Add(gameObject);
-                }
-            }
-            else
-            {
-                IAbrain.AddObjectif(building.gameObject);
-                IABrain.NeedToSendEntityToBuildingEvent(this, building.gameObject.transform.position); 
-            }
-           
-        }
-    }
 
     void Start()
     {
 
-        DicoOfBuilding = new Dictionary<BuildingController, BuildingStats>();
+        DicoOfBuilding = new Dictionary<BuildingController, BuildingIA>();
 
         _ListOfGroup = new List<GroupManager>();
         _ListOfGroupToSpawnEntity = new List<GroupManager>();
         _ListOfGroupToProtectBuilding = new List<GroupManager>();
         _ListOfBuilder = new List<BuilderController> ();
+        _ListOfGroupPatrol = new Dictionary<GroupManager, List<BuildingController>>();
+        _AllieBuilding = new List<BuildingController> ();
 
-        NeedToSendEntityToBuildingEvent += SendEntityToBuilding;
+        NeedToSendEntityToBuildingEvent.AddListener( SendEntityToBuilding);
 
-        NeedToSendGroupToBuildingEvent += SendRenfortToBuilding;
+        NeedToSendGroupToBuildingEvent.AddListener(SendRenfortToBuilding);
         ActualiseGroup();
 
         ActualiseBuilding();
@@ -103,15 +52,16 @@ public class IABrain : MonoBehaviour
 
     private void OnDestroy()
     {
-        NeedToSendEntityToBuildingEvent -= SendEntityToBuilding;
+        NeedToSendEntityToBuildingEvent.RemoveAllListeners();
 
-        NeedToSendGroupToBuildingEvent -= SendRenfortToBuilding;
+        NeedToSendGroupToBuildingEvent.RemoveAllListeners();
     }
 
     public void AddObjectif(GameObject newObject)
     {
         if(!Objectif.Contains(newObject)) 
         {
+            ActualisePatrol();
             Objectif.Reverse();
             Objectif.Add(newObject);
             Objectif.Reverse();
@@ -120,6 +70,7 @@ public class IABrain : MonoBehaviour
 
     public void RemoveObjectif(GameObject oldObjectif)
     {
+        ActualisePatrol();
         Objectif.Remove( oldObjectif );
     }
 
@@ -129,13 +80,17 @@ public class IABrain : MonoBehaviour
 
         foreach(BuildingController i in  DicoOfBuilding.Keys)
         {
-            i.entityAsBeenBuy.RemoveAllListeners();
-            if(!i.CompareTag(_ennemieTag)|| DicoOfBuilding[i].CanSpawn) 
+            if(i)
             {
-                i.entityAsBeenBuy.AddListener(ActualiseGroup);
-                list.Add(i);
-                DicoOfBuilding[i].NeedAGroup();
+                i.entityAsBeenBuy.RemoveAllListeners();
+                if (!i.CompareTag(_ennemieTag) || DicoOfBuilding[i].CanSpawn && i.tagOfNerestEntity == gameObject.tag)
+                {
+                    i.entityAsBeenBuy.AddListener(ActualiseGroup);
+                    list.Add(i);
+                    DicoOfBuilding[i].NeedAGroup();
+                }
             }
+          
         }
         return list;
     }
@@ -165,12 +120,16 @@ public class IABrain : MonoBehaviour
 
         foreach (GroupManager Thenearset in _ListOfGroup)
         {
-            if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
-
-            if (Vector3.Distance(point, ThenearsetEntity.getCenterofGroup()) > Vector3.Distance(point, Thenearset.getCenterofGroup()))
+            if (!_ListOfGroupToSpawnEntity.Contains(Thenearset) && !_ListOfGroupToProtectBuilding.Contains(Thenearset) && !_ListOfGroupPatrol.Keys.Contains(Thenearset))
             {
-                ThenearsetEntity = Thenearset;
+                if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
+
+                if (Vector3.Distance(point, ThenearsetEntity.getCenterofGroup()) > Vector3.Distance(point, Thenearset.getCenterofGroup()))
+                {
+                    ThenearsetEntity = Thenearset;
+                }
             }
+           
         }
 
         return ThenearsetEntity;
@@ -216,6 +175,7 @@ public class IABrain : MonoBehaviour
     {
         if(_ListOfGroupToProtectBuilding.Contains(groupToRemove)) { _ListOfGroupToProtectBuilding.Remove(groupToRemove);  }
         if(_ListOfGroupToSpawnEntity.Contains(groupToRemove)) { _ListOfGroupToSpawnEntity.Remove(groupToRemove); }
+        if(_ListOfGroupPatrol.Keys.Contains(groupToRemove)) { _ListOfGroupPatrol.Remove(groupToRemove); }
         _ListOfGroup.Remove(groupToRemove);
     }
 
@@ -223,7 +183,7 @@ public class IABrain : MonoBehaviour
 
     private void GroupToAttack(GroupManager group)
     {
-        if (group.getNumberOnGroup() >= TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group) && !_ListOfGroupToProtectBuilding.Contains(group))
+        if (group.getNumberOnGroup() >= TailleDuGroupe)
         {
             group.ResetOrder();
             if(Objectif.Count>0)
@@ -247,36 +207,40 @@ public class IABrain : MonoBehaviour
     }
 
 
-    public void SendRenfortToBuilding(BuildingStats building, Vector3 location)
+    public void SendRenfortToBuilding(BuildingIA building, Vector3 location)
     {
         if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
         {
             GroupManager group = GetThenearsetGroupOfAPoint(location);
-            _ListOfGroupToProtectBuilding.Add(group);
+            if(group != null)
+            {
+                _ListOfGroupToProtectBuilding.Add(group);
 
-            Vector3 centerOfGroup = group.getCenterofGroup();
+                Vector3 centerOfGroup = group.getCenterofGroup();
 
-            float angle = Vector3.Angle(centerOfGroup, location);
-            angle = Vector3.Cross(centerOfGroup, location).y > 0 ? angle : 360 - angle;
+                float angle = Vector3.Angle(centerOfGroup, location);
+                angle = Vector3.Cross(centerOfGroup, location).y > 0 ? angle : 360 - angle;
 
-            float x = DistanceOfSecurity * Mathf.Cos((float)angle);
-            float y = DistanceOfSecurity * Mathf.Sin((float)angle);
+                float x = DistanceOfSecurity * Mathf.Cos((float)angle);
+                float y = DistanceOfSecurity * Mathf.Sin((float)angle);
 
-            Vector3 pos = new Vector3(x, 1, y);
+                Vector3 pos = new Vector3(x, 1, y);
 
-            pos.x += centerOfGroup.x;
-            pos.z += centerOfGroup.z;
+                pos.x += centerOfGroup.x;
+                pos.z += centerOfGroup.z;
 
-            group.ResetOrder();
-            SendAGroup(group, pos);
+                group.ResetOrder();
+                SendAGroup(group, pos);
 
-            building.SetAProtectionGroup(group);
+                building.SetAProtectionGroup(group);
+            }
+            
         }
     }
 
     public void SendAGroup(GroupManager group, Vector3 point){ group.MooveSelected(point); }
 
-    private void SendEntityToBuilding(BuildingStats building, Vector3 point)
+    private void SendEntityToBuilding(BuildingIA building, Vector3 point)
     {
         if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
         {
@@ -408,14 +372,69 @@ public class IABrain : MonoBehaviour
         BuildingController[] buildings = FindObjectsOfType<BuildingController>();
         foreach (BuildingController building in buildings)
         {
-            BuildingStats stats = new BuildingStats();
+            BuildingIA stats = new BuildingIA();
             stats.Tag = building.tag;
             stats.building = building;
             stats.IAbrain = this;
             building.EntityNextToEvent.AddListener(stats.changeHaveEntity);
             DicoOfBuilding[building] = stats;
         }
-        GetAllieBuilding();
+        
+        ActualisePatrol();
+    }
+
+    private void ActualisePatrol()
+    {
+        _AllieBuilding = GetAllieBuilding();
+        ClearListOfPatrol();
+        for (int i = 0; i < _AllieBuilding.Count - 1 ; i++)
+        {
+            for (int w = 1; w < _AllieBuilding.Count; w++)
+            {
+                if(Vector3.Distance(_AllieBuilding[i].transform.position, _AllieBuilding[w].transform.position)<30)
+                {
+                    bool exist = false;
+                    GroupManager NearestGroup = GetThenearsetGroupOfAPoint(_AllieBuilding[i].transform.position);
+                    if (NearestGroup != null)
+                    {
+                        List<BuildingController> buildings = new List<BuildingController>
+                        {
+                            _AllieBuilding[i],
+                            _AllieBuilding[w]
+                        };
+                        foreach (GroupManager x in _ListOfGroupPatrol.Keys)
+                        {
+                            if (_ListOfGroupPatrol[x] == buildings || x == NearestGroup)
+                            {
+                                exist = true;
+                            }
+                        }
+                        if(!exist)
+                        {
+                        
+                            _ListOfGroupPatrol.Add(NearestGroup, buildings);
+                            NearestGroup.SpecificPatrouilleOrder(_AllieBuilding[i].transform.position, _AllieBuilding[w].transform.position);
+                        }
+                      
+                    }
+                        
+                }
+           
+            }
+            
+        }
+    }
+
+    private void ClearListOfPatrol()
+    {
+        foreach(GroupManager i in _ListOfGroupPatrol.Keys)
+        {
+            if (!_AllieBuilding.Contains(_ListOfGroupPatrol[i][0]) || !_AllieBuilding.Contains(_ListOfGroupPatrol[i][1]))
+            {
+                i.ResetOrder();
+                _ListOfGroupPatrol.Remove(i);
+            }
+        }
     }
 
     private void Creategroup(AggressifEntityManager entity)
@@ -430,5 +449,6 @@ public class IABrain : MonoBehaviour
 
         groupToCreate.AddSelect(entity);
         entity.gameObject.GetComponent<EntityController>().GroupNumber = _ListOfGroup.IndexOf(groupToCreate);
+        
     }
 }

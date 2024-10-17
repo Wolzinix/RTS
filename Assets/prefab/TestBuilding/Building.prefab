@@ -215,6 +215,7 @@ MonoBehaviour:
   EntityNextToEvent:
     m_PersistentCalls:
       m_Calls: []
+  tagOfNerestEntity: 
   spawnrayon: 2
   lineRenderer: {fileID: 0}
   prefabToSpawn: []
@@ -277,6 +278,9 @@ MonoBehaviour:
   hp: 10
   GoldAmount: 1
   WoodAmount: 1
+  GoldCost: 1
+  WoodCost: 1
+  size: 0
   sprite: {fileID: 2491522434153671467}
   spriteImage: {fileID: 7482667652216324306, guid: 233ca442b7ce8dd4a953c88b6d64f2e8, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}

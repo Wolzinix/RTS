@@ -347,6 +347,9 @@ MonoBehaviour:
   hp: 10
   GoldAmount: 1
   WoodAmount: 1
+  GoldCost: 1
+  WoodCost: 1
+  size: 0
   sprite: {fileID: 7706548414058156727}
   spriteImage: {fileID: -2413806693520163455, guid: b53783ba57e90b7459ad2e55992892da, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
@@ -363,8 +366,8 @@ MonoBehaviour:
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
+  ressources: {fileID: 0}
   attack: 2
   attackSpeed: 2
-  speed: 2
   range: 4
-  ressources: {fileID: 0}
+  speed: 2

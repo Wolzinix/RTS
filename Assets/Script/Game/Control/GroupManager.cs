@@ -292,6 +292,20 @@ public class GroupManager
         }
     }
 
+    public void SpecificPatrouilleOrder(Vector3 start,Vector3 end)
+    {
+        if (!SelectedObjectIsEmpty())
+        {
+            VerifyIfEveryBodyIsAlive();
+            foreach (EntityController i in _selectedObject)
+            {
+                i.GetComponent<EntityController>().AddPatrol(start);
+                i.GetComponent<EntityController>().AddPatrol(end);
+                i.Stay = false;
+            }
+        }
+    }
+
     private bool SelectedObjectIsEmpty()
     {
         if(_selectedObject.Count <= 0)

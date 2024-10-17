@@ -6366,7 +6366,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groupOfEntity: {fileID: 1662796191}
-  Objectif: {fileID: 167806440}
+  Objectif:
+  - {fileID: 167806440}
   _ennemieTag: Allie
   nbGroup: 0
 --- !u!4 &1381193391
