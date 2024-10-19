@@ -34,8 +34,8 @@ public class BuildingIA
     }
 
     public void NeedAGroup() {
-
-        IAbrain.NeedToSendGroupToBuildingEvent.Invoke(this, building.transform.position); }
+        IAbrain.NeedToSendGroupToBuildingEvent.Invoke(this, building.transform.position); 
+    }
 
     public void changeHaveEntity(List<GameObject> Entity, BuildingController building)
     {

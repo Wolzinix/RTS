@@ -57,10 +57,13 @@ public class IABrain : MonoBehaviour
 
         foreach(BuildingController i in  DicoOfBuilding.Keys)
         {
-            if(i)
+            if (i && groupManager.BuildingIsProtected(DicoOfBuilding[i]))
+            {
+                list.Add(i);
+            }
+            else if (i)
             {
                 i.entityAsBeenBuy.RemoveAllListeners();
-                groupManager.ClearListOfProtector();
                 if (!i.CompareTag(ennemieTag) || DicoOfBuilding[i].CanSpawn && i.tagOfNerestEntity == gameObject.tag)
                 {
                     i.entityAsBeenBuy.AddListener(ActualiseGroup);
