@@ -43,9 +43,6 @@ public class EntityController : MonoBehaviour
 
     public UnityEvent resetEvent = new UnityEvent();
 
-    public int GroupNumber;
-
-
     void Awake()
     {
         _navMesh = GetComponent<NavMeshController>();

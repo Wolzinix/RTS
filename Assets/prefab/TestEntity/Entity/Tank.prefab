@@ -277,7 +277,6 @@ MonoBehaviour:
   resetEvent:
     m_PersistentCalls:
       m_Calls: []
-  GroupNumber: 0
 --- !u!114 &97933223646041361
 MonoBehaviour:
   m_ObjectHideFlags: 0

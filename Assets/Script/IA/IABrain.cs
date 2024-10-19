@@ -20,19 +20,14 @@ public class IABrain : MonoBehaviour
 
     void Start()
     {
-
         DicoOfBuilding = new Dictionary<BuildingController, BuildingIA>();
         groupManager.ia = this;
 
         NeedToSendEntityToBuildingEvent.AddListener(SendEntityToBuilding);
-
         NeedToSendGroupToBuildingEvent.AddListener(SendRenfortToBuilding);
+
         ActualiseGroup();
-
         ActualiseBuilding();
-
-        
-
     }
 
     private void OnDestroy()
@@ -65,6 +60,7 @@ public class IABrain : MonoBehaviour
             if(i)
             {
                 i.entityAsBeenBuy.RemoveAllListeners();
+                groupManager.ClearListOfProtector();
                 if (!i.CompareTag(ennemieTag) || DicoOfBuilding[i].CanSpawn && i.tagOfNerestEntity == gameObject.tag)
                 {
                     i.entityAsBeenBuy.AddListener(ActualiseGroup);
@@ -133,6 +129,7 @@ public class IABrain : MonoBehaviour
                 }
             }
         }
+        ActualisePatrol();
         //DebugGroup();
     }
 
@@ -179,10 +176,10 @@ public class IABrain : MonoBehaviour
                 if(Vector3.Distance(_AllieBuilding[i].transform.position, _AllieBuilding[w].transform.position)<30)
                 {
                     List<BuildingController> buildings = new List<BuildingController>
-                        {
-                            _AllieBuilding[i],
-                            _AllieBuilding[w]
-                        };
+                    {
+                        _AllieBuilding[i],
+                        _AllieBuilding[w]
+                    };
                     groupManager.SendAGroupToPatrol(_AllieBuilding[i].transform.position, buildings);
                 }
             }

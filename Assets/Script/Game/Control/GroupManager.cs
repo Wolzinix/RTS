@@ -351,4 +351,9 @@ public class GroupManager
     {
         return _selectedObject.Contains(entity);
     }
+
+    public bool EntityIsInGroup(EntityController entity)
+    {
+        return _selectedObject.Contains(entity);
+    }
 }

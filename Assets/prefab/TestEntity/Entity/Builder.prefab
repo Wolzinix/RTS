@@ -372,7 +372,6 @@ MonoBehaviour:
   resetEvent:
     m_PersistentCalls:
       m_Calls: []
-  GroupNumber: 0
   _buildings:
   - {fileID: 4825870592483654779, guid: a65b938add593874782dc2957ec066e7, type: 3}
   NoMoreToHarvest:

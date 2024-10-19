@@ -32,7 +32,7 @@ public class BuildingController : MonoBehaviour
         public float totalStock;
     }
     public List<SpawnTime> MySpawns = new List<SpawnTime>();
-    
+
     void Start()
     {
         entityDictionary = new Dictionary<GameObject, SpawnTime>();
@@ -43,12 +43,12 @@ public class BuildingController : MonoBehaviour
             for (int i = 0; i < prefabToSpawn.Count; i++)
             {
                 MySpawns[i].actualTime = MySpawns[i].statsTime;
-                entityDictionary.Add(prefabToSpawn[i],MySpawns[i]);
+                entityDictionary.Add(prefabToSpawn[i], MySpawns[i]);
             }
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         Physics.SyncTransforms();
         foreach (GameObject i in entityDictionary.Keys)

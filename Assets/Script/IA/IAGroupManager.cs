@@ -8,9 +8,11 @@ public class IAGroupManager
     private int TailleDuGroupe = 3;
 
     private List<GroupManager> _ListOfGroup = new List<GroupManager>();
+
     private List<GroupManager> _ListOfGroupToSpawnEntity = new List<GroupManager>();
     private List<GroupManager> _ListOfGroupToProtectBuilding = new List<GroupManager>();
     private Dictionary<GroupManager, List<BuildingController>> _ListOfGroupPatrol = new Dictionary<GroupManager, List<BuildingController>>();
+
     private List<BuilderController> _ListOfBuilder = new List<BuilderController>();
 
     public int nbGroup;
@@ -18,32 +20,14 @@ public class IAGroupManager
     public IABrain ia;
 
     private float DistanceOfSecurity = 3f;
-    public GroupManager GetThenearsetGroupOfAPoint(Vector3 point)
-    {
-        GroupManager ThenearsetEntity = null;
-
-        foreach (GroupManager Thenearset in _ListOfGroup)
-        {
-            if (!_ListOfGroupToSpawnEntity.Contains(Thenearset) && !_ListOfGroupToProtectBuilding.Contains(Thenearset) && !_ListOfGroupPatrol.Keys.Contains(Thenearset))
-            {
-                if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
-
-                if (Vector3.Distance(point, ThenearsetEntity.getCenterofGroup()) > Vector3.Distance(point, Thenearset.getCenterofGroup()))
-                {
-                    ThenearsetEntity = Thenearset;
-                }
-            }
-        }
-
-        return ThenearsetEntity;
-    }
+   
     private void DebugGroup()
     {
         nbGroup = _ListOfGroup.Count;
         foreach (var group in _ListOfGroup) { Debug.Log(group.getNumberOnGroup()); }
         Debug.Log("---------------");
     }
-    public void Creategroup(AggressifEntityManager entity)
+    public void CreateGroup(AggressifEntityManager entity)
     {
         GroupManager groupToCreate = new GroupManager();
         groupToCreate.SetAllieTag(ia.gameObject.tag);
@@ -54,19 +38,51 @@ public class IAGroupManager
         groupToCreate.SomeoneIsImmobile.AddListener(ia.ActualiseTheGroup);
 
         groupToCreate.AddSelect(entity);
-        entity.gameObject.GetComponent<EntityController>().GroupNumber = _ListOfGroup.IndexOf(groupToCreate);
 
+        nbGroup++;
     }
-
-    private void ClearUselessGroup()
+    public void CreateSpawnEntityGroup(AggressifEntityManager entity)
     {
-        List<GroupManager> groupManagers = new List<GroupManager>(_ListOfGroup);
-        foreach (GroupManager group in groupManagers)
+        if(!EntityIsInSpawnGroup(entity))
         {
-            if (group.getNumberOnGroup() == 0) { RemoveAGroup(group); }
+            GroupManager groupToCreate = new GroupManager();
+            groupToCreate.SetAllieTag(ia.gameObject.tag);
+            groupToCreate.SetEnnemieTag(ia.ennemieTag);
+
+            _ListOfGroupToSpawnEntity.Add(groupToCreate);
+
+            groupToCreate.GroupIsDeadevent.AddListener(RemoveAGroup);
+
+            groupToCreate.AddSelect(entity);
+
+
+            nbGroup++;
         }
+        
     }
 
+    private bool EntityIsInSpawnGroup(AggressifEntityManager entity)
+    {
+        foreach(GroupManager group in _ListOfGroupToSpawnEntity)
+        {
+            if (group.EntityIsInGroup(entity.gameObject.GetComponent<EntityController>())) { return true;}
+        }
+        return false;
+    }
+    public void CreateProtectBuildingGroup(GroupManager group)
+    {
+        group.SetAllieTag(ia.gameObject.tag);
+        group.SetEnnemieTag(ia.ennemieTag);
+        _ListOfGroupToProtectBuilding.Add(group);
+
+        group.GroupIsDeadevent.RemoveAllListeners();
+        group.SomeoneIsImmobile.RemoveAllListeners();
+
+        group.GroupIsDeadevent.AddListener(RemoveAGroup);
+        _ListOfGroup.Remove(group);
+
+        nbGroup++;
+    }
     public void AddBuilder(BuilderController builder)
     {
         if (!_ListOfBuilder.Contains(builder))
@@ -76,24 +92,46 @@ public class IAGroupManager
         }
         if (builder._listForOrder.Count == 0)
         {
-            SendBuilderToNextHarvest(builder,ia.GetThenearsetHarvestOfABuilder(builder).gameObject);
+            SendBuilderToNextHarvest(builder, ia.GetThenearsetHarvestOfABuilder(builder).gameObject);
         }
     }
+    private void ClearUselessGroup()
+    {
+        foreach (GroupManager group in _ListOfGroup)
+        {
+            if (group.getNumberOnGroup() == 0) { RemoveAGroup(group); }
+        }
+        foreach (GroupManager group in _ListOfGroupToProtectBuilding)
+        {
+            if (group.getNumberOnGroup() == 0) { RemoveAGroup(group); }
+        }
+        foreach (GroupManager group in _ListOfGroupPatrol.Keys)
+        {
+            if (group.getNumberOnGroup() == 0) { RemoveAGroup(group); }
+        }
+        foreach (GroupManager group in _ListOfGroupToSpawnEntity)
+        {
+            if (group.getNumberOnGroup() == 0) { RemoveAGroup(group); }
+        }
+    }
+
+  
     public void AddEntityToGroup(GroupManager group, EntityController entity)
     {
         entity.ClearAllOrder();
         entity.AddPath(group.getCenterofGroup());
         group.AddSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
 
-        entity.GroupNumber = _ListOfGroup.IndexOf(group);
     }
 
     public void RemoveAGroup(GroupManager groupToRemove)
     {
-        if (_ListOfGroupToProtectBuilding.Contains(groupToRemove)) { _ListOfGroupToProtectBuilding.Remove(groupToRemove); }
-        if (_ListOfGroupToSpawnEntity.Contains(groupToRemove)) { _ListOfGroupToSpawnEntity.Remove(groupToRemove); }
-        if (_ListOfGroupPatrol.Keys.Contains(groupToRemove)) { _ListOfGroupPatrol.Remove(groupToRemove); }
-        _ListOfGroup.Remove(groupToRemove);
+        if(_ListOfGroup.Contains(groupToRemove)) { _ListOfGroup.Remove(groupToRemove); }
+        else if (_ListOfGroupToProtectBuilding.Contains(groupToRemove)) { _ListOfGroupToProtectBuilding.Remove(groupToRemove); }
+        else if (_ListOfGroupToSpawnEntity.Contains(groupToRemove)) { _ListOfGroupToSpawnEntity.Remove(groupToRemove); }
+        else if (_ListOfGroupPatrol.Keys.Contains(groupToRemove)) { _ListOfGroupPatrol.Remove(groupToRemove); }
+        
+        nbGroup--;
     }
 
     public void ClearListOfPatrol()
@@ -104,8 +142,36 @@ public class IAGroupManager
             {
                 i.ResetOrder();
                 _ListOfGroupPatrol.Remove(i);
+                _ListOfGroup.Add(i);
             }
         }
+    }
+
+    public void ClearListOfProtector()
+    {
+        foreach (GroupManager i in _ListOfGroupToProtectBuilding)
+        {
+                i.ResetOrder();
+                _ListOfGroup.Add(i);
+        }
+        _ListOfGroupToProtectBuilding.Clear();
+    }
+    public GroupManager GetThenearsetGroupOfAPoint(Vector3 point)
+    {
+        GroupManager ThenearsetEntity = null;
+
+        foreach (GroupManager Thenearset in _ListOfGroup)
+        {
+            if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
+
+            if (Vector3.Distance(point, ThenearsetEntity.getCenterofGroup()) > Vector3.Distance(point, Thenearset.getCenterofGroup()))
+            {
+                ThenearsetEntity = Thenearset;
+            }
+            
+        }
+
+        return ThenearsetEntity;
     }
 
     public void SendBuilderToHarvest(BuilderController builder)
@@ -119,7 +185,6 @@ public class IAGroupManager
             builder.AddHarvestTarget(nextHarvest);
         }
     }
- 
     private bool EverybodyIsImmobile(GroupManager group)
     {
         bool Immobile = true;
@@ -148,14 +213,12 @@ public class IAGroupManager
             entity.AddPath(group.getCenterofGroup());
         }
     }
-
-
     public void SendRenfortToBuilding(BuildingIA building, Vector3 location)
     {
         GroupManager group = GetThenearsetGroupOfAPoint(location);
         if (group != null)
         {
-            _ListOfGroupToProtectBuilding.Add(group);
+            CreateProtectBuildingGroup(group);
 
             Vector3 centerOfGroup = group.getCenterofGroup();
 
@@ -177,7 +240,10 @@ public class IAGroupManager
         }
     }
     private void SendToAttack(GroupManager group, GameObject objectif) { group.AttackingOnTravel(objectif.transform.position); }
-    public void SendAGroup(GroupManager group, Vector3 point) { group.MooveSelected(point); }
+    public void SendAGroup(GroupManager group, Vector3 point)
+    { 
+        group.MooveSelected(point);
+    }
 
     public void SendEntityToBuilding(BuildingIA building, Vector3 point, EntityController entity)
     {
@@ -189,10 +255,9 @@ public class IAGroupManager
                 group.RemoveSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
             }
         }
-        Creategroup(entity.GetComponent<AggressifEntityManager>());
+        CreateSpawnEntityGroup(entity.GetComponent<AggressifEntityManager>());
         ClearUselessGroup();
-        _ListOfGroupToSpawnEntity.Add(_ListOfGroup.Last());
-
+        Debug.Log("a");
         //DebugGroup();
     }
 
@@ -203,13 +268,25 @@ public class IAGroupManager
         {
             if (group.GroupContainUnity(entity)) { InGroup = true; }
         }
+        foreach (GroupManager group in _ListOfGroupToProtectBuilding)
+        {
+            if (group.GroupContainUnity(entity)) { InGroup = true; }
+        }
+        foreach (GroupManager group in _ListOfGroupPatrol.Keys)
+        {
+            if (group.GroupContainUnity(entity)) { InGroup = true; }
+        }
+        foreach (GroupManager group in _ListOfGroupToSpawnEntity)
+        {
+            if (group.GroupContainUnity(entity)) { InGroup = true; }
+        }
         return InGroup;
     }
 
-    public void EntityJoinAGroup(EntityController entity)
+    public GroupManager WhatGroupWillJoin(EntityController entity, List<GroupManager> list)
     {
         GroupManager groupeARejoindre = null;
-        foreach (GroupManager group in _ListOfGroup)
+        foreach (GroupManager group in list)
         {
             if (group.getNumberOnGroup() < TailleDuGroupe)
             {
@@ -223,8 +300,43 @@ public class IAGroupManager
                 }
             }
         }
+        return groupeARejoindre;
+    }
+    public GroupManager NearestGroup(EntityController entity,GroupManager group, GroupManager group2)
+    {
+        if (group2 != null)
+        {
+            if(group != null)
+            {
+                if (Vector3.Distance(group.getCenterofGroup(), entity.gameObject.transform.position) > Vector3.Distance(group2.getCenterofGroup(), entity.gameObject.transform.position))
+                {
+                    return group2;
+                }
+            }
+            else
+            {
+                return group2;
+            }
+           
+        }
+        return group;
+    }
+    public void EntityJoinAGroup(EntityController entity)
+    {
+        GroupManager groupeARejoindre = null;
+        GroupManager c = null;
+
+        c = WhatGroupWillJoin(entity, _ListOfGroupPatrol.Keys.ToList());
+        groupeARejoindre = NearestGroup(entity, groupeARejoindre, c);
+
+        c = WhatGroupWillJoin(entity, _ListOfGroupToProtectBuilding);
+        groupeARejoindre = NearestGroup(entity, groupeARejoindre, c);
+
+        c = WhatGroupWillJoin(entity, _ListOfGroup);
+        groupeARejoindre = NearestGroup(entity, groupeARejoindre, c);
+
         if (groupeARejoindre != null) { AddEntityToGroup(groupeARejoindre, entity); }
-        else { Creategroup(entity.gameObject.GetComponent<AggressifEntityManager>()); }
+        else { CreateGroup(entity.gameObject.GetComponent<AggressifEntityManager>()); }
         ClearUselessGroup();
     }
 
@@ -234,16 +346,16 @@ public class IAGroupManager
         GroupManager NearestGroup = GetThenearsetGroupOfAPoint(position);
         if (NearestGroup != null)
         {
-
             foreach (GroupManager x in _ListOfGroupPatrol.Keys)
             {
-                if (_ListOfGroupPatrol[x] == buildings || x == NearestGroup)
+                if (_ListOfGroupPatrol[x].SequenceEqual(buildings) || x == NearestGroup)
                 {
                     exist = true;
                 }
             }
             if (!exist)
             {
+                _ListOfGroup.Remove(NearestGroup);
                 _ListOfGroupPatrol.Add(NearestGroup, buildings);
                 NearestGroup.SpecificPatrouilleOrder(buildings[0].transform.position, buildings[1].transform.position);
             }

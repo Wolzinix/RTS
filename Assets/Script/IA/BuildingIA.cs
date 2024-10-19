@@ -47,14 +47,17 @@ public class BuildingIA
             EntityNextTo.Clear();
             foreach (GameObject gameObject in Entity)
             {
-                if (CanSpawn) { TagOfEntity = gameObject.tag; }
+                TagOfEntity = gameObject.tag;
                 EntityNextTo.Add(gameObject);
             }
         }
         else
         {
             IAbrain.AddObjectif(building.gameObject);
-            IAbrain.NeedToSendEntityToBuildingEvent.Invoke(this, building.gameObject.transform.position);
+            if(building.tag == IAbrain.tag || building.tag == "neutral" && !CanSpawn)
+            {
+                IAbrain.NeedToSendEntityToBuildingEvent.Invoke(this, building.gameObject.transform.position);
+            }
         }
 
     }

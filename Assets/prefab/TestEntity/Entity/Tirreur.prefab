@@ -276,7 +276,6 @@ MonoBehaviour:
   resetEvent:
     m_PersistentCalls:
       m_Calls: []
-  GroupNumber: 0
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0
