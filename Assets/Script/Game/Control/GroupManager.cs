@@ -99,17 +99,22 @@ public class GroupManager
 
     private void ChangeSpeedWhenAdd(EntityController entity)
     {
-        if(entity.GetStartSpeed() > _selectedObject[0].GetSpeed())
+        if(entity.GetStartSpeed() > 0)
         {
-            entity.ChangeSpeed(_selectedObject[0].GetSpeed());
-        }
-        else
-        {
-            foreach (EntityController i in _selectedObject)
+            if (entity.GetStartSpeed() > _selectedObject[0].GetSpeed() && _selectedObject[0].GetSpeed() > 0)
             {
-                i.ChangeSpeed(entity.GetStartSpeed());
+                entity.ChangeSpeed(_selectedObject[0].GetSpeed());
+            }
+            else
+            {
+                _selectedObject.Reverse();
+                foreach (EntityController i in _selectedObject)
+                {
+                    i.ChangeSpeed(entity.GetStartSpeed());
+                }
             }
         }
+  
     }
 
     public void AddSelect(SelectableManager toAdd)

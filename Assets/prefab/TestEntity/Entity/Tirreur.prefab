@@ -346,7 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 10
   GoldAmount: 1
-  WoodAmount: 1
+  WoodAmount: 0
   GoldCost: 1
   WoodCost: 1
   size: 0
