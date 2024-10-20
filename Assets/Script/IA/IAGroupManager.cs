@@ -57,7 +57,7 @@ public class IAGroupManager
 
         groupToCreate.AddSelect(entity);
 
-        groupToCreate.MooveSelected(building.building.transform.position);
+        groupToCreate.AttackingOnTravel(building.building.transform.position);
 
         _ListOfGroup.Add(groupToCreate);
         nbGroup++;
@@ -116,7 +116,7 @@ public class IAGroupManager
     public void AddEntityToGroup(GroupManager group, EntityController entity)
     {
         entity.ClearAllOrder();
-        entity.AddPath(group.getCenterofGroup());
+        entity.AddAggressivePath(group.getCenterofGroup());
         group.AddSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
         if(_ListOfGroupPatrol.Keys.Contains(group))
         {
@@ -232,7 +232,7 @@ public class IAGroupManager
         foreach (EntityController entity in group.getSelectList())
         {
             entity.ClearAllOrder();
-            entity.AddPath(group.getCenterofGroup());
+            entity.AddAggressivePath(group.getCenterofGroup());
         }
     }
     public void SendRenfortToBuilding(BuildingIA building, Vector3 location)
@@ -264,7 +264,7 @@ public class IAGroupManager
     private void SendToAttack(GroupManager group, GameObject objectif) { group.AttackingOnTravel(objectif.transform.position); }
     public void SendAGroup(GroupManager group, Vector3 point)
     { 
-        group.MooveSelected(point);
+        group.AttackingOnTravel(point);
     }
 
     public void SendEntityToBuilding(BuildingIA building, Vector3 point, EntityController entity)
@@ -288,7 +288,7 @@ public class IAGroupManager
             {
                 if (_ListOfGroupToSpawnEntity[group] == building) 
                 {
-                    group.MooveSelected(building.building.transform.position);
+                    group.AttackingOnTravel(building.building.transform.position);
                     break;
                 }
             }
