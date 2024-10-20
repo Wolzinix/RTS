@@ -28,6 +28,7 @@ public class EntityController : MonoBehaviour
     private List<GameObject> _listOfalliesOnRange;
 
     public UnityEvent EntityIsArrive = new UnityEvent();
+    public bool moving = false;
 
 
     protected bool _stayPosition;
@@ -35,6 +36,8 @@ public class EntityController : MonoBehaviour
     private int _patrolIteration;
 
     protected AggressifEntityManager _entityManager;
+
+    public GroupManager groupManager;
 
     
     public Animator _animator;
@@ -253,7 +256,12 @@ public class EntityController : MonoBehaviour
     protected bool DoAPatrol()
     {
         bool etat = false;
-        if (_listForOrder[0] == Order.Patrol)
+        bool waitForGroup = false;
+        if(groupManager != null)
+        {
+            waitForGroup = groupManager.EveryOneIsStop();
+        }
+        if (_listForOrder[0] == Order.Patrol && !waitForGroup)
         {
             etat = true;
             if (_navMesh && _navMesh.notOnTraject())
@@ -321,8 +329,8 @@ public class EntityController : MonoBehaviour
     }
     virtual protected void isUnit()
     {
-        if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); }
-        else { _animator.SetBool(Moving, false); }
+        if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); moving = true; }
+        else { _animator.SetBool(Moving, false); moving = false; }
 
         if (_listForOrder.Count == 0 && _animator.GetInteger(Attacking) == 1) { _animator.SetInteger(Attacking, 0); }
 

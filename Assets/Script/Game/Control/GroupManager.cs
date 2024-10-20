@@ -125,6 +125,7 @@ public class GroupManager
             {
                 _selectedObject.Add(toAdd.gameObject.GetComponent<EntityController>());
                 ChangeSpeedWhenAdd(toAdd.gameObject.GetComponent<EntityController>());
+                toAdd.gameObject.GetComponent<EntityController>().groupManager = this;
                 toAdd.GetComponent<EntityController>().EntityIsArrive.AddListener(SomeOneIsImmobile);
                 if(IsPlayer)
                 {
@@ -166,6 +167,7 @@ public class GroupManager
     public void RemoveSelect(AggressifEntityManager toAdd)
     {
         ChangeSpeedWhenRemove(toAdd.GetComponent<EntityController>());
+        toAdd.gameObject.GetComponent<EntityController>().groupManager = null;
         _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
         toAdd.gameObject.GetComponent<AggressifEntityManager>().OnDeselected();
           
@@ -389,5 +391,15 @@ public class GroupManager
     public bool EntityIsInGroup(EntityController entity)
     {
         return _selectedObject.Contains(entity);
+    }
+
+    public bool EveryOneIsStop()
+    {
+        bool moving = false;
+        foreach (EntityController i in _selectedObject)
+        {
+            if(i.moving) moving = true;
+        }
+        return moving;
     }
 }
