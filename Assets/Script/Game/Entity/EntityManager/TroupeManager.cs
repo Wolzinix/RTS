@@ -4,8 +4,8 @@ using UnityEngine.AI;
 public class TroupeManager : AggressifEntityManager
 {
 
-    [SerializeField] private float speed = 2;
-
+    [SerializeField] public float StartSpeed = 2;
+    private float speed = 2;
 
 
     private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
@@ -29,6 +29,8 @@ public class TroupeManager : AggressifEntityManager
         {
             _animator.SetFloat(WalkSpeed, speed);
         }
+
+        SetSpeed(StartSpeed);
 
      
     }

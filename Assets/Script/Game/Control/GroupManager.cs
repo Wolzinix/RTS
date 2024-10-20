@@ -97,6 +97,20 @@ public class GroupManager
         SomeoneIsImmobile.Invoke(this);
     }
 
+    private void ChangeSpeedWhenAdd(EntityController entity)
+    {
+        if(entity.GetStartSpeed() > _selectedObject[0].GetSpeed())
+        {
+            entity.ChangeSpeed(_selectedObject[0].GetSpeed());
+        }
+        else
+        {
+            foreach (EntityController i in _selectedObject)
+            {
+                i.ChangeSpeed(entity.GetStartSpeed());
+            }
+        }
+    }
 
     public void AddSelect(SelectableManager toAdd)
     {
@@ -110,6 +124,7 @@ public class GroupManager
             else
             {
                 _selectedObject.Add(toAdd.gameObject.GetComponent<EntityController>());
+                ChangeSpeedWhenAdd(toAdd.gameObject.GetComponent<EntityController>());
                 toAdd.GetComponent<EntityController>().EntityIsArrive.AddListener(SomeOneIsImmobile);
                 if(IsPlayer)
                 {
@@ -129,9 +144,28 @@ public class GroupManager
         }
     }
 
+    private void ChangeSpeedWhenRemove(EntityController entity)
+    {
+        if (entity.GetStartSpeed() < _selectedObject[0].GetSpeed())
+        {
+            float newSpeed = _selectedObject[0].GetStartSpeed();
+            foreach (EntityController i in _selectedObject)
+            {
+                if(newSpeed > i.GetStartSpeed())
+                {
+                    newSpeed = i.GetStartSpeed();
+                }
+            }
+            foreach (EntityController i in _selectedObject)
+            {
+                i.ChangeSpeed(newSpeed);
+            }
+           
+        }
+    }
     public void RemoveSelect(AggressifEntityManager toAdd)
     {
-        
+        ChangeSpeedWhenRemove(toAdd.GetComponent<EntityController>());
         _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
         toAdd.gameObject.GetComponent<AggressifEntityManager>().OnDeselected();
           

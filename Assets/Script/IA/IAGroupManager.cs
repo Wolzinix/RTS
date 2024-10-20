@@ -39,17 +39,12 @@ public class IAGroupManager
         groupToCreate.GroupIsDeadevent.AddListener(RemoveAGroup);
         groupToCreate.SomeoneIsImmobile.AddListener(ia.ActualiseTheGroup);
 
-        groupToCreate.SomeoneIsImmobile.AddListener(debug);
 
         groupToCreate.AddSelect(entity);
         _ListOfGroup.Add(groupToCreate);
         nbGroup++;
     }
 
-    private void debug(GroupManager group)
-    {
-        Debug.Log("ahahahahaahahahahaha");
-    }
     public void CreateSpawnEntityGroup(AggressifEntityManager entity, BuildingIA building)
     {
         GroupManager groupToCreate = new GroupManager();
@@ -271,7 +266,6 @@ public class IAGroupManager
             CreateSpawnEntityGroup(entity.GetComponent<AggressifEntityManager>(), building);
             ClearUselessGroup();
 
-            Debug.Log("a");
         }
         else
         {

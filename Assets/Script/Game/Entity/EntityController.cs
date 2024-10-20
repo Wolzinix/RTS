@@ -441,5 +441,32 @@ public class EntityController : MonoBehaviour
         if (_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse);}
     }
 
+    public void ChangeSpeed(float speed)
+    {
+        if(_entityManager.GetType() == typeof(TroupeManager))
+        {
+            TroupeManager entity = (TroupeManager)_entityManager;
+            entity.SetSpeed(speed);
+        }
+    }
 
+    public float GetSpeed()
+    {
+        if (_entityManager.GetType() == typeof(TroupeManager))
+        {
+            TroupeManager entity = (TroupeManager)_entityManager;
+            return entity.Speed;
+        }
+        return 0;
+    }
+
+    public float GetStartSpeed()
+    {
+        if (_entityManager.GetType() == typeof(TroupeManager))
+        {
+            TroupeManager entity = (TroupeManager)_entityManager;
+            return entity.StartSpeed;
+        }
+        return 0;
+    }
 }
