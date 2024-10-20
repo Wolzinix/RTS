@@ -97,9 +97,9 @@ public class BuildingController : MonoBehaviour
 
     public bool GetCanSpawn() { return _canSpawn; }
     public Dictionary<GameObject, SpawnTime> GetEntityDictionary() { return entityDictionary; }
-    public void AllySpawnEntity(GameObject entityToSpawn)
+    public void AllySpawnEntity(GameObject entityToSpawn, RessourceController ressource)
     {
-        if(_ally && !_ennemie) { SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0]); }
+        if(_ally && !_ennemie) { SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0], ressource); }
     }
 
     private void proximityGestion(List<GameObject> list)
@@ -107,15 +107,15 @@ public class BuildingController : MonoBehaviour
         if (!_ally && _ennemie)
         {
             _canSpawn = true;
-            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i, "ennemie", list[0]); }
+            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i, "ennemie", list[0],FindAnyObjectByType<IABrain>().GetComponent<RessourceController>()); }
         }
         else if (_ally) { _canSpawn = true; }
         else { _canSpawn = false; }
     }
 
-    private void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity)
+    private void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity, RessourceController ressource)
     {
-        if(_canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
+        if(ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldCost) && _canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
         {
             if (entityDictionary[entityToSpawn].actualStock > 0)
             {
@@ -153,11 +153,13 @@ public class BuildingController : MonoBehaviour
                         entityDictionary[entityToSpawn].actualStock -= 1;
                         entitySpawnNow.Invoke();
                         entityAsBeenBuy.Invoke();
+                        ressource.AddGold(-entityToSpawn.GetComponent<EntityManager>().GoldCost);
                         break;
                     }
                 }
             }
         }
+        
     }
 
     private void SetPath(EntityController entity)

@@ -57,6 +57,7 @@ public class IAGroupManager
 
         groupToCreate.AddSelect(entity);
 
+        groupToCreate.MooveSelected(building.building.transform.position);
 
         _ListOfGroup.Add(groupToCreate);
         nbGroup++;
@@ -100,9 +101,14 @@ public class IAGroupManager
     }
     private void ClearUselessGroup()
     {
+        List<GroupManager> groupList = new List<GroupManager>();
         foreach (GroupManager group in _ListOfGroup)
         {
-            if (group.getNumberOnGroup() == 0) { RemoveAGroup(group); }
+            if (group.getNumberOnGroup() == 0) { groupList.Add(group);  }
+        }
+        foreach(GroupManager group in groupList)
+        {
+            RemoveAGroup(group);
         }
     }
 
@@ -112,6 +118,11 @@ public class IAGroupManager
         entity.ClearAllOrder();
         entity.AddPath(group.getCenterofGroup());
         group.AddSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
+        if(_ListOfGroupPatrol.Keys.Contains(group))
+        {
+            entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][0].transform.position);
+            entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][1].transform.position);
+        }
 
     }
 
@@ -128,14 +139,19 @@ public class IAGroupManager
 
     public void ClearListOfPatrol()
     {
+        List<GroupManager> groupPatrol = new List<GroupManager> ();
         foreach (GroupManager i in _ListOfGroupPatrol.Keys)
         {
             if (!ia._AllieBuilding.Contains(_ListOfGroupPatrol[i][0]) || !ia._AllieBuilding.Contains(_ListOfGroupPatrol[i][1]))
             {
                 i.ResetOrder();
-                _ListOfGroupPatrol.Remove(i);
+                groupPatrol.Add(i);
                 _ListOfGroupAttack.Add(i);
             }
+        }
+        foreach(GroupManager i in groupPatrol)
+        {
+            _ListOfGroupPatrol.Remove(i);
         }
     }
 
@@ -252,10 +268,9 @@ public class IAGroupManager
     }
 
     public void SendEntityToBuilding(BuildingIA building, Vector3 point, EntityController entity)
-    {   
+    {
         if(!BuildingHaveAlreadyAGroup(building))
         {
-            entity.AddPath(point);
             foreach (GroupManager group in _ListOfGroup)
             {
                 if (group.GroupContainUnity(entity))
@@ -273,7 +288,6 @@ public class IAGroupManager
             {
                 if (_ListOfGroupToSpawnEntity[group] == building) 
                 {
-                    group.ResetOrder();
                     group.MooveSelected(building.building.transform.position);
                     break;
                 }
