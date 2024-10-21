@@ -16,7 +16,8 @@ public class RessourceManager : EntityManager
         changeStats.Invoke();
         if(_animator)
         {
-            _animator.SetBool("Harvest", true);
+
+            StartCoroutine(DoHarvestAnimation());
         }
         
 
@@ -25,10 +26,20 @@ public class RessourceManager : EntityManager
             Death();
             entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
         }
-
-        
     }
-
+    IEnumerator DoHarvestAnimation()
+    {
+        _animator.SetBool("Harvest", true);
+        if (_animator)
+        {
+            yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0);
+        }
+        _animator.SetBool("Harvest", false);
+    }
     override protected void Death()
     {
         base.Death();

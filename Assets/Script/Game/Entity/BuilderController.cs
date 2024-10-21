@@ -63,10 +63,8 @@ public class BuilderController : EntityController
 
     private GameObject DoCircleRaycastForHarvest()
     {
-        float numberOfRay = 30;
+        float numberOfRay = 40;
         float delta = 360 / numberOfRay;
-
-        List<GameObject> listOfGameObejct = new List<GameObject>();
 
         for (int i = 0; i < numberOfRay; i++)
         {

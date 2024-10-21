@@ -96,7 +96,7 @@ public class IAGroupManager
         }
         if (builder._listForOrder.Count == 0)
         {
-            SendBuilderToNextHarvest(builder, ia.GetThenearsetHarvestOfABuilder(builder).gameObject);
+            SendBuilderToHarvest(builder);
         }
     }
     private void ClearUselessGroup()
@@ -198,7 +198,8 @@ public class IAGroupManager
 
     public void SendBuilderToHarvest(BuilderController builder)
     {
-        SendBuilderToNextHarvest(builder,ia.GetThenearsetHarvestOfABuilder(builder).gameObject);
+        if(ia.GetThenearsetHarvestOfABuilder(builder) != null) {  SendBuilderToNextHarvest(builder, ia.GetThenearsetHarvestOfABuilder(builder).gameObject); }
+        
     }
     public void SendBuilderToNextHarvest(BuilderController builder, GameObject nextHarvest)
     {

@@ -93,20 +93,24 @@ public class IABrain : MonoBehaviour
     public RessourceManager GetThenearsetHarvestOfABuilder(BuilderController builder)
     {
         RessourceManager[] listOfRessources =  FindObjectsOfType<RessourceManager>();
-        RessourceManager ThenearsetToReturn = listOfRessources[0];
-
-        foreach(RessourceManager Thenearset in listOfRessources)
+        if(listOfRessources.Length > 0)
         {
-            if(ThenearsetToReturn != Thenearset && Thenearset)
+            RessourceManager ThenearsetToReturn = listOfRessources[0];
+
+            foreach (RessourceManager Thenearset in listOfRessources)
             {
-                if(Vector3.Distance(Thenearset.gameObject.transform.position,builder.gameObject.transform.position) < Vector3.Distance(ThenearsetToReturn.gameObject.transform.position, builder.gameObject.transform.position))
+                if (ThenearsetToReturn != Thenearset && Thenearset)
                 {
-                    ThenearsetToReturn = Thenearset;
+                    if (Vector3.Distance(Thenearset.gameObject.transform.position, builder.gameObject.transform.position) < Vector3.Distance(ThenearsetToReturn.gameObject.transform.position, builder.gameObject.transform.position))
+                    {
+                        ThenearsetToReturn = Thenearset;
+                    }
                 }
             }
+            if (listOfRessources.Length > 0) { return ThenearsetToReturn; }
+            else { return null; }
         }
-        if(listOfRessources.Length > 0) {  return ThenearsetToReturn; }
-        else { return null;}
+        else  {  return null;}
     }
     private void SendEntityToBuilding(BuildingIA building, Vector3 point)
     {
