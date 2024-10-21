@@ -246,6 +246,13 @@ public class EntityController : MonoBehaviour
                 {
                     _listForAttackingOnTravel.RemoveAt(0);
                     _listForOrder.RemoveAt(0);
+                    EntityIsArrive.Invoke();
+                }
+                if (_navMesh.notOnTraject() && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                {
+                    _listForAttackingOnTravel.RemoveAt(0);
+                    _listForOrder.RemoveAt(0);
+                    EntityIsArrive.Invoke();
                 }
             }
         }

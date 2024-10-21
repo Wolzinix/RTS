@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 public class IAGroupManager
 {
@@ -40,8 +41,16 @@ public class IAGroupManager
         groupToCreate.SomeoneIsImmobile.AddListener(ia.ActualiseTheGroup);
 
 
+
         groupToCreate.AddSelect(entity);
         _ListOfGroup.Add(groupToCreate);
+
+        if(ia._AllieBuilding.Count>0)
+        {
+
+            groupToCreate.AttackingOnTravel(GetPosWithSecurity(groupToCreate, ia._AllieBuilding[0].transform.position));
+        }
+
         nbGroup++;
     }
 
@@ -123,6 +132,8 @@ public class IAGroupManager
             entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][0].transform.position);
             entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][1].transform.position);
         }
+
+        SendEverybodyToTheCenter(group);
 
     }
 
@@ -243,24 +254,31 @@ public class IAGroupManager
         {
             CreateProtectBuildingGroup(group, building);
 
-            Vector3 centerOfGroup = group.getCenterofGroup();
-
-            float angle = Vector3.Angle(centerOfGroup, location);
-            angle = Vector3.Cross(centerOfGroup, location).y > 0 ? angle : 360 - angle;
-
-            float x = DistanceOfSecurity * Mathf.Cos((float)angle);
-            float y = DistanceOfSecurity * Mathf.Sin((float)angle);
-
-            Vector3 pos = new Vector3(x, 1, y);
-
-            pos.x += centerOfGroup.x;
-            pos.z += centerOfGroup.z;
+            Vector3 pos = GetPosWithSecurity(group, location);
 
             group.ResetOrder();
             SendAGroup(group, pos);
 
             building.SetAProtectionGroup(group);
         }
+    }
+
+    private Vector3 GetPosWithSecurity(GroupManager group, Vector3 location)
+    {
+        Vector3 centerOfGroup = group.getCenterofGroup();
+
+        float angle = Vector3.Angle(centerOfGroup, location);
+        angle = Vector3.Cross(centerOfGroup, location).y > 0 ? angle : 360 - angle;
+
+        float x = DistanceOfSecurity * Mathf.Cos((float)angle);
+        float y = DistanceOfSecurity * Mathf.Sin((float)angle);
+
+        Vector3 pos = new Vector3(x, 1, y);
+
+        pos.x += centerOfGroup.x;
+        pos.z += centerOfGroup.z;
+
+        return pos;
     }
     private void SendToAttack(GroupManager group, GameObject objectif) { group.AttackingOnTravel(objectif.transform.position); }
     public void SendAGroup(GroupManager group, Vector3 point)

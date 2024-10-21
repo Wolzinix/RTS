@@ -143,7 +143,6 @@ public class IABrain : MonoBehaviour
    
     public void ActualiseTheGroup(GroupManager group)
     {
-        groupManager.SendEverybodyToTheCenter(group);
        
         if (Objectif.Count > 0)
         {
