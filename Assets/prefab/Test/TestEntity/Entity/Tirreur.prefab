@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3591858989714b43970e271f2d63062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectile: {fileID: 6611384894665667933, guid: 064a87588d0069342aa228859eb93adc, type: 3}
+  _projectile: {fileID: 2599406022807975234, guid: b8e4224182822b54eabc3e74b716e707, type: 3}
   _listForOrder: 
   EntityIsArrive:
     m_PersistentCalls:
