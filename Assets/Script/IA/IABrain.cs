@@ -14,6 +14,7 @@ public class IABrain : MonoBehaviour
 
 
     public UnityEvent<BuildingIA> ATowerIsDestroyEvent;
+    public int nbMaxOfTower;
 
     [SerializeField] private List<GameObject> Objectif;
 
@@ -47,12 +48,25 @@ public class IABrain : MonoBehaviour
             Objectif.Reverse();
             Objectif.Add(newObject);
             Objectif.Reverse();
+            AddTowerToBuilding();
         }
     }
     public void RemoveObjectif(GameObject oldObjectif)
     {
         ActualisePatrol();
         Objectif.Remove( oldObjectif );
+    }
+
+    private void AddTowerToBuilding()
+    {
+        List<BuildingController> AlliBuilding = GetAllieBuilding();
+        foreach (BuildingController building in AlliBuilding)
+        {
+            if (DicoOfBuilding[building]._ListOfTower.Count < nbMaxOfTower)
+            {
+                groupManager.SendBuilderToBuildTower(DicoOfBuilding[building]);
+            }
+        }
     }
     private List<BuildingController> GetAllieBuilding()
     {

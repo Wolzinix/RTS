@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -23,10 +24,28 @@ public class BuilderController : EntityController
         ListOfBuildPosition.Add(hit.point);
     }
 
-    public void DoAbuild(int nb, Vector3 position)
+    public bool DoAbuild(int nb, Vector3 position, RessourceController ressourcesAvailable)
     {
-        ListOfBuildsIndex.Add(nb);
-        ListOfBuildPosition.Add(position);
+        if(ressourcesAvailable.CompareWood(GetWoodCostOfBuilding(nb)) && ressourcesAvailable.CompareGold(GetGoldCostOfBuilding(nb)))
+        {
+            ResetBuildingOrder();
+            ListOfBuildsIndex.Add(nb);
+            ListOfBuildPosition.Add(position);
+            ressourcesAvailable.AddGold(GetGoldCostOfBuilding(nb));
+            ressourcesAvailable.AddWood(GetWoodCostOfBuilding(nb));
+            return true;
+        }
+        return false;
+    }
+
+    public int GetWoodCostOfBuilding(int index)
+    {
+        return _buildings[index].GetComponent<EntityManager>().WoodCost;
+    }
+
+    public int GetGoldCostOfBuilding(int index)
+    {
+        return _buildings[index].GetComponent<EntityManager>().GoldCost;
     }
 
     private void Update()
@@ -216,5 +235,10 @@ public class BuilderController : EntityController
     {
         base.ClearAllOrder();
         _listOfRessource.Clear();
+    }
+
+    public bool BuilderIsAlradyBuilding()
+    {
+        return ListOfBuildPosition.Count > 0;
     }
 }
