@@ -28,7 +28,7 @@ public class BuilderController : EntityController
     {
         if(ressourcesAvailable.CompareWood(GetWoodCostOfBuilding(nb)) && ressourcesAvailable.CompareGold(GetGoldCostOfBuilding(nb)))
         {
-            ResetBuildingOrder();
+            ResetHarvestOrder();
             ListOfBuildsIndex.Add(nb);
             ListOfBuildPosition.Add(position);
             ressourcesAvailable.AddGold(GetGoldCostOfBuilding(nb));
@@ -216,6 +216,11 @@ public class BuilderController : EntityController
     {
         ListOfBuildPosition.Clear();
         ListOfBuildsIndex.Clear();
+    }
+    private void ResetHarvestOrder()
+    {
+        _listOfRessource.Clear();
+        _listForOrder.RemoveAll(x => x == Order.Harvest); 
     }
     private Collider[] DoAOverlap(Vector3 spawnPosition)
     {

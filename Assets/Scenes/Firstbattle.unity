@@ -8890,6 +8890,7 @@ MonoBehaviour:
   ATowerIsDestroyEvent:
     m_PersistentCalls:
       m_Calls: []
+  nbMaxOfTower: 2
   Objectif:
   - {fileID: 167806440}
   ennemieTag: Allie

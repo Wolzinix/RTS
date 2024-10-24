@@ -212,15 +212,13 @@ public class IAGroupManager
 
         foreach (BuilderController Thenearset in _ListOfBuilder)
         {
-            if(!Thenearset.BuilderIsAlradyBuilding())
-            {
-                if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
+            if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
 
-                if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
-                {
-                    ThenearsetEntity = Thenearset;
-                }
+            if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
+            {
+                ThenearsetEntity = Thenearset;
             }
+            
         }
 
         return ThenearsetEntity;
@@ -240,7 +238,7 @@ public class IAGroupManager
     }
     public bool SendBuilderToBuildTower(BuildingIA building,Vector3 position)
     {
-        if(_ListOfBuilder.Count > 1)
+        if(_ListOfBuilder.Count >= 1)
         {
             BuilderController buildeur = GetThenearsetBuildeurOfAPoint(position);
             if(buildeur && buildeur.DoAbuild(0, position, ia.gameObject.GetComponent<RessourceController>()))
