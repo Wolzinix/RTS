@@ -197,7 +197,7 @@ public class BuilderController : EntityController
 
             if (colliders.Length == 1 || (colliders.Length == 2 && (colliders[1] == gameObject || colliders[0] == gameObject)))
             {
-                AggressifEntityManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]], ListOfBuildPosition[0] + new Vector3(0, 2, 0), transform.rotation).GetComponent<AggressifEntityManager>();
+                AggressifEntityManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]],ListOfBuildPosition[0] + new Vector3(0, 2, 0), transform.rotation, transform.parent).GetComponent<AggressifEntityManager>();
                 GetComponent<AggressifEntityManager>().ressources.AddGold(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().GoldAmount);
                 GetComponent<AggressifEntityManager>().ressources.AddWood(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().WoodAmount);
                 gm.gameObject.tag = gameObject.tag;

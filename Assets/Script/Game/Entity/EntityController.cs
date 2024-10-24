@@ -226,7 +226,6 @@ public class EntityController : MonoBehaviour
                 }
             }
         }
-
         return etat;
     }
 
@@ -357,11 +356,7 @@ public class EntityController : MonoBehaviour
             pj.SetInvoker(GetComponent<AggressifEntityManager>());
             pj.gameObject.transform.position = new Vector3( transform.position.x , transform.position.y +1, transform.position.z);
         }
-        else
-        {
-            _entityManager.DoAttack(target);
-        }
-        
+        else {  _entityManager.DoAttack(target); }
     }
 
     public void AddPath(Vector3 newPath)

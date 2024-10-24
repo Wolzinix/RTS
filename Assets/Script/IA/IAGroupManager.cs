@@ -120,7 +120,6 @@ public class IAGroupManager
         }
     }
 
-  
     public void AddEntityToGroup(GroupManager group, EntityController entity)
     {
         entity.ClearAllOrder();

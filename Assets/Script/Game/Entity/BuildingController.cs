@@ -217,7 +217,7 @@ public class BuildingController : MonoBehaviour
 
             foreach (RaycastHit hit in hits)
             {
-                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<AggressifEntityManager>())
+                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<TroupeManager>())
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
                     listOfGameObejct.Add(hit.transform.gameObject);
