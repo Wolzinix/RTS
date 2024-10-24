@@ -73,6 +73,6 @@ public class BuildingIA
     {
         DefenseManager deadTower = (DefenseManager) tower;
         _ListOfTower.Remove(deadTower);
-        IAbrain.ATowerIsDestroyEvent.Invoke(this);
+        IAbrain.ATowerIsDestroyEvent.Invoke(this, tower.transform.position);
     }
 }

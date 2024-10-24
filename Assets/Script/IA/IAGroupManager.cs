@@ -20,7 +20,7 @@ public class IAGroupManager
 
     public IABrain ia;
 
-    private float DistanceOfSecurity = 3f;
+    public float DistanceOfSecurity = 3f;
    
     private void DebugGroup()
     {
@@ -238,11 +238,10 @@ public class IAGroupManager
             builder.AddHarvestTarget(nextHarvest);
         }
     }
-    public bool SendBuilderToBuildTower(BuildingIA building)
+    public bool SendBuilderToBuildTower(BuildingIA building,Vector3 position)
     {
         if(_ListOfBuilder.Count > 1)
         {
-            Vector3 position = building.building.transform.position;
             BuilderController buildeur = GetThenearsetBuildeurOfAPoint(position);
             if(buildeur && buildeur.DoAbuild(0, position, ia.gameObject.GetComponent<RessourceController>()))
             {

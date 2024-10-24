@@ -13,7 +13,7 @@ public class IABrain : MonoBehaviour
     public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
 
 
-    public UnityEvent<BuildingIA> ATowerIsDestroyEvent;
+    public UnityEvent<BuildingIA, Vector3> ATowerIsDestroyEvent;
     public int nbMaxOfTower;
 
     [SerializeField] private List<GameObject> Objectif;
@@ -29,6 +29,7 @@ public class IABrain : MonoBehaviour
 
         NeedToSendEntityToBuildingEvent.AddListener(SendEntityToBuilding);
         NeedToSendGroupToBuildingEvent.AddListener(SendRenfortToBuilding);
+        ATowerIsDestroyEvent.AddListener(AddTowerToBuilding);
 
         ActualiseGroup();
         ActualiseBuilding();
@@ -48,7 +49,7 @@ public class IABrain : MonoBehaviour
             Objectif.Reverse();
             Objectif.Add(newObject);
             Objectif.Reverse();
-            AddTowerToBuilding();
+            AddTowerToBuilding(newObject);
         }
     }
     public void RemoveObjectif(GameObject oldObjectif)
@@ -57,16 +58,40 @@ public class IABrain : MonoBehaviour
         Objectif.Remove( oldObjectif );
     }
 
-    private void AddTowerToBuilding()
+    private void AddTowerToBuilding(GameObject newObject)
     {
         List<BuildingController> AlliBuilding = GetAllieBuilding();
         foreach (BuildingController building in AlliBuilding)
         {
             if (DicoOfBuilding[building]._ListOfTower.Count < nbMaxOfTower)
             {
-                groupManager.SendBuilderToBuildTower(DicoOfBuilding[building]);
+                groupManager.SendBuilderToBuildTower(DicoOfBuilding[building], GetTheNerestPoint(newObject.transform.position,building.SpawnTower(groupManager.DistanceOfSecurity)));
             }
         }
+    }
+
+    private void AddTowerToBuilding(BuildingIA building,Vector3 position)
+    {
+        List<BuildingController> AlliBuilding = GetAllieBuilding();
+
+        if (building._ListOfTower.Count < nbMaxOfTower)
+        {
+            groupManager.SendBuilderToBuildTower(building, GetTheNerestPoint(position, building.building.SpawnTower(groupManager.DistanceOfSecurity)));
+        }
+        
+    }
+
+    private Vector3 GetTheNerestPoint(Vector3 objectif, List<Vector3> listOfPosition)
+    {
+        Vector3 position = listOfPosition[0];
+        foreach(Vector3 i in listOfPosition)
+        {
+            if(Vector3.Distance(i,objectif)< Vector3.Distance(position, objectif))
+            {
+                position = i;
+            }
+        }
+        return position;
     }
     private List<BuildingController> GetAllieBuilding()
     {
