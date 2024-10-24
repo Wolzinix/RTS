@@ -12,6 +12,9 @@ public class IABrain : MonoBehaviour
     public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
     public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
 
+
+    public UnityEvent<BuildingIA> ATowerIsDestroyEvent;
+
     [SerializeField] private List<GameObject> Objectif;
 
     IAGroupManager groupManager = new IAGroupManager();

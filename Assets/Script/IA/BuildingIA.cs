@@ -15,6 +15,8 @@ public class BuildingIA
 
     public List<GroupManager> _ListOfProtector = new List<GroupManager>();
 
+    public List<DefenseManager> _ListOfTower = new List<DefenseManager>();
+
     public void SetAProtectionGroup(GroupManager group)
     {
         _ListOfProtector.Add(group);
@@ -59,6 +61,18 @@ public class BuildingIA
                 IAbrain.NeedToSendEntityToBuildingEvent.Invoke(this, building.gameObject.transform.position);
             }
         }
+    }
 
+    public void AddTower(DefenseManager tower)
+    {
+        _ListOfTower.Add(tower);
+        tower.deathEvent.AddListener(ATowerIsDeath);
+    }
+
+    public void ATowerIsDeath(SelectableManager tower)
+    {
+        DefenseManager deadTower = (DefenseManager) tower;
+        _ListOfTower.Remove(deadTower);
+        IAbrain.ATowerIsDestroyEvent.Invoke(this);
     }
 }
