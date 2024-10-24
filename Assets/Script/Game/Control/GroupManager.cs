@@ -293,7 +293,7 @@ public class GroupManager
             {
                 if (i.gameObject.GetComponent<BuilderController>())
                 {
-                    i.gameObject.GetComponent<BuilderController>().DoAbuild(nb, hit);
+                    i.gameObject.GetComponent<BuilderController>().DoAbuildWithRaycast(nb, hit);
                 }
             }
         }

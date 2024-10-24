@@ -206,6 +206,23 @@ public class IAGroupManager
         return ThenearsetEntity;
     }
 
+    public BuilderController GetThenearsetBuildeurOfAPoint(Vector3 point)
+    {
+        BuilderController ThenearsetEntity = null;
+
+        foreach (BuilderController Thenearset in _ListOfBuilder)
+        {
+            if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
+
+            if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
+            {
+                ThenearsetEntity = Thenearset;
+            }
+        }
+
+        return ThenearsetEntity;
+    }
+
     public void SendBuilderToHarvest(BuilderController builder)
     {
         if(ia.GetThenearsetHarvestOfABuilder(builder) != null) {  SendBuilderToNextHarvest(builder, ia.GetThenearsetHarvestOfABuilder(builder).gameObject); }
@@ -217,6 +234,12 @@ public class IAGroupManager
         {
             builder.AddHarvestTarget(nextHarvest);
         }
+    }
+    public void SendBuilderToBuildTower(BuildingIA building)
+    {
+        Vector3 position = building.building.transform.position;
+        BuilderController buildeur = GetThenearsetBuildeurOfAPoint(position);
+        buildeur.DoAbuild(0, position);
     }
     private bool EverybodyIsImmobile(GroupManager group)
     {

@@ -17,10 +17,16 @@ public class BuilderController : EntityController
     {
         resetEvent.AddListener(ResetBuildingOrder);
     }
-    public void DoAbuild(int nb, RaycastHit hit)
+    public void DoAbuildWithRaycast(int nb, RaycastHit hit)
     {
         ListOfBuildsIndex.Add(nb);
         ListOfBuildPosition.Add(hit.point);
+    }
+
+    public void DoAbuild(int nb, Vector3 position)
+    {
+        ListOfBuildsIndex.Add(nb);
+        ListOfBuildPosition.Add(position);
     }
 
     private void Update()

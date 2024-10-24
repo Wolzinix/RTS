@@ -14,7 +14,7 @@ public class BuildingIA
     public bool IsProtected;
 
     public List<GroupManager> _ListOfProtector = new List<GroupManager>();
-
+    public int NbOfTower = 2;
     public List<DefenseManager> _ListOfTower = new List<DefenseManager>();
 
     public void SetAProtectionGroup(GroupManager group)
