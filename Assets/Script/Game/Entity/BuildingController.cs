@@ -125,17 +125,8 @@ public class BuildingController : MonoBehaviour
 
                 for (int w = 0; w < NbSpawnpoint; w++)
                 {
-                    
-                    float Theta = 2f * (float)Mathf.PI * ((float)w / NbSpawnpoint);
 
-
-                    float x = spawnrayon * Mathf.Cos(Theta);
-                    float y = spawnrayon * Mathf.Sin(Theta);
-
-                    Vector3 pos = new Vector3(x, 1, y);
-
-                    pos.x += transform.position.x;
-                    pos.z += transform.position.z;
+                    Vector3 pos = calculPostion(spawnrayon,w);
 
                     if (lineRenderer != null)
                     { lineRenderer.SetPosition(w, pos); }
@@ -159,7 +150,39 @@ public class BuildingController : MonoBehaviour
                 }
             }
         }
-        
+    }
+
+    public List<Vector3> SpawnTower(float spawnRadius)
+    {
+        List<Vector3> ListOfPoint = new List<Vector3>();
+        for (int w = 0; w < NbSpawnpoint; w++)
+        {
+            bool hasTower = false;
+            Vector3 pos = calculPostion(spawnRadius, w);
+            Collider[] colliders = DoAOverlap(pos,true);
+            foreach(Collider collider in colliders)
+            {
+                if(collider.gameObject.GetComponent<DefenseManager>()) { hasTower = true; }
+            }
+            if(!hasTower) { ListOfPoint.Add(pos); }
+
+        }
+        return ListOfPoint;
+    }
+    private Vector3 calculPostion(float spawnRadius , int spawnPoint)
+    {
+        float Theta = 2f * (float)Mathf.PI * ((float)spawnPoint / NbSpawnpoint);
+
+
+        float x = spawnRadius * Mathf.Cos(Theta);
+        float y = spawnRadius * Mathf.Sin(Theta);
+
+        Vector3 pos = new Vector3(x, 1, y);
+
+        pos.x += transform.position.x;
+        pos.z += transform.position.z;
+
+        return pos;
     }
 
     private void SetPath(EntityController entity)
@@ -169,6 +192,11 @@ public class BuildingController : MonoBehaviour
     private int DoAOverlap(Vector3 spawnPosition)
     {
         return Physics.OverlapSphere(spawnPosition, 1f).Length;
+    }
+
+    private Collider[] DoAOverlap(Vector3 spawnPosition, bool lol)
+    {
+        return Physics.OverlapSphere(spawnPosition, 1f);
     }
 
     private List<GameObject> DoCircleRaycast()
