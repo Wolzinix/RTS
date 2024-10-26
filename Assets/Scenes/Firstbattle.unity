@@ -8922,7 +8922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gold: 25
-  _wood: 2
+  _wood: -1
 --- !u!1001 &1387381782
 PrefabInstance:
   m_ObjectHideFlags: 0
