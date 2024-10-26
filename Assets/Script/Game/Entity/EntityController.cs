@@ -19,11 +19,11 @@ public class EntityController : MonoBehaviour
     [SerializeField] private ProjectilManager _projectile;
 
     public List<Order> _listForOrder;
-    protected List<Vector3> _listOfPath;
+    [SerializeField] protected List<Vector3> _listOfPath;
     protected List<SelectableManager> _listOfTarget;
     protected List<SelectableManager> _listOfAllie;
     protected List<Vector3> _listForPatrol;
-    protected List<Vector3> _listForAttackingOnTravel;
+    [SerializeField] protected List<Vector3> _listForAttackingOnTravel;
 
     private List<GameObject> _listOfalliesOnRange;
 
@@ -428,9 +428,9 @@ public class EntityController : MonoBehaviour
         
         if(_navMesh){_navMesh.StopPath();}
 
+        ClearListOfAlly(new List<GameObject>());
         resetEvent.Invoke();
 
-        ClearListOfAlly(new List<GameObject>());
     }
 
     public bool Stay

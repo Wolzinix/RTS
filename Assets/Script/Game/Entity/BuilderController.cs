@@ -13,6 +13,7 @@ public class BuilderController : EntityController
     public List<GameObject> getBuildings() { return _buildings; }
 
     public UnityEvent<BuilderController> NoMoreToHarvest = new UnityEvent<BuilderController>();
+    public UnityEvent<BuilderController,DefenseManager> TowerIsBuild = new UnityEvent<BuilderController,DefenseManager> ();
 
     private void Start()
     {
@@ -197,10 +198,11 @@ public class BuilderController : EntityController
 
             if (colliders.Length == 1 || (colliders.Length == 2 && (colliders[1] == gameObject || colliders[0] == gameObject)))
             {
-                AggressifEntityManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]],ListOfBuildPosition[0] + new Vector3(0, 2, 0), transform.rotation, transform.parent).GetComponent<AggressifEntityManager>();
+                DefenseManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]],ListOfBuildPosition[0] + new Vector3(0, 2, 0), transform.rotation, transform.parent).GetComponent<DefenseManager>();
                 GetComponent<AggressifEntityManager>().ressources.AddGold(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().GoldAmount);
                 GetComponent<AggressifEntityManager>().ressources.AddWood(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().WoodAmount);
                 gm.gameObject.tag = gameObject.tag;
+                TowerIsBuild.Invoke(this,gm);
                 gm.ActualiseSprite();
             }
         }

@@ -70,6 +70,11 @@ public class IABrain : MonoBehaviour
         }
     }
 
+    public void TowerToBuilding(DefenseManager defense, BuildingIA building)
+    {
+        building.AddTower(defense);
+    }
+
     private void AddTowerToBuilding(BuildingIA building,Vector3 position)
     {
         List<BuildingController> AlliBuilding = GetAllieBuilding();

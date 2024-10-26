@@ -39,14 +39,11 @@ public class IAGroupManager
         groupToCreate.GroupIsDeadevent.AddListener(RemoveAGroup);
         groupToCreate.SomeoneIsImmobile.AddListener(ia.ActualiseTheGroup);
 
-
-
         groupToCreate.AddSelect(entity);
         _ListOfGroup.Add(groupToCreate);
 
         if(ia._AllieBuilding.Count>0)
         {
-
             groupToCreate.AttackingOnTravel(GetPosWithSecurity(groupToCreate, ia._AllieBuilding[0].transform.position));
         }
 
@@ -130,8 +127,7 @@ public class IAGroupManager
             entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][0].transform.position);
             entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][1].transform.position);
         }
-
-        SendEverybodyToTheCenter(group);
+        else {  SendEverybodyToTheCenter(group);}
 
     }
 
@@ -149,18 +145,19 @@ public class IAGroupManager
     public void ClearListOfPatrol()
     {
         List<GroupManager> groupPatrol = new List<GroupManager> ();
-        foreach (GroupManager i in _ListOfGroupPatrol.Keys)
+        List<GroupManager> groupPatrolToParkour = new (_ListOfGroupPatrol.Keys);
+        foreach (GroupManager i in groupPatrolToParkour)
         {
             if (!ia._AllieBuilding.Contains(_ListOfGroupPatrol[i][0]) || !ia._AllieBuilding.Contains(_ListOfGroupPatrol[i][1]))
             {
                 i.ResetOrder();
                 groupPatrol.Add(i);
-                _ListOfGroupAttack.Add(i);
             }
         }
         foreach(GroupManager i in groupPatrol)
         {
             _ListOfGroupPatrol.Remove(i);
+            _ListOfGroupAttack.Add(i);
         }
     }
 
@@ -217,7 +214,6 @@ public class IAGroupManager
             {
                 ThenearsetEntity = Thenearset;
             }
-            
         }
 
         return ThenearsetEntity;
@@ -242,10 +238,16 @@ public class IAGroupManager
             BuilderController buildeur = GetThenearsetBuildeurOfAPoint(position);
             if(buildeur && buildeur.DoAbuild(0, position, ia.gameObject.GetComponent<RessourceController>()))
             {
+                buildeur.TowerIsBuild.AddListener((BuilderController builder, DefenseManager defense) => TowerIsNowBUild(builder,defense, building));
                 return true;
             }
         }
         return false;
+    }
+
+    private void TowerIsNowBUild(BuilderController builder, DefenseManager defense, BuildingIA building)
+    {
+        ia.TowerToBuilding(defense, building);
     }
     private bool EverybodyIsImmobile(GroupManager group)
     {
@@ -404,9 +406,8 @@ public class IAGroupManager
     public void EntityJoinAGroup(EntityController entity)
     {
         GroupManager groupeARejoindre = null;
-        GroupManager c = null;
 
-        c = WhatGroupWillJoin(entity, _ListOfGroupPatrol.Keys.ToList());
+        GroupManager c = WhatGroupWillJoin(entity, _ListOfGroupPatrol.Keys.ToList());
         groupeARejoindre = NearestGroup(entity, groupeARejoindre, c);
 
         c = WhatGroupWillJoin(entity, _ListOfGroupToProtectBuilding.Keys.ToList());

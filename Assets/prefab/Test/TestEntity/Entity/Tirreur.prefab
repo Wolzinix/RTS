@@ -269,6 +269,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _projectile: {fileID: 2599406022807975234, guid: b8e4224182822b54eabc3e74b716e707, type: 3}
   _listForOrder: 
+  _listOfPath: []
+  _listForAttackingOnTravel: []
   EntityIsArrive:
     m_PersistentCalls:
       m_Calls: []
