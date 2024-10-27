@@ -55,7 +55,10 @@ public class BuilderController : EntityController
         {
 
             bool location = gameObject.GetComponent<NavMeshController>().notOnTraject();
-            bool distance = Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5;
+            bool distance =
+                Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0]) 
+                <=
+                gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.x + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.y;
 
             if (location && distance) { Build(); }
             else if (location && !distance) { AddPath(ListOfBuildPosition[0]); }
@@ -196,20 +199,34 @@ public class BuilderController : EntityController
             
             Collider[] colliders = DoAOverlap(ListOfBuildPosition[0]);
 
-            if (colliders.Length == 1 || (colliders.Length == 2 && (colliders[1] == gameObject || colliders[0] == gameObject)))
+            if (colliders.Length == 0 || colliders.Length == 1 && colliders[0].gameObject.GetComponent<EntityManager>() == null || (colliders.Length == 2 && (colliders[1] == gameObject || colliders[0] == gameObject)))
             {
-                DefenseManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]],ListOfBuildPosition[0] + new Vector3(0, 2, 0), transform.rotation, transform.parent).GetComponent<DefenseManager>();
+                DefenseManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]], new Vector3(ListOfBuildPosition[0].x, gameObject.transform.position.y, ListOfBuildPosition[0].z), transform.rotation, transform.parent).GetComponent<DefenseManager>();
                 GetComponent<AggressifEntityManager>().ressources.AddGold(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().GoldAmount);
                 GetComponent<AggressifEntityManager>().ressources.AddWood(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().WoodAmount);
                 gm.gameObject.tag = gameObject.tag;
                 TowerIsBuild.Invoke(this,gm);
                 gm.ActualiseSprite();
+                ListOfBuildPosition.RemoveAt(0);
+                ListOfBuildsIndex.RemoveAt(0);
+            }
+            else
+            {
+                foreach(Collider i in colliders)
+                {
+                    if(i.GetComponent<EntityController>() != null)
+                    {
+                        Vector3 iPosition = i.GetComponent<EntityController>().transform.position;
+                        i.GetComponent<EntityController>().AddPath(iPosition - (iPosition - ListOfBuildPosition[0] - _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size) * 2);
+                    }
+                }
             }
         }
-      
-
-        ListOfBuildPosition.RemoveAt(0);
-        ListOfBuildsIndex.RemoveAt(0);
+        else
+        {
+            ListOfBuildPosition.RemoveAt(0);
+            ListOfBuildsIndex.RemoveAt(0);
+        }
     }
 
     protected override void SearchTarget(){}

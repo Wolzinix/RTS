@@ -186,11 +186,9 @@ public class IABrain : MonoBehaviour
         ActualisePatrol();
         //DebugGroup();
     }
-
    
     public void ActualiseTheGroup(GroupManager group)
     {
-       
         if (Objectif.Count > 0)
         {
             if (Objectif[0]) { groupManager.GroupToAttack(group, Objectif[0]); }

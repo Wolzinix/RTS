@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public enum Order
@@ -103,6 +104,32 @@ public class EntityController : MonoBehaviour
     virtual protected void FixedUpdate()
     {
          isUnit();
+    }
+    virtual protected void ExecuteOrder()
+    {
+        if (_listForOrder.Count > 0)
+        {
+            if (DoAMove()) { }
+
+            else if (DoAnAgressionPath()) { }
+
+            else if (DoAPatrol()) { }
+
+            else if (DoAFollow()) { }
+
+            else if (DoAnAggression()) { }
+        }
+    }
+    virtual protected void isUnit()
+    {
+        if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); moving = true; }
+        else { _animator.SetBool(Moving, false); moving = false; }
+
+        if (_listForOrder.Count == 0 && _animator.GetInteger(Attacking) == 1) { _animator.SetInteger(Attacking, 0); }
+
+        SearchTarget();
+
+        ExecuteOrder();
     }
 
     virtual protected void SearchTarget()
@@ -318,33 +345,7 @@ public class EntityController : MonoBehaviour
         return etat;
     }
 
-    virtual protected void ExecuteOrder()
-    {
-        if (_listForOrder.Count > 0)
-        {
-            if (DoAMove()) { }
-
-            else if (DoAnAgressionPath()) { }
-
-            else if (DoAPatrol()) { }
-
-            else if (DoAFollow()) { }
-
-            else if (DoAnAggression()) { }
-        }
-    }
-    virtual protected void isUnit()
-    {
-        if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); moving = true; }
-        else { _animator.SetBool(Moving, false); moving = false; }
-
-        if (_listForOrder.Count == 0 && _animator.GetInteger(Attacking) == 1) { _animator.SetInteger(Attacking, 0); }
-
-        SearchTarget();
-
-        ExecuteOrder();
-      
-    }
+  
 
     void DoAttack(SelectableManager target) 
     {

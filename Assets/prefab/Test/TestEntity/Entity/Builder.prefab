@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6174072497533667599
 Transform:
   m_ObjectHideFlags: 0
@@ -351,6 +351,7 @@ MonoBehaviour:
   attackSpeed: 1
   range: 2
   StartSpeed: 2
+  speed: 2
 --- !u!114 &7918695989419762903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,5 +379,8 @@ MonoBehaviour:
   _buildings:
   - {fileID: 4825870592483654779, guid: a65b938add593874782dc2957ec066e7, type: 3}
   NoMoreToHarvest:
+    m_PersistentCalls:
+      m_Calls: []
+  TowerIsBuild:
     m_PersistentCalls:
       m_Calls: []
