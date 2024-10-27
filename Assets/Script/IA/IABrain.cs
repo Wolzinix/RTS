@@ -60,8 +60,7 @@ public class IABrain : MonoBehaviour
 
     private void AddTowerToBuilding(GameObject newObject)
     {
-        List<BuildingController> AlliBuilding = GetAllieBuilding();
-        foreach (BuildingController building in AlliBuilding)
+        foreach (BuildingController building in _AllieBuilding)
         {
             if (DicoOfBuilding[building]._ListOfTower.Count < nbMaxOfTower)
             {
@@ -77,13 +76,11 @@ public class IABrain : MonoBehaviour
 
     private void AddTowerToBuilding(BuildingIA building,Vector3 position)
     {
-        List<BuildingController> AlliBuilding = GetAllieBuilding();
-
-        if (building._ListOfTower.Count < nbMaxOfTower)
+        GetAllieBuilding();
+        if (building._ListOfTower.Count < nbMaxOfTower && _AllieBuilding.Contains(building.building))
         {
             groupManager.SendBuilderToBuildTower(building, GetTheNerestPoint(position, building.building.SpawnTower(groupManager.DistanceOfSecurity)));
         }
-        
     }
 
     private Vector3 GetTheNerestPoint(Vector3 objectif, List<Vector3> listOfPosition)
@@ -100,13 +97,13 @@ public class IABrain : MonoBehaviour
     }
     private List<BuildingController> GetAllieBuilding()
     {
-        List<BuildingController> list = new List<BuildingController>();
+        _AllieBuilding = new List<BuildingController>();
 
         foreach(BuildingController i in  DicoOfBuilding.Keys)
         {
             if (i && groupManager.BuildingIsProtected(DicoOfBuilding[i]))
             {
-                list.Add(i);
+                _AllieBuilding.Add(i);
             }
             else if (i)
             {
@@ -114,12 +111,12 @@ public class IABrain : MonoBehaviour
                 if (!i.CompareTag(ennemieTag) || DicoOfBuilding[i].CanSpawn && i.tagOfNerestEntity == gameObject.tag)
                 {
                     i.entityAsBeenBuy.AddListener(ActualiseGroup);
-                    list.Add(i);
+                    _AllieBuilding.Add(i);
                     DicoOfBuilding[i].NeedAGroup();
                 }
             }
         }
-        return list;
+        return _AllieBuilding;
     }
     private GameObject GetThenearsetEntityOfAPoint(Vector3 point)
     {
@@ -218,7 +215,7 @@ public class IABrain : MonoBehaviour
 
     private void ActualisePatrol()
     {
-        _AllieBuilding = GetAllieBuilding();
+        GetAllieBuilding();
         groupManager.ClearListOfPatrol();
         for (int i = 0; i < _AllieBuilding.Count - 1 ; i++)
         {
