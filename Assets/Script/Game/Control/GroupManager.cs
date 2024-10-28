@@ -131,8 +131,7 @@ public class GroupManager
         {
             if (_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()) > -1)
             {
-                _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
-                toAdd.gameObject.GetComponent<AggressifEntityManager>().OnDeselected();
+                RemoveSelect(toAdd);
             }
             else
             {
@@ -140,6 +139,7 @@ public class GroupManager
                 ChangeSpeedWhenAdd(toAdd.gameObject.GetComponent<EntityController>());
                 toAdd.gameObject.GetComponent<EntityController>().groupManager = this;
                 toAdd.GetComponent<EntityController>().EntityIsArrive.AddListener(SomeOneIsImmobile);
+                toAdd.deathEvent.AddListener(RemoveSelect);
                 if(IsPlayer)
                 {
                     toAdd.gameObject.GetComponent<AggressifEntityManager>().OnSelected();
@@ -160,30 +160,41 @@ public class GroupManager
 
     private void ChangeSpeedWhenRemove(EntityController entity)
     {
-        if (entity.GetStartSpeed() < _selectedObject[0].GetSpeed())
+        if(!SelectedObjectIsEmpty())
         {
-            float newSpeed = _selectedObject[0].GetStartSpeed();
-            foreach (EntityController i in _selectedObject)
+            if (entity.GetStartSpeed() < _selectedObject[0].GetSpeed())
             {
-                if(newSpeed > i.GetStartSpeed())
+                float newSpeed = _selectedObject[0].GetStartSpeed();
+                foreach (EntityController i in _selectedObject)
                 {
-                    newSpeed = i.GetStartSpeed();
+                    if (newSpeed > i.GetStartSpeed())
+                    {
+                        newSpeed = i.GetStartSpeed();
+                    }
                 }
+                foreach (EntityController i in _selectedObject)
+                {
+                    i.ChangeSpeed(newSpeed);
+                }
+
             }
-            foreach (EntityController i in _selectedObject)
-            {
-                i.ChangeSpeed(newSpeed);
-            }
-           
         }
     }
-    public void RemoveSelect(AggressifEntityManager toAdd)
+    public void RemoveSelect(SelectableManager toAdd)
     {
-        ChangeSpeedWhenRemove(toAdd.GetComponent<EntityController>());
-        toAdd.gameObject.GetComponent<EntityController>().groupManager = null;
-        _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
-        toAdd.gameObject.GetComponent<AggressifEntityManager>().OnDeselected();
-          
+        if(toAdd)
+        {
+            ChangeSpeedWhenRemove(toAdd.GetComponent<EntityController>());
+            toAdd.gameObject.GetComponent<EntityController>().groupManager = null;
+            toAdd.gameObject.GetComponent<AggressifEntityManager>().OnDeselected();
+        }
+        int i = _selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>());
+        if (i < _selectedObject.Count)
+        {
+            _selectedObject.RemoveAt(i);
+        }
+        toAdd.deathEvent.RemoveListener(RemoveSelect);
+        SelectedObjectIsEmpty();
     }
 
     public void ActionGroup(RaycastHit hit)

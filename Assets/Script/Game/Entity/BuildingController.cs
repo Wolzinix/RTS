@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 public class BuildingController : MonoBehaviour
@@ -23,6 +24,7 @@ public class BuildingController : MonoBehaviour
     int NbSpawnpoint = 10;
     public float spawnrayon = 2f;
     public LineRenderer lineRenderer;
+    List<GameObject> ListOfNearEntity;
 
     [SerializeField] private List<GameObject> prefabToSpawn;
     [Serializable] public class SpawnTime {
@@ -46,6 +48,7 @@ public class BuildingController : MonoBehaviour
                 entityDictionary.Add(prefabToSpawn[i], MySpawns[i]);
             }
         }
+        ListOfNearEntity = new List<GameObject>();
     }
 
     private void FixedUpdate()
@@ -67,32 +70,39 @@ public class BuildingController : MonoBehaviour
         }
 
         List<GameObject> ListOfHit= DoCircleRaycast();
-        EntityNextToEvent.Invoke(ListOfHit,this);
-        int nbAllies = 0;
-        int nbEnnemie = 0;
-
-        foreach (GameObject i in ListOfHit)
+        if(!ListOfNearEntity.SequenceEqual(ListOfHit))
         {
-            tagOfNerestEntity = i.tag;
-            if(i.CompareTag("Allie"))
+            EntityNextToEvent.Invoke(ListOfHit, this);
+            int nbAllies = 0;
+            int nbEnnemie = 0;
+
+            foreach (GameObject i in ListOfHit)
             {
-                nbAllies += 1;
+                tagOfNerestEntity = i.tag;
+                if (i.CompareTag("Allie"))
+                {
+                    nbAllies += 1;
+                }
+                else if (i.CompareTag("ennemie"))
+                {
+                    nbEnnemie += 1;
+                }
             }
-            else if(i.CompareTag("ennemie"))
-            {
-                nbEnnemie += 1;
-            }
+
+            if (nbAllies > 0) { _ally = true; }
+            else { _ally = false; }
+
+            if (nbEnnemie > 0) { _ennemie = true; }
+            else { _ennemie = false; }
+
+
+            proximityGestion(ListOfHit);
         }
-
-        if(nbAllies > 0 ) { _ally = true; }
-        else{ _ally = false; }
-
-        if (nbEnnemie > 0) { _ennemie = true; }
-        else { _ennemie = false; }
-
-
-        proximityGestion(ListOfHit);
         
+
+        ListOfNearEntity = ListOfHit;
+
+
     }
 
     public bool GetCanSpawn() { return _canSpawn; }

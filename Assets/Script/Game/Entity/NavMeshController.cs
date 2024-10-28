@@ -58,7 +58,7 @@ public class NavMeshController : MonoBehaviour
 
     public void StopPath()
     { 
-        if(_navMesh != null && _navMesh.isOnNavMesh)
+        if(_navMesh != null)
         {
 
             _navMesh.ResetPath();
@@ -68,10 +68,8 @@ public class NavMeshController : MonoBehaviour
     public bool notAtLocation()
     {
         bool isnotarrived = false;
-        if (_navMesh.isOnNavMesh)
-        {
-            isnotarrived = _navMesh.remainingDistance > _navMesh.stoppingDistance;
-        }
+        isnotarrived = _navMesh.remainingDistance > _navMesh.stoppingDistance;
+        
         
         return isnotarrived;
     }

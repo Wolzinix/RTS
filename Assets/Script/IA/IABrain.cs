@@ -43,7 +43,7 @@ public class IABrain : MonoBehaviour
 
     public void AddObjectif(GameObject newObject)
     {
-        if(!Objectif.Contains(newObject)) 
+        if (!Objectif.Contains(newObject)) 
         {
             ActualisePatrol();
             Objectif.Reverse();
@@ -76,7 +76,6 @@ public class IABrain : MonoBehaviour
 
     private void AddTowerToBuilding(BuildingIA building,Vector3 position)
     {
-        GetAllieBuilding();
         if (building._ListOfTower.Count < nbMaxOfTower && _AllieBuilding.Contains(building.building))
         {
             groupManager.SendBuilderToBuildTower(building, GetTheNerestPoint(position, building.building.SpawnTower(groupManager.DistanceOfSecurity)));
