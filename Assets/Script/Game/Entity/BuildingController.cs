@@ -96,9 +96,9 @@ public class BuildingController : MonoBehaviour
             else { _ennemie = false; }
 
 
-            proximityGestion(ListOfHit);
         }
-        
+
+        proximityGestion(ListOfHit);
 
         ListOfNearEntity = ListOfHit;
 
