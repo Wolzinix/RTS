@@ -62,7 +62,13 @@ public class BuildingIA
             }
         }
     }
-
+    public void NeedToSendEntity()
+    {
+        if(!CanSpawn)
+        {
+            IAbrain.NeedToSendEntityToBuildingEvent.Invoke(this, building.gameObject.transform.position);
+        }
+    }
     public void AddTower(DefenseManager tower)
     {
         _ListOfTower.Add(tower);
