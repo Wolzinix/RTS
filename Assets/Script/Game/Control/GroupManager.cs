@@ -189,7 +189,7 @@ public class GroupManager
             toAdd.gameObject.GetComponent<AggressifEntityManager>().OnDeselected();
         }
         int i = _selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>());
-        if (i < _selectedObject.Count)
+        if (i < _selectedObject.Count && i >= 0)
         {
             _selectedObject.RemoveAt(i);
         }
@@ -263,7 +263,7 @@ public class GroupManager
         {
             _selectedObject.RemoveAt(i);
         }
-
+        SelectedObjectIsEmpty();
     }
 
     public void AttackSelected(RaycastHit hit)
