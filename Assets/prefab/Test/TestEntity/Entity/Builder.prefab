@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 5448539714544530716}
   - component: {fileID: 8557832744255095151}
   - component: {fileID: 7918695989419762903}
+  - component: {fileID: 3254557315493281956}
   m_Layer: 6
   m_Name: Builder
   m_TagString: Allie
@@ -384,3 +385,19 @@ MonoBehaviour:
   TowerIsBuild:
     m_PersistentCalls:
       m_Calls: []
+--- !u!208 &3254557315493281956
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

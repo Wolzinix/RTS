@@ -1,92 +1,131 @@
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class NavMeshController : MonoBehaviour
 {
     private NavMeshAgent _navMesh;
+    private NavMeshPath _navPath ;
+    private NavMeshObstacle _navObstacle;
 
-    private Rigidbody _rb;
-
-    private List<NavMeshAgent> _ListOfPosition = new List<NavMeshAgent>();
+    private Vector3 _destination;
+    private float _stoppingDistance;
+    private float _speed;
 
     void Start()
     { 
         _navMesh = GetComponent<NavMeshAgent>();
+        _navObstacle = GetComponent<NavMeshObstacle>();
         MeshRenderer meshrender = GetComponentInChildren<MeshRenderer>();
+        _navPath = new NavMeshPath();
 
-        _rb = GetComponent<Rigidbody>();
         _navMesh.stoppingDistance = meshrender.bounds.size.x + meshrender.bounds.size.z;
 
-        _navMesh.radius =( meshrender.bounds.size.x + meshrender.bounds.size.z) /2;
 
         _navMesh.updatePosition = false;
         _navMesh.updateRotation = false;
+        _stoppingDistance = SetStoppingDistance();
+        _speed = SetSpeed();
     }
     public bool notOnTraject()
     {
-        return !_navMesh.pathPending && !_navMesh.hasPath || !notAtLocation();
+        return !notAtLocation() || _destination == Vector3.zero;
     }
 
+    private float SetStoppingDistance()
+    {
+        if(_navMesh) 
+        {
+            _navMesh.enabled = true;
+            return _navMesh.stoppingDistance; 
+        }
+        else { return 0f; }
+    }
+
+    private float SetSpeed()
+    {
+        if (_navMesh)
+        {
+            _navMesh.enabled = true;
+            return _navMesh.speed;
+        }
+        else { return 0f; }
+    }
     public float HaveStoppingDistance()
     {
-        if(_navMesh) { return _navMesh.stoppingDistance; }
-        else { return 0f; }
-        
+        return _stoppingDistance;
     }
 
-    private void Update()
-    {
-
-        SetNextPosition();
-        if (!notAtLocation())
+    private void FixedUpdate()
+    { 
+        if(Vector3.Distance(transform.position,_destination) > _stoppingDistance)
+        {
+            _navMesh.enabled = false;
+            _navObstacle.enabled = true;
+            SetNextPosition();
+        }
+        else
         {
             StopPath();
-            if (GetComponent<Rigidbody>()) { GetComponent<Rigidbody>().velocity = Vector3.zero;
-                GetComponent<Rigidbody>().freezeRotation = true;
-            }
-
         }
     }
 
     private void SetNextPosition()
     {
-        GetNewPath(_navMesh.destination);
-        _rb.MovePosition(new Vector3(_navMesh.nextPosition.x, _rb.position.y ,_navMesh.nextPosition.z));
+        GetNewPath(_destination);
+        if (_navPath.corners.Length > 1)
+        {
+            transform.LookAt(_navPath.corners[1]);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z) , _speed * Time.deltaTime);
+        }
     }
 
     public void GetNewPath(Vector3 point)
     {
-        if (!_navMesh.SetDestination(point))
+        if (_destination !=  Vector3.zero || point != Vector3.zero)
         {
-            NavMeshHit ClosestPoint;
-            NavMeshPath NavPath = new NavMeshPath();
-            NavMesh.SamplePosition(point, out ClosestPoint, 200, 0);
-            _navMesh.CalculatePath(ClosestPoint.position, NavPath);
+            _navMesh.enabled = true;
+            _navObstacle.enabled = false;
+            _destination = new Vector3( point.x , transform.position.y, point.z);
+            if(_navMesh.isOnNavMesh)
+            {
+                _navMesh.CalculatePath(point, _navPath);
+            }
         }
     }
 
     public void ActualisePath(EntityManager target)
     {
-
-        _navMesh.SetDestination(target.transform.position);
+        _destination = target.transform.position;
+        SetNextPosition();
     }
 
     public void StopPath()
-    { 
-        if(_navMesh != null)
+    {
+        if (_navMesh != null)
         {
-
-            _navMesh.ResetPath();
+            if(_navMesh.path != null)
+            {
+                _navMesh.enabled = true;
+                if (_navMesh.isOnNavMesh)
+                {
+                    _navMesh.ResetPath();
+                }
+            }
+            
+            _navObstacle.enabled = true;
+            _navMesh.enabled = false;
+            _destination = Vector3.zero;
         }
+
     }
 
     public bool notAtLocation()
     {
-        bool isnotarrived = false;
-        isnotarrived = _navMesh.remainingDistance > _navMesh.stoppingDistance;
-        
-        
+        bool isnotarrived = Vector3.Distance(transform.position, _destination) > _stoppingDistance && _destination == Vector3.zero;
+
+
+
         return isnotarrived;
     }
 }
