@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,11 +10,11 @@ public class IABrain : MonoBehaviour
 
     private  Dictionary<BuildingController, BuildingIA> DicoOfBuilding;
 
-    public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
-    public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
+    [NonSerialized] public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
+    [NonSerialized] public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
 
 
-    public UnityEvent<BuildingIA, Vector3> ATowerIsDestroyEvent;
+    [NonSerialized] public UnityEvent<BuildingIA, Vector3> ATowerIsDestroyEvent;
     public int nbMaxOfTower;
 
     [SerializeField] private List<GameObject> Objectif;
