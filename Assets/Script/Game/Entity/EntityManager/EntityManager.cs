@@ -15,6 +15,8 @@ public class EntityManager :  MonoBehaviour
 
     public int WoodCost = 1;
 
+    public float size;
+
 
 
     [SerializeField] private SpriteRenderer sprite;
@@ -42,6 +44,7 @@ public class EntityManager :  MonoBehaviour
         _animator = GetComponent<Animator>();
 
         _maxHp = hp;
+        size = getSize();
 
     }
 
@@ -75,14 +78,10 @@ public class EntityManager :  MonoBehaviour
         hp += nb;
         Death();
     }
-    virtual public void TakeDamage(TroupeManager entity, float nb)
+    virtual public void TakeDamage(AggressifEntityManager entity, float nb)
     {
         hp -= nb;
-
-        
     }
-
-
 
     virtual protected void Death()
     {
@@ -105,5 +104,18 @@ public class EntityManager :  MonoBehaviour
     public bool CanDoIt(RessourceController ressource)
     {
         return ressource.CompareGold(GoldCost) && ressource.CompareWood(WoodCost);
+    }
+
+    private float getSize()
+    {
+        float taille = 0;
+        float nb = 0;
+        foreach (Renderer i in GetComponentsInChildren<Renderer>())
+        {
+            taille += i.bounds.size.x / 2;
+            taille += i.bounds.size.z / 2;
+            nb += 2;
+        }
+        return taille / nb;
     }
 }

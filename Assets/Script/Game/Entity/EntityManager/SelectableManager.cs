@@ -7,9 +7,12 @@ public class SelectableManager : EntityManager
   
 
     public UnityEvent<SelectableManager> deathEvent = new UnityEvent<SelectableManager>();
-    public UnityEvent<TroupeManager> TakingDamageFromEntity = new UnityEvent<TroupeManager>();
+    public UnityEvent<AggressifEntityManager> TakingDamageFromEntity = new UnityEvent<AggressifEntityManager>();
 
-    
+
+   
+
+
     public float SeeRange
     {
         get => seeRange;
@@ -25,7 +28,7 @@ public class SelectableManager : EntityManager
         }
     }
 
-    public override void TakeDamage(TroupeManager entity, float nb)
+    public override void TakeDamage(AggressifEntityManager entity, float nb)
     {
         base.TakeDamage(entity, nb);
 
@@ -33,8 +36,9 @@ public class SelectableManager : EntityManager
 
         if (hp <= 0)
         {
+            entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
             Death();
-            entity.AddToRessourcesKilledEntity(GoldAmount,WoodAmount);
+            
         }
 
 
@@ -57,4 +61,6 @@ public class SelectableManager : EntityManager
         }
 
     }
+
+  
 }

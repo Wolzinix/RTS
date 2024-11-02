@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 public class BuildingController : MonoBehaviour
@@ -18,9 +19,12 @@ public class BuildingController : MonoBehaviour
     private bool _ennemie;
     private bool _canSpawn;
 
+    public string tagOfNerestEntity;
+
     int NbSpawnpoint = 10;
     public float spawnrayon = 2f;
     public LineRenderer lineRenderer;
+    List<GameObject> ListOfNearEntity;
 
     [SerializeField] private List<GameObject> prefabToSpawn;
     [Serializable] public class SpawnTime {
@@ -30,7 +34,7 @@ public class BuildingController : MonoBehaviour
         public float totalStock;
     }
     public List<SpawnTime> MySpawns = new List<SpawnTime>();
-    
+
     void Start()
     {
         entityDictionary = new Dictionary<GameObject, SpawnTime>();
@@ -41,12 +45,13 @@ public class BuildingController : MonoBehaviour
             for (int i = 0; i < prefabToSpawn.Count; i++)
             {
                 MySpawns[i].actualTime = MySpawns[i].statsTime;
-                entityDictionary.Add(prefabToSpawn[i],MySpawns[i]);
+                entityDictionary.Add(prefabToSpawn[i], MySpawns[i]);
             }
         }
+        ListOfNearEntity = new List<GameObject>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         Physics.SyncTransforms();
         foreach (GameObject i in entityDictionary.Keys)
@@ -65,38 +70,46 @@ public class BuildingController : MonoBehaviour
         }
 
         List<GameObject> ListOfHit= DoCircleRaycast();
-        EntityNextToEvent.Invoke(ListOfHit,this);
-        int nbAllies = 0;
-        int nbEnnemie = 0;
-
-        foreach (GameObject i in ListOfHit)
+        if(!ListOfNearEntity.SequenceEqual(ListOfHit))
         {
-            if(i.CompareTag("Allie"))
+            EntityNextToEvent.Invoke(ListOfHit, this);
+            int nbAllies = 0;
+            int nbEnnemie = 0;
+
+            foreach (GameObject i in ListOfHit)
             {
-                nbAllies += 1;
+                tagOfNerestEntity = i.tag;
+                if (i.CompareTag("Allie"))
+                {
+                    nbAllies += 1;
+                }
+                else if (i.CompareTag("ennemie"))
+                {
+                    nbEnnemie += 1;
+                }
             }
-            else if(i.CompareTag("ennemie"))
-            {
-                nbEnnemie += 1;
-            }
+
+            if (nbAllies > 0) { _ally = true; }
+            else { _ally = false; }
+
+            if (nbEnnemie > 0) { _ennemie = true; }
+            else { _ennemie = false; }
+
+
         }
 
-        if(nbAllies > 0 ) { _ally = true; }
-        else{ _ally = false; }
-
-        if (nbEnnemie > 0) { _ennemie = true; }
-        else { _ennemie = false; }
-
-
         proximityGestion(ListOfHit);
-        
+
+        ListOfNearEntity = ListOfHit;
+
+
     }
 
     public bool GetCanSpawn() { return _canSpawn; }
     public Dictionary<GameObject, SpawnTime> GetEntityDictionary() { return entityDictionary; }
-    public void AllySpawnEntity(GameObject entityToSpawn)
+    public void AllySpawnEntity(GameObject entityToSpawn, RessourceController ressource)
     {
-        if(_ally && !_ennemie) { SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0]); }
+        if(_ally && !_ennemie) { SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0], ressource); }
     }
 
     private void proximityGestion(List<GameObject> list)
@@ -104,15 +117,15 @@ public class BuildingController : MonoBehaviour
         if (!_ally && _ennemie)
         {
             _canSpawn = true;
-            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i, "ennemie", list[0]); }
+            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i, "ennemie", list[0],FindAnyObjectByType<IABrain>().GetComponent<RessourceController>()); }
         }
         else if (_ally) { _canSpawn = true; }
         else { _canSpawn = false; }
     }
 
-    private void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity)
+    private void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity, RessourceController ressource)
     {
-        if(_canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
+        if(ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldCost) && _canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
         {
             if (entityDictionary[entityToSpawn].actualStock > 0)
             {
@@ -122,17 +135,8 @@ public class BuildingController : MonoBehaviour
 
                 for (int w = 0; w < NbSpawnpoint; w++)
                 {
-                    
-                    float Theta = 2f * (float)Mathf.PI * ((float)w / NbSpawnpoint);
 
-
-                    float x = spawnrayon * Mathf.Cos(Theta);
-                    float y = spawnrayon * Mathf.Sin(Theta);
-
-                    Vector3 pos = new Vector3(x, 1, y);
-
-                    pos.x += transform.position.x;
-                    pos.z += transform.position.z;
+                    Vector3 pos = calculPostion(spawnrayon,w);
 
                     if (lineRenderer != null)
                     { lineRenderer.SetPosition(w, pos); }
@@ -145,16 +149,50 @@ public class BuildingController : MonoBehaviour
 
                         newEntity.tag = tag;
 
-                        newEntity.GetComponent<TroupeManager>().ActualiseSprite();
+                        newEntity.GetComponent<AggressifEntityManager>().ActualiseSprite();
 
                         entityDictionary[entityToSpawn].actualStock -= 1;
                         entitySpawnNow.Invoke();
                         entityAsBeenBuy.Invoke();
+                        ressource.AddGold(-entityToSpawn.GetComponent<EntityManager>().GoldCost);
                         break;
                     }
                 }
             }
         }
+    }
+
+    public List<Vector3> SpawnTower(float spawnRadius)
+    {
+        List<Vector3> ListOfPoint = new List<Vector3>();
+        for (int w = 0; w < NbSpawnpoint; w++)
+        {
+            bool hasTower = false;
+            Vector3 pos = calculPostion(spawnRadius, w);
+            Collider[] colliders = DoAOverlap(pos,true);
+            foreach(Collider collider in colliders)
+            {
+                if(collider.gameObject.GetComponent<DefenseManager>()) { hasTower = true; }
+            }
+            if(!hasTower) { ListOfPoint.Add(pos); }
+
+        }
+        return ListOfPoint;
+    }
+    private Vector3 calculPostion(float spawnRadius , int spawnPoint)
+    {
+        float Theta = 2f * (float)Mathf.PI * ((float)spawnPoint / NbSpawnpoint);
+
+
+        float x = spawnRadius * Mathf.Cos(Theta);
+        float y = spawnRadius * Mathf.Sin(Theta);
+
+        Vector3 pos = new Vector3(x, 1, y);
+
+        pos.x += transform.position.x;
+        pos.z += transform.position.z;
+
+        return pos;
     }
 
     private void SetPath(EntityController entity)
@@ -164,6 +202,11 @@ public class BuildingController : MonoBehaviour
     private int DoAOverlap(Vector3 spawnPosition)
     {
         return Physics.OverlapSphere(spawnPosition, 1f).Length;
+    }
+
+    private Collider[] DoAOverlap(Vector3 spawnPosition, bool lol)
+    {
+        return Physics.OverlapSphere(spawnPosition, 1f);
     }
 
     private List<GameObject> DoCircleRaycast()

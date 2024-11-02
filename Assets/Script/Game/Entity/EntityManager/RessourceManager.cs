@@ -9,37 +9,64 @@ public class RessourceManager : EntityManager
     }
 
 
-    override public void TakeDamage(TroupeManager entity, float nb)
+    override public void TakeDamage(AggressifEntityManager entity, float nb)
     {
         base.TakeDamage(entity, nb);
 
         changeStats.Invoke();
-        _animator.SetBool("Harvest", true);
+        if(_animator)
+        {
+
+            StartCoroutine(DoHarvestAnimation());
+        }
+        
 
         if (hp <= 0)
         {
             Death();
             entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
         }
-
-        
     }
-
+    IEnumerator DoHarvestAnimation()
+    {
+        _animator.SetBool("Harvest", true);
+        if (_animator)
+        {
+            yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0);
+        }
+        _animator.SetBool("Harvest", false);
+    }
     override protected void Death()
     {
         base.Death();
         if (hp <= 0)
         {
-            _animator.SetBool("Harvest", false);
-            _animator.SetBool("IsDead", true);
-            _animator.Play("Base Layer.TreeFall");
+            if (_animator)
+            {
+                _animator.SetBool("Harvest", false);
+                _animator.SetBool("IsDead", true);
+                _animator.Play("Base Layer.TreeFall");
+            }
             StartCoroutine(DoDeathAnimation());
         }
     }
     IEnumerator DoDeathAnimation()
     {
-         yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        if (_animator)
+        {
+            yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0);
+        }
         Destroy(gameObject);
     }
+
+  
 
 }

@@ -88,10 +88,10 @@ public class GroupeStockManager : MonoBehaviour
             UiGestioneur uiGestioneur = FindObjectOfType<UiGestioneur>();
             selectManager.ClearList();
 
-            uiGestioneur.ActualiseUi(_listOfEntityManager[0].gameObject.GetComponent<TroupeManager>());
+            uiGestioneur.ActualiseUi(_listOfEntityManager[0].gameObject.GetComponent<AggressifEntityManager>());
             foreach ( EntityController entityController in _listOfEntityManager)
             {
-                TroupeManager entityManager = entityController.gameObject.GetComponent<TroupeManager>();
+                AggressifEntityManager entityManager = entityController.gameObject.GetComponent<AggressifEntityManager>();
                 selectManager.AddSelect(entityManager);
                 
                 uiGestioneur.AddOnGroupUi(entityManager);
@@ -122,7 +122,7 @@ public class GroupeStockManager : MonoBehaviour
     private  void ActualiseAffichage()
     {
         GetComponentInChildren<TMP_Text>().text = _nbOfEntity.ToString();
-        GetComponentInChildren<Image>().sprite = _listOfEntityManager[0].gameObject.GetComponent<TroupeManager>().GetSprit();
+        GetComponentInChildren<Image>().sprite = _listOfEntityManager[0].gameObject.GetComponent<AggressifEntityManager>().GetSprit();
 
     }
 

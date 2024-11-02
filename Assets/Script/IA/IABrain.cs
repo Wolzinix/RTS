@@ -1,376 +1,248 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class IABrain : MonoBehaviour
 {
+    public  List<BuildingController> _AllieBuilding = new List<BuildingController>();
     [SerializeField] GameObject groupOfEntity;
-    private  Dictionary<BuildingController, BuildingStats> DicoOfBuilding;
 
-    public delegate void NeedToSendToBuildingDelegate(BuildingStats building, Vector3 location);
+    private  Dictionary<BuildingController, BuildingIA> DicoOfBuilding;
 
-    public static event NeedToSendToBuildingDelegate NeedToSendEntityToBuildingEvent;
+    [HideInInspector] public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
+    [HideInInspector] public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
 
-    public static event NeedToSendToBuildingDelegate NeedToSendGroupToBuildingEvent;
 
-    [SerializeField] private GameObject Objectif;
+    [HideInInspector] public UnityEvent<BuildingIA, Vector3> ATowerIsDestroyEvent;
+    public int nbMaxOfTower;
 
-    private List<GroupManager> _ListOfGroup;
+    [SerializeField] private List<GameObject> Objectif;
 
-    public string _ennemieTag;
+    IAGroupManager groupManager = new IAGroupManager();
 
-    private int TailleDuGroupe = 3;
-
-    public int nbGroup;
-
-    private List<GroupManager> _ListOfGroupToSpawnEntity;
-
-    private List<GroupManager> _ListOfGroupToProtectBuilding;
-
-    private float DistanceOfSecurity = 3f;
-
-    public class BuildingStats
-    {
-        public List<GameObject> EntityNextTo = new List<GameObject>();
-        public string Tag;
-        public bool CanSpawn;
-        public string TagOfEntity;
-
-        public BuildingController building;
-
-        public bool IsProtected;
-
-        public List<GroupManager> _ListOfProtector = new List<GroupManager>();
-
-        public void SetAProtectionGroup(GroupManager group)
-        {
-            _ListOfProtector.Add(group);
-            IsProtected = true;
-            group.GroupIsDeadevent.AddListener(RemoveAGroup);
-        }
-
-        public void RemoveAGroup(GroupManager group)
-        {
-            _ListOfProtector.Remove(group);
-            if(_ListOfProtector.Count == 0)
-            {
-                IsProtected = false;
-                IABrain.NeedToSendGroupToBuildingEvent(this, building.transform.position);
-            }
-        }
-
-        public void NeedAGroup() { IABrain.NeedToSendGroupToBuildingEvent(this, building.transform.position);}
-
-        public void changeHaveEntity(List<GameObject> Entity, BuildingController building) 
-        {
-            CanSpawn = building.GetCanSpawn();
-
-            if(CanSpawn)
-            {
-                EntityNextTo.Clear();
-                foreach (GameObject gameObject in Entity)
-                {
-                    if (CanSpawn) { TagOfEntity = gameObject.tag; }
-                    EntityNextTo.Add(gameObject);
-                }
-            }
-            else { IABrain.NeedToSendEntityToBuildingEvent(this, building.gameObject.transform.position);  }
-           
-        }
-    }
+    public string ennemieTag;
 
     void Start()
     {
+        DicoOfBuilding = new Dictionary<BuildingController, BuildingIA>();
+        groupManager.ia = this;
 
-        DicoOfBuilding = new Dictionary<BuildingController, BuildingStats>();
+        NeedToSendEntityToBuildingEvent.AddListener(SendEntityToBuilding);
+        NeedToSendGroupToBuildingEvent.AddListener(SendRenfortToBuilding);
+        ATowerIsDestroyEvent.AddListener(AddTowerToBuilding);
 
-        _ListOfGroup = new List<GroupManager>();
-        _ListOfGroupToSpawnEntity = new List<GroupManager>();
-        _ListOfGroupToProtectBuilding = new List<GroupManager>();
-
-        NeedToSendEntityToBuildingEvent += SendEntityToBuilding;
-
-        NeedToSendGroupToBuildingEvent += SendRenfortToBuilding;
         ActualiseGroup();
-
         ActualiseBuilding();
-
     }
 
     private void OnDestroy()
     {
-        NeedToSendEntityToBuildingEvent -= SendEntityToBuilding;
-
-        NeedToSendGroupToBuildingEvent -= SendRenfortToBuilding;
+        NeedToSendEntityToBuildingEvent.RemoveAllListeners();
+        NeedToSendGroupToBuildingEvent.RemoveAllListeners();
     }
 
+    public void AddObjectif(GameObject newObject)
+    {
+        if (!Objectif.Contains(newObject)) 
+        {
+            ActualisePatrol();
+            Objectif.Reverse();
+            Objectif.Add(newObject);
+            Objectif.Reverse();
+            AddTowerToBuilding(newObject);
+        }
+    }
+    public void RemoveObjectif(GameObject oldObjectif)
+    {
+        ActualisePatrol();
+        Objectif.Remove( oldObjectif );
+    }
+
+    private void AddTowerToBuilding(GameObject newObject)
+    {
+        foreach (BuildingController building in _AllieBuilding)
+        {
+            if (DicoOfBuilding[building]._ListOfTower.Count < nbMaxOfTower)
+            {
+                groupManager.SendBuilderToBuildTower(DicoOfBuilding[building], GetTheNerestPoint(newObject.transform.position,building.SpawnTower(groupManager.DistanceOfSecurity)));
+            }
+        }
+    }
+
+    public void TowerToBuilding(DefenseManager defense, BuildingIA building)
+    {
+        building.AddTower(defense);
+    }
+
+    private void AddTowerToBuilding(BuildingIA building,Vector3 position)
+    {
+        if (building._ListOfTower.Count < nbMaxOfTower && _AllieBuilding.Contains(building.building))
+        {
+            groupManager.SendBuilderToBuildTower(building, GetTheNerestPoint(position, building.building.SpawnTower(groupManager.DistanceOfSecurity)));
+        }
+    }
+
+    private Vector3 GetTheNerestPoint(Vector3 objectif, List<Vector3> listOfPosition)
+    {
+        Vector3 position = listOfPosition[0];
+        foreach(Vector3 i in listOfPosition)
+        {
+            if(Vector3.Distance(i,objectif) > Vector3.Distance(position, objectif))
+            {
+                position = i;
+            }
+        }
+        return position;
+    }
     private List<BuildingController> GetAllieBuilding()
     {
-        List<BuildingController> list = new List<BuildingController>();
+        _AllieBuilding = new List<BuildingController>();
 
         foreach(BuildingController i in  DicoOfBuilding.Keys)
         {
-            i.entityAsBeenBuy.RemoveAllListeners();
-            if(!i.CompareTag(_ennemieTag)|| DicoOfBuilding[i].CanSpawn) 
+            if (i && groupManager.BuildingIsProtected(DicoOfBuilding[i]))
             {
-                i.entityAsBeenBuy.AddListener(ActualiseGroup);
-                list.Add(i);
-                DicoOfBuilding[i].NeedAGroup();
+                _AllieBuilding.Add(i);
+            }
+            else if (i)
+            {
+                i.entityAsBeenBuy.RemoveAllListeners();
+                if (!i.CompareTag(ennemieTag) || DicoOfBuilding[i].CanSpawn && i.tagOfNerestEntity == gameObject.tag)
+                {
+                    i.entityAsBeenBuy.AddListener(ActualiseGroup);
+                    _AllieBuilding.Add(i);
+                    DicoOfBuilding[i].NeedAGroup();
+                }
             }
         }
-        return list;
+        return _AllieBuilding;
+    }
+    private GameObject GetThenearsetEntityOfAPoint(Vector3 point)
+    {
+        GameObject ThenearsetEntity = null;
+
+        foreach(EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
+        {
+            if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset.gameObject; }
+
+            if(Vector3.Distance(point,ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
+            {
+                ThenearsetEntity = Thenearset.gameObject;
+            }
+        }
+
+        return ThenearsetEntity;
+    }
+    public RessourceManager GetThenearsetHarvestOfABuilder(BuilderController builder)
+    {
+        RessourceManager[] listOfRessources =  FindObjectsOfType<RessourceManager>();
+        if(listOfRessources.Length > 0)
+        {
+            RessourceManager ThenearsetToReturn = listOfRessources[0];
+
+            foreach (RessourceManager Thenearset in listOfRessources)
+            {
+                if (ThenearsetToReturn != Thenearset && Thenearset)
+                {
+                    if (Vector3.Distance(Thenearset.gameObject.transform.position, builder.gameObject.transform.position) < Vector3.Distance(ThenearsetToReturn.gameObject.transform.position, builder.gameObject.transform.position))
+                    {
+                        ThenearsetToReturn = Thenearset;
+                    }
+                }
+            }
+            if (listOfRessources.Length > 0) { return ThenearsetToReturn; }
+            else { return null; }
+        }
+        else  {  return null;}
+    }
+    private void SendEntityToBuilding(BuildingIA building, Vector3 point)
+    {
+        if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
+        {
+            EntityController entity = GetThenearsetEntityOfAPoint(point).GetComponent<EntityController>();
+            groupManager.SendEntityToBuilding(building, point, entity);
+        }
+
+    }
+    public void ActualiseGroup()
+    {
+        foreach (EntityController currentEntity in groupOfEntity.GetComponentsInChildren<EntityController>())
+        {
+            bool InGroup = groupManager.EntityIsInAGroup(currentEntity);
+            if (!InGroup)
+            {
+                if (currentEntity.GetComponent<BuilderController>()) { groupManager.AddBuilder(currentEntity.GetComponent<BuilderController>()); }
+
+                else if (currentEntity.CompareTag(gameObject.tag) && currentEntity.GetComponent<TroupeManager>())
+                {
+                    groupManager.EntityJoinAGroup(currentEntity); 
+                }
+            }
+        }
+        ActualisePatrol();
+        //DebugGroup();
+    }
+   
+    public void ActualiseTheGroup(GroupManager group)
+    {
+        if (Objectif.Count > 0)
+        {
+            if (Objectif[0]) { groupManager.GroupToAttack(group, Objectif[0]); }
+            else
+            {
+                Objectif.RemoveAt(0);
+                ActualiseTheGroup(group);
+            }
+        }
     }
 
     private void ActualiseBuilding()
     {
-        BuildingController[] buildings = Resources.FindObjectsOfTypeAll(typeof(BuildingController)) as BuildingController[];
+        BuildingController[] buildings = FindObjectsOfType<BuildingController>();
         foreach (BuildingController building in buildings)
         {
-            BuildingStats stats = new BuildingStats();
+            BuildingIA stats = new BuildingIA();
             stats.Tag = building.tag;
             stats.building = building;
+            stats.IAbrain = this;
             building.EntityNextToEvent.AddListener(stats.changeHaveEntity);
             DicoOfBuilding[building] = stats;
-        }
-        GetAllieBuilding();
-    }
-
-    private GameObject GetTheClosetEntityOfAPoint(Vector3 point)
-    {
-        GameObject theClosetEntity = null;
-
-        foreach(EntityController theCloset in groupOfEntity.GetComponentsInChildren<EntityController>())
-        {
-            if (theClosetEntity == null) { theClosetEntity = theCloset.gameObject; }
-
-            if(Vector3.Distance(point,theClosetEntity.transform.position) > Vector3.Distance(point, theCloset.transform.position))
+            if(!building.CompareTag(ennemieTag))
             {
-                theClosetEntity = theCloset.gameObject;
+                stats.NeedToSendEntity();
             }
-        }
-
-        return theClosetEntity;
-    }
-
-    private GroupManager GetTheClosetGroupOfAPoint(Vector3 point)
-    {
-        GroupManager theClosetEntity = null;
-
-        foreach (GroupManager theCloset in _ListOfGroup)
-        {
-            if (theClosetEntity == null) { theClosetEntity = theCloset; }
-
-            if (Vector3.Distance(point, theClosetEntity.getCenterofGroup()) > Vector3.Distance(point, theCloset.getCenterofGroup()))
-            {
-                theClosetEntity = theCloset;
-            }
-        }
-
-        return theClosetEntity;
-    }
-
-
-
-    public void SendRenfortToBuilding(BuildingStats building, Vector3 location)
-    { 
-        if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
-        {
-            GroupManager group = GetTheClosetGroupOfAPoint(location);
-            _ListOfGroupToProtectBuilding.Add(group);
-
-            Vector3 centerOfGroup = group.getCenterofGroup();
-
-            float angle = Vector3.Angle(centerOfGroup, location);
-            angle = Vector3.Cross(centerOfGroup, location).y > 0 ? angle : 360 - angle;
-
-            float x = DistanceOfSecurity * Mathf.Cos((float)angle);
-            float y = DistanceOfSecurity * Mathf.Sin((float)angle);
-
-            Vector3 pos = new Vector3(x, 1, y);
-
-            pos.x += centerOfGroup.x;
-            pos.z += centerOfGroup.z;
-
-            group.ResetOrder();
-            SendAGroup(group, pos);
-
-            building.SetAProtectionGroup(group);
-        }
-    }
-
-    public void SendAGroup(GroupManager group,Vector3 point)
-    {
-        group.MooveSelected(point);
-    }
-
-    private void SendEntityToBuilding(BuildingStats building, Vector3 point)
-    {
-        if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
-        {
-            EntityController entity = GetTheClosetEntityOfAPoint(point).GetComponent<EntityController>();
-            entity.AddPath(point);
-            foreach (GroupManager group in _ListOfGroup)
-            {
-                if (group.GroupContainUnity(entity))
-                {
-                    group.RemoveSelect(entity.gameObject.GetComponent<TroupeManager>());
-                }
-            }
-            Creategroup(entity.GetComponent<TroupeManager>());
-            ClearUselessGroup();
-            _ListOfGroupToSpawnEntity.Add(_ListOfGroup.Last());
-            //DebugGroup();
-        }
-       
-    }
-
-
-    private void DebugGroup()
-    {
-        nbGroup = _ListOfGroup.Count;
-        foreach (var group in _ListOfGroup) { Debug.Log(group.getNumberOnGroup()); }
-        Debug.Log("---------------");
-    }
-
-
-    private void ClearUselessGroup()
-    {
-        List<GroupManager> groupManagers = new List<GroupManager>(_ListOfGroup);
-        foreach(GroupManager group in groupManagers)
-        {
-            if(group.getNumberOnGroup() == 0){ RemoveAGroup(group); }
-        }
-    }
-
-    private void Update()
-    {
-        //StartCoroutine(ActualiseGroupAfter20S());
-    }
-
-    IEnumerator ActualiseGroupAfter20S()
-    {
-        yield return new WaitForSeconds(30f);
-        ActualiseGroup();
-    }
-    private void RemoveAGroup(GroupManager groupToRemove)
-    {
-        if(_ListOfGroupToProtectBuilding.Contains(groupToRemove)) { _ListOfGroupToProtectBuilding.Remove(groupToRemove);  }
-        if(_ListOfGroupToSpawnEntity.Contains(groupToRemove)) { _ListOfGroupToSpawnEntity.Remove(groupToRemove); }
-        _ListOfGroup.Remove(groupToRemove);
-    }
-
-    private void SendToAttack(GroupManager group,GameObject objectif)
-    {
-        group.AttackingOnTravel(objectif.transform.position);
-    }
-
-    private void GroupToAttack(GroupManager group)
-    {
-        if (group.getNumberOnGroup() >= TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group) && !_ListOfGroupToProtectBuilding.Contains(group))
-        {
-            group.ResetOrder();
-            SendToAttack(group, Objectif);
-        }
-    }
-
-
-    private void AddEntityToGroup(GroupManager group, EntityController entity )
-    {
-        entity.ClearAllOrder();
-        entity.AddPath(group.getCenterofGroup());
-
-        //group.MooveSelected(group.getCenterofGroup());
-        group.AddSelect(entity.gameObject.GetComponent<TroupeManager>());
-
-        entity.GroupNumber = _ListOfGroup.IndexOf(group);
-    }
-
-    private void SendEverybodyToTheCenter(GroupManager group)
-    {
-        foreach (EntityController entity in group.getSelectList())
-        {
-            entity.ClearAllOrder();
-            entity.AddPath(group.getCenterofGroup());
-        }
-    }
-
-    private bool EverybodyIsImmobile(GroupManager group)
-    {
-        bool Immobile = true;
-        foreach(EntityController entity in group.getSelectList())
-        {
-            if(entity._listForOrder.Count>0)
-            {
-                Immobile = false;
-            }
-        }
-        return Immobile;
-    }
-    private void ActualiseGroup()
-    {
-        foreach (EntityController theCloset in groupOfEntity.GetComponentsInChildren<EntityController>())
-        {
-            bool InGroup = false;
-            if (theCloset.CompareTag(gameObject.tag))
-            {
-                GroupManager groupeARejoindre = null;
-                if (_ListOfGroup.Count > 0)
-                {
-                    foreach (GroupManager group in _ListOfGroup)
-                    {
-                        if (group.GroupContainUnity(theCloset)) { InGroup = true;}
-                    }
-
-                    if (!InGroup)
-                    {
-                        foreach (GroupManager group in _ListOfGroup)
-                        {
-                            if (group.getNumberOnGroup() < TailleDuGroupe && !_ListOfGroupToSpawnEntity.Contains(group))
-                            {
-                                if (groupeARejoindre == null) { groupeARejoindre = group; }
-                                else
-                                {
-                                    if (Vector3.Distance(groupeARejoindre.getCenterofGroup(), theCloset.gameObject.transform.position) > Vector3.Distance(group.getCenterofGroup(), theCloset.gameObject.transform.position))
-                                    {
-                                        groupeARejoindre = group;
-                                    }
-                                }
-                            }
-                        }
-                        if (groupeARejoindre != null)  { AddEntityToGroup(groupeARejoindre, theCloset); }
-                        else { Creategroup(theCloset.gameObject.GetComponent<TroupeManager>()); }
-                    }
-                }
-                else { Creategroup(theCloset.gameObject.GetComponent<TroupeManager>()); }
-            }
-        }
-        ClearUselessGroup();
-        //DebugGroup();
-    }
-
-    private void ActualiseTheGroup(GroupManager group)
-    {
-        SendEverybodyToTheCenter(group);
-        if(EverybodyIsImmobile(group)){
-            GroupToAttack(group);
         }
         
+        ActualisePatrol();
     }
 
-    private void Creategroup(TroupeManager entity)
+    private void ActualisePatrol()
     {
-        GroupManager groupToCreate = new GroupManager();
-        groupToCreate.SetAllieTag(tag);
-        groupToCreate.SetEnnemieTag(_ennemieTag);
-        _ListOfGroup.Add(groupToCreate);
-
-        groupToCreate.GroupIsDeadevent.AddListener(RemoveAGroup);
-        groupToCreate.SomeoneIsImmobile.AddListener(ActualiseTheGroup);
-
-        groupToCreate.AddSelect(entity);
-        entity.gameObject.GetComponent<EntityController>().GroupNumber = _ListOfGroup.IndexOf(groupToCreate);
+        GetAllieBuilding();
+        groupManager.ClearListOfPatrol();
+        for (int i = 0; i < _AllieBuilding.Count - 1 ; i++)
+        {
+            for (int w = 1; w < _AllieBuilding.Count; w++)
+            {
+                if(Vector3.Distance(_AllieBuilding[i].transform.position, _AllieBuilding[w].transform.position)<30)
+                {
+                    List<BuildingController> buildings = new List<BuildingController>
+                    {
+                        _AllieBuilding[i],
+                        _AllieBuilding[w]
+                    };
+                    groupManager.SendAGroupToPatrol(_AllieBuilding[i].transform.position, buildings);
+                }
+            }
+        }
+    }
+    public void SendRenfortToBuilding(BuildingIA building, Vector3 location)
+    {
+        if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
+        {
+            groupManager.SendRenfortToBuilding(building, location);
+        }
     }
 
-   
 }

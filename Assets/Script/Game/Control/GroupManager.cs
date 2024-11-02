@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.XR;
 
 public class GroupManager
 {
@@ -81,7 +80,7 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (var i in _selectedObject)
             {
-                i.gameObject.GetComponent<TroupeManager>().OnDeselected(); ;
+                i.gameObject.GetComponent<AggressifEntityManager>().OnDeselected(); ;
             }
             _selectedObject.Clear();
            
@@ -98,6 +97,33 @@ public class GroupManager
         SomeoneIsImmobile.Invoke(this);
     }
 
+    private void ChangeSpeedWhenAdd(EntityController entity)
+    {
+        if(_selectedObject.Count > 1)
+        {
+            if (entity.GetStartSpeed() > 0)
+            {
+                if (entity.GetStartSpeed() > _selectedObject[0].GetSpeed() && _selectedObject[0].GetSpeed() > 0)
+                {
+                    entity.ChangeSpeed(_selectedObject[0].GetSpeed());
+                }
+                else
+                {
+                    _selectedObject.Reverse();
+                    foreach (EntityController i in _selectedObject)
+                    {
+                        i.ChangeSpeed(entity.GetStartSpeed());
+                    }
+                }
+            }
+        }
+        else
+        {
+            entity.ChangeSpeed(entity.GetStartSpeed());
+        }
+       
+  
+    }
 
     public void AddSelect(SelectableManager toAdd)
     {
@@ -105,16 +131,18 @@ public class GroupManager
         {
             if (_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()) > -1)
             {
-                _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
-                toAdd.gameObject.GetComponent<TroupeManager>().OnDeselected();
+                RemoveSelect(toAdd);
             }
             else
             {
                 _selectedObject.Add(toAdd.gameObject.GetComponent<EntityController>());
+                ChangeSpeedWhenAdd(toAdd.gameObject.GetComponent<EntityController>());
+                toAdd.gameObject.GetComponent<EntityController>().groupManager = this;
                 toAdd.GetComponent<EntityController>().EntityIsArrive.AddListener(SomeOneIsImmobile);
+                toAdd.deathEvent.AddListener(RemoveSelect);
                 if(IsPlayer)
                 {
-                    toAdd.gameObject.GetComponent<TroupeManager>().OnSelected();
+                    toAdd.gameObject.GetComponent<AggressifEntityManager>().OnSelected();
                 }
             }
         }
@@ -130,12 +158,43 @@ public class GroupManager
         }
     }
 
-    public void RemoveSelect(TroupeManager toAdd)
+    private void ChangeSpeedWhenRemove(EntityController entity)
     {
-        
-        _selectedObject.RemoveAt(_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()));
-        toAdd.gameObject.GetComponent<TroupeManager>().OnDeselected();
-          
+        if(!SelectedObjectIsEmpty())
+        {
+            if (entity.GetStartSpeed() < _selectedObject[0].GetSpeed())
+            {
+                float newSpeed = _selectedObject[0].GetStartSpeed();
+                foreach (EntityController i in _selectedObject)
+                {
+                    if (newSpeed > i.GetStartSpeed())
+                    {
+                        newSpeed = i.GetStartSpeed();
+                    }
+                }
+                foreach (EntityController i in _selectedObject)
+                {
+                    i.ChangeSpeed(newSpeed);
+                }
+
+            }
+        }
+    }
+    public void RemoveSelect(SelectableManager toAdd)
+    {
+        if(toAdd)
+        {
+            ChangeSpeedWhenRemove(toAdd.GetComponent<EntityController>());
+            toAdd.gameObject.GetComponent<EntityController>().groupManager = null;
+            toAdd.gameObject.GetComponent<AggressifEntityManager>().OnDeselected();
+        }
+        int i = _selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>());
+        if (i < _selectedObject.Count && i >= 0)
+        {
+            _selectedObject.RemoveAt(i);
+        }
+        toAdd.deathEvent.RemoveListener(RemoveSelect);
+        SelectedObjectIsEmpty();
     }
 
     public void ActionGroup(RaycastHit hit)
@@ -204,7 +263,7 @@ public class GroupManager
         {
             _selectedObject.RemoveAt(i);
         }
-
+        SelectedObjectIsEmpty();
     }
 
     public void AttackSelected(RaycastHit hit)
@@ -214,7 +273,7 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
-                i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<TroupeManager>());
+                i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<AggressifEntityManager>());
                 i.Stay = false;
             }
         }
@@ -227,7 +286,7 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
-                if (i.gameObject.GetComponent<TroupeManager>() != controller)
+                if (i.gameObject.GetComponent<AggressifEntityManager>() != controller)
                 {
                     i.GetComponent<EntityController>().AddTarget(controller);
                     i.Stay = false;
@@ -245,7 +304,7 @@ public class GroupManager
             {
                 if (i.gameObject.GetComponent<BuilderController>())
                 {
-                    i.gameObject.GetComponent<BuilderController>().DoAbuild(nb, hit);
+                    i.gameObject.GetComponent<BuilderController>().DoAbuildWithRaycast(nb, hit);
                 }
             }
         }
@@ -293,9 +352,28 @@ public class GroupManager
         }
     }
 
+    public void SpecificPatrouilleOrder(Vector3 start,Vector3 end)
+    {
+        if (!SelectedObjectIsEmpty())
+        {
+            VerifyIfEveryBodyIsAlive();
+            foreach (EntityController i in _selectedObject)
+            {
+                i.GetComponent<EntityController>().AddPatrol(start);
+                i.GetComponent<EntityController>().AddPatrol(end);
+                i.Stay = false;
+            }
+        }
+    }
+
     private bool SelectedObjectIsEmpty()
     {
-        return _selectedObject.Count <= 0;
+        if(_selectedObject.Count <= 0)
+        {
+            OnDestroy();
+            return true;
+        }
+        else { return false; }
     }
 
     public void AttackingOnTravel(Vector3 point)
@@ -332,5 +410,20 @@ public class GroupManager
     public bool GroupContainUnity(EntityController entity)
     {
         return _selectedObject.Contains(entity);
+    }
+
+    public bool EntityIsInGroup(EntityController entity)
+    {
+        return _selectedObject.Contains(entity);
+    }
+
+    public bool EveryOneIsStop()
+    {
+        bool moving = false;
+        foreach (EntityController i in _selectedObject)
+        {
+            if(i.moving) moving = true;
+        }
+        return moving;
     }
 }

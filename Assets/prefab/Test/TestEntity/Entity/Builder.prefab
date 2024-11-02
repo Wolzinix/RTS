@@ -146,7 +146,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3db4dc85e8a7f8348bd2439fbed3bb02, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -199,13 +199,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5592201362407160647}
   - component: {fileID: 3648613589935070831}
-  - component: {fileID: 2033893907195975481}
   - component: {fileID: 6208376071361995173}
   - component: {fileID: 1448527202929963815}
-  - component: {fileID: -2430026522903451483}
-  - component: {fileID: 9212388207474789640}
+  - component: {fileID: 5448539714544530716}
+  - component: {fileID: 8557832744255095151}
+  - component: {fileID: 7918695989419762903}
+  - component: {fileID: 3254557315493281956}
   m_Layer: 6
-  m_Name: Eclaireur
+  m_Name: Builder
   m_TagString: Allie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -253,29 +254,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 1
---- !u!114 &2033893907195975481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4825870592483654779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3591858989714b43970e271f2d63062, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _projectile: {fileID: 0}
-  _listForOrder: 
-  EntityIsArrive:
-    m_PersistentCalls:
-      m_Calls: []
-  resetEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  GroupNumber: 0
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -321,7 +301,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-2430026522903451483
+--- !u!114 &5448539714544530716
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -333,7 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9212388207474789640
+  _stoppingDistance: 0
+--- !u!114 &8557832744255095151
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -345,26 +326,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069a7d1dcb95cac4db81d0c4b22c0aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
+  hp: 30
+  GoldAmount: 1
+  WoodAmount: 0
+  GoldCost: 1
+  WoodCost: 1
+  size: 0
   sprite: {fileID: 7706548414058156727}
-  spriteImage: {fileID: -2413806693520163455, guid: b53783ba57e90b7459ad2e55992892da, type: 3}
+  spriteImage: {fileID: -9095717837082945937, guid: ff8e1e5671dc11d42ae7322385cb3432, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
+  defense: 1
   changeStats:
     m_PersistentCalls:
       m_Calls: []
-  attack: 2
-  defense: 1
-  attackSpeed: 3
-  speed: 2
-  range: 2
   seeRange: 6
-  PriceWhenDestroy: 1
-  ressources: {fileID: 0}
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
+  ressources: {fileID: 0}
+  attack: 1
+  attackSpeed: 1
+  range: 2
+  StartSpeed: 2
+  speed: 2
+--- !u!114 &7918695989419762903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0caca22c2a37f7541b7ab36e61008b04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectile: {fileID: 0}
+  _listForOrder: 
+  _listOfPath: []
+  _listForAttackingOnTravel: []
+  EntityIsArrive:
+    m_PersistentCalls:
+      m_Calls: []
+  moving: 0
+  _animator: {fileID: 0}
+  resetEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _buildings:
+  - {fileID: 4825870592483654779, guid: a65b938add593874782dc2957ec066e7, type: 3}
+  NoMoreToHarvest:
+    m_PersistentCalls:
+      m_Calls: []
+  TowerIsBuild:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!208 &3254557315493281956
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

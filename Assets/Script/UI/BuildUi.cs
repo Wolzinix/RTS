@@ -49,7 +49,7 @@ public class BuildUi : MonoBehaviour
             if (_ListOfButton.IndexOf(button)+ _numberOfbutton < listOfGameobject.Count())
             {
                 button.gameObject.SetActive(true);
-                button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<TroupeManager>().GetSprit();
+                button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<DefenseManager>().GetSprit();
                 button.onClick.AddListener(delegate { FindAnyObjectByType<ControlManager>().DoABuilding(_ListOfButton.IndexOf(button) + _numberOfbutton); });
             }
             else

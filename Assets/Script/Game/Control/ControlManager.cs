@@ -15,6 +15,13 @@ public class ControlManager : MonoBehaviour
     [SerializeField] private InputActionReference mapModInput;
     [SerializeField] private InputActionReference PauseInput;
 
+    [SerializeField] private Texture2D buildingCursor;
+
+    [SerializeField] private Texture2D DeplacementCursor;
+    [SerializeField] private Texture2D AttackCursor;
+    private CursorMode cursorMode = CursorMode.Auto;
+    private Vector2 hotSpot = Vector2.zero;
+
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera _mapCamera;
 
@@ -277,6 +284,8 @@ public class ControlManager : MonoBehaviour
         _patrolOrder = false;
         _buildingOrder = false;
         _travelAttack = false;
+
+        Cursor.SetCursor(null, hotSpot, cursorMode);
     }
     
     private RaycastHit DoARayCast(Camera camera)
@@ -351,7 +360,9 @@ public class ControlManager : MonoBehaviour
     public void MoveOrder() {
 
         ResetUiOrder(); 
-        _order = true; }
+        _order = true;
+        Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
+    }
 
     public void DoPatrouille()
     {
@@ -366,11 +377,15 @@ public class ControlManager : MonoBehaviour
 
         ResetUiOrder(); 
         _travelAttack = true;
+
+        Cursor.SetCursor(AttackCursor, hotSpot, cursorMode);
     }
 
     public void DoABuilding(int nb)
     {
         _buildingOrder = true;
         _nbOfBuilding = nb;
+
+        Cursor.SetCursor(buildingCursor, hotSpot, cursorMode);
     }
 }
