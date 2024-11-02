@@ -313,6 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
 --- !u!114 &8557832744255095151
 MonoBehaviour:
@@ -369,15 +370,14 @@ MonoBehaviour:
   _projectile: {fileID: 0}
   _listForOrder: 
   _listOfPath: []
-  _listForAttackingOnTravel: []
   EntityIsArrive:
+    m_PersistentCalls:
+      m_Calls: []
+  resetEvent:
     m_PersistentCalls:
       m_Calls: []
   moving: 0
   _animator: {fileID: 0}
-  resetEvent:
-    m_PersistentCalls:
-      m_Calls: []
   _buildings:
   - {fileID: 4825870592483654779, guid: a65b938add593874782dc2957ec066e7, type: 3}
   NoMoreToHarvest:
@@ -393,7 +393,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4825870592483654779}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}

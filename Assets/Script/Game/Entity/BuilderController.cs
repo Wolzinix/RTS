@@ -93,6 +93,7 @@ public class BuilderController : EntityController
     {
         float numberOfRay = 40;
         float delta = 360 / numberOfRay;
+        GameObject closet = null;
 
         for (int i = 0; i < numberOfRay; i++)
         {
@@ -108,11 +109,18 @@ public class BuilderController : EntityController
                 if (hit.transform &&  hit.transform.gameObject.GetComponent<RessourceManager>())
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
-                    return hit.transform.gameObject;
+                    if(closet == null)
+                    {
+                        closet = hit.transform.gameObject;
+                    }
+                    else if(Vector3.Distance(transform.position,closet.transform.position)> Vector3.Distance(transform.position, hit.transform.position))
+                    {
+                        closet = hit.transform.gameObject;
+                    }
                 }
             }
         }
-        return null;
+        return closet;
     }
     private void DoHarvest()
     {
