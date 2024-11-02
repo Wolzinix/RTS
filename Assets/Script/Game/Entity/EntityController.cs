@@ -72,7 +72,6 @@ public class EntityController : MonoBehaviour
         float delta = 360 / numberOfRay;
         List<RaycastHit> hits = new List<RaycastHit>();
 
-
         for (int i = 0; i < numberOfRay; i++)
         {
             Vector3 dir = Quaternion.Euler(0, i * delta,0 ) * transform.forward;
@@ -149,28 +148,31 @@ public class EntityController : MonoBehaviour
                 }
             }
             ClearListOfAlly(listOfAlly);
+
+            if (_listOfTarget.Count > 0)
+            {
+                _listOfTarget.Sort(SortTargetByProximity);
+
+                if (_navMesh) { _navMesh.StopPath(); }
+            }
         }
     }
 
     private void ClearListOfAlly(List<GameObject> list)
     {
-        List<GameObject> listToRemove = new List<GameObject>();
-        foreach (GameObject i in _listOfalliesOnRange)
+        if(list.Count != _listOfalliesOnRange.Count)
         {
-            if (!list.Contains(i))
+            List<GameObject> listToRemove = new List<GameObject>();
+            foreach (GameObject i in _listOfalliesOnRange)
             {
-                if (i) {  i.GetComponent<SelectableManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked);}
-                listToRemove.Add(i); 
+                if (!list.Contains(i))
+                {
+                    if (i) { i.GetComponent<SelectableManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked); }
+                    listToRemove.Add(i);
+                }
             }
-        }
 
-        foreach (GameObject i in listToRemove) { _listOfalliesOnRange.Remove(i); }
-
-        if (_listOfTarget.Count > 0)
-        {
-            _listOfTarget.Sort(SortTargetByProximity);
-
-            if (_navMesh) { _navMesh.StopPath(); }
+            foreach (GameObject i in listToRemove) { _listOfalliesOnRange.Remove(i); }
         }
     }
 
