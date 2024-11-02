@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6174072497533667599
 Transform:
   m_ObjectHideFlags: 0
@@ -269,15 +269,14 @@ MonoBehaviour:
   _projectile: {fileID: 6611384894665667933, guid: 064a87588d0069342aa228859eb93adc, type: 3}
   _listForOrder: 
   _listOfPath: []
-  _listForAttackingOnTravel: []
   EntityIsArrive:
+    m_PersistentCalls:
+      m_Calls: []
+  resetEvent:
     m_PersistentCalls:
       m_Calls: []
   moving: 0
   _animator: {fileID: 0}
-  resetEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!65 &2798183401605432793
 BoxCollider:
   m_ObjectHideFlags: 0

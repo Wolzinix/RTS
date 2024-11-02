@@ -54,14 +54,16 @@ public class BuilderController : EntityController
         {
 
             bool location = gameObject.GetComponent<NavMeshController>().notOnTraject();
-            bool distance =
-                Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0]) 
-                <=
-                gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.x + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.y;
+            if(location)
+            {
+               bool distance =
+               Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0])
+               <=
+               gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.x + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.y;
 
-            if (location && distance) { Build(); }
-            else if (location && !distance) { AddPath(ListOfBuildPosition[0]); }
-
+                if (distance) { Build(); }
+                else{ AddPath(ListOfBuildPosition[0]); }
+            }
         }
     }
 

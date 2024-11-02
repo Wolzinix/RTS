@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.HID;
+
 public class BuildingController : MonoBehaviour
 {
     private Dictionary<GameObject, SpawnTime> entityDictionary;
@@ -69,38 +71,46 @@ public class BuildingController : MonoBehaviour
             }
         }
 
-        List<GameObject> ListOfHit= DoCircleRaycast();
-        if(!ListOfNearEntity.SequenceEqual(ListOfHit))
-        {
-            EntityNextToEvent.Invoke(ListOfHit, this);
-            int nbAllies = 0;
-            int nbEnnemie = 0;
+        List<RaycastHit> ListOfHit= DoCircleRaycast();
+        List<GameObject> ListOfGO = new List<GameObject>();
+        
+        int nbAllies = 0;
+        int nbEnnemie = 0;
 
-            foreach (GameObject i in ListOfHit)
+        foreach (RaycastHit i in ListOfHit)
+        {
+            if (i.transform && !i.transform.gameObject.CompareTag("neutral") && i.transform.gameObject.GetComponent<TroupeManager>())
             {
-                tagOfNerestEntity = i.tag;
-                if (i.CompareTag("Allie"))
+                    
+                Debug.DrawLine(transform.position, i.point, Color.red, 1f);
+
+                GameObject gm = i.transform.gameObject;
+                ListOfGO.Add(gm);
+                tagOfNerestEntity = gm.tag;
+                if (gm.CompareTag("Allie"))
                 {
                     nbAllies += 1;
                 }
-                else if (i.CompareTag("ennemie"))
+                else if (gm.CompareTag("ennemie"))
                 {
                     nbEnnemie += 1;
                 }
             }
-
+               
+        }
+        if (!ListOfNearEntity.SequenceEqual(ListOfGO))
+        {
+            EntityNextToEvent.Invoke(ListOfGO, this);
             if (nbAllies > 0) { _ally = true; }
             else { _ally = false; }
 
             if (nbEnnemie > 0) { _ennemie = true; }
             else { _ennemie = false; }
-
-
         }
 
-        proximityGestion(ListOfHit);
+        proximityGestion(ListOfGO);
 
-        ListOfNearEntity = ListOfHit;
+        ListOfNearEntity = ListOfGO;
 
 
     }
@@ -109,7 +119,7 @@ public class BuildingController : MonoBehaviour
     public Dictionary<GameObject, SpawnTime> GetEntityDictionary() { return entityDictionary; }
     public void AllySpawnEntity(GameObject entityToSpawn, RessourceController ressource)
     {
-        if(_ally && !_ennemie) { SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0], ressource); }
+        if(_ally && !_ennemie) { SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0].transform.gameObject, ressource); }
     }
 
     private void proximityGestion(List<GameObject> list)
@@ -209,32 +219,24 @@ public class BuildingController : MonoBehaviour
         return Physics.OverlapSphere(spawnPosition, 1f);
     }
 
-    private List<GameObject> DoCircleRaycast()
+    private List<RaycastHit> DoCircleRaycast()
     {
         float numberOfRay = 40;
         float delta = 360 / numberOfRay;
 
-        List<GameObject> listOfGameObejct = new List<GameObject>();
+        List<RaycastHit> listOfGameObejct = new List<RaycastHit>();
 
         for (int i = 0; i < numberOfRay; i++)
         {
             Vector3 dir = Quaternion.Euler(0, i * delta, 0) * transform.forward;
 
             Ray ray = new Ray(transform.position, dir);
-            RaycastHit[] hits;
 
-            hits = Physics.RaycastAll(ray, _rangeDetection);
-
-            foreach (RaycastHit hit in hits)
-            {
-                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<TroupeManager>())
-                {
-                    Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
-                    listOfGameObejct.Add(hit.transform.gameObject);
-                }
-            }
+            listOfGameObejct = listOfGameObejct.Union<RaycastHit>(Physics.RaycastAll(ray, _rangeDetection).ToList()).ToList();
         }
 
         return listOfGameObejct;
     }
+
 }
+
