@@ -457,6 +457,7 @@ public class EntityController : MonoBehaviour
         {
             TroupeManager entity = (TroupeManager)_entityManager;
             entity.SetSpeed(speed);
+            _navMesh.SetSpeedWithNavMesh();
         }
     }
 

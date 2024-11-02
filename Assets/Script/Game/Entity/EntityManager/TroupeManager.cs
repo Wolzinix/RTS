@@ -31,8 +31,6 @@ public class TroupeManager : AggressifEntityManager
         }
 
         SetSpeed(StartSpeed);
-
-     
     }
 
    
@@ -64,11 +62,13 @@ public class TroupeManager : AggressifEntityManager
 
     private void SetNavMeshSpeed(float speed)
     {
+        _navMeshAgent.enabled = true;
         if (_navMeshAgent)
         {
             _navMeshAgent.speed = speed;
-
         }
+
+        _navMeshAgent.enabled = false;
     }
 
 

@@ -25,7 +25,7 @@ public class NavMeshController : MonoBehaviour
         _navMesh.updatePosition = false;
         _navMesh.updateRotation = false;
         _stoppingDistance = SetStoppingDistance();
-        _speed = SetSpeed();
+        SetSpeedWithNavMesh();
     }
     public bool notOnTraject()
     {
@@ -42,7 +42,7 @@ public class NavMeshController : MonoBehaviour
         else { return 0f; }
     }
 
-    private float SetSpeed()
+    private float GetnavMeshSpeed()
     {
         if (_navMesh)
         {
@@ -50,6 +50,11 @@ public class NavMeshController : MonoBehaviour
             return _navMesh.speed;
         }
         else { return 0f; }
+    }
+
+    public void SetSpeedWithNavMesh()
+    {
+        _speed = GetnavMeshSpeed();
     }
     public float HaveStoppingDistance()
     {
