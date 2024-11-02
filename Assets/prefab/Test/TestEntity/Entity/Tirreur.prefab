@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6174072497533667599
 Transform:
   m_ObjectHideFlags: 0
@@ -254,7 +254,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 64
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!114 &2033893907195975481
 MonoBehaviour:
@@ -335,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stoppingDistance: 0
 --- !u!114 &2875708092518566237
 MonoBehaviour:
   m_ObjectHideFlags: 0

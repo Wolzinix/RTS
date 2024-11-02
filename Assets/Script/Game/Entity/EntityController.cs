@@ -243,7 +243,7 @@ public class EntityController : MonoBehaviour
             if (_navMesh && _navMesh.notOnTraject())
             {
                 _navMesh.GetNewPath(_listOfPath[0]);
-                if (Vector3.Distance(gameObject.transform.position, _listOfPath[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                if (Vector3.Distance(gameObject.transform.position, _listOfPath[0]) <= _navMesh.HaveStoppingDistance() + 0.5)
                 {
                     _listOfPath.RemoveAt(0);
                     _listForOrder.RemoveAt(0);
@@ -267,13 +267,13 @@ public class EntityController : MonoBehaviour
                 {
                     _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
                 }
-                if (!_navMesh.notOnTraject() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                if (!_navMesh.notOnTraject() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= _navMesh.HaveStoppingDistance() + 0.5)
                 {
                     _listForAttackingOnTravel.RemoveAt(0);
                     _listForOrder.RemoveAt(0);
                     EntityIsArrive.Invoke();
                 }
-                if (_navMesh.notOnTraject() && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+                if (_navMesh.notOnTraject() && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= _navMesh.HaveStoppingDistance() + 0.5)
                 {
                     _listForAttackingOnTravel.RemoveAt(0);
                     _listForOrder.RemoveAt(0);
@@ -361,7 +361,7 @@ public class EntityController : MonoBehaviour
 
     public void AddPath(Vector3 newPath)
     {
-        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.5)
+        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
         {
             _listForOrder.Add(Order.Move);
             _listOfPath.Add(newPath);
