@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEngine.GraphicsBuffer;
 
 public enum Order
 {
@@ -66,11 +66,11 @@ public class EntityController : MonoBehaviour
         GetComponent<AggressifEntityManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
     }
 
-    private RaycastHit[] DoCircleRaycast()
+    private List<RaycastHit> DoCircleRaycast()
     {
         float numberOfRay = 30;
         float delta = 360 / numberOfRay;
-        RaycastHit[] hits = null;
+        List<RaycastHit> hits = new List<RaycastHit>();
 
 
         for (int i = 0; i < numberOfRay; i++)
@@ -78,11 +78,7 @@ public class EntityController : MonoBehaviour
             Vector3 dir = Quaternion.Euler(0, i * delta,0 ) * transform.forward;
             
             Ray ray = new Ray( transform.position,dir);
-            
-
-            hits = Physics.RaycastAll(ray, _entityManager.SeeRange);
-
-            return hits;
+            hits = hits.Union<RaycastHit>(Physics.RaycastAll(ray, _entityManager.SeeRange).ToList()).ToList();  
             
         }
 
@@ -126,16 +122,18 @@ public class EntityController : MonoBehaviour
     {
         if(_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive || _listForOrder[0] == Order.Follow) || _navMesh == null)
         {
-            RaycastHit[] listOfRayTuch = DoCircleRaycast();
+            List<RaycastHit> listOfRayTuch = DoCircleRaycast();
             List<GameObject> listOfAlly = new List<GameObject>();
 
             foreach (RaycastHit hit in listOfRayTuch)
             {
-                GameObject target;
                 if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<SelectableManager>())
                 {
+                    GameObject target;
                     Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
                     target = hit.transform.gameObject;
+
+
                     if (target != gameObject && !target.CompareTag(gameObject.tag)) { InsertTarget(target.GetComponent<SelectableManager>()); }
 
                     if (target != gameObject && target.CompareTag(gameObject.tag))
