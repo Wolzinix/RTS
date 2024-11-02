@@ -271,15 +271,14 @@ MonoBehaviour:
   _projectile: {fileID: 2599406022807975234, guid: b8e4224182822b54eabc3e74b716e707, type: 3}
   _listForOrder: 
   _listOfPath: []
-  _listForAttackingOnTravel: []
   EntityIsArrive:
+    m_PersistentCalls:
+      m_Calls: []
+  resetEvent:
     m_PersistentCalls:
       m_Calls: []
   moving: 0
   _animator: {fileID: 0}
-  resetEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -335,6 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
 --- !u!114 &2875708092518566237
 MonoBehaviour:
@@ -383,7 +383,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4825870592483654779}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 0
   m_Extents: {x: 0.5, y: 1, z: 0.5}
