@@ -226,7 +226,7 @@ public class BuilderController : EntityController
                     if(i.GetComponent<EntityController>() != null)
                     {
                         Vector3 iPosition = i.GetComponent<EntityController>().transform.position;
-                        i.GetComponent<EntityController>().AddPath(iPosition - (iPosition - ListOfBuildPosition[0] - _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size) * 2);
+                        i.GetComponent<EntityController>().AddPath((iPosition - ListOfBuildPosition[0] - _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size) * 2);
                     }
                 }
             }
