@@ -171,12 +171,12 @@ public class BuildingController : MonoBehaviour
     }
     private int DoAOverlap(Vector3 spawnPosition)
     {
-        return Physics.OverlapSphere(spawnPosition, 1f).Length;
+        return Physics.OverlapSphere(spawnPosition, 1f, ~0, QueryTriggerInteraction.Ignore).Length;
     }
 
     private Collider[] DoAOverlap(Vector3 spawnPosition, bool lol)
     {
-        return Physics.OverlapSphere(spawnPosition, 1f);
+        return Physics.OverlapSphere(spawnPosition, 1f, ~0, QueryTriggerInteraction.Ignore);
     }
 
     private List<RaycastHit> DoCircleRaycast()
