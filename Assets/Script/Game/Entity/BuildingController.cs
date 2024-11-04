@@ -26,7 +26,7 @@ public class BuildingController : MonoBehaviour
     int NbSpawnpoint = 10;
     public float spawnrayon = 2f;
     public LineRenderer lineRenderer;
-    List<GameObject> ListOfNearEntity;
+    public List<GameObject> ListOfNearEntity;
 
     [SerializeField] private List<GameObject> prefabToSpawn;
     [Serializable] public class SpawnTime {
@@ -37,8 +37,14 @@ public class BuildingController : MonoBehaviour
     }
     public List<SpawnTime> MySpawns = new List<SpawnTime>();
 
+    private SphereCollider _sphereCollider;
+    int nbAllies = 0;
+    int nbEnnemie = 0;
+
     void Start()
     {
+        _sphereCollider = GetComponentInChildren<SphereCollider>();
+        _sphereCollider.radius = gameObject.GetComponent<BuildingManager>().SeeRange;
         entityDictionary = new Dictionary<GameObject, SpawnTime>();
         _rangeDetection = gameObject.GetComponent<BuildingManager>().SeeRange;
 
@@ -52,74 +58,34 @@ public class BuildingController : MonoBehaviour
         }
         ListOfNearEntity = new List<GameObject>();
     }
-
-    private void FixedUpdate()
+    private void ReduceTimer()
     {
-        Physics.SyncTransforms();
         foreach (GameObject i in entityDictionary.Keys)
         {
             if (entityDictionary[i].actualStock < entityDictionary[i].totalStock)
             {
                 entityDictionary[i].actualTime -= Time.deltaTime;
-            
+
                 if (entityDictionary[i].actualTime <= 0)
                 {
-                    entityDictionary[i].actualStock += 1; 
+                    entityDictionary[i].actualStock += 1;
                     entityDictionary[i].actualTime = entityDictionary[i].statsTime;
                     entitySpawnNow.Invoke();
                 }
             }
         }
-
-        List<RaycastHit> ListOfHit= DoCircleRaycast();
-        List<GameObject> ListOfGO = new List<GameObject>();
-        
-        int nbAllies = 0;
-        int nbEnnemie = 0;
-
-        foreach (RaycastHit i in ListOfHit)
-        {
-            if (i.transform && !i.transform.gameObject.CompareTag("neutral") && i.transform.gameObject.GetComponent<TroupeManager>())
-            {
-                    
-                Debug.DrawLine(transform.position, i.point, Color.red, 1f);
-
-                GameObject gm = i.transform.gameObject;
-                ListOfGO.Add(gm);
-                tagOfNerestEntity = gm.tag;
-                if (gm.CompareTag("Allie"))
-                {
-                    nbAllies += 1;
-                }
-                else if (gm.CompareTag("ennemie"))
-                {
-                    nbEnnemie += 1;
-                }
-            }
-               
-        }
-        if (!ListOfNearEntity.SequenceEqual(ListOfGO))
-        {
-            EntityNextToEvent.Invoke(ListOfGO, this);
-            if (nbAllies > 0) { _ally = true; }
-            else { _ally = false; }
-
-            if (nbEnnemie > 0) { _ennemie = true; }
-            else { _ennemie = false; }
-        }
-
-        proximityGestion(ListOfGO);
-
-        ListOfNearEntity = ListOfGO;
-
-
+    }
+    private void LateUpdate()
+    {
+        ReduceTimer();
+        proximityGestion(ListOfNearEntity);
     }
 
     public bool GetCanSpawn() { return _canSpawn; }
     public Dictionary<GameObject, SpawnTime> GetEntityDictionary() { return entityDictionary; }
     public void AllySpawnEntity(GameObject entityToSpawn, RessourceController ressource)
     {
-        if(_ally && !_ennemie) { SpawnEntity(entityToSpawn, "Allie", DoCircleRaycast()[0].transform.gameObject, ressource); }
+        if(_ally && !_ennemie) { SpawnEntity(entityToSpawn, "Allie", ListOfNearEntity[0], ressource); }
     }
 
     private void proximityGestion(List<GameObject> list)
@@ -153,7 +119,7 @@ public class BuildingController : MonoBehaviour
                         
 
                     int colliders = DoAOverlap(pos);
-                    if (colliders == 1)
+                    if (colliders == 2)
                     {
                         GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
 
@@ -232,11 +198,63 @@ public class BuildingController : MonoBehaviour
 
             Ray ray = new Ray(transform.position, dir);
 
-            listOfGameObejct = listOfGameObejct.Union<RaycastHit>(Physics.RaycastAll(ray, _rangeDetection).ToList()).ToList();
+            listOfGameObejct.Union(Physics.RaycastAll(ray, _rangeDetection));
         }
 
         return listOfGameObejct;
     }
 
+    private void AddCollider(GameObject go)
+    {
+        if (go.transform && !go.transform.gameObject.CompareTag("neutral") && go.transform.gameObject.GetComponent<TroupeManager>())
+        {
+            Debug.DrawLine(transform.position, go.transform.position, Color.red, 1f);
+            if (!ListOfNearEntity.Contains(go))
+            {
+                if (go.CompareTag("Allie")) { nbAllies += 1; }
+                else if (go.CompareTag("ennemie")) { nbEnnemie += 1; }
+
+                ListOfNearEntity.Add(go);
+                if (nbAllies > 0) { _ally = true; }
+                else { _ally = false; }
+
+                if (nbEnnemie > 0) { _ennemie = true; }
+                else { _ennemie = false; }
+
+                EntityNextToEvent.Invoke(ListOfNearEntity, this);
+            }
+        }
+    }
+
+    private void RemoveCollider(GameObject go)
+    {
+        if (go.transform && !go.transform.gameObject.CompareTag("neutral") && go.transform.gameObject.GetComponent<TroupeManager>())
+        {
+            if (ListOfNearEntity.Contains(go))
+            {
+                if (go.CompareTag("Allie")) { nbAllies -= 1; }
+                else if (go.CompareTag("ennemie")) { nbEnnemie -= 1; }
+
+                ListOfNearEntity.Remove(go);
+                if (nbAllies > 0) { _ally = true; }
+                else { _ally = false; }
+
+                if (nbEnnemie > 0) { _ennemie = true; }
+                else { _ennemie = false; }
+
+                EntityNextToEvent.Invoke(ListOfNearEntity, this);
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        AddCollider(collision.gameObject);
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        RemoveCollider(collision.gameObject);
+    }
 }
 

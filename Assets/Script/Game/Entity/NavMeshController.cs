@@ -113,7 +113,7 @@ public class NavMeshController : MonoBehaviour
 
     public void StopPath()
     {
-        if (_navMesh != null)
+        if (_navMesh != null && _destination != Vector3.zero)
         {
             if(_navMesh.path != null)
             {
@@ -122,11 +122,7 @@ public class NavMeshController : MonoBehaviour
             }
             _navObstacle.enabled = true;
             _navMesh.enabled = false;
+            _destination = Vector3.zero;
         }
-
-        _destination = Vector3.zero;
-
     }
-
-    
 }

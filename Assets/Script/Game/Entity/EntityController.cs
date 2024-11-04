@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +15,7 @@ public enum Order
 
 public class EntityController : MonoBehaviour
 {
+    CancellationTokenSource cancellationTokenSource;
     protected NavMeshController _navMesh;
 
     [SerializeField] private ProjectilManager _projectile;
@@ -66,25 +67,9 @@ public class EntityController : MonoBehaviour
         GetComponent<AggressifEntityManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
     }
 
-    private List<RaycastHit> DoCircleRaycast()
-    {
-        float numberOfRay = 30;
-        float delta = 360 / numberOfRay;
-        List<RaycastHit> hits = new List<RaycastHit>();
+   
 
-        for (int i = 0; i < numberOfRay; i++)
-        {
-            Vector3 dir = Quaternion.Euler(0, i * delta,0 ) * transform.forward;
-            
-            Ray ray = new Ray( transform.position,dir);
-            hits = hits.Union<RaycastHit>(Physics.RaycastAll(ray, _entityManager.SeeRange).ToList()).ToList();  
-            
-        }
-
-        return hits;
-    }
-
-    virtual protected void FixedUpdate()
+    virtual protected void LateUpdate()
     {
          isUnit();
     }
@@ -121,32 +106,13 @@ public class EntityController : MonoBehaviour
     {
         if(_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive || _listForOrder[0] == Order.Follow) || _navMesh == null)
         {
-            List<RaycastHit> listOfRayTuch = DoCircleRaycast();
             List<GameObject> listOfAlly = new List<GameObject>();
 
-            foreach (RaycastHit hit in listOfRayTuch)
+            foreach (GameObject hit in DoCircleRaycast())
             {
-                if (hit.transform && !hit.transform.gameObject.CompareTag("neutral") && hit.transform.gameObject.GetComponent<SelectableManager>())
-                {
-                    GameObject target;
-                    Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
-                    target = hit.transform.gameObject;
-
-
-                    if (target != gameObject && !target.CompareTag(gameObject.tag)) { InsertTarget(target.GetComponent<SelectableManager>()); }
-
-                    if (target != gameObject && target.CompareTag(gameObject.tag))
-                    {
-                        if (!_listOfalliesOnRange.Contains(target))
-                        {
-                            target.GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
-                            _listOfalliesOnRange.Add(target);
-                        }
-                        if (!listOfAlly.Contains(target)) { listOfAlly.Add(target); }
-
-                    }
-                }
+                hitGestion(hit, listOfAlly);
             }
+
             ClearListOfAlly(listOfAlly);
 
             if (_listOfTarget.Count > 0)
@@ -157,23 +123,69 @@ public class EntityController : MonoBehaviour
             }
         }
     }
-
-    private void ClearListOfAlly(List<GameObject> list)
+    private void hitGestion(GameObject hit, List<GameObject> listOfAlly)
     {
-        if(list.Count != _listOfalliesOnRange.Count)
+        if (hit.transform && !hit.CompareTag("neutral") && hit.GetComponent<SelectableManager>())
         {
-            List<GameObject> listToRemove = new List<GameObject>();
+            Debug.DrawLine(transform.position, hit.transform.localPosition, Color.green, 1f);
+            GameObject target = hit.transform.gameObject;
+
+
+            if (target != gameObject && !target.CompareTag(gameObject.tag)) { InsertTarget(target.GetComponent<SelectableManager>()); }
+
+            if (target != gameObject && target.CompareTag(gameObject.tag))
+            {
+                if (!_listOfalliesOnRange.Contains(target))
+                {
+                    target.GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddTargetAttacked);
+                    _listOfalliesOnRange.Add(target);
+                }
+                if (!listOfAlly.Contains(target)) { listOfAlly.Add(target); }
+
+            }
+        }
+    }
+    private List<GameObject> DoCircleRaycast()
+    {
+        float numberOfRay = 15;
+        float delta = 360 / numberOfRay;
+        List<GameObject> hits = new List<GameObject>();
+
+        for (int i = 0; i < numberOfRay; i++)
+        {
+            Vector3 dir = Quaternion.Euler(0, i * delta, 0) * transform.forward;
+
+            Ray ray = new Ray(transform.position, dir);
+
+            RaycastHit[] list = Physics.RaycastAll(ray, _entityManager.SeeRange);
+            foreach(RaycastHit hit in list)
+            {
+                if(hit.transform.gameObject.GetComponent<SelectableManager>() && !hits.Contains(hit.transform.gameObject))
+                {
+                    hits.Add(hit.transform.gameObject);
+                }
+            }
+        }
+
+        return hits;
+    }
+
+    private  void ClearListOfAlly(List<GameObject> list)
+    {
+        
+        if (list.Count != _listOfalliesOnRange.Count)
+        {
             foreach (GameObject i in _listOfalliesOnRange)
             {
                 if (!list.Contains(i))
                 {
                     if (i) { i.GetComponent<SelectableManager>().TakingDamageFromEntity.RemoveListener(AddTargetAttacked); }
-                    listToRemove.Add(i);
                 }
             }
 
-            foreach (GameObject i in listToRemove) { _listOfalliesOnRange.Remove(i); }
+            _listOfalliesOnRange.RemoveAll(i => !list.Contains(i));
         }
+        
     }
 
     private void AggressTarget()

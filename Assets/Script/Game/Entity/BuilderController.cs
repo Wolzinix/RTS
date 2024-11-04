@@ -67,9 +67,9 @@ public class BuilderController : EntityController
         }
     }
 
-    protected override void FixedUpdate()
+    protected override void LateUpdate()
     {
-        base.FixedUpdate();
+        base.LateUpdate();
 
     }
 
