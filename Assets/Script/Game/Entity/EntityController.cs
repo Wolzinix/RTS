@@ -15,7 +15,6 @@ public enum Order
 
 public class EntityController : MonoBehaviour
 {
-    CancellationTokenSource cancellationTokenSource;
     protected NavMeshController _navMesh;
 
     [SerializeField] private ProjectilManager _projectile;
@@ -46,10 +45,14 @@ public class EntityController : MonoBehaviour
     protected static readonly int Moving = Animator.StringToHash("Mooving");
     protected static readonly int Attacking = Animator.StringToHash("Attacking");
 
+    [SerializeField] private SphereCollider _collider;
+    private List<GameObject> _ListOfCollision;
 
     void Awake()
     {
         _navMesh = GetComponent<NavMeshController>();
+        
+        _collider.radius = gameObject.GetComponent<SelectableManager>().SeeRange;
 
         _listOfPath = new List<Vector3>();
         _listOfTarget = new List<SelectableManager>();
@@ -57,7 +60,6 @@ public class EntityController : MonoBehaviour
         _listOfAllie = new List<SelectableManager>();
         _listForPatrol = new List<Vector3>();
         _listForAttackingOnTravel = new List<Vector3>();
-
         _listOfalliesOnRange = new List<GameObject>();
         
         _entityManager = GetComponent<AggressifEntityManager>();
@@ -65,9 +67,8 @@ public class EntityController : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
 
         GetComponent<AggressifEntityManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
+        _ListOfCollision = new List<GameObject>();
     }
-
-   
 
     virtual protected void LateUpdate()
     {
@@ -81,7 +82,6 @@ public class EntityController : MonoBehaviour
         if (_listForOrder.Count == 0 && _animator.GetInteger(Attacking) == 1) { _animator.SetInteger(Attacking, 0); }
 
         SearchTarget();
-
         ExecuteOrder();
     }
 
@@ -108,7 +108,7 @@ public class EntityController : MonoBehaviour
         {
             List<GameObject> listOfAlly = new List<GameObject>();
 
-            foreach (GameObject hit in DoCircleRaycast())
+            foreach (GameObject hit in _ListOfCollision)
             {
                 hitGestion(hit, listOfAlly);
             }
@@ -169,7 +169,6 @@ public class EntityController : MonoBehaviour
 
         return hits;
     }
-
     private  void ClearListOfAlly(List<GameObject> list)
     {
         
@@ -187,7 +186,6 @@ public class EntityController : MonoBehaviour
         }
         
     }
-
     private void AggressTarget()
     {
         if (!_listOfTarget[0])
@@ -236,7 +234,6 @@ public class EntityController : MonoBehaviour
             }
         }
     }
-
     protected bool DoAMove()
     {
         bool etat = false;
@@ -257,7 +254,6 @@ public class EntityController : MonoBehaviour
         }
         return etat;
     }
-
     protected bool DoAnAgressionPath()
     {
         bool etat = false;
@@ -287,7 +283,6 @@ public class EntityController : MonoBehaviour
 
         return etat;
     }
-
     protected bool DoAPatrol()
     {
         bool etat = false;
@@ -312,7 +307,6 @@ public class EntityController : MonoBehaviour
         }
         return etat;
     }
-
     protected bool DoAFollow()
     {
         bool etat = false;
@@ -335,7 +329,6 @@ public class EntityController : MonoBehaviour
 
         return etat;
     }
-
     protected bool DoAnAggression()
     {
         bool etat = false;
@@ -346,9 +339,6 @@ public class EntityController : MonoBehaviour
         }
         return etat;
     }
-
-  
-
     void DoAttack(SelectableManager target) 
     {
         if (_projectile)
@@ -361,7 +351,6 @@ public class EntityController : MonoBehaviour
         }
         else {  _entityManager.DoAttack(target); }
     }
-
     public void AddPath(Vector3 newPath)
     {
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
@@ -371,12 +360,10 @@ public class EntityController : MonoBehaviour
         }
            
     }
-
     private void AddTargetAttacked(SelectableManager target)
     {
         InsertTarget(target);
     }
-
     public void AddTarget(SelectableManager target )
     {
         if(!_listOfTarget.Contains(target))
@@ -385,7 +372,6 @@ public class EntityController : MonoBehaviour
             _listForOrder.Add(Order.Target);
         }
     }
-
     public void InsertTarget(SelectableManager target)
     {
         if (!_listOfTarget.Contains(target))
@@ -394,13 +380,11 @@ public class EntityController : MonoBehaviour
             _listForOrder.Insert(0, Order.Target);
         }
     }
-
     public void AddAllie(SelectableManager target)
     {
         _listOfAllie.Add(target);
         _listForOrder.Add(Order.Follow);
     }
-    
     public void AddPatrol(Vector3 point)
     {
         _listForPatrol.Add(point);
@@ -482,5 +466,32 @@ public class EntityController : MonoBehaviour
             return entity.StartSpeed;
         }
         return 0;
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if(collision.gameObject.GetComponent<SelectableManager>() != null)
+        {
+            _ListOfCollision.Add(collision.gameObject);
+            List<GameObject> listOfAlly = _listOfalliesOnRange;
+
+            hitGestion(collision.gameObject, listOfAlly);
+
+            ClearListOfAlly(listOfAlly);
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.gameObject.GetComponent<SelectableManager>() != null)
+        {
+            _ListOfCollision.Remove(collision.gameObject);
+
+            List<GameObject> listOfAlly = _listOfalliesOnRange;
+
+            listOfAlly.Remove(collision.gameObject);
+
+            ClearListOfAlly(listOfAlly);
+        }
     }
 }

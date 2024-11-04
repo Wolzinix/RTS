@@ -159,7 +159,6 @@ public class BuildingController : MonoBehaviour
     {
         float Theta = 2f * (float)Mathf.PI * ((float)spawnPoint / NbSpawnpoint);
 
-
         float x = spawnRadius * Mathf.Cos(Theta);
         float y = spawnRadius * Mathf.Sin(Theta);
 
@@ -169,11 +168,6 @@ public class BuildingController : MonoBehaviour
         pos.z += transform.position.z;
 
         return pos;
-    }
-
-    private void SetPath(EntityController entity)
-    {
-        entity.AddAggressivePath(new Vector3(transform.position.x+transform.forward.x + 3, transform.position.y+transform.forward.y, transform.position.z+transform.forward.z));
     }
     private int DoAOverlap(Vector3 spawnPosition)
     {
