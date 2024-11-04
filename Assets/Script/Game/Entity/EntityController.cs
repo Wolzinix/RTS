@@ -81,7 +81,6 @@ public class EntityController : MonoBehaviour
 
         if (_listForOrder.Count == 0 && _animator.GetInteger(Attacking) == 1) { _animator.SetInteger(Attacking, 0); }
 
-        SearchTarget();
         ExecuteOrder();
     }
 
@@ -100,9 +99,7 @@ public class EntityController : MonoBehaviour
             else if (DoAnAggression()) { }
         }
     }
-   
-
-    virtual protected void SearchTarget()
+     virtual protected void SearchTarget()
     {
         if(_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive || _listForOrder[0] == Order.Follow) || _navMesh == null)
         {
@@ -419,12 +416,10 @@ public class EntityController : MonoBehaviour
         resetEvent.Invoke();
 
     }
-
     public bool Stay
     {
         set => _stayPosition = value;
     }
-
     private int SortTargetByProximity(SelectableManager entity1, SelectableManager entity2)
     {
         if(entity1 == null) return 1;
@@ -473,25 +468,25 @@ public class EntityController : MonoBehaviour
         if(collision.gameObject.GetComponent<SelectableManager>() != null)
         {
             _ListOfCollision.Add(collision.gameObject);
-            List<GameObject> listOfAlly = _listOfalliesOnRange;
-
-            hitGestion(collision.gameObject, listOfAlly);
-
-            ClearListOfAlly(listOfAlly);
+            collision.gameObject.GetComponent<SelectableManager>().deathEvent.AddListener(RemoveToCollision);
+            SearchTarget();
         }
     }
 
     private void OnTriggerExit(Collider collision)
     {
-        if (collision.gameObject.GetComponent<SelectableManager>() != null)
+        if (_ListOfCollision.Contains(collision.gameObject))
         {
             _ListOfCollision.Remove(collision.gameObject);
-
-            List<GameObject> listOfAlly = _listOfalliesOnRange;
-
-            listOfAlly.Remove(collision.gameObject);
-
-            ClearListOfAlly(listOfAlly);
+            collision.gameObject.GetComponent<SelectableManager>().deathEvent.RemoveListener(RemoveToCollision);
+            SearchTarget();
         }
+    }
+
+    private void RemoveToCollision(SelectableManager SM)
+    {
+        _ListOfCollision.Remove(SM.gameObject);
+        SM.deathEvent.RemoveListener(RemoveToCollision);
+        SearchTarget();
     }
 }

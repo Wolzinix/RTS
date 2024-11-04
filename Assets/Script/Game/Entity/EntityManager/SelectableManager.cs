@@ -5,13 +5,8 @@ public class SelectableManager : EntityManager
 {
     [SerializeField] private float seeRange = 3;
   
-
     public UnityEvent<SelectableManager> deathEvent = new UnityEvent<SelectableManager>();
     public UnityEvent<AggressifEntityManager> TakingDamageFromEntity = new UnityEvent<AggressifEntityManager>();
-
-
-   
-
 
     public float SeeRange
     {
