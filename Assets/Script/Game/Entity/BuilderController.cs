@@ -252,7 +252,7 @@ public class BuilderController : EntityController
     }
     private Collider[] DoAOverlap(Vector3 spawnPosition)
     {
-        return Physics.OverlapSphere(spawnPosition, 1);
+        return Physics.OverlapSphere(spawnPosition, 1, ~0, QueryTriggerInteraction.Ignore);
     }
 
     public void AddHarvestTarget(GameObject hit)
