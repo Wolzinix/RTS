@@ -13,6 +13,7 @@ public class BuildingIA
 
     public bool IsProtected;
     public List<GroupManager> _ListOfProtector = new List<GroupManager>();
+    public GroupManager _GroupOfSpawn = null;
 
     public int NbOfTower = 0;
     public List<DefenseManager> _ListOfTower = new List<DefenseManager>();
@@ -97,5 +98,18 @@ public class BuildingIA
         }
 
         GC.SuppressFinalize(this);
+    }
+
+    public void RemoveSpawnGroup(GroupManager group)
+    {
+        _GroupOfSpawn.GroupIsDeadevent.RemoveListener(RemoveSpawnGroup);
+        _GroupOfSpawn = null;
+    }
+
+    public void AddSpawnGroup(GroupManager group)
+    {
+        _GroupOfSpawn = group;
+        group.GroupIsDeadevent.AddListener(RemoveSpawnGroup);
+        
     }
 }
