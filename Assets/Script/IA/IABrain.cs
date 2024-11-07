@@ -24,6 +24,7 @@ public class IABrain : MonoBehaviour
     void Start()
     {
         stockBuilding = new IAStockBuilding();
+        stockBuilding.IAbrain = this;
         groupManager.ia = this;
 
         NeedToSendEntityToBuildingEvent.AddListener(SendEntityToBuilding);

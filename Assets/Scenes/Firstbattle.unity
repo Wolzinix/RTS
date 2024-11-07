@@ -14821,6 +14821,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1662796191}
     - target: {fileID: 5156644770516148487, guid: ddd9b4c01b3d4314591de5ad15771494, type: 3}
+      propertyPath: Objectif.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156644770516148487, guid: ddd9b4c01b3d4314591de5ad15771494, type: 3}
       propertyPath: Objectif.Array.data[0]
       value: 
       objectReference: {fileID: 167806440}
