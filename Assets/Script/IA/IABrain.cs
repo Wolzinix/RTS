@@ -1,31 +1,28 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class IABrain : MonoBehaviour
 {
-    public  List<BuildingController> _AllieBuilding = new List<BuildingController>();
-    [SerializeField] GameObject groupOfEntity;
+    
 
-    private  Dictionary<BuildingController, BuildingIA> DicoOfBuilding;
+    [SerializeField] GameObject groupOfEntity;
+    IAStockBuilding stockBuilding;
 
     [HideInInspector] public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
     [HideInInspector] public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
-
-
     [HideInInspector] public UnityEvent<BuildingIA, Vector3> ATowerIsDestroyEvent;
     public int nbMaxOfTower;
 
     [SerializeField] private List<GameObject> Objectif;
 
-    IAGroupManager groupManager = new IAGroupManager();
+    private IAGroupManager groupManager = new IAGroupManager();
 
     public string ennemieTag;
 
     void Start()
     {
-        DicoOfBuilding = new Dictionary<BuildingController, BuildingIA>();
+        stockBuilding = new IAStockBuilding();
         groupManager.ia = this;
 
         NeedToSendEntityToBuildingEvent.AddListener(SendEntityToBuilding);
@@ -40,6 +37,7 @@ public class IABrain : MonoBehaviour
     {
         NeedToSendEntityToBuildingEvent.RemoveAllListeners();
         NeedToSendGroupToBuildingEvent.RemoveAllListeners();
+        ATowerIsDestroyEvent.RemoveAllListeners();
     }
 
     public void AddObjectif(GameObject newObject)
@@ -199,40 +197,27 @@ public class IABrain : MonoBehaviour
 
     private void ActualiseBuilding()
     {
-        BuildingController[] buildings = FindObjectsOfType<BuildingController>();
-        foreach (BuildingController building in buildings)
-        {
-            BuildingIA stats = new BuildingIA();
-            stats.Tag = building.tag;
-            stats.building = building;
-            stats.IAbrain = this;
-            building.EntityNextToEvent.AddListener(stats.changeHaveEntity);
-            DicoOfBuilding[building] = stats;
-            if(!building.CompareTag(ennemieTag))
-            {
-                stats.NeedToSendEntity();
-            }
-        }
-        
+        stockBuilding.ActualiseBuilding(FindObjectsOfType<BuildingController>());
+
         ActualisePatrol();
     }
 
     private void ActualisePatrol()
     {
-        GetAllieBuilding();
+        List<BuildingIA> listOfAllie = stockBuilding.GetAllieBuilding();
         groupManager.ClearListOfPatrol();
-        for (int i = 0; i < _AllieBuilding.Count - 1 ; i++)
+        for (int i = 0; i < listOfAllie.Count - 1 ; i++)
         {
-            for (int w = 1; w < _AllieBuilding.Count; w++)
+            for (int w = 1; w < listOfAllie.Count; w++)
             {
-                if(Vector3.Distance(_AllieBuilding[i].transform.position, _AllieBuilding[w].transform.position)<30)
+                if(Vector3.Distance(listOfAllie[i].building.transform.position, listOfAllie[w].building.transform.position)<30)
                 {
                     List<BuildingController> buildings = new List<BuildingController>
                     {
-                        _AllieBuilding[i],
-                        _AllieBuilding[w]
+                        listOfAllie[i].building,
+                        listOfAllie[w].building
                     };
-                    groupManager.SendAGroupToPatrol(_AllieBuilding[i].transform.position, buildings);
+                    groupManager.SendAGroupToPatrol(listOfAllie[i].building.transform.position, buildings);
                 }
             }
         }

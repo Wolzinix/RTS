@@ -92,11 +92,12 @@ public class BuildingController : MonoBehaviour
     {
         if (!_ally && _ennemie)
         {
+            tagOfNerestEntity = "ennemie";
             _canSpawn = true;
             foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i, "ennemie", list[0],FindAnyObjectByType<IABrain>().GetComponent<RessourceController>()); }
         }
-        else if (_ally) { _canSpawn = true; }
-        else { _canSpawn = false; }
+        else if (_ally) { tagOfNerestEntity = "Allie"; _canSpawn = true; }
+        else { _canSpawn = false; tagOfNerestEntity = ""; }
     }
 
     private void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity, RessourceController ressource)
