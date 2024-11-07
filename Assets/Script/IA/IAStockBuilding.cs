@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class IAStockBuilding
@@ -9,18 +8,6 @@ public class IAStockBuilding
     private Dictionary<BuildingController, BuildingIA> DicoOfBuilding = new Dictionary<BuildingController, BuildingIA>();
     public List<BuildingIA> _AllieBuilding = new List<BuildingIA>();
     public List<BuildingIA> _EnnemieBuilding = new List<BuildingIA>();
-
-    private void AddTowerToBuilding(GameObject newObject)
-    {
-        foreach (BuildingController building in _AllieBuilding)
-        {
-            if (DicoOfBuilding[building]._ListOfTower.Count < IAbrain.nbMaxOfTower)
-            {
-                groupManager.SendBuilderToBuildTower(DicoOfBuilding[building], GetTheNerestPoint(newObject.transform.position, building.SpawnTower(groupManager.DistanceOfSecurity)));
-            }
-        }
-    }
-
 
     public List<BuildingIA> GetAllieBuilding()
     {
@@ -50,7 +37,7 @@ public class IAStockBuilding
             else
             {
                 if(_AllieBuilding.Contains(stats)) { _AllieBuilding.Remove(stats); }
-                if(_EnnemieBuilding.Contains(stats)) { _EnnemieBuilding.Remove(stats); }
+                if(_EnnemieBuilding.Contains(stats)) { _EnnemieBuilding.Remove(stats);  IAbrain.RemoveObjectif(building.gameObject); }
 
                 if(building.tagOfNerestEntity == IAbrain.tag) { AddAllieBuilding(stats); }
                 else { AddEnnemieBuilding(stats); }
@@ -76,6 +63,11 @@ public class IAStockBuilding
     {
         foreach (BuildingIA building in _AllieBuilding)
         {
+            if(!building.building)
+            {
+                _AllieBuilding.Remove(building);
+                building.Dispose();
+            }
             if (DicoOfBuilding[building.building]._ListOfTower.Count < IAbrain.nbMaxOfTower)
             {
                 IAbrain.AddTowerToBuilding(building, newObject);

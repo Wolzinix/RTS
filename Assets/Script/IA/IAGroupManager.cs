@@ -12,7 +12,7 @@ public class IAGroupManager
 
     private Dictionary<GroupManager, BuildingIA> _ListOfGroupToSpawnEntity = new Dictionary<GroupManager, BuildingIA>();
     private Dictionary<GroupManager, BuildingIA> _ListOfGroupToProtectBuilding = new Dictionary<GroupManager, BuildingIA>();
-    private Dictionary<GroupManager, List<BuildingController>> _ListOfGroupPatrol = new Dictionary<GroupManager, List<BuildingController>>();
+    private Dictionary<GroupManager, List<BuildingIA>> _ListOfGroupPatrol = new Dictionary<GroupManager, List<BuildingIA>>();
 
     private List<BuilderController> _ListOfBuilder = new List<BuilderController>();
 
@@ -42,9 +42,9 @@ public class IAGroupManager
         groupToCreate.AddSelect(entity);
         _ListOfGroup.Add(groupToCreate);
 
-        if(ia._AllieBuilding.Count>0)
+        if(ia.GetAllieBuilding().Count>0)
         {
-            groupToCreate.AttackingOnTravel(GetPosWithSecurity(groupToCreate, ia._AllieBuilding[0].transform.position));
+            groupToCreate.AttackingOnTravel(GetPosWithSecurity(groupToCreate, ia.GetAllieBuilding()[0].building.transform.position));
         }
 
         nbGroup++;
@@ -124,8 +124,8 @@ public class IAGroupManager
         group.AddSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
         if(_ListOfGroupPatrol.Keys.Contains(group))
         {
-            entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][0].transform.position);
-            entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][1].transform.position);
+            entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][0].building.transform.position);
+            entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][1].building.transform.position);
         }
         else {  SendEverybodyToTheCenter(group);}
 
@@ -148,7 +148,7 @@ public class IAGroupManager
         List<GroupManager> groupPatrolToParkour = new (_ListOfGroupPatrol.Keys);
         foreach (GroupManager i in groupPatrolToParkour)
         {
-            if (!ia._AllieBuilding.Contains(_ListOfGroupPatrol[i][0]) || !ia._AllieBuilding.Contains(_ListOfGroupPatrol[i][1]))
+            if (!ia.GetAllieBuilding().Contains(_ListOfGroupPatrol[i][0]) || !ia.GetAllieBuilding().Contains(_ListOfGroupPatrol[i][1]))
             {
                 i.ResetOrder();
                 groupPatrol.Add(i);
@@ -421,7 +421,7 @@ public class IAGroupManager
         ClearUselessGroup();
     }
 
-    public void SendAGroupToPatrol(Vector3 position, List<BuildingController> buildings)
+    public void SendAGroupToPatrol(Vector3 position, List<BuildingIA> buildings)
     {
         bool exist = false;
         GroupManager NearestGroup = GetThenearsetGroupOfAPoint(position);
@@ -436,7 +436,7 @@ public class IAGroupManager
                 _ListOfGroupAttack.Remove(NearestGroup);
                 _ListOfGroupPatrol.Add(NearestGroup, buildings);
                 NearestGroup.SomeoneIsImmobile.RemoveListener(ia.ActualiseTheGroup);
-                NearestGroup.SpecificPatrouilleOrder(buildings[0].transform.position, buildings[1].transform.position);
+                NearestGroup.SpecificPatrouilleOrder(buildings[0].building.transform.position, buildings[1].building.transform.position);
             }
         }
     }

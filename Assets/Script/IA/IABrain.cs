@@ -8,7 +8,7 @@ public class IABrain : MonoBehaviour
     
 
     [SerializeField] GameObject groupOfEntity;
-    IAStockBuilding stockBuilding;
+    public IAStockBuilding stockBuilding;
 
     [HideInInspector] public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
     [HideInInspector] public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
@@ -94,7 +94,7 @@ public class IABrain : MonoBehaviour
         }
         return position;
     }
-    private List<BuildingIA> GetAllieBuilding()
+    public List<BuildingIA> GetAllieBuilding()
     {
         return stockBuilding.GetAllieBuilding();
     }
@@ -177,7 +177,7 @@ public class IABrain : MonoBehaviour
         }
     }
 
-    private void ActualiseBuilding()
+    public void ActualiseBuilding()
     {
         stockBuilding.ActualiseBuilding(FindObjectsOfType<BuildingController>());
 
@@ -194,10 +194,10 @@ public class IABrain : MonoBehaviour
             {
                 if(Vector3.Distance(listOfAllie[i].building.transform.position, listOfAllie[w].building.transform.position)<30)
                 {
-                    List<BuildingController> buildings = new List<BuildingController>
+                    List<BuildingIA> buildings = new List<BuildingIA>
                     {
-                        listOfAllie[i].building,
-                        listOfAllie[w].building
+                        listOfAllie[i],
+                        listOfAllie[w]
                     };
                     groupManager.SendAGroupToPatrol(listOfAllie[i].building.transform.position, buildings);
                 }

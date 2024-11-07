@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BuildingIA
@@ -29,9 +31,9 @@ public class BuildingIA
         _ListOfProtector.Remove(group);
         if (_ListOfProtector.Count == 0)
         {
-            IAbrain.AddObjectif(building.gameObject);
-            NeedAGroup();
             IsProtected = false;
+            IAbrain.ActualiseBuilding();
+            if(IAbrain.GetAllieBuilding().Contains(this)){ NeedAGroup();}
         }
     }
 
@@ -43,9 +45,10 @@ public class BuildingIA
     {
         CanSpawn = building.GetCanSpawn();
 
+        IAbrain.ActualiseBuilding();
         if (CanSpawn && building.tagOfNerestEntity == IAbrain.gameObject.tag)
         {
-            IAbrain.RemoveObjectif(building.gameObject);
+            
             EntityNextTo.Clear();
             foreach (GameObject gameObject in Entity)
             {
@@ -55,7 +58,6 @@ public class BuildingIA
         }
         else
         {
-            IAbrain.AddObjectif(building.gameObject);
             if(building.tag == IAbrain.tag || building.tag == "neutral" && !CanSpawn)
             {
                 IAbrain.NeedToSendEntityToBuildingEvent.Invoke(this, building.gameObject.transform.position);
@@ -80,5 +82,20 @@ public class BuildingIA
         DefenseManager deadTower = (DefenseManager) tower;
         _ListOfTower.Remove(deadTower);
         IAbrain.ATowerIsDestroyEvent.Invoke(this, tower.transform.position);
+    }
+
+    public void Dispose()
+    {
+        foreach(DefenseManager i in _ListOfTower)
+        {
+            i.deathEvent.RemoveListener(ATowerIsDeath);
+        }
+
+        foreach (GroupManager i in _ListOfProtector)
+        {
+            i.GroupIsDeadevent.RemoveListener(RemoveAGroup);
+        }
+
+        GC.SuppressFinalize(this);
     }
 }
