@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BuildingIA
@@ -10,13 +9,12 @@ public class BuildingIA
     public string Tag;
     public bool CanSpawn;
     public string TagOfEntity;
-
     public BuildingController building;
 
     public bool IsProtected;
-
     public List<GroupManager> _ListOfProtector = new List<GroupManager>();
-    public int NbOfTower = 2;
+
+    public int NbOfTower = 0;
     public List<DefenseManager> _ListOfTower = new List<DefenseManager>();
 
     public void SetAProtectionGroup(GroupManager group)
@@ -74,6 +72,7 @@ public class BuildingIA
     public void AddTower(DefenseManager tower)
     {
         _ListOfTower.Add(tower);
+        NbOfTower += 1;
         tower.deathEvent.AddListener(ATowerIsDeath);
     }
 
@@ -81,6 +80,7 @@ public class BuildingIA
     {
         DefenseManager deadTower = (DefenseManager) tower;
         _ListOfTower.Remove(deadTower);
+        NbOfTower -= 1;
         IAbrain.ATowerIsDestroyEvent.Invoke(this, tower.transform.position);
     }
 

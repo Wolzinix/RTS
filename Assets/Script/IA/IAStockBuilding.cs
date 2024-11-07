@@ -85,7 +85,7 @@ public class IAStockBuilding
                 _AllieBuilding.Remove(building);
                 building.Dispose();
             }
-            if (DicoOfBuilding[building.building]._ListOfTower.Count < IAbrain.nbMaxOfTower)
+            if (DicoOfBuilding[building.building].NbOfTower < IAbrain.nbMaxOfTower)
             {
                 IAbrain.AddTowerToBuilding(building, newObject);
             }
