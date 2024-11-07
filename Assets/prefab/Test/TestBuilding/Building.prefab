@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1974872821757856839
 Transform:
   m_ObjectHideFlags: 0
@@ -219,6 +219,7 @@ MonoBehaviour:
   tagOfNerestEntity: 
   spawnrayon: 2
   lineRenderer: {fileID: 0}
+  ListOfNearEntity: []
   prefabToSpawn: []
   MySpawns: []
 --- !u!208 &7696095010799487015

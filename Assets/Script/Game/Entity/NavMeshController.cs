@@ -65,8 +65,7 @@ public class NavMeshController : MonoBehaviour
     {
         return _stoppingDistance;
     }
-
-    private void FixedUpdate()
+    private void LateUpdate()
     { 
         if(Vector3.Distance(transform.localPosition,_destination) > _stoppingDistance && _destination != Vector3.zero) { SetNextPosition(); }
         else { StopPath(); }
