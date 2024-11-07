@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -55,20 +54,22 @@ public class BuilderController : EntityController
         {
 
             bool location = gameObject.GetComponent<NavMeshController>().notOnTraject();
-            bool distance =
-                Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0]) 
-                <=
-                gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.x + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.y;
+            if(location)
+            {
+               bool distance =
+               Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0])
+               <=
+               gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.x + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.y;
 
-            if (location && distance) { Build(); }
-            else if (location && !distance) { AddPath(ListOfBuildPosition[0]); }
-
+                if (distance) { Build(); }
+                else{ AddPath(ListOfBuildPosition[0]); }
+            }
         }
     }
 
-    protected override void FixedUpdate()
+    protected override void LateUpdate()
     {
-        base.FixedUpdate();
+        base.LateUpdate();
 
     }
 
@@ -94,6 +95,7 @@ public class BuilderController : EntityController
     {
         float numberOfRay = 40;
         float delta = 360 / numberOfRay;
+        GameObject closet = null;
 
         for (int i = 0; i < numberOfRay; i++)
         {
@@ -109,11 +111,18 @@ public class BuilderController : EntityController
                 if (hit.transform &&  hit.transform.gameObject.GetComponent<RessourceManager>())
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
-                    return hit.transform.gameObject;
+                    if(closet == null)
+                    {
+                        closet = hit.transform.gameObject;
+                    }
+                    else if(Vector3.Distance(transform.position,closet.transform.position)> Vector3.Distance(transform.position, hit.transform.position))
+                    {
+                        closet = hit.transform.gameObject;
+                    }
                 }
             }
         }
-        return null;
+        return closet;
     }
     private void DoHarvest()
     {
@@ -217,7 +226,7 @@ public class BuilderController : EntityController
                     if(i.GetComponent<EntityController>() != null)
                     {
                         Vector3 iPosition = i.GetComponent<EntityController>().transform.position;
-                        i.GetComponent<EntityController>().AddPath(iPosition - (iPosition - ListOfBuildPosition[0] - _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size) * 2);
+                        i.GetComponent<EntityController>().AddPath((iPosition - ListOfBuildPosition[0] - _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size) * 2);
                     }
                 }
             }
@@ -243,7 +252,7 @@ public class BuilderController : EntityController
     }
     private Collider[] DoAOverlap(Vector3 spawnPosition)
     {
-        return Physics.OverlapSphere(spawnPosition, 1);
+        return Physics.OverlapSphere(spawnPosition, 1, ~0, QueryTriggerInteraction.Ignore);
     }
 
     public void AddHarvestTarget(GameObject hit)

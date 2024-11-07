@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,7 +7,7 @@ public class NavMeshController : MonoBehaviour
     private NavMeshPath _navPath ;
     private NavMeshObstacle _navObstacle;
 
-    private Vector3 _destination;
+    public Vector3 _destination;
     public float _stoppingDistance;
     private float _speed;
 
@@ -24,12 +23,18 @@ public class NavMeshController : MonoBehaviour
 
         _navMesh.updatePosition = false;
         _navMesh.updateRotation = false;
+        _navMesh.ActivateCurrentOffMeshLink(true);
         _stoppingDistance = SetStoppingDistance();
         SetSpeedWithNavMesh();
     }
     public bool notOnTraject()
     {
         return !notAtLocation() || _destination == Vector3.zero;
+    }
+    public bool notAtLocation()
+    {
+        bool isnotarrived = Vector3.Distance(transform.localPosition, _destination) > _stoppingDistance && _destination != Vector3.zero;
+        return isnotarrived;
     }
 
     private float SetStoppingDistance()
@@ -60,8 +65,7 @@ public class NavMeshController : MonoBehaviour
     {
         return _stoppingDistance;
     }
-
-    private void FixedUpdate()
+    private void LateUpdate()
     { 
         if(Vector3.Distance(transform.localPosition,_destination) > _stoppingDistance && _destination != Vector3.zero) { SetNextPosition(); }
         else { StopPath(); }
@@ -84,9 +88,19 @@ public class NavMeshController : MonoBehaviour
             _navMesh.enabled = true;
             _navObstacle.enabled = false;
             _destination = new Vector3( point.x , transform.position.y, point.z);
+
             if(_navMesh.isOnNavMesh)
             {
                 _navMesh.CalculatePath(point, _navPath);
+                if(_navPath.corners.Length < 1)
+                {
+                    NavMeshHit hit;
+                    if (NavMesh.SamplePosition(point,out hit, 10, NavMesh.AllAreas))
+                    {
+                        _navMesh.CalculatePath(hit.position, _navPath);
+                    }
+                }
+               
             }
         }
     }
@@ -98,7 +112,7 @@ public class NavMeshController : MonoBehaviour
 
     public void StopPath()
     {
-        if (_navMesh != null)
+        if (_navMesh != null && _destination != Vector3.zero)
         {
             if(_navMesh.path != null)
             {
@@ -107,15 +121,7 @@ public class NavMeshController : MonoBehaviour
             }
             _navObstacle.enabled = true;
             _navMesh.enabled = false;
+            _destination = Vector3.zero;
         }
-
-        _destination = Vector3.zero;
-
-    }
-
-    public bool notAtLocation()
-    {
-        bool isnotarrived = Vector3.Distance(transform.localPosition, _destination) > _stoppingDistance && _destination == Vector3.zero;
-        return isnotarrived;
     }
 }

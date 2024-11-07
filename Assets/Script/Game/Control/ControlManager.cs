@@ -292,7 +292,7 @@ public class ControlManager : MonoBehaviour
     {
         Ray ray = camera.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast (ray, out hit, Mathf.Infinity)){ return hit;}
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~0, queryTriggerInteraction:QueryTriggerInteraction.Ignore)){ return hit;}
         return hit;
     }
 

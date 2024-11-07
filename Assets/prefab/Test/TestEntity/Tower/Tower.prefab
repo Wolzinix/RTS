@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1573186405335928753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7584945503724028668}
+  - component: {fileID: 8512891494205341763}
+  m_Layer: 6
+  m_Name: Collision
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7584945503724028668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573186405335928753}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5592201362407160647}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8512891494205341763
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573186405335928753}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3521267180626295269
 GameObject:
   m_ObjectHideFlags: 0
@@ -16,7 +69,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6174072497533667599
 Transform:
   m_ObjectHideFlags: 0
@@ -225,6 +278,7 @@ Transform:
   m_Children:
   - {fileID: 6174072497533667599}
   - {fileID: 3763644759705615025}
+  - {fileID: 7584945503724028668}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3648613589935070831
@@ -269,15 +323,15 @@ MonoBehaviour:
   _projectile: {fileID: 6611384894665667933, guid: 064a87588d0069342aa228859eb93adc, type: 3}
   _listForOrder: 
   _listOfPath: []
-  _listForAttackingOnTravel: []
   EntityIsArrive:
+    m_PersistentCalls:
+      m_Calls: []
+  resetEvent:
     m_PersistentCalls:
       m_Calls: []
   moving: 0
   _animator: {fileID: 0}
-  resetEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  _collider: {fileID: 8512891494205341763}
 --- !u!65 &2798183401605432793
 BoxCollider:
   m_ObjectHideFlags: 0
