@@ -96,6 +96,7 @@ public class IAGroupManager
     private void ClearUselessGroup()
     {
         List<GroupManager> groupList = new List<GroupManager>();
+
         foreach (GroupManager group in _ListOfGroup)
         {
             if (group.getNumberOnGroup() == 0) { groupList.Add(group);  }
@@ -129,14 +130,15 @@ public class IAGroupManager
     {
         entity.ClearAllOrder();
         entity.AddAggressivePath(group.getCenterofGroup());
+
         group.AddSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
+
         if(_ListOfGroupPatrol.Keys.Contains(group))
         {
             entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][0].building.transform.position);
             entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][1].building.transform.position);
         }
-        else {  SendEverybodyToTheCenter(group);}
-
+        else { SendEverybodyToTheCenter(group); }
     }
     public void AddBuilder(BuilderController builder)
     {
@@ -335,27 +337,14 @@ public class IAGroupManager
 
     public bool EntityIsInAGroup(EntityController entity)
     {
-        bool InGroup = false;
-        foreach (GroupManager group in _ListOfGroupAttack)
+        foreach (GroupManager group in _ListOfGroup)
         {
-            if (group.GroupContainUnity(entity)) { InGroup = true; }
+            if (group.GroupContainUnity(entity)) {  return true; }
         }
-        foreach (GroupManager group in _ListOfGroupToProtectBuilding.Keys)
-        {
-            if (group.GroupContainUnity(entity)) { InGroup = true; }
-        }
-        foreach (GroupManager group in _ListOfGroupPatrol.Keys)
-        {
-            if (group.GroupContainUnity(entity)) { InGroup = true; }
-        }
-        foreach (GroupManager group in _ListOfGroupToSpawnEntity.Keys)
-        {
-            if (group.GroupContainUnity(entity)) { InGroup = true; }
-        }
-        return InGroup;
+        return false;
     }
 
-    public GroupManager WhatGroupWillJoin(EntityController entity, List<GroupManager> list)
+    public GroupManager NearestGroupOfType(EntityController entity, List<GroupManager> list)
     {
         GroupManager groupeARejoindre = null;
         foreach (GroupManager group in list)
@@ -390,18 +379,19 @@ public class IAGroupManager
         }
         return group;
     }
+
+    private GroupManager FindNearstGroup (EntityController entity,List<GroupManager> groupType, GroupManager groupToJoin)
+    {
+        GroupManager c = NearestGroupOfType(entity, groupType);
+        return NearestGroup(entity, groupToJoin, c);
+    }
     public void EntityJoinAGroup(EntityController entity)
     {
         GroupManager groupeARejoindre = null;
 
-        GroupManager c = WhatGroupWillJoin(entity, _ListOfGroupPatrol.Keys.ToList());
-        groupeARejoindre = NearestGroup(entity, groupeARejoindre, c);
-
-        c = WhatGroupWillJoin(entity, _ListOfGroupToProtectBuilding.Keys.ToList());
-        groupeARejoindre = NearestGroup(entity, groupeARejoindre, c);
-
-        c = WhatGroupWillJoin(entity, _ListOfGroupAttack);
-        groupeARejoindre = NearestGroup(entity, groupeARejoindre, c);
+        groupeARejoindre = FindNearstGroup(entity, _ListOfGroupPatrol.Keys.ToList(),groupeARejoindre);
+        groupeARejoindre = FindNearstGroup(entity, _ListOfGroupToProtectBuilding.Keys.ToList(), groupeARejoindre);
+        groupeARejoindre = FindNearstGroup(entity, _ListOfGroupAttack, groupeARejoindre);
 
         if (groupeARejoindre != null) { AddEntityToGroup(groupeARejoindre, entity); }
         else { CreateGroup(entity.gameObject.GetComponent<AggressifEntityManager>()); }

@@ -4,8 +4,6 @@ using UnityEngine.Events;
 
 public class IABrain : MonoBehaviour
 {
-    
-
     [SerializeField] GameObject groupOfEntity;
     public IAStockBuilding stockBuilding;
 
@@ -165,6 +163,8 @@ public class IABrain : MonoBehaviour
                 }
             }
         }
+
+
         ActualisePatrol();
         //DebugGroup();
     }
