@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -45,10 +46,8 @@ public class IABrain : MonoBehaviour
         if (!Objectif.Contains(newObject)) 
         {
             ActualisePatrol();
-            Objectif.Reverse();
-            Objectif.Add(newObject);
-            Objectif.Reverse();
-            AddTowerToBuilding(newObject);
+            Objectif.Insert(0, newObject);
+            AddTowerToEveryBuilding(newObject);
         }
     }
     public void RemoveObjectif(GameObject oldObjectif)
@@ -57,15 +56,9 @@ public class IABrain : MonoBehaviour
         Objectif.Remove( oldObjectif );
     }
 
-    private void AddTowerToBuilding(GameObject newObject)
+    private void AddTowerToEveryBuilding(GameObject newObject)
     {
-        foreach (BuildingController building in _AllieBuilding)
-        {
-            if (DicoOfBuilding[building]._ListOfTower.Count < nbMaxOfTower)
-            {
-                groupManager.SendBuilderToBuildTower(DicoOfBuilding[building], GetTheNerestPoint(newObject.transform.position,building.SpawnTower(groupManager.DistanceOfSecurity)));
-            }
-        }
+        stockBuilding.AddTowerToEveryBuilding(newObject);
     }
 
     public void TowerToBuilding(DefenseManager defense, BuildingIA building)
@@ -75,9 +68,17 @@ public class IABrain : MonoBehaviour
 
     private void AddTowerToBuilding(BuildingIA building,Vector3 position)
     {
-        if (building._ListOfTower.Count < nbMaxOfTower && _AllieBuilding.Contains(building.building))
+        if (building._ListOfTower.Count < nbMaxOfTower && stockBuilding._AllieBuilding.Contains(building))
         {
             groupManager.SendBuilderToBuildTower(building, GetTheNerestPoint(position, building.building.SpawnTower(groupManager.DistanceOfSecurity)));
+        }
+    }
+
+    public void AddTowerToBuilding(BuildingIA building, GameObject newObject)
+    {
+        if (building._ListOfTower.Count < nbMaxOfTower && stockBuilding._AllieBuilding.Contains(building))
+        {
+            groupManager.SendBuilderToBuildTower(building, GetTheNerestPoint(newObject.transform.position, building.building.SpawnTower(groupManager.DistanceOfSecurity)));
         }
     }
 
@@ -93,28 +94,9 @@ public class IABrain : MonoBehaviour
         }
         return position;
     }
-    private List<BuildingController> GetAllieBuilding()
+    private List<BuildingIA> GetAllieBuilding()
     {
-        _AllieBuilding = new List<BuildingController>();
-
-        foreach(BuildingController i in  DicoOfBuilding.Keys)
-        {
-            if (i && groupManager.BuildingIsProtected(DicoOfBuilding[i]))
-            {
-                _AllieBuilding.Add(i);
-            }
-            else if (i)
-            {
-                i.entityAsBeenBuy.RemoveAllListeners();
-                if (!i.CompareTag(ennemieTag) || DicoOfBuilding[i].CanSpawn && i.tagOfNerestEntity == gameObject.tag)
-                {
-                    i.entityAsBeenBuy.AddListener(ActualiseGroup);
-                    _AllieBuilding.Add(i);
-                    DicoOfBuilding[i].NeedAGroup();
-                }
-            }
-        }
-        return _AllieBuilding;
+        return stockBuilding.GetAllieBuilding();
     }
     private GameObject GetThenearsetEntityOfAPoint(Vector3 point)
     {

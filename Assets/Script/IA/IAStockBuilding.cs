@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class IAStockBuilding
@@ -32,7 +33,9 @@ public class IAStockBuilding
         stats.Tag = building.tag;
         stats.building = building;
         stats.IAbrain = IAbrain;
+
         building.EntityNextToEvent.AddListener(stats.changeHaveEntity);
+
         DicoOfBuilding[building] = stats;
         return stats;
     }
@@ -57,11 +60,26 @@ public class IAStockBuilding
 
     private void AddAllieBuilding(BuildingIA building)
     {
-        _AllieBuilding.Add(building);
+        if (!_AllieBuilding.Contains(building)) { _AllieBuilding.Add(building); }
     }
 
     private void AddEnnemieBuilding(BuildingIA building)
     {
-        _EnnemieBuilding.Add(building);
+        if (_EnnemieBuilding.Contains(building)) 
+        { 
+            _EnnemieBuilding.Add(building);
+            IAbrain.AddObjectif(building.building.gameObject);
+        }
+    }
+
+    public void AddTowerToEveryBuilding(GameObject newObject)
+    {
+        foreach (BuildingIA building in _AllieBuilding)
+        {
+            if (DicoOfBuilding[building.building]._ListOfTower.Count < IAbrain.nbMaxOfTower)
+            {
+                IAbrain.AddTowerToBuilding(building, newObject);
+            }
+        }
     }
 }
