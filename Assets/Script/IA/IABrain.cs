@@ -223,7 +223,6 @@ public class IABrain : MonoBehaviour
 
     public void SpawnEntityOfBuilding(BuildingController building, GameObject entity)
     {
-
-        building.SpawnEntity(entity,tag, groupOfEntity, GetComponent<RessourceController>());
+        building.SpawnEntity(entity,tag, groupOfEntity.GetComponentInChildren<EntityController>().gameObject, GetComponent<RessourceController>());
     }
 }

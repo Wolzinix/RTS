@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -48,9 +49,7 @@ public class IAStockBuilding
             else if (building.CompareTag(IAbrain.ennemieTag)) { AddEnnemieBuilding(stats);  }
             else
             {
-                if(_AllieBuilding.Contains(stats)) { _AllieBuilding.Remove(stats);
-                    building.entityCanSpawnNow.RemoveListener(IAbrain.SpawnEntityOfBuilding);
-                }
+                if(_AllieBuilding.Contains(stats)) { RemoveAllieBuilding(stats); }
                 if(_EnnemieBuilding.Contains(stats)) { _EnnemieBuilding.Remove(stats);  IAbrain.RemoveObjectif(building.gameObject); }
                 if (_NeutralBuilding.Contains(stats)) { _NeutralBuilding.Remove(stats); IAbrain.RemoveObjectif(building.gameObject); }
 
@@ -60,12 +59,18 @@ public class IAStockBuilding
             }
         }
     }
-
+    private void RemoveAllieBuilding(BuildingIA building)
+    {
+        _AllieBuilding.Remove(building);
+        building.building.entityCanSpawnNow.RemoveListener(IAbrain.SpawnEntityOfBuilding);
+        building.building.entityAsBeenBuy.AddListener(IAbrain.ActualiseGroup);
+    }
     private void AddAllieBuilding(BuildingIA building)
     {
         if (!_AllieBuilding.Contains(building))
         {
             building.building.entityCanSpawnNow.AddListener(IAbrain.SpawnEntityOfBuilding);
+            building.building.entityAsBeenBuy.AddListener(IAbrain.ActualiseGroup);
             _AllieBuilding.Add(building);
             building.NeedAGroup();
             building.NeedToSendEntity();
