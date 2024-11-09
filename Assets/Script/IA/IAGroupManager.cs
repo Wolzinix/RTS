@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class IAGroupManager
 {
@@ -39,6 +40,8 @@ public class IAGroupManager
         {
             groupToCreate.AttackingOnTravel(GetPosWithSecurity(groupToCreate, ia.GetAllieBuilding()[0].building.transform.position));
         }
+
+        ia.ActualisePatrol();
 
         nbGroup++;
     }
@@ -110,8 +113,8 @@ public class IAGroupManager
     public void ClearListOfPatrol()
     {
         List<GroupManager> groupPatrol = new List<GroupManager>();
-        List<GroupManager> groupPatrolToParkour = new(_ListOfGroupPatrol.Keys);
-        foreach (GroupManager i in groupPatrolToParkour)
+
+        foreach (GroupManager i in _ListOfGroupPatrol.Keys)
         {
             if (!ia.GetAllieBuilding().Contains(_ListOfGroupPatrol[i][0]) || !ia.GetAllieBuilding().Contains(_ListOfGroupPatrol[i][1]))
             {
@@ -119,11 +122,23 @@ public class IAGroupManager
                 groupPatrol.Add(i);
             }
         }
+
         foreach (GroupManager i in groupPatrol)
         {
             _ListOfGroupPatrol.Remove(i);
             _ListOfGroupAttack.Add(i);
         }
+    }
+
+    public void ClearAPatrol(GroupManager group)
+    {
+        if (!ia.GetAllieBuilding().Contains(_ListOfGroupPatrol[group][0]) || !ia.GetAllieBuilding().Contains(_ListOfGroupPatrol[group][1]))
+        {
+            group.ResetOrder();
+            _ListOfGroupPatrol.Remove(group);
+            _ListOfGroupAttack.Add(group);
+        }
+        
     }
 
     public void AddEntityToGroup(GroupManager group, EntityController entity)
@@ -399,24 +414,52 @@ public class IAGroupManager
         ClearUselessGroup();
     }
 
-    public void SendAGroupToPatrol(Vector3 position, List<BuildingIA> buildings)
+    public void SendAGroupToPatrol(GroupManager group, List<BuildingIA> buildings)
     {
-        bool exist = false;
-        GroupManager NearestGroup = GetThenearsetGroupOfAPoint(position);
-        if (NearestGroup != null)
+        _ListOfGroupAttack.Remove(group);
+        _ListOfGroupPatrol.Add(group, buildings);
+        group.SomeoneIsImmobile.RemoveListener(ia.ActualiseTheGroup);
+        group.SpecificPatrouilleOrder(buildings[0].building.transform.position, buildings[1].building.transform.position);
+            
+    }
+
+    public void VerifyForPatrol(BuildingIA building1, BuildingIA building2)
+    {
+        List<BuildingIA> buildings = new List<BuildingIA>
+                    {
+                        building1,
+                        building2
+                    };
+        if (!ia.GetAllieBuilding().Contains(building1) || !ia.GetAllieBuilding().Contains(building2))
         {
-            foreach (GroupManager x in _ListOfGroupPatrol.Keys)
+            if (Vector3.Distance(building1.building.transform.position, building2.building.transform.position) < 30)
             {
-                if (_ListOfGroupPatrol[x].SequenceEqual(buildings) || x == NearestGroup){  exist = true; }
-            }
-            if (!exist)
-            {
-                _ListOfGroupAttack.Remove(NearestGroup);
-                _ListOfGroupPatrol.Add(NearestGroup, buildings);
-                NearestGroup.SomeoneIsImmobile.RemoveListener(ia.ActualiseTheGroup);
-                NearestGroup.SpecificPatrouilleOrder(buildings[0].building.transform.position, buildings[1].building.transform.position);
+                
+
+                bool exist = false;
+                GroupManager NearestGroup = GetThenearsetGroupOfAPoint(building2.building.transform.position);
+                if (NearestGroup != null)
+                {
+                    foreach (GroupManager x in _ListOfGroupPatrol.Keys)
+                    {
+                        if (_ListOfGroupPatrol[x].SequenceEqual(buildings) || x == NearestGroup) { exist = true; break; }
+                    }
+                    if (!exist)
+                    {
+                        SendAGroupToPatrol(NearestGroup, buildings);
+                    }
+                }
             }
         }
+        else
+        {
+            if(_ListOfGroupPatrol.FirstOrDefault(x => x.Value == buildings).Key != null)
+            {
+
+                ClearAPatrol(_ListOfGroupPatrol.FirstOrDefault(x => x.Value == buildings).Key);
+            }
+        }
+           
     }
     private void DebugGroup()
     {

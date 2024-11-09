@@ -62,6 +62,7 @@ public class IAStockBuilding
     private void RemoveAllieBuilding(BuildingIA building)
     {
         _AllieBuilding.Remove(building);
+        IAbrain.ActualisePatrol(building);
         building.building.entityCanSpawnNow.RemoveListener(IAbrain.SpawnEntityOfBuilding);
         building.building.entityAsBeenBuy.AddListener(IAbrain.ActualiseGroup);
     }
@@ -72,6 +73,7 @@ public class IAStockBuilding
             building.building.entityCanSpawnNow.AddListener(IAbrain.SpawnEntityOfBuilding);
             building.building.entityAsBeenBuy.AddListener(IAbrain.ActualiseGroup);
             _AllieBuilding.Add(building);
+            IAbrain.ActualisePatrol(building);
             building.NeedAGroup();
             building.NeedToSendEntity();
         }

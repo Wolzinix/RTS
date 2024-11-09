@@ -43,14 +43,12 @@ public class IABrain : MonoBehaviour
     {
         if (!Objectif.Contains(newObject)) 
         {
-            ActualisePatrol();
             Objectif.Insert(0, newObject);
             AddTowerToEveryBuilding(newObject);
         }
     }
     public void RemoveObjectif(GameObject oldObjectif)
     {
-        ActualisePatrol();
         Objectif.Remove( oldObjectif );
     }
 
@@ -163,9 +161,6 @@ public class IABrain : MonoBehaviour
                 }
             }
         }
-
-
-        ActualisePatrol();
         //DebugGroup();
     }
    
@@ -185,11 +180,9 @@ public class IABrain : MonoBehaviour
     public void ActualiseBuilding()
     {
         stockBuilding.ActualiseBuilding(FindObjectsOfType<BuildingController>());
-
-        ActualisePatrol();
     }
 
-    private void ActualisePatrol()
+    public void ActualisePatrol()
     {
         List<BuildingIA> listOfAllie = stockBuilding.GetAllieBuilding();
         groupManager.ClearListOfPatrol();
@@ -197,16 +190,16 @@ public class IABrain : MonoBehaviour
         {
             for (int w = 1; w < listOfAllie.Count; w++)
             {
-                if(Vector3.Distance(listOfAllie[i].building.transform.position, listOfAllie[w].building.transform.position)<30)
-                {
-                    List<BuildingIA> buildings = new List<BuildingIA>
-                    {
-                        listOfAllie[i],
-                        listOfAllie[w]
-                    };
-                    groupManager.SendAGroupToPatrol(listOfAllie[i].building.transform.position, buildings);
-                }
+                groupManager.VerifyForPatrol(listOfAllie[i], listOfAllie[w]);
             }
+        }
+    }
+    public void ActualisePatrol(BuildingIA building)
+    {
+        List<BuildingIA> listOfAllie = stockBuilding.GetAllieBuilding();
+        foreach(BuildingIA i  in   listOfAllie)
+        {
+            if(i != building) { groupManager.VerifyForPatrol(building, i); }
         }
     }
     public void SendRenfortToBuilding(BuildingIA building, Vector3 location)
