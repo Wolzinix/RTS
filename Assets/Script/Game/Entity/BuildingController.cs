@@ -10,7 +10,6 @@ public class BuildingController : MonoBehaviour
     private Dictionary<GameObject, SpawnTime> entityDictionary;
 
     public UnityEvent entitySpawnNow = new UnityEvent();
-
     public UnityEvent entityAsBeenBuy = new UnityEvent();
 
     public UnityEvent<List<GameObject>,BuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, BuildingController>();
@@ -94,13 +93,15 @@ public class BuildingController : MonoBehaviour
         {
             tagOfNerestEntity = "ennemie";
             _canSpawn = true;
-            foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i, "ennemie", list[0],FindAnyObjectByType<IABrain>().GetComponent<RessourceController>()); }
         }
         else if (_ally) { tagOfNerestEntity = "Allie"; _canSpawn = true; }
         else { _canSpawn = false; tagOfNerestEntity = ""; }
     }
-
-    private void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity, RessourceController ressource)
+    public void SpawnEveryEntity(string tag, GameObject entity, RessourceController ressource)
+    {
+        foreach (GameObject i in entityDictionary.Keys) { SpawnEntity(i, tag, entity, ressource); }
+    }
+    public void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity, RessourceController ressource)
     {
         if(ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldCost) && _canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
         {
