@@ -139,7 +139,7 @@ public class IABrain : MonoBehaviour
         if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
         {
             EntityController entity = GetThenearsetEntityOfAPoint(point).GetComponent<EntityController>();
-            GroupManager group = groupManager.SendEntityToBuilding(building, point, entity);
+            GroupManager group = groupManager.SendEntityToBuilding(building, entity);
             if(group != null)
             {
 

@@ -306,7 +306,7 @@ public class IAGroupManager
     private void SendToAttack(GroupManager group, GameObject objectif) { group.AttackingOnTravel(objectif.transform.position); }
     public void SendAGroup(GroupManager group, Vector3 point) { group.AttackingOnTravel(point); }
 
-    public GroupManager SendEntityToBuilding(BuildingIA building, Vector3 point, EntityController entity)
+    public GroupManager SendEntityToBuilding(BuildingIA building, EntityController entity)
     {
         if(!BuildingHaveAlreadyAGroup(building))
         {
@@ -319,6 +319,7 @@ public class IAGroupManager
                 if (group.GroupContainUnity(entity))
                 {
                     group.RemoveSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
+                    break;
                 }
             }
             GroupManager SpawnGroup = CreateSpawnEntityGroup(entity.GetComponent<AggressifEntityManager>(), building);
