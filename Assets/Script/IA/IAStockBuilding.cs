@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class IAStockBuilding
 {
@@ -9,7 +11,16 @@ public class IAStockBuilding
     public List<BuildingIA> _AllieBuilding = new List<BuildingIA>();
     public List<BuildingIA> _EnnemieBuilding = new List<BuildingIA>();
     public List<BuildingIA> _NeutralBuilding = new List<BuildingIA>();
+    public List<BuildingIA> _SpawnableBuilding = new List<BuildingIA>();
 
+    public UnityEvent<BuildingIA> ABuildingCanNotSpawn = new UnityEvent<BuildingIA>();
+    public UnityEvent<BuildingIA> ABuildingCanSpawn = new UnityEvent<BuildingIA>();
+
+    public IAStockBuilding()
+    {
+        ABuildingCanNotSpawn.AddListener(RemoveBuldingToSpawnable);
+        ABuildingCanSpawn.AddListener(AddBuldingToSpawnable);
+    }
     public List<BuildingIA> GetAllieBuilding()
     {
         return _AllieBuilding;
@@ -37,7 +48,9 @@ public class IAStockBuilding
             else if (building.CompareTag(IAbrain.ennemieTag)) { AddEnnemieBuilding(stats);  }
             else
             {
-                if(_AllieBuilding.Contains(stats)) { _AllieBuilding.Remove(stats); }
+                if(_AllieBuilding.Contains(stats)) { _AllieBuilding.Remove(stats);
+                    building.entityCanSpawnNow.RemoveListener(IAbrain.SpawnEntityOfBuilding);
+                }
                 if(_EnnemieBuilding.Contains(stats)) { _EnnemieBuilding.Remove(stats);  IAbrain.RemoveObjectif(building.gameObject); }
                 if (_NeutralBuilding.Contains(stats)) { _NeutralBuilding.Remove(stats); IAbrain.RemoveObjectif(building.gameObject); }
 
@@ -50,8 +63,9 @@ public class IAStockBuilding
 
     private void AddAllieBuilding(BuildingIA building)
     {
-        if (!_AllieBuilding.Contains(building)) 
-        { 
+        if (!_AllieBuilding.Contains(building))
+        {
+            building.building.entityCanSpawnNow.AddListener(IAbrain.SpawnEntityOfBuilding);
             _AllieBuilding.Add(building);
             building.NeedAGroup();
             building.NeedToSendEntity();
@@ -89,6 +103,23 @@ public class IAStockBuilding
             {
                 IAbrain.AddTowerToBuilding(building, newObject);
             }
+        }
+    }
+
+    private void AddBuldingToSpawnable(BuildingIA building)
+    {
+        if (!_SpawnableBuilding.Contains(building))
+        {
+            _SpawnableBuilding.Add(building);
+            IAbrain.SpawnEveryEntityOfABuilding(building.building);
+        }
+    }
+
+    private void RemoveBuldingToSpawnable(BuildingIA building)
+    {
+        if(_SpawnableBuilding.Contains(building))
+        {
+            _SpawnableBuilding.Remove(building);
         }
     }
 }

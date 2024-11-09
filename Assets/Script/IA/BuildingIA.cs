@@ -54,10 +54,12 @@ public class BuildingIA
                 TagOfEntity = gameObject.tag;
                 EntityNextTo.Add(gameObject);
             }
+            IAbrain.stockBuilding.ABuildingCanSpawn.Invoke(this);
         }
         else
         {
-            if(building.tag == IAbrain.tag || building.tag == "neutral" && !CanSpawn)
+            IAbrain.stockBuilding.ABuildingCanNotSpawn.Invoke(this);
+            if (building.tag == IAbrain.tag || building.tag == "neutral" && !CanSpawn)
             {
                 IAbrain.NeedToSendEntityToBuildingEvent.Invoke(this, building.gameObject.transform.position);
             }
@@ -110,6 +112,7 @@ public class BuildingIA
     {
         _GroupOfSpawn = group;
         group.GroupIsDeadevent.AddListener(RemoveSpawnGroup);
-        
     }
+
+    
 }

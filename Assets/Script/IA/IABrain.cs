@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class IABrain : MonoBehaviour
 {
-    [SerializeField] GameObject groupOfEntity;
+    [SerializeField] public GameObject groupOfEntity;
     public IAStockBuilding stockBuilding;
 
     [HideInInspector] public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
@@ -216,5 +216,14 @@ public class IABrain : MonoBehaviour
             groupManager.SendRenfortToBuilding(building, location);
         }
     }
+    public void SpawnEveryEntityOfABuilding(BuildingController building)
+    {
+        building.SpawnEveryEntity(tag, groupOfEntity, GetComponent<RessourceController>());
+    }
 
+    public void SpawnEntityOfBuilding(BuildingController building, GameObject entity)
+    {
+
+        building.SpawnEntity(entity,tag, groupOfEntity, GetComponent<RessourceController>());
+    }
 }

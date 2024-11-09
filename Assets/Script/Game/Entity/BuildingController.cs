@@ -10,6 +10,7 @@ public class BuildingController : MonoBehaviour
     private Dictionary<GameObject, SpawnTime> entityDictionary;
 
     public UnityEvent entitySpawnNow = new UnityEvent();
+    public UnityEvent<BuildingController, GameObject> entityCanSpawnNow = new UnityEvent<BuildingController, GameObject>();
     public UnityEvent entityAsBeenBuy = new UnityEvent();
 
     public UnityEvent<List<GameObject>,BuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, BuildingController>();
@@ -70,6 +71,7 @@ public class BuildingController : MonoBehaviour
                     entityDictionary[i].actualStock += 1;
                     entityDictionary[i].actualTime = entityDictionary[i].statsTime;
                     entitySpawnNow.Invoke();
+                    entityCanSpawnNow.Invoke(this,i);
                 }
             }
         }
