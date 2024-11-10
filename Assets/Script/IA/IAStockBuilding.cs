@@ -45,8 +45,8 @@ public class IAStockBuilding
         {
             BuildingIA stats = DicoOfBuilding.Keys.Contains(building) ? DicoOfBuilding[building] : CreateBuildingForIa(building); 
 
-            if (building.CompareTag(IAbrain.tag)) {  AddAllieBuilding(stats);  }
-            else if (building.CompareTag(IAbrain.ennemieTag)) { AddEnnemieBuilding(stats);  }
+            if (building.CompareTag(IAbrain.tag)) { AddAllieBuilding(stats); }
+            else if (building.CompareTag(IAbrain.ennemieTag)) { AddEnnemieBuilding(stats); }
             else
             {
                 if(_AllieBuilding.Contains(stats)) { RemoveAllieBuilding(stats); }
@@ -54,7 +54,7 @@ public class IAStockBuilding
                 if (_NeutralBuilding.Contains(stats)) { _NeutralBuilding.Remove(stats); IAbrain.RemoveObjectif(building.gameObject); }
 
                 if (building.tagOfNerestEntity == IAbrain.tag) { AddAllieBuilding(stats); }
-                if(building.tagOfNerestEntity == "") { AddNeutralBuilding(stats); }
+                else if(building.tagOfNerestEntity == "") { AddNeutralBuilding(stats); }
                 else { AddEnnemieBuilding(stats); }
             }
         }

@@ -364,7 +364,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &51282326
 NavMeshObstacle:
@@ -845,7 +845,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &169933746
 NavMeshObstacle:
@@ -899,7 +899,7 @@ Transform:
   m_GameObject: {fileID: 169933742}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.48, y: 0, z: 11.764098}
+  m_LocalPosition: {x: 3.48, y: 1.15, z: 11.764098}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1162,7 +1162,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &236297608
 NavMeshObstacle:
@@ -1943,7 +1943,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &400743598
 NavMeshObstacle:
@@ -1997,7 +1997,7 @@ Transform:
   m_GameObject: {fileID: 400743594}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.5441315, y: 0, z: 10.8766}
+  m_LocalPosition: {x: -2.5441315, y: 0.78, z: 10.8766}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2619,7 +2619,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &444283319
 NavMeshObstacle:
@@ -3154,7 +3154,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &535879937
 NavMeshObstacle:
@@ -3208,7 +3208,7 @@ Transform:
   m_GameObject: {fileID: 535879933}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.3599908, y: 0, z: 11.319819}
+  m_LocalPosition: {x: 1.3599908, y: 1.15, z: 11.319819}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3596,7 +3596,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &576079801
 NavMeshObstacle:
@@ -4226,7 +4226,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &683149758
 NavMeshObstacle:
@@ -5637,7 +5637,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &918277132
 NavMeshObstacle:
@@ -6850,7 +6850,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1095335840
 NavMeshObstacle:
@@ -6904,7 +6904,7 @@ Transform:
   m_GameObject: {fileID: 1095335836}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.56, y: 0, z: 9.011639}
+  m_LocalPosition: {x: -4.56, y: 1.52, z: 9.011639}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7790,7 +7790,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1230216098
 NavMeshObstacle:
@@ -7844,7 +7844,7 @@ Transform:
   m_GameObject: {fileID: 1230216094}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1401026, y: 0, z: 15.397473}
+  m_LocalPosition: {x: -1.1401026, y: 1.15, z: 15.397473}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7940,7 +7940,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1232391880
 NavMeshObstacle:
@@ -7994,7 +7994,7 @@ Transform:
   m_GameObject: {fileID: 1232391876}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.47, y: 0, z: 13.76}
+  m_LocalPosition: {x: 4.47, y: 0.78, z: 13.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8173,7 +8173,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1237550449
 NavMeshObstacle:
@@ -8366,10 +8366,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2140429094921462342, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
-      propertyPath: m_Constraints
-      value: 14
-      objectReference: {fileID: 0}
     - target: {fileID: 3271698958538956887, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -8996,7 +8992,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1368884117
 NavMeshObstacle:
@@ -9050,7 +9046,7 @@ Transform:
   m_GameObject: {fileID: 1368884113}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.759283, y: 0, z: 13.381316}
+  m_LocalPosition: {x: -5.759283, y: 1.15, z: 13.381316}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9532,7 +9528,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1410986545
 NavMeshObstacle:
@@ -10089,7 +10085,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1477846705
 NavMeshObstacle:
@@ -10244,7 +10240,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1487662646
 NavMeshObstacle:
@@ -10399,7 +10395,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1517095189
 NavMeshObstacle:
@@ -10453,7 +10449,7 @@ Transform:
   m_GameObject: {fileID: 1517095185}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.5297253, y: 0, z: 9.25}
+  m_LocalPosition: {x: 2.5297253, y: 1.15, z: 9.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11071,7 +11067,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1628897567
 NavMeshObstacle:
@@ -11125,7 +11121,7 @@ Transform:
   m_GameObject: {fileID: 1628897563}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.086117, y: 0, z: 12.459833}
+  m_LocalPosition: {x: -3.086117, y: 0.78, z: 12.459833}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11442,7 +11438,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1662859181
 NavMeshObstacle:
@@ -11777,7 +11773,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1688548480
 NavMeshObstacle:
@@ -12164,7 +12160,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1746139828
 NavMeshObstacle:
@@ -13076,7 +13072,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1869298881
 NavMeshObstacle:
@@ -13921,7 +13917,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &1982749127
 NavMeshObstacle:
@@ -13975,7 +13971,7 @@ Transform:
   m_GameObject: {fileID: 1982749123}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.75283027, y: 0, z: 15.011803}
+  m_LocalPosition: {x: 0.75283027, y: 1.15, z: 15.011803}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14702,7 +14698,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.5, z: 1}
+  m_Size: {x: 0.1, y: 3.5, z: 0.1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!208 &2146570702
 NavMeshObstacle:

@@ -123,7 +123,7 @@ public class BuildingController : MonoBehaviour
                         
 
                     int colliders = DoAOverlap(pos);
-                    if (colliders == 2)
+                    if (colliders == 1)
                     {
                         GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
 

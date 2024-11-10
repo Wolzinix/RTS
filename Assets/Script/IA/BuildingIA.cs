@@ -51,8 +51,11 @@ public class BuildingIA
             EntityNextTo.Clear();
             foreach (GameObject gameObject in Entity)
             {
-                TagOfEntity = gameObject.tag;
-                EntityNextTo.Add(gameObject);
+                if(gameObject)
+                {
+                    TagOfEntity = gameObject.tag;
+                    EntityNextTo.Add(gameObject);
+                }
             }
             IAbrain.stockBuilding.ABuildingCanSpawn.Invoke(this);
         }
@@ -104,7 +107,10 @@ public class BuildingIA
 
     public void RemoveSpawnGroup(GroupManager group)
     {
-        _GroupOfSpawn.GroupIsDeadevent.RemoveListener(RemoveSpawnGroup);
+        if(_GroupOfSpawn != null)
+        {
+            _GroupOfSpawn.GroupIsDeadevent.RemoveListener(RemoveSpawnGroup);
+        }
         _GroupOfSpawn = null;
     }
 
