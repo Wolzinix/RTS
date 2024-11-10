@@ -76,8 +76,18 @@ public class EntityController : MonoBehaviour
     }
     virtual protected void isUnit()
     {
-        if (_navMesh && !_navMesh.notOnTraject()) { _animator.SetBool(Moving, true); moving = true; }
-        else { _animator.SetBool(Moving, false); moving = false; }
+        if (_navMesh && !_navMesh.notOnTraject()) 
+        { 
+            _animator.SetBool(Moving, true); 
+            moving = true; 
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX; 
+        }
+        else 
+        {
+            _animator.SetBool(Moving, false); 
+            moving = false; 
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX; 
+        }
 
         if (_listForOrder.Count == 0 && _animator.GetInteger(Attacking) == 1) { _animator.SetInteger(Attacking, 0); }
 
@@ -141,30 +151,6 @@ public class EntityController : MonoBehaviour
 
             }
         }
-    }
-    private List<GameObject> DoCircleRaycast()
-    {
-        float numberOfRay = 15;
-        float delta = 360 / numberOfRay;
-        List<GameObject> hits = new List<GameObject>();
-
-        for (int i = 0; i < numberOfRay; i++)
-        {
-            Vector3 dir = Quaternion.Euler(0, i * delta, 0) * transform.forward;
-
-            Ray ray = new Ray(transform.position, dir);
-
-            RaycastHit[] list = Physics.RaycastAll(ray, _entityManager.SeeRange);
-            foreach(RaycastHit hit in list)
-            {
-                if(hit.transform.gameObject.GetComponent<SelectableManager>() && !hits.Contains(hit.transform.gameObject))
-                {
-                    hits.Add(hit.transform.gameObject);
-                }
-            }
-        }
-
-        return hits;
     }
     private  void ClearListOfAlly(List<GameObject> list)
     {
