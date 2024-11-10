@@ -15,7 +15,7 @@ public class EntityManager :  MonoBehaviour
 
     public int WoodCost = 1;
 
-    public float size;
+    [HideInInspector] public float size;
 
 
 
@@ -28,7 +28,7 @@ public class EntityManager :  MonoBehaviour
 
     [SerializeField] protected float defense = 1;
 
-    public UnityEvent changeStats = new UnityEvent();
+    [HideInInspector] public UnityEvent changeStats = new UnityEvent();
 
     protected Animator _animator;
     public Sprite GetSprit()

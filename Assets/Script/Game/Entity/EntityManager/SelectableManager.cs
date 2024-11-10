@@ -4,9 +4,9 @@ using UnityEngine.Events;
 public class SelectableManager : EntityManager
 {
     [SerializeField] private float seeRange = 3;
-  
-    public UnityEvent<SelectableManager> deathEvent = new UnityEvent<SelectableManager>();
-    public UnityEvent<AggressifEntityManager> TakingDamageFromEntity = new UnityEvent<AggressifEntityManager>();
+
+    [HideInInspector] public UnityEvent<SelectableManager> deathEvent = new UnityEvent<SelectableManager>();
+    [HideInInspector] public UnityEvent<AggressifEntityManager> TakingDamageFromEntity = new UnityEvent<AggressifEntityManager>();
 
     public float SeeRange
     {

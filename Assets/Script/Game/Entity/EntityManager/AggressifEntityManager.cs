@@ -3,17 +3,13 @@ using UnityEngine;
 
 public class AggressifEntityManager : SelectableManager
 {
-    public RessourceController ressources;
+    [HideInInspector] public RessourceController ressources;
 
     [SerializeField] private float attack = 1;
     [SerializeField] private float attackSpeed = 1;
     [SerializeField] private float range = 1;
 
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
-
-
-
-
     protected override void Awake()
     {
         base.Awake();

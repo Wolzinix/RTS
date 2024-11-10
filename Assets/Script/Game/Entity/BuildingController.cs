@@ -9,11 +9,11 @@ public class BuildingController : MonoBehaviour
 {
     private Dictionary<GameObject, SpawnTime> entityDictionary;
 
-    public UnityEvent entitySpawnNow = new UnityEvent();
-    public UnityEvent<BuildingController, GameObject> entityCanSpawnNow = new UnityEvent<BuildingController, GameObject>();
-    public UnityEvent entityAsBeenBuy = new UnityEvent();
+    [HideInInspector] public UnityEvent entitySpawnNow = new UnityEvent();
+    [HideInInspector] public UnityEvent<BuildingController, GameObject> entityCanSpawnNow = new UnityEvent<BuildingController, GameObject>();
+    [HideInInspector] public UnityEvent entityAsBeenBuy = new UnityEvent();
 
-    public UnityEvent<List<GameObject>,BuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, BuildingController>();
+    [HideInInspector] public UnityEvent<List<GameObject>,BuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, BuildingController>();
 
     private float _rangeDetection;
 
@@ -79,17 +79,17 @@ public class BuildingController : MonoBehaviour
     private void LateUpdate()
     {
         ReduceTimer();
-        proximityGestion(ListOfNearEntity);
+        proximityGestion();
     }
 
     public bool GetCanSpawn() { return _canSpawn; }
     public Dictionary<GameObject, SpawnTime> GetEntityDictionary() { return entityDictionary; }
     public void AllySpawnEntity(GameObject entityToSpawn, RessourceController ressource)
     {
-        if(_ally && !_ennemie) { SpawnEntity(entityToSpawn, "Allie", ListOfNearEntity[0], ressource); }
+        if (_ally && !_ennemie) { SpawnEntity(entityToSpawn, ListOfNearEntity[0].gameObject.tag, ListOfNearEntity[0], ressource); }
     }
 
-    private void proximityGestion(List<GameObject> list)
+    private void proximityGestion()
     {
         if (!_ally && _ennemie)
         {
@@ -201,7 +201,23 @@ public class BuildingController : MonoBehaviour
 
         return listOfGameObejct;
     }
+    private void EntityProximityDeath(SelectableManager entity)
+    {
+        if (entity.CompareTag("Allie")) { nbAllies -= 1; }
+        else if (entity.CompareTag("ennemie")) { nbEnnemie -= 1; }
 
+        ListOfNearEntity.Remove(entity.gameObject);
+        TagGestion();
+    }
+
+    private void TagGestion()
+    {
+        if (nbAllies > 0) { _ally = true; }
+        else { _ally = false; }
+
+        if (nbEnnemie > 0) { _ennemie = true; }
+        else { _ennemie = false; }
+    }
     private void AddCollider(GameObject go)
     {
         if (go.transform && !go.transform.gameObject.CompareTag("neutral") && go.transform.gameObject.GetComponent<TroupeManager>())
@@ -213,13 +229,10 @@ public class BuildingController : MonoBehaviour
                 else if (go.CompareTag("ennemie")) { nbEnnemie += 1; }
 
                 ListOfNearEntity.Add(go);
-                if (nbAllies > 0) { _ally = true; }
-                else { _ally = false; }
-
-                if (nbEnnemie > 0) { _ennemie = true; }
-                else { _ennemie = false; }
+                TagGestion();
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
+                go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.AddListener(EntityProximityDeath);
             }
         }
     }
@@ -234,13 +247,10 @@ public class BuildingController : MonoBehaviour
                 else if (go.CompareTag("ennemie")) { nbEnnemie -= 1; }
 
                 ListOfNearEntity.Remove(go);
-                if (nbAllies > 0) { _ally = true; }
-                else { _ally = false; }
-
-                if (nbEnnemie > 0) { _ennemie = true; }
-                else { _ennemie = false; }
+                TagGestion();
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
+                go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.RemoveListener(EntityProximityDeath);
             }
         }
     }

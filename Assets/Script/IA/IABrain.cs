@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class IABrain : MonoBehaviour
 {
     [SerializeField] public GameObject groupOfEntity;
-    public IAStockBuilding stockBuilding;
+    [HideInInspector] public IAStockBuilding stockBuilding;
 
     [HideInInspector] public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
     [HideInInspector] public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;

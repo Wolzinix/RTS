@@ -74,16 +74,6 @@ public class IAGroupManager
     {
         return building._GroupOfSpawn != null;
     }
-    private bool EntityIsInSpawnGroup(AggressifEntityManager entity)
-    {
-        foreach(GroupManager group in _ListOfGroupToSpawnEntity.Keys)
-        {
-            if (group.EntityIsInGroup(entity.gameObject.GetComponent<EntityController>())) { return true;}
-        }
-        return false;
-    }
-    
-    
 
     public void RemoveAGroup(GroupManager groupToRemove)
     {
@@ -138,9 +128,7 @@ public class IAGroupManager
             _ListOfGroupPatrol.Remove(group);
             _ListOfGroupAttack.Add(group);
         }
-        
     }
-
     public void AddEntityToGroup(GroupManager group, EntityController entity)
     {
         entity.ClearAllOrder();
@@ -179,6 +167,7 @@ public class IAGroupManager
         }
         return false;
     }
+
     public void ClearListOfProtector()
     {
         foreach (GroupManager i in _ListOfGroupToProtectBuilding.Keys)
@@ -203,9 +192,7 @@ public class IAGroupManager
             {
                 ThenearsetEntity = Thenearset;
             }
-            
         }
-
         return ThenearsetEntity;
     }
 
@@ -222,7 +209,6 @@ public class IAGroupManager
                 ThenearsetEntity = Thenearset;
             }
         }
-
         return ThenearsetEntity;
     }
 
@@ -251,7 +237,6 @@ public class IAGroupManager
         }
         return false;
     }
-
     private void TowerIsNowBUild(BuilderController builder, DefenseManager defense, BuildingIA building)
     {
         ia.TowerToBuilding(defense, building);
@@ -391,7 +376,6 @@ public class IAGroupManager
                 }
             }
             else{ return group2; }
-           
         }
         return group;
     }
@@ -420,7 +404,6 @@ public class IAGroupManager
         _ListOfGroupPatrol.Add(group, buildings);
         group.SomeoneIsImmobile.RemoveListener(ia.ActualiseTheGroup);
         group.SpecificPatrouilleOrder(buildings[0].building.transform.position, buildings[1].building.transform.position);
-            
     }
 
     public void VerifyForPatrol(BuildingIA building1, BuildingIA building2)
@@ -444,10 +427,7 @@ public class IAGroupManager
                     {
                         if (_ListOfGroupPatrol[x].SequenceEqual(buildings) || x == NearestGroup) { exist = true; break; }
                     }
-                    if (!exist)
-                    {
-                        SendAGroupToPatrol(NearestGroup, buildings);
-                    }
+                    if (!exist){ SendAGroupToPatrol(NearestGroup, buildings); }
                 }
             }
         }
