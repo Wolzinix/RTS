@@ -349,6 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
+  _speed: 0
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -359,7 +360,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 2
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 0
   m_AngularSpeed: 120
@@ -408,6 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
+  _speed: 0
 --- !u!114 &1314613499554875902
 MonoBehaviour:
   m_ObjectHideFlags: 0

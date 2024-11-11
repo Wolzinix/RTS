@@ -6,23 +6,17 @@ public class TroupeManager : AggressifEntityManager
 
     [SerializeField] public float StartSpeed = 2;
     [SerializeField]  private float speed = 2;
-
-
     private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
 
-
-    private NavMeshAgent _navMeshAgent;
-
-
+    private NavMeshController _navMeshAgent;
 
     protected override void Awake()
     {
         base.Awake();
 
-        if (GetComponent<NavMeshAgent>())
+        if (GetComponent<NavMeshController>())
         {
-            _navMeshAgent = GetComponent<NavMeshAgent>();
-            SetNavMeshSpeed(speed);
+            _navMeshAgent = GetComponent<NavMeshController>();
         }
 
         if (GetComponentInChildren<Animator>())
@@ -62,14 +56,6 @@ public class TroupeManager : AggressifEntityManager
 
     private void SetNavMeshSpeed(float speed)
     {
-        _navMeshAgent.enabled = true;
-        if (_navMeshAgent)
-        {
-            _navMeshAgent.speed = speed;
-        }
-
-        _navMeshAgent.enabled = false;
+        if (_navMeshAgent) {  _navMeshAgent.SetSpeedWithNavMesh(speed); }
     }
-
-
 }

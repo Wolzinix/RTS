@@ -9,7 +9,7 @@ public class NavMeshController : MonoBehaviour
 
     public Vector3 _destination;
     [HideInInspector] public float _stoppingDistance;
-    private float _speed;
+    public float _speed;
 
     void Start()
     { 
@@ -20,12 +20,10 @@ public class NavMeshController : MonoBehaviour
 
         _navMesh.stoppingDistance = meshrender.bounds.size.x + meshrender.bounds.size.z;
 
-
         _navMesh.updatePosition = false;
         _navMesh.updateRotation = false;
         _navMesh.ActivateCurrentOffMeshLink(true);
         _stoppingDistance = SetStoppingDistance();
-        SetSpeedWithNavMesh();
     }
     public bool notOnTraject()
     {
@@ -47,19 +45,21 @@ public class NavMeshController : MonoBehaviour
         else { return 0f; }
     }
 
-    private float GetnavMeshSpeed()
+    public void SetSpeedWithNavMesh(float newSpeed)
     {
-        if (_navMesh)
-        {
-            _navMesh.enabled = true;
-            return _navMesh.speed;
-        }
-        else { return 0f; }
-    }
+        _speed = newSpeed;
 
-    public void SetSpeedWithNavMesh()
-    {
-        _speed = GetnavMeshSpeed();
+        if(_navObstacle && _navMesh)
+        {
+            _navObstacle.enabled = false;
+            _navMesh.enabled = true;
+
+            _speed = _navMesh.speed;
+
+            _navMesh.enabled = false;
+            _navObstacle.enabled = true;
+        }
+        
     }
     public float HaveStoppingDistance()
     {
@@ -105,10 +105,7 @@ public class NavMeshController : MonoBehaviour
         }
     }
 
-    public void ActualisePath(EntityManager target)
-    {
-        _destination = target.transform.localPosition;
-    }
+    public void ActualisePath(EntityManager target) {  _destination = target.transform.localPosition; }
 
     public void StopPath()
     {
@@ -116,6 +113,7 @@ public class NavMeshController : MonoBehaviour
         {
             if(_navMesh.path != null)
             {
+                _navObstacle.enabled = false;
                 _navMesh.enabled = true;
                 if (_navMesh.isOnNavMesh) { _navMesh.ResetPath(); }
             }
