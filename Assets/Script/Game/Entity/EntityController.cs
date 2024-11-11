@@ -16,6 +16,7 @@ public class EntityController : MonoBehaviour
 {
     protected NavMeshController _navMesh;
 
+    private List<StateClassEntity> _ListOfstate;
     [SerializeField] private ProjectilManager _projectile;
 
     public List<Order> _listForOrder;
@@ -53,6 +54,7 @@ public class EntityController : MonoBehaviour
         
         _collider.radius = gameObject.GetComponent<SelectableManager>().SeeRange;
 
+        _ListOfstate = new List<StateClassEntity>();
         _listOfPath = new List<Vector3>();
         _listOfTarget = new List<SelectableManager>();
         _listForOrder = new List<Order>();
@@ -71,6 +73,10 @@ public class EntityController : MonoBehaviour
 
     virtual protected void LateUpdate()
     {
+        if(_ListOfstate.Count > 0)
+        {
+            _ListOfstate[0].Update();
+        }
          isUnit();
     }
     virtual protected void isUnit()
@@ -97,9 +103,9 @@ public class EntityController : MonoBehaviour
     {
         if (_listForOrder.Count > 0)
         {
-            if (DoAMove()) { }
+            //if (DoAMove()) { }
 
-            else if (DoAnAgressionPath()) { }
+            if (DoAnAgressionPath()) { }
 
             else if (DoAPatrol()) { }
 
@@ -153,7 +159,6 @@ public class EntityController : MonoBehaviour
     }
     private  void ClearListOfAlly(List<GameObject> list)
     {
-        
         if (list.Count != _listOfalliesOnRange.Count)
         {
             foreach (GameObject i in _listOfalliesOnRange)
@@ -166,7 +171,6 @@ public class EntityController : MonoBehaviour
 
             _listOfalliesOnRange.RemoveAll(i => !list.Contains(i));
         }
-        
     }
     private void AggressTarget()
     {
@@ -235,6 +239,11 @@ public class EntityController : MonoBehaviour
             }
         }
         return etat;
+    }
+    public void RemoveFirstOrder()
+    {
+        _listForOrder.RemoveAt(0);
+        _ListOfstate.RemoveAt(0);
     }
     protected bool DoAnAgressionPath()
     {
@@ -338,9 +347,9 @@ public class EntityController : MonoBehaviour
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
         {
             _listForOrder.Add(Order.Move);
-            _listOfPath.Add(newPath);
+            //_listOfPath.Add(newPath);
+            _ListOfstate.Add(new MoveState(_navMesh,newPath,this));
         }
-           
     }
     private void AddTargetAttacked(SelectableManager target)
     {

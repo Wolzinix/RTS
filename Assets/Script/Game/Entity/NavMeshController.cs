@@ -11,6 +11,7 @@ public class NavMeshController : MonoBehaviour
     [HideInInspector] public float _stoppingDistance;
     public float _speed;
 
+
     void Start()
     { 
         _navMesh = GetComponent<NavMeshAgent>();
