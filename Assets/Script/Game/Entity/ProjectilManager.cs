@@ -35,7 +35,7 @@ public class ProjectilManager : MonoBehaviour
 
         transform.LookAt(_target.gameObject.transform);
     }
-    public void SetInvoker(AggressifEntityManager invoker) { _invoker = invoker; }
+    public void SetInvoker(AggressifEntityManager invoker) { _invoker = invoker; SetDamage(invoker.Attack); }
 
 
     private void OnTriggerEnter(Collider other)
