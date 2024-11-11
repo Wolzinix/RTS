@@ -69,7 +69,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6174072497533667599
 Transform:
   m_ObjectHideFlags: 0
@@ -349,6 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
+  _speed: 0
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -358,8 +359,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 4825870592483654779}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
-  m_Speed: 3.5
+  m_Radius: 2
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 0
   m_AngularSpeed: 120
@@ -370,7 +371,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
+  m_ObstacleAvoidanceType: 4
 --- !u!136 &1448527202929963815
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -408,6 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
+  _speed: 0
 --- !u!114 &1314613499554875902
 MonoBehaviour:
   m_ObjectHideFlags: 0

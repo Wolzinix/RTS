@@ -9,10 +9,9 @@ public class BuilderController : EntityController
     private List<int> ListOfBuildsIndex = new List<int>();
     private List<Vector3> ListOfBuildPosition = new List<Vector3>();
     private List<RessourceManager> _listOfRessource = new List<RessourceManager>();
-    public List<GameObject> getBuildings() { return _buildings; }
 
-    public UnityEvent<BuilderController> NoMoreToHarvest = new UnityEvent<BuilderController>();
-    public UnityEvent<BuilderController,DefenseManager> TowerIsBuild = new UnityEvent<BuilderController,DefenseManager> ();
+    [HideInInspector] public UnityEvent<BuilderController> NoMoreToHarvest = new UnityEvent<BuilderController>();
+    [HideInInspector] public UnityEvent<BuilderController,DefenseManager> TowerIsBuild = new UnityEvent<BuilderController,DefenseManager> ();
 
     private void Start()
     {
@@ -23,6 +22,7 @@ public class BuilderController : EntityController
         ListOfBuildsIndex.Add(nb);
         ListOfBuildPosition.Add(hit.point);
     }
+    public List<GameObject> getBuildings() { return _buildings; }
 
     public bool DoAbuild(int nb, Vector3 position, RessourceController ressourcesAvailable)
     {

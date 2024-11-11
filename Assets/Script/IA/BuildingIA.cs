@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,13 +9,13 @@ public class BuildingIA
     public string Tag;
     public bool CanSpawn;
     public string TagOfEntity;
-
     public BuildingController building;
 
     public bool IsProtected;
-
     public List<GroupManager> _ListOfProtector = new List<GroupManager>();
-    public int NbOfTower = 2;
+    public GroupManager _GroupOfSpawn = null;
+
+    public int NbOfTower = 0;
     public List<DefenseManager> _ListOfTower = new List<DefenseManager>();
 
     public void SetAProtectionGroup(GroupManager group)
@@ -29,9 +30,9 @@ public class BuildingIA
         _ListOfProtector.Remove(group);
         if (_ListOfProtector.Count == 0)
         {
-            IAbrain.AddObjectif(building.gameObject);
-            NeedAGroup();
             IsProtected = false;
+            IAbrain.ActualiseBuilding();
+            if(IAbrain.GetAllieBuilding().Contains(this)){ NeedAGroup();}
         }
     }
 
@@ -43,20 +44,25 @@ public class BuildingIA
     {
         CanSpawn = building.GetCanSpawn();
 
+        IAbrain.ActualiseBuilding();
         if (CanSpawn && building.tagOfNerestEntity == IAbrain.gameObject.tag)
         {
-            IAbrain.RemoveObjectif(building.gameObject);
+            
             EntityNextTo.Clear();
             foreach (GameObject gameObject in Entity)
             {
-                TagOfEntity = gameObject.tag;
-                EntityNextTo.Add(gameObject);
+                if(gameObject)
+                {
+                    TagOfEntity = gameObject.tag;
+                    EntityNextTo.Add(gameObject);
+                }
             }
+            IAbrain.stockBuilding.ABuildingCanSpawn.Invoke(this);
         }
         else
         {
-            IAbrain.AddObjectif(building.gameObject);
-            if(building.tag == IAbrain.tag || building.tag == "neutral" && !CanSpawn)
+            IAbrain.stockBuilding.ABuildingCanNotSpawn.Invoke(this);
+            if (building.tag == IAbrain.tag || building.tag == "neutral" && !CanSpawn)
             {
                 IAbrain.NeedToSendEntityToBuildingEvent.Invoke(this, building.gameObject.transform.position);
             }
@@ -72,6 +78,7 @@ public class BuildingIA
     public void AddTower(DefenseManager tower)
     {
         _ListOfTower.Add(tower);
+        NbOfTower += 1;
         tower.deathEvent.AddListener(ATowerIsDeath);
     }
 
@@ -79,6 +86,39 @@ public class BuildingIA
     {
         DefenseManager deadTower = (DefenseManager) tower;
         _ListOfTower.Remove(deadTower);
+        NbOfTower -= 1;
         IAbrain.ATowerIsDestroyEvent.Invoke(this, tower.transform.position);
     }
+
+    public void Dispose()
+    {
+        foreach(DefenseManager i in _ListOfTower)
+        {
+            i.deathEvent.RemoveListener(ATowerIsDeath);
+        }
+
+        foreach (GroupManager i in _ListOfProtector)
+        {
+            i.GroupIsDeadevent.RemoveListener(RemoveAGroup);
+        }
+
+        GC.SuppressFinalize(this);
+    }
+
+    public void RemoveSpawnGroup(GroupManager group)
+    {
+        if(_GroupOfSpawn != null)
+        {
+            _GroupOfSpawn.GroupIsDeadevent.RemoveListener(RemoveSpawnGroup);
+        }
+        _GroupOfSpawn = null;
+    }
+
+    public void AddSpawnGroup(GroupManager group)
+    {
+        _GroupOfSpawn = group;
+        group.GroupIsDeadevent.AddListener(RemoveSpawnGroup);
+    }
+
+    
 }

@@ -1,31 +1,27 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class IABrain : MonoBehaviour
 {
-    public  List<BuildingController> _AllieBuilding = new List<BuildingController>();
-    [SerializeField] GameObject groupOfEntity;
-
-    private  Dictionary<BuildingController, BuildingIA> DicoOfBuilding;
+    [SerializeField] public GameObject groupOfEntity;
+    [HideInInspector] public IAStockBuilding stockBuilding;
 
     [HideInInspector] public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
     [HideInInspector] public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
-
-
     [HideInInspector] public UnityEvent<BuildingIA, Vector3> ATowerIsDestroyEvent;
     public int nbMaxOfTower;
 
     [SerializeField] private List<GameObject> Objectif;
 
-    IAGroupManager groupManager = new IAGroupManager();
+    private IAGroupManager groupManager = new IAGroupManager();
 
     public string ennemieTag;
 
     void Start()
     {
-        DicoOfBuilding = new Dictionary<BuildingController, BuildingIA>();
+        stockBuilding = new IAStockBuilding();
+        stockBuilding.IAbrain = this;
         groupManager.ia = this;
 
         NeedToSendEntityToBuildingEvent.AddListener(SendEntityToBuilding);
@@ -40,34 +36,25 @@ public class IABrain : MonoBehaviour
     {
         NeedToSendEntityToBuildingEvent.RemoveAllListeners();
         NeedToSendGroupToBuildingEvent.RemoveAllListeners();
+        ATowerIsDestroyEvent.RemoveAllListeners();
     }
 
     public void AddObjectif(GameObject newObject)
     {
         if (!Objectif.Contains(newObject)) 
         {
-            ActualisePatrol();
-            Objectif.Reverse();
-            Objectif.Add(newObject);
-            Objectif.Reverse();
-            AddTowerToBuilding(newObject);
+            Objectif.Insert(0, newObject);
+            AddTowerToEveryBuilding(newObject);
         }
     }
     public void RemoveObjectif(GameObject oldObjectif)
     {
-        ActualisePatrol();
         Objectif.Remove( oldObjectif );
     }
 
-    private void AddTowerToBuilding(GameObject newObject)
+    private void AddTowerToEveryBuilding(GameObject newObject)
     {
-        foreach (BuildingController building in _AllieBuilding)
-        {
-            if (DicoOfBuilding[building]._ListOfTower.Count < nbMaxOfTower)
-            {
-                groupManager.SendBuilderToBuildTower(DicoOfBuilding[building], GetTheNerestPoint(newObject.transform.position,building.SpawnTower(groupManager.DistanceOfSecurity)));
-            }
-        }
+        stockBuilding.AddTowerToEveryBuilding(newObject);
     }
 
     public void TowerToBuilding(DefenseManager defense, BuildingIA building)
@@ -77,9 +64,17 @@ public class IABrain : MonoBehaviour
 
     private void AddTowerToBuilding(BuildingIA building,Vector3 position)
     {
-        if (building._ListOfTower.Count < nbMaxOfTower && _AllieBuilding.Contains(building.building))
+        if (building._ListOfTower.Count < nbMaxOfTower && stockBuilding._AllieBuilding.Contains(building))
         {
             groupManager.SendBuilderToBuildTower(building, GetTheNerestPoint(position, building.building.SpawnTower(groupManager.DistanceOfSecurity)));
+        }
+    }
+
+    public void AddTowerToBuilding(BuildingIA building, GameObject newObject)
+    {
+        if (building._ListOfTower.Count < nbMaxOfTower && stockBuilding._AllieBuilding.Contains(building))
+        {
+            groupManager.SendBuilderToBuildTower(building, GetTheNerestPoint(newObject.transform.position, building.building.SpawnTower(groupManager.DistanceOfSecurity)));
         }
     }
 
@@ -95,28 +90,9 @@ public class IABrain : MonoBehaviour
         }
         return position;
     }
-    private List<BuildingController> GetAllieBuilding()
+    public List<BuildingIA> GetAllieBuilding()
     {
-        _AllieBuilding = new List<BuildingController>();
-
-        foreach(BuildingController i in  DicoOfBuilding.Keys)
-        {
-            if (i && groupManager.BuildingIsProtected(DicoOfBuilding[i]))
-            {
-                _AllieBuilding.Add(i);
-            }
-            else if (i)
-            {
-                i.entityAsBeenBuy.RemoveAllListeners();
-                if (!i.CompareTag(ennemieTag) || DicoOfBuilding[i].CanSpawn && i.tagOfNerestEntity == gameObject.tag)
-                {
-                    i.entityAsBeenBuy.AddListener(ActualiseGroup);
-                    _AllieBuilding.Add(i);
-                    DicoOfBuilding[i].NeedAGroup();
-                }
-            }
-        }
-        return _AllieBuilding;
+        return stockBuilding.GetAllieBuilding();
     }
     private GameObject GetThenearsetEntityOfAPoint(Vector3 point)
     {
@@ -161,7 +137,12 @@ public class IABrain : MonoBehaviour
         if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
         {
             EntityController entity = GetThenearsetEntityOfAPoint(point).GetComponent<EntityController>();
-            groupManager.SendEntityToBuilding(building, point, entity);
+            GroupManager group = groupManager.SendEntityToBuilding(building, entity);
+            if(group != null)
+            {
+
+                building.AddSpawnGroup(group);
+            }
         }
 
     }
@@ -180,7 +161,6 @@ public class IABrain : MonoBehaviour
                 }
             }
         }
-        ActualisePatrol();
         //DebugGroup();
     }
    
@@ -197,44 +177,29 @@ public class IABrain : MonoBehaviour
         }
     }
 
-    private void ActualiseBuilding()
+    public void ActualiseBuilding()
     {
-        BuildingController[] buildings = FindObjectsOfType<BuildingController>();
-        foreach (BuildingController building in buildings)
-        {
-            BuildingIA stats = new BuildingIA();
-            stats.Tag = building.tag;
-            stats.building = building;
-            stats.IAbrain = this;
-            building.EntityNextToEvent.AddListener(stats.changeHaveEntity);
-            DicoOfBuilding[building] = stats;
-            if(!building.CompareTag(ennemieTag))
-            {
-                stats.NeedToSendEntity();
-            }
-        }
-        
-        ActualisePatrol();
+        stockBuilding.ActualiseBuilding(FindObjectsOfType<BuildingController>());
     }
 
-    private void ActualisePatrol()
+    public void ActualisePatrol()
     {
-        GetAllieBuilding();
+        List<BuildingIA> listOfAllie = stockBuilding.GetAllieBuilding();
         groupManager.ClearListOfPatrol();
-        for (int i = 0; i < _AllieBuilding.Count - 1 ; i++)
+        for (int i = 0; i < listOfAllie.Count - 1 ; i++)
         {
-            for (int w = 1; w < _AllieBuilding.Count; w++)
+            for (int w = 1; w < listOfAllie.Count; w++)
             {
-                if(Vector3.Distance(_AllieBuilding[i].transform.position, _AllieBuilding[w].transform.position)<30)
-                {
-                    List<BuildingController> buildings = new List<BuildingController>
-                    {
-                        _AllieBuilding[i],
-                        _AllieBuilding[w]
-                    };
-                    groupManager.SendAGroupToPatrol(_AllieBuilding[i].transform.position, buildings);
-                }
+                groupManager.VerifyForPatrol(listOfAllie[i], listOfAllie[w]);
             }
+        }
+    }
+    public void ActualisePatrol(BuildingIA building)
+    {
+        List<BuildingIA> listOfAllie = stockBuilding.GetAllieBuilding();
+        foreach(BuildingIA i  in   listOfAllie)
+        {
+            if(i != building) { groupManager.VerifyForPatrol(building, i); }
         }
     }
     public void SendRenfortToBuilding(BuildingIA building, Vector3 location)
@@ -244,5 +209,13 @@ public class IABrain : MonoBehaviour
             groupManager.SendRenfortToBuilding(building, location);
         }
     }
+    public void SpawnEveryEntityOfABuilding(BuildingController building)
+    {
+        building.SpawnEveryEntity(tag, groupOfEntity, GetComponent<RessourceController>());
+    }
 
+    public void SpawnEntityOfBuilding(BuildingController building, GameObject entity)
+    {
+        building.SpawnEntity(entity,tag, groupOfEntity.GetComponentInChildren<EntityController>().gameObject, GetComponent<RessourceController>());
+    }
 }
