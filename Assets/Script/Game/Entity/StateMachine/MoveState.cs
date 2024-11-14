@@ -1,17 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class MoveState : StateClassEntity
 {
-    NavMeshController navMeshController;
-    Vector3 destination;
-    EntityController controller;
+    protected NavMeshController navMeshController;
+    protected Vector3 destination;
+    protected EntityController controller;
     public MoveState(NavMeshController navmesh,Vector3 des, EntityController entity) 
     {
         navMeshController = navmesh;
         destination = des;
         controller = entity;
     }
-
+    public override void Start()
+    {
+        controller._animator.SetBool(EntityController.Moving, true);
+        controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+    }
     public override void Update() 
     {
         if (navMeshController.notOnTraject())
@@ -28,5 +33,9 @@ public class MoveState : StateClassEntity
     {
         controller.RemoveFirstOrder();
         controller.EntityIsArrive.Invoke();
+
+        controller._animator.SetBool(EntityController.Moving, false);
+        controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+        navMeshController.StopPath();
     }
 }

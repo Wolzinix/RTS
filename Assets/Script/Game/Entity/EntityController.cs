@@ -72,19 +72,6 @@ public class EntityController : MonoBehaviour
     }
     virtual protected void isUnit()
     {
-        if (_navMesh && !_navMesh.notOnTraject()) 
-        { 
-            _animator.SetBool(Moving, true); 
-            moving = true; 
-            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX; 
-        }
-        else 
-        {
-            _animator.SetBool(Moving, false); 
-            moving = false; 
-            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX; 
-        }
-
     }
 
     virtual protected void ExecuteOrder()
@@ -151,7 +138,9 @@ public class EntityController : MonoBehaviour
     public void RemoveFirstOrder()
     {
         _ListForOrder.RemoveAt(0);
+        _ListOfstate[0].end();
         _ListOfstate.RemoveAt(0);
+        if(_ListOfstate.Count > 0) { _ListOfstate[0].Start(); }
     }
    
     public void AddAttackState(SelectableManager target)
@@ -230,8 +219,10 @@ public class EntityController : MonoBehaviour
     }
     virtual public void ClearAllOrder()
     {
-        _ListForOrder.Clear();
-        _ListOfstate.Clear();
+        foreach(StateClassEntity i in _ListOfstate)
+        {
+            RemoveFirstOrder();
+        }
 
         Stay = false;
         

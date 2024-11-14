@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class FollowState : StateClassEntity
 {
@@ -11,19 +12,32 @@ public class FollowState : StateClassEntity
         this.controller = entityController;
         this.navMeshController = navMeshController;
     }
-
+    public override void Start()
+    {
+        controller._animator.SetBool(EntityController.Moving, true);
+        controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+    }
     public override void Update()
     {
-        if (navMeshController.notOnTraject())
+        if(target)
         {
-            if (Vector3.Distance(controller.gameObject.transform.position, target.transform.localPosition) >= navMeshController.HaveStoppingDistance() + 0.5)
+            if (navMeshController.notOnTraject())
             {
-                navMeshController.GetNewPath(target.transform.localPosition);
+                if (Vector3.Distance(controller.gameObject.transform.position, target.transform.localPosition) >= navMeshController.HaveStoppingDistance() + 0.5)
+                {
+                    navMeshController.GetNewPath(target.transform.localPosition);
+                }
             }
         }
+        else{ end(); }
     }
 
     public override void end()
     {
+        controller._animator.SetBool(EntityController.Moving, false);
+        controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+        navMeshController.StopPath();
+
+        controller.EntityIsArrive.Invoke();
     }
 }

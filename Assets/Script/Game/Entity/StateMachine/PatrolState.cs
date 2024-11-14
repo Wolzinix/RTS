@@ -14,7 +14,11 @@ public class PatrolState : StateClassEntity
         this.navMeshController = navMeshController;
         this.controller = controller;
     }
-
+    public override void Start()
+    {
+        controller._animator.SetBool(EntityController.Moving, true);
+        controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+    }
     public override void Update()
     {
         if (controller.groupManager != null && !controller.groupManager.EveryOneIsStop())

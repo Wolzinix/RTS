@@ -19,6 +19,8 @@ public class AttackState : StateClassEntity
         this.controller = controller;
         this.target = target;
     }
+
+    public override void Start(){}
     void DoAttack()
     {
         if (_projectile)
