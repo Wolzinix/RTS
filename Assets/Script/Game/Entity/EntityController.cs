@@ -90,7 +90,6 @@ public class EntityController : MonoBehaviour
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX; 
         }
 
-        if (_listForOrder.Count == 0 && _animator.GetInteger(Attacking) == 1) { _animator.SetInteger(Attacking, 0); }
 
         ExecuteOrder();
     }
@@ -100,9 +99,9 @@ public class EntityController : MonoBehaviour
         if (_listForOrder.Count > 0)
         {
 
-            if (DoAnAgressionPath()) { }
+            //if (DoAnAgressionPath()) { }
 
-            else if (DoAFollow()) { }
+             if (DoAFollow()) { }
 
         }
     }
@@ -251,7 +250,7 @@ public class EntityController : MonoBehaviour
     }
     public void InsertTarget(SelectableManager target)
     {
-        _ListOfstate.Add(new TargetState(target, this, _navMesh));
+        _ListOfstate.Insert(0,new TargetState(target, this, _navMesh));
         _listForOrder.Insert(0, Order.Target);
         
     }
@@ -287,7 +286,8 @@ public class EntityController : MonoBehaviour
     }
     public void AddAggressivePath(Vector3 newPath)
     {
-        _listForAttackingOnTravel.Add(newPath);
+        //_listForAttackingOnTravel.Add(newPath);
+        _ListOfstate.Add(new AggressifState(_navMesh,newPath,this));
         _listForOrder.Add(Order.Aggressive);
     }
     private void ClearAggressivePath() {_listForAttackingOnTravel.Clear();}

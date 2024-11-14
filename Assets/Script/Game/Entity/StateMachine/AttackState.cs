@@ -66,5 +66,6 @@ public class AttackState : StateClassEntity
     public override void end()
     {
         controller.RemoveFirstOrder();
+        controller._animator.SetInteger(EntityController.Attacking, 0);
     }
 }
