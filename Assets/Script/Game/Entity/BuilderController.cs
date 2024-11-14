@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.HID;
+using UnityEngine.UIElements;
 
 public class BuilderController : EntityController
 {
@@ -13,26 +15,28 @@ public class BuilderController : EntityController
     [HideInInspector] public UnityEvent<BuilderController> NoMoreToHarvest = new UnityEvent<BuilderController>();
     [HideInInspector] public UnityEvent<BuilderController,DefenseManager> TowerIsBuild = new UnityEvent<BuilderController,DefenseManager> ();
 
+    private RessourceController ressourceController;
+
     private void Start()
     {
         resetEvent.AddListener(ResetBuildingOrder);
     }
     public void DoAbuildWithRaycast(int nb, RaycastHit hit)
     {
-        ListOfBuildsIndex.Add(nb);
-        ListOfBuildPosition.Add(hit.point);
+        _ListForOrder.Add(Order.Build);
+        _ListOfstate.Add(new BuildState(this, hit.point, _buildings[nb].GetComponent<DefenseManager>()));
     }
     public List<GameObject> getBuildings() { return _buildings; }
 
     public bool DoAbuild(int nb, Vector3 position, RessourceController ressourcesAvailable)
     {
-        if(ressourcesAvailable.CompareWood(GetWoodCostOfBuilding(nb)) && ressourcesAvailable.CompareGold(GetGoldCostOfBuilding(nb)))
+        ressourceController = ressourcesAvailable;
+        if (ressourceController.CompareWood(GetWoodCostOfBuilding(nb)) && ressourceController.CompareGold(GetGoldCostOfBuilding(nb)))
         {
             ResetHarvestOrder();
-            ListOfBuildsIndex.Add(nb);
-            ListOfBuildPosition.Add(position);
-            ressourcesAvailable.AddGold(GetGoldCostOfBuilding(nb));
-            ressourcesAvailable.AddWood(GetWoodCostOfBuilding(nb));
+
+            _ListForOrder.Add(Order.Build);
+            _ListOfstate.Add(new BuildState(this, position, _buildings[nb].GetComponent<DefenseManager>()));
             return true;
         }
         return false;
@@ -48,23 +52,14 @@ public class BuilderController : EntityController
         return _buildings[index].GetComponent<EntityManager>().GoldCost;
     }
 
-    private void Update()
+    public int GetWoodCostOfBuilding(EntityManager index)
     {
-        if (ListOfBuildsIndex.Count != 0)
-        {
+        return _buildings.Find(i => i == index.gameObject).GetComponent<EntityManager>().WoodCost;
+    }
 
-            bool location = gameObject.GetComponent<NavMeshController>().notOnTraject();
-            if(location)
-            {
-               bool distance =
-               Vector3.Distance(gameObject.transform.position, ListOfBuildPosition[0])
-               <=
-               gameObject.GetComponent<NavMeshController>().HaveStoppingDistance() + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.x + _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size.y;
-
-                if (distance) { Build(); }
-                else{ AddPath(ListOfBuildPosition[0]); }
-            }
-        }
+    public int GetGoldCostOfBuilding(EntityManager index)
+    {
+        return _buildings.Find(i => i == index.gameObject).GetComponent<EntityManager>().GoldCost;
     }
 
     protected override void LateUpdate()
@@ -200,44 +195,6 @@ public class BuilderController : EntityController
         i = _animator.GetInteger(Attacking);
         i = 0;
     }
-
-    private void Build()
-    {
-        if(_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().CanDoIt(GetComponent<AggressifEntityManager>().ressources))
-        {
-            
-            Collider[] colliders = DoAOverlap(ListOfBuildPosition[0]);
-
-            if (colliders.Length == 0 || colliders.Length == 1 && colliders[0].gameObject.GetComponent<EntityManager>() == null || (colliders.Length == 2 && (colliders[1] == gameObject || colliders[0] == gameObject)))
-            {
-                DefenseManager gm = Instantiate(_buildings[ListOfBuildsIndex[0]], new Vector3(ListOfBuildPosition[0].x, gameObject.transform.position.y, ListOfBuildPosition[0].z), transform.rotation, transform.parent).GetComponent<DefenseManager>();
-                GetComponent<AggressifEntityManager>().ressources.AddGold(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().GoldAmount);
-                GetComponent<AggressifEntityManager>().ressources.AddWood(-_buildings[ListOfBuildsIndex[0]].GetComponent<EntityManager>().WoodAmount);
-                gm.gameObject.tag = gameObject.tag;
-                TowerIsBuild.Invoke(this,gm);
-                gm.ActualiseSprite();
-                ListOfBuildPosition.RemoveAt(0);
-                ListOfBuildsIndex.RemoveAt(0);
-            }
-            else
-            {
-                foreach(Collider i in colliders)
-                {
-                    if(i.GetComponent<EntityController>() != null)
-                    {
-                        Vector3 iPosition = i.GetComponent<EntityController>().transform.position;
-                        i.GetComponent<EntityController>().AddPath((iPosition - ListOfBuildPosition[0] - _buildings[ListOfBuildsIndex[0]].GetComponentInChildren<Renderer>().bounds.size) * 2);
-                    }
-                }
-            }
-        }
-        else
-        {
-            ListOfBuildPosition.RemoveAt(0);
-            ListOfBuildsIndex.RemoveAt(0);
-        }
-    }
-
     protected override void SearchTarget(){}
 
     private void ResetBuildingOrder()
@@ -250,7 +207,7 @@ public class BuilderController : EntityController
         _listOfRessource.Clear();
         _ListForOrder.RemoveAll(x => x == Order.Harvest); 
     }
-    private Collider[] DoAOverlap(Vector3 spawnPosition)
+    public Collider[] DoAOverlap(Vector3 spawnPosition)
     {
         return Physics.OverlapSphere(spawnPosition, 1, ~0, QueryTriggerInteraction.Ignore);
     }
@@ -273,5 +230,11 @@ public class BuilderController : EntityController
     public bool BuilderIsAlradyBuilding()
     {
         return ListOfBuildPosition.Count > 0;
+    }
+
+    public void PayCostOfBuilding(DefenseManager defense)
+    {
+        ressourceController.AddGold(-GetGoldCostOfBuilding(defense));
+        ressourceController.AddWood(-GetWoodCostOfBuilding(defense));
     }
 }

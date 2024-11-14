@@ -323,8 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectile: {fileID: 2599406022807975234, guid: b8e4224182822b54eabc3e74b716e707, type: 3}
-  _listForOrder: 
-  _listOfPath: []
+  _ListForOrder: 
   EntityIsArrive:
     m_PersistentCalls:
       m_Calls: []
@@ -332,6 +331,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   moving: 0
+  _entityManager: {fileID: 0}
   _animator: {fileID: 0}
   _collider: {fileID: 3100682295310351837}
 --- !u!195 &6208376071361995173

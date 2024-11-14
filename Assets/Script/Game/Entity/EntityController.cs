@@ -11,14 +11,15 @@ public enum Order
     Aggressive,
     Harvest,
     Attack,
-    Stay
+    Stay,
+    Build
 }
 
 public class EntityController : MonoBehaviour
 {
     protected NavMeshController _navMesh;
 
-    private List<StateClassEntity> _ListOfstate;
+    public List<StateClassEntity> _ListOfstate;
     [SerializeField] private ProjectilManager _projectile;
 
     public List<Order> _ListForOrder;

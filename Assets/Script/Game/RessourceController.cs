@@ -2,8 +2,8 @@ using UnityEngine;
 public class RessourceController : MonoBehaviour
 {
 
-    public int _gold = 2;
-    public int _wood = 2;   
+    [SerializeField] private int _gold;
+    [SerializeField] private int _wood;   
 
     RessourceUi _ui;
 

@@ -369,6 +369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
+  _speed: 0
 --- !u!114 &8557832744255095151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,8 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectile: {fileID: 0}
-  _listForOrder: 
-  _listOfPath: []
+  _ListForOrder: 
   EntityIsArrive:
     m_PersistentCalls:
       m_Calls: []
@@ -431,6 +431,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   moving: 0
+  _entityManager: {fileID: 0}
   _animator: {fileID: 0}
   _collider: {fileID: 2835410375128095275}
   _buildings:
