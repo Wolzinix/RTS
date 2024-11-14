@@ -1,25 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.HID;
-using UnityEngine.UIElements;
 
 public class BuilderController : EntityController
 {
     [SerializeField] List<GameObject> _buildings;
-
-    private List<int> ListOfBuildsIndex = new List<int>();
-    private List<Vector3> ListOfBuildPosition = new List<Vector3>();
-    private List<RessourceManager> _listOfRessource = new List<RessourceManager>();
 
     [HideInInspector] public UnityEvent<BuilderController> NoMoreToHarvest = new UnityEvent<BuilderController>();
     [HideInInspector] public UnityEvent<BuilderController,DefenseManager> TowerIsBuild = new UnityEvent<BuilderController,DefenseManager> ();
 
     private RessourceController ressourceController;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     private void Start()
     {
-        resetEvent.AddListener(ResetBuildingOrder);
+        resetEvent.AddListener(ResetHarvestOrder);
     }
     public void DoAbuildWithRaycast(int nb, RaycastHit hit)
     {
@@ -65,25 +63,13 @@ public class BuilderController : EntityController
     protected override void LateUpdate()
     {
         base.LateUpdate();
-
     }
 
-    void DoAnAttackOnRessource(RessourceManager target)
-    {
-        _entityManager.DoAttack(target);
-    }
-
-    private void SearchClosetHarvestTarget()
+    public void SearchClosetHarvestTarget()
     {
         GameObject nextHarvest = DoCircleRaycastForHarvest();
-        if (nextHarvest != null)
-        {
-            AddHarvestTarget(nextHarvest);
-        }
-        else
-        {
-            NoMoreToHarvest.Invoke(this);
-        }
+        if (nextHarvest != null) { AddHarvestTarget(nextHarvest); }
+        else {  NoMoreToHarvest.Invoke(this); }
     }
 
     private GameObject DoCircleRaycastForHarvest()
@@ -119,92 +105,11 @@ public class BuilderController : EntityController
         }
         return closet;
     }
-    private void DoHarvest()
-    {
-        if (!_listOfRessource[0])
-        {
-            _listOfRessource.RemoveAt(0);   
-            _ListForOrder.RemoveAt(0);
+    protected override void SearchTarget(){ }
 
-            SearchClosetHarvestTarget();
-        }
-        else
-        {
-            RessourceManager target = _listOfRessource[0];
-
-            if (Vector3.Distance(gameObject.transform.position, target.transform.position) <= _entityManager.Range + target.size)
-            {
-                if (_navMesh)
-                {
-                    _navMesh.StopPath();
-                }
-                _animator.SetBool(Moving, false);
-
-
-                if (!_animator.IsInTransition(0) &&
-                    _animator.GetInteger(Attacking) == 1 &&
-                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
-                    _attacking)
-                {
-                    DoAnAttackOnRessource(target);
-                    _attacking = false;
-                }
-
-                if (!_animator.IsInTransition(0) &&
-                    _animator.GetInteger(Attacking) == 1 &&
-                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-
-                { GetComponentInChildren<Animator>().SetInteger(Attacking, 0); }
-
-                else
-                {
-                    transform.LookAt(target.transform);
-                    GetComponentInChildren<Animator>().SetInteger(Attacking, 1);
-                }
-                int i = _animator.GetInteger(Attacking);
-                if (_animator.IsInTransition(0) && _animator.GetInteger(Attacking) == 1) { _attacking = true; }
-            }
-            else
-            {
-                if ( _navMesh) { _navMesh.ActualisePath(target); }
-            }
-        }
-    }
-
-    private bool DoAnHarvest()
-    {
-        bool etat = false;
-        if (_ListForOrder[0] == Order.Harvest)
-        {
-            etat = true;
-
-            DoHarvest();
-        }
-
-        return etat;
-    }
-    protected override void ExecuteOrder()
-    {
-        int i = _animator.GetInteger(Attacking);
-        if (_ListForOrder.Count > 0)
-        {
-            DoAnHarvest();
-        }
-        base.ExecuteOrder();
-
-        i = _animator.GetInteger(Attacking);
-        i = 0;
-    }
-    protected override void SearchTarget(){}
-
-    private void ResetBuildingOrder()
-    {
-        ListOfBuildPosition.Clear();
-        ListOfBuildsIndex.Clear();
-    }
     private void ResetHarvestOrder()
     {
-        _listOfRessource.Clear();
+        _ListOfstate.RemoveAll(x => x.GetType() == typeof(HarvestState));
         _ListForOrder.RemoveAll(x => x == Order.Harvest); 
     }
     public Collider[] DoAOverlap(Vector3 spawnPosition)
@@ -214,22 +119,37 @@ public class BuilderController : EntityController
 
     public void AddHarvestTarget(GameObject hit)
     {
-        if (!_listOfRessource.Contains(hit.GetComponent<RessourceManager>()))
+        bool already = false;
+        foreach(StateClassEntity i in _ListOfstate)
         {
-            _listOfRessource.Add(hit.GetComponent<RessourceManager>());
+            if(i.GetType() ==  typeof(HarvestState))
+            {
+                already = true;
+            }
+        }
+        if(!already)
+        {
+            _ListOfstate.Add(new HarvestState(this, hit.GetComponent<RessourceManager>()));
             _ListForOrder.Add(Order.Harvest);
         }
+        
     }
 
     public override void ClearAllOrder()
     {
         base.ClearAllOrder();
-        _listOfRessource.Clear();
     }
 
     public bool BuilderIsAlradyBuilding()
     {
-        return ListOfBuildPosition.Count > 0;
+        foreach(StateClassEntity i in _ListOfstate)
+        {
+            if(i.GetType() == typeof(BuildState))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void PayCostOfBuilding(DefenseManager defense)

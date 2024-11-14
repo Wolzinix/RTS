@@ -44,7 +44,7 @@ public class EntityController : MonoBehaviour
     [SerializeField] private SphereCollider _collider;
     private List<GameObject> _ListOfCollision;
 
-    void Awake()
+    virtual protected void Awake()
     {
         _navMesh = GetComponent<NavMeshController>();
         
@@ -69,14 +69,6 @@ public class EntityController : MonoBehaviour
         {
             _ListOfstate[0].Update();
         }
-         isUnit();
-    }
-    virtual protected void isUnit()
-    {
-    }
-
-    virtual protected void ExecuteOrder()
-    {
     }
      virtual protected void SearchTarget()
     {
@@ -115,11 +107,10 @@ public class EntityController : MonoBehaviour
                     _listOfalliesOnRange.Add(target);
                 }
                 if (!listOfAlly.Contains(target)) { listOfAlly.Add(target); }
-
             }
         }
     }
-    private  void ClearListOfAlly(List<GameObject> list)
+    private void ClearListOfAlly(List<GameObject> list)
     {
         if (list.Count != _listOfalliesOnRange.Count)
         {
