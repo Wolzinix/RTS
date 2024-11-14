@@ -171,7 +171,7 @@ public class BuilderController : EntityController
             }
             else
             {
-                if (!_stayPosition && _navMesh) { _navMesh.ActualisePath(target); }
+                if ( _navMesh) { _navMesh.ActualisePath(target); }
             }
         }
     }

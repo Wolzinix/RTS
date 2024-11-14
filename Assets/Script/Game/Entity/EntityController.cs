@@ -10,7 +10,8 @@ public enum Order
     Patrol,
     Aggressive,
     Harvest,
-    Attack
+    Attack,
+    Stay
 }
 
 public class EntityController : MonoBehaviour
@@ -29,7 +30,6 @@ public class EntityController : MonoBehaviour
 
 
     [HideInInspector] public bool moving = false;
-    protected bool _stayPosition;
     protected bool _attacking;
 
     public AggressifEntityManager _entityManager;
@@ -129,7 +129,6 @@ public class EntityController : MonoBehaviour
                     if (i) { i.GetComponent<SelectableManager>().TakingDamageFromEntity.RemoveListener(InsertTarget); }
                 }
             }
-
             _listOfalliesOnRange.RemoveAll(i => !list.Contains(i));
         }
     }
@@ -138,7 +137,6 @@ public class EntityController : MonoBehaviour
     public void RemoveFirstOrder()
     {
         _ListForOrder.RemoveAt(0);
-        _ListOfstate[0].end();
         _ListOfstate.RemoveAt(0);
         if(_ListOfstate.Count > 0) { _ListOfstate[0].Start(); }
     }
@@ -213,28 +211,26 @@ public class EntityController : MonoBehaviour
         _ListOfstate.Add(new AggressifState(_navMesh,newPath,this));
         _ListForOrder.Add(Order.Aggressive);
     }
+    public void AddStayOrder()
+    {
+        _ListForOrder.Add(Order.Stay);
+        _ListOfstate.Add(new StayState(_navMesh, this));
+    }
     private void AddAggresseurTarget(AggressifEntityManager entityToAggresse)
     {
         if (_navMesh && _navMesh.notOnTraject() && _ListForOrder.Count == 0 || _ListForOrder.Count != 0 && (_ListForOrder[0] == Order.Patrol || _ListForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse); }
     }
     virtual public void ClearAllOrder()
     {
-        foreach(StateClassEntity i in _ListOfstate)
-        {
-            RemoveFirstOrder();
-        }
+        _ListOfstate.Clear();
+        _ListForOrder.Clear();
 
-        Stay = false;
         
         if(_navMesh){_navMesh.StopPath();}
 
         ClearListOfAlly(new List<GameObject>());
         resetEvent.Invoke();
 
-    }
-    public bool Stay
-    {
-        set => _stayPosition = value;
     }
     private int SortTargetByProximity(SelectableManager entity1, SelectableManager entity2)
     {
