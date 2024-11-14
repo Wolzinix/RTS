@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +9,8 @@ public enum Order
     Follow,
     Patrol,
     Aggressive,
-    Harvest
+    Harvest,
+    Attack
 }
 
 public class EntityController : MonoBehaviour
@@ -98,11 +97,7 @@ public class EntityController : MonoBehaviour
     {
         if (_listForOrder.Count > 0)
         {
-
-            //if (DoAnAgressionPath()) { }
-
              if (DoAFollow()) { }
-
         }
     }
      virtual protected void SearchTarget()
@@ -162,44 +157,11 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    public void AddAttackState(SelectableManager target)
-    {
-        if(_projectile) { _ListOfstate.Insert(0, new AttackState(this, _projectile, target)); }
-        else{ _ListOfstate.Insert(0, new AttackState(this, target)); }
-    }
+    
     public void RemoveFirstOrder()
     {
         _listForOrder.RemoveAt(0);
         _ListOfstate.RemoveAt(0);
-    }
-    protected bool DoAnAgressionPath()
-    {
-        bool etat = false;
-        if (_listForOrder[0] == Order.Aggressive)
-        {
-            etat = true;
-            if (_navMesh)
-            {
-                if (_navMesh.notOnTraject())
-                {
-                    _navMesh.GetNewPath(_listForAttackingOnTravel[0]);
-                }
-                if (!_navMesh.notOnTraject() && _listForAttackingOnTravel.Count > 0 && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= _navMesh.HaveStoppingDistance() + 0.5)
-                {
-                    _listForAttackingOnTravel.RemoveAt(0);
-                    _listForOrder.RemoveAt(0);
-                    EntityIsArrive.Invoke();
-                }
-                if (_navMesh.notOnTraject() && Vector3.Distance(gameObject.transform.position, _listForAttackingOnTravel[0]) <= _navMesh.HaveStoppingDistance() + 0.5)
-                {
-                    _listForAttackingOnTravel.RemoveAt(0);
-                    _listForOrder.RemoveAt(0);
-                    EntityIsArrive.Invoke();
-                }
-            }
-        }
-
-        return etat;
     }
    
     protected bool DoAFollow()
@@ -224,7 +186,12 @@ public class EntityController : MonoBehaviour
 
         return etat;
     }
-    
+    public void AddAttackState(SelectableManager target)
+    {
+        if (_projectile) { _ListOfstate.Insert(0, new AttackState(this, _projectile, target)); }
+        else { _ListOfstate.Insert(0, new AttackState(this, target)); }
+        _listForOrder.Insert(0, Order.Attack);
+    }
     public void AddPath(Vector3 newPath)
     {
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
@@ -286,7 +253,6 @@ public class EntityController : MonoBehaviour
     }
     public void AddAggressivePath(Vector3 newPath)
     {
-        //_listForAttackingOnTravel.Add(newPath);
         _ListOfstate.Add(new AggressifState(_navMesh,newPath,this));
         _listForOrder.Add(Order.Aggressive);
     }
