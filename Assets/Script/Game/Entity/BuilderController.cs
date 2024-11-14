@@ -129,7 +129,7 @@ public class BuilderController : EntityController
         if (!_listOfRessource[0])
         {
             _listOfRessource.RemoveAt(0);   
-            _listForOrder.RemoveAt(0);
+            _ListForOrder.RemoveAt(0);
 
             SearchClosetHarvestTarget();
         }
@@ -179,7 +179,7 @@ public class BuilderController : EntityController
     private bool DoAnHarvest()
     {
         bool etat = false;
-        if (_listForOrder[0] == Order.Harvest)
+        if (_ListForOrder[0] == Order.Harvest)
         {
             etat = true;
 
@@ -191,7 +191,7 @@ public class BuilderController : EntityController
     protected override void ExecuteOrder()
     {
         int i = _animator.GetInteger(Attacking);
-        if (_listForOrder.Count > 0)
+        if (_ListForOrder.Count > 0)
         {
             DoAnHarvest();
         }
@@ -248,7 +248,7 @@ public class BuilderController : EntityController
     private void ResetHarvestOrder()
     {
         _listOfRessource.Clear();
-        _listForOrder.RemoveAll(x => x == Order.Harvest); 
+        _ListForOrder.RemoveAll(x => x == Order.Harvest); 
     }
     private Collider[] DoAOverlap(Vector3 spawnPosition)
     {
@@ -260,7 +260,7 @@ public class BuilderController : EntityController
         if (!_listOfRessource.Contains(hit.GetComponent<RessourceManager>()))
         {
             _listOfRessource.Add(hit.GetComponent<RessourceManager>());
-            _listForOrder.Add(Order.Harvest);
+            _ListForOrder.Add(Order.Harvest);
         }
     }
 

@@ -20,9 +20,7 @@ public class EntityController : MonoBehaviour
     private List<StateClassEntity> _ListOfstate;
     [SerializeField] private ProjectilManager _projectile;
 
-    public List<Order> _listForOrder;
-    protected List<SelectableManager> _listOfAllie;
-    protected List<Vector3> _listForAttackingOnTravel;
+    public List<Order> _ListForOrder;
     private List<GameObject> _listOfalliesOnRange;
 
     [HideInInspector] public UnityEvent EntityIsArrive = new UnityEvent();
@@ -52,10 +50,8 @@ public class EntityController : MonoBehaviour
         _collider.radius = gameObject.GetComponent<SelectableManager>().SeeRange;
 
         _ListOfstate = new List<StateClassEntity>();
-        _listForOrder = new List<Order>();
+        _ListForOrder = new List<Order>();
 
-        _listOfAllie = new List<SelectableManager>();
-        _listForAttackingOnTravel = new List<Vector3>();
         _listOfalliesOnRange = new List<GameObject>();
         
         _entityManager = GetComponent<AggressifEntityManager>();
@@ -89,20 +85,14 @@ public class EntityController : MonoBehaviour
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX; 
         }
 
-
-        ExecuteOrder();
     }
 
     virtual protected void ExecuteOrder()
     {
-        if (_listForOrder.Count > 0)
-        {
-             if (DoAFollow()) { }
-        }
     }
      virtual protected void SearchTarget()
     {
-        if(_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive || _listForOrder[0] == Order.Follow) || _navMesh == null)
+        if(_navMesh && _navMesh.notOnTraject() && _ListForOrder.Count == 0 || _ListForOrder.Count != 0 && (_ListForOrder[0] == Order.Patrol || _ListForOrder[0] == Order.Aggressive || _ListForOrder[0] == Order.Follow) || _navMesh == null)
         {
             List<GameObject> listOfAlly = new List<GameObject>();
 
@@ -160,43 +150,21 @@ public class EntityController : MonoBehaviour
     
     public void RemoveFirstOrder()
     {
-        _listForOrder.RemoveAt(0);
+        _ListForOrder.RemoveAt(0);
         _ListOfstate.RemoveAt(0);
     }
    
-    protected bool DoAFollow()
-    {
-        bool etat = false;
-        if (_listForOrder[0] == Order.Follow)
-        {
-            etat = true;
-            if (!_listOfAllie[0])
-            {
-                _listOfAllie.RemoveAt(0);
-                _listForOrder.RemoveAt(0);
-            }
-            else
-            {
-                if (_navMesh && !_navMesh.notAtLocation())
-                {
-                    _navMesh.ActualisePath(_listOfAllie[0]);
-                }
-            }
-        }
-
-        return etat;
-    }
     public void AddAttackState(SelectableManager target)
     {
         if (_projectile) { _ListOfstate.Insert(0, new AttackState(this, _projectile, target)); }
         else { _ListOfstate.Insert(0, new AttackState(this, target)); }
-        _listForOrder.Insert(0, Order.Attack);
+        _ListForOrder.Insert(0, Order.Attack);
     }
     public void AddPath(Vector3 newPath)
     {
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
         {
-            _listForOrder.Add(Order.Move);
+            _ListForOrder.Add(Order.Move);
             _ListOfstate.Add(new MoveState(_navMesh,newPath,this));
         }
     }
@@ -205,46 +173,46 @@ public class EntityController : MonoBehaviour
     {
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
         {
-            _listForOrder.Insert(0,Order.Move);
+            _ListForOrder.Insert(0,Order.Move);
             _ListOfstate.Insert(0,new MoveState(_navMesh, newPath, this));
         }
     }
     public void AddTarget(SelectableManager target )
     {
-        _listForOrder.Add(Order.Target);
+        _ListForOrder.Add(Order.Target);
         _ListOfstate.Add(new TargetState(target,this,_navMesh));
         
     }
     public void InsertTarget(SelectableManager target)
     {
         _ListOfstate.Insert(0,new TargetState(target, this, _navMesh));
-        _listForOrder.Insert(0, Order.Target);
+        _ListForOrder.Insert(0, Order.Target);
         
     }
     public void AddAllie(SelectableManager target)
     {
-        _listOfAllie.Add(target);
-        _listForOrder.Add(Order.Follow);
+        _ListOfstate.Add(new FollowState(target,_navMesh,this));
+        _ListForOrder.Add(Order.Follow);
     }
     public void AddPatrol(Vector3 point)
     {
-        if (_listForOrder.Count == 0 || (_listForOrder.Count == 2  && _listForOrder[1] != Order.Patrol))
+        if (_ListForOrder.Count == 0 || (_ListForOrder.Count == 2  && _ListForOrder[1] != Order.Patrol))
         {
             List<Vector3> destination = new List<Vector3>
             {
                 point
             };
             _ListOfstate.Add(new PatrolState(destination,_navMesh, this));
-            _listForOrder.Add(Order.Patrol);
+            _ListForOrder.Add(Order.Patrol);
         }
         else
         {
-            if (_listForOrder.Count == 1 && _ListOfstate[0].GetType() == typeof(PatrolState))
+            if (_ListForOrder.Count == 1 && _ListOfstate[0].GetType() == typeof(PatrolState))
             {
                 PatrolState patrol = (PatrolState)_ListOfstate[0];
                 patrol.AddDestination(point);
             }
-            if (_listForOrder.Count == 2 && _ListOfstate[1].GetType() == typeof(PatrolState))
+            if (_ListForOrder.Count == 2 && _ListOfstate[1].GetType() == typeof(PatrolState))
             {
                 PatrolState patrol = (PatrolState)_ListOfstate[1];
                 patrol.AddDestination(point);
@@ -254,17 +222,17 @@ public class EntityController : MonoBehaviour
     public void AddAggressivePath(Vector3 newPath)
     {
         _ListOfstate.Add(new AggressifState(_navMesh,newPath,this));
-        _listForOrder.Add(Order.Aggressive);
+        _ListForOrder.Add(Order.Aggressive);
     }
-    private void ClearAggressivePath() {_listForAttackingOnTravel.Clear();}
-    private void ClearAllFollow(){_listOfAllie.Clear();}
+    private void AddAggresseurTarget(AggressifEntityManager entityToAggresse)
+    {
+        if (_navMesh && _navMesh.notOnTraject() && _ListForOrder.Count == 0 || _ListForOrder.Count != 0 && (_ListForOrder[0] == Order.Patrol || _ListForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse); }
+    }
     virtual public void ClearAllOrder()
     {
-        _listForOrder.Clear();
+        _ListForOrder.Clear();
         _ListOfstate.Clear();
 
-        ClearAggressivePath();
-        ClearAllFollow();
         Stay = false;
         
         if(_navMesh){_navMesh.StopPath();}
@@ -281,14 +249,11 @@ public class EntityController : MonoBehaviour
     {
         if(entity1 == null) return 1;
         if (entity2 == null) return 0;
-        return Vector3.Distance(transform.position, entity1.gameObject.transform.position)
-            .CompareTo(Vector3.Distance(transform.position, entity2.gameObject.transform.position));
+        return Vector3.Distance(transform.localPosition, entity1.gameObject.transform.localPosition)
+            .CompareTo(Vector3.Distance(transform.localPosition, entity2.gameObject.transform.localPosition));
     }
 
-    private void AddAggresseurTarget(AggressifEntityManager entityToAggresse)
-    {
-        if (_navMesh && _navMesh.notOnTraject() && _listForOrder.Count == 0 || _listForOrder.Count != 0 && (_listForOrder[0] == Order.Patrol || _listForOrder[0] == Order.Aggressive) || _navMesh == null) { InsertTarget(entityToAggresse);}
-    }
+    
 
     public void ChangeSpeed(float speed)
     {
