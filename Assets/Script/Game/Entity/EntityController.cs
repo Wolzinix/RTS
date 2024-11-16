@@ -186,12 +186,14 @@ public class EntityController : MonoBehaviour
     }
     public void AddPatrol(Vector3 point)
     {
-        if (_ListForOrder.Count == 0 || (_ListForOrder.Count == 2  && _ListForOrder[1] != Order.Patrol))
-        {
-            List<Vector3> destination = new List<Vector3>
+        List<Vector3> destination = new List<Vector3>
             {
                 point
             };
+
+        if (_ListForOrder.Count == 0 || (_ListForOrder.Count == 2  && _ListForOrder[1] != Order.Patrol))
+        {
+           
             _ListOfstate.Add(new PatrolState(destination,_navMesh, this));
             _ListForOrder.Add(Order.Patrol);
             StartFirstOrder();
@@ -203,10 +205,16 @@ public class EntityController : MonoBehaviour
                 PatrolState patrol = (PatrolState)_ListOfstate[0];
                 patrol.AddDestination(point);
             }
-            if (_ListForOrder.Count == 2 && _ListOfstate[1].GetType() == typeof(PatrolState))
+            else if (_ListForOrder.Count == 2 && _ListOfstate[1].GetType() == typeof(PatrolState))
             {
                 PatrolState patrol = (PatrolState)_ListOfstate[1];
                 patrol.AddDestination(point);
+            }
+            else
+            {
+                _ListOfstate.Add(new PatrolState(destination, _navMesh, this));
+                _ListForOrder.Add(Order.Patrol);
+                StartFirstOrder();
             }
         }
     }
