@@ -125,7 +125,13 @@ public class EntityController : MonoBehaviour
         }
     }
 
-    
+    private void StartFirstOrder()
+    {
+        if(_ListOfstate.Count == 1)
+        {
+            _ListOfstate[0].Start();
+        }
+    }
     public void RemoveFirstOrder()
     {
         _ListForOrder.RemoveAt(0);
@@ -138,6 +144,7 @@ public class EntityController : MonoBehaviour
         if (_projectile) { _ListOfstate.Insert(0, new AttackState(this, _projectile, target)); }
         else { _ListOfstate.Insert(0, new AttackState(this, target)); }
         _ListForOrder.Insert(0, Order.Attack);
+        StartFirstOrder();
     }
     public void AddPath(Vector3 newPath)
     {
@@ -145,6 +152,7 @@ public class EntityController : MonoBehaviour
         {
             _ListForOrder.Add(Order.Move);
             _ListOfstate.Add(new MoveState(_navMesh,newPath,this));
+            StartFirstOrder();
         }
     }
 
@@ -154,24 +162,27 @@ public class EntityController : MonoBehaviour
         {
             _ListForOrder.Insert(0,Order.Move);
             _ListOfstate.Insert(0,new MoveState(_navMesh, newPath, this));
+            StartFirstOrder();
         }
     }
     public void AddTarget(SelectableManager target )
     {
         _ListForOrder.Add(Order.Target);
         _ListOfstate.Add(new TargetState(target,this,_navMesh));
-        
+        StartFirstOrder();
+
     }
     public void InsertTarget(SelectableManager target)
     {
         _ListOfstate.Insert(0,new TargetState(target, this, _navMesh));
         _ListForOrder.Insert(0, Order.Target);
-        
+        StartFirstOrder();
     }
     public void AddAllie(SelectableManager target)
     {
         _ListOfstate.Add(new FollowState(target,_navMesh,this));
         _ListForOrder.Add(Order.Follow);
+        StartFirstOrder();
     }
     public void AddPatrol(Vector3 point)
     {
@@ -183,6 +194,7 @@ public class EntityController : MonoBehaviour
             };
             _ListOfstate.Add(new PatrolState(destination,_navMesh, this));
             _ListForOrder.Add(Order.Patrol);
+            StartFirstOrder();
         }
         else
         {
@@ -202,11 +214,13 @@ public class EntityController : MonoBehaviour
     {
         _ListOfstate.Add(new AggressifState(_navMesh,newPath,this));
         _ListForOrder.Add(Order.Aggressive);
+        StartFirstOrder();
     }
     public void AddStayOrder()
     {
         _ListForOrder.Add(Order.Stay);
         _ListOfstate.Add(new StayState(_navMesh, this));
+        StartFirstOrder();
     }
     private void AddAggresseurTarget(AggressifEntityManager entityToAggresse)
     {

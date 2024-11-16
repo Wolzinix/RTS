@@ -9,6 +9,7 @@ public class BuilderController : EntityController
     [HideInInspector] public UnityEvent<BuilderController> NoMoreToHarvest = new UnityEvent<BuilderController>();
     [HideInInspector] public UnityEvent<BuilderController,DefenseManager> TowerIsBuild = new UnityEvent<BuilderController,DefenseManager> ();
 
+
     private RessourceController ressourceController;
 
     protected override void Awake()
@@ -63,6 +64,7 @@ public class BuilderController : EntityController
     protected override void LateUpdate()
     {
         base.LateUpdate();
+        if(_ListOfstate .Count < 0) { NoMoreToHarvest.Invoke(this); }
     }
 
     public void SearchClosetHarvestTarget()
