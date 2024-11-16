@@ -69,7 +69,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6174072497533667599
 Transform:
   m_ObjectHideFlags: 0
@@ -321,8 +321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectile: {fileID: 6611384894665667933, guid: 064a87588d0069342aa228859eb93adc, type: 3}
-  _listForOrder: 
-  _listOfPath: []
+  _ListForOrder: 
   EntityIsArrive:
     m_PersistentCalls:
       m_Calls: []
@@ -330,6 +329,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   moving: 0
+  _entityManager: {fileID: 0}
   _animator: {fileID: 0}
   _collider: {fileID: 8512891494205341763}
 --- !u!65 &2798183401605432793
@@ -384,7 +384,7 @@ MonoBehaviour:
   hp: 10
   GoldAmount: 1
   WoodAmount: 1
-  GoldCost: 1
+  GoldCost: 0
   WoodCost: 1
   size: 0
   sprite: {fileID: 7706548414058156727}

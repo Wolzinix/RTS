@@ -219,7 +219,6 @@ public class GroupManager
                 if (i.GetComponent<BuilderController>())
                 {
                     i.GetComponent<BuilderController>().AddHarvestTarget(hit);
-                    i.Stay = false;
                 }
             }
         }
@@ -240,8 +239,7 @@ public class GroupManager
                 Vector3 _PointToReach = _CenterOfGroup - i.transform.position;
                 if(dontGoOnPoint) {   i.GetComponent<EntityController>().AddPath(point - _PointToReach);   }
                 else { i.GetComponent<EntityController>().AddPath(point); }
-                
-                i.Stay = false;
+               
             }
         }
     }
@@ -274,7 +272,6 @@ public class GroupManager
             foreach (EntityController i in _selectedObject)
             {
                 i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<AggressifEntityManager>());
-                i.Stay = false;
             }
         }
     }
@@ -289,7 +286,6 @@ public class GroupManager
                 if (i.gameObject.GetComponent<AggressifEntityManager>() != controller)
                 {
                     i.GetComponent<EntityController>().AddTarget(controller);
-                    i.Stay = false;
                 }
             }
         }
@@ -318,7 +314,6 @@ public class GroupManager
             foreach (EntityController i in _selectedObject)
             {
                 i.GetComponent<EntityController>().AddAllie(hit.transform.gameObject.GetComponent<TroupeManager>());
-                i.Stay = false;
             }
         }
     }
@@ -347,7 +342,6 @@ public class GroupManager
                     i.GetComponent<EntityController>().AddPatrol(i.gameObject.transform.position);
                 }
                 i.GetComponent<EntityController>().AddPatrol(point);
-                i.Stay = false;
             }
         }
     }
@@ -361,7 +355,6 @@ public class GroupManager
             {
                 i.GetComponent<EntityController>().AddPatrol(start);
                 i.GetComponent<EntityController>().AddPatrol(end);
-                i.Stay = false;
             }
         }
     }
@@ -384,7 +377,6 @@ public class GroupManager
             foreach (EntityController i in _selectedObject)
             {
                 i.GetComponent<EntityController>().AddAggressivePath(point);
-                i.Stay = false;
             }
         }
     }
@@ -397,7 +389,7 @@ public class GroupManager
             ResetOrder();
             foreach (var i in _selectedObject)
             {
-                i.Stay = true;
+                i.AddStayOrder();
             }
         }
     }

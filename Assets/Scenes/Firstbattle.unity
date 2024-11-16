@@ -2179,6 +2179,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 298191153894766705, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1124640742}
+    - target: {fileID: 298191153894766705, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TenirPosition
+      objectReference: {fileID: 0}
     - target: {fileID: 1265847822004623515, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -5399,6 +5407,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1662796192}
     m_Modifications:
+    - target: {fileID: -7252338034062111926, guid: a65b938add593874782dc2957ec066e7, type: 3}
+      propertyPath: GoldCost
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4825870592483654779, guid: a65b938add593874782dc2957ec066e7, type: 3}
       propertyPath: m_Name
       value: Tower
@@ -8564,6 +8576,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 950016817}
     m_Modifications:
+    - target: {fileID: 2875708092518566237, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2875708092518566237, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
+      propertyPath: StartSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4825870592483654779, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_Name
       value: Entity 1 (3)
@@ -14836,6 +14856,10 @@ PrefabInstance:
       propertyPath: Objectif.Array.data[0]
       value: 
       objectReference: {fileID: 167806440}
+    - target: {fileID: 6799513297653306597, guid: ddd9b4c01b3d4314591de5ad15771494, type: 3}
+      propertyPath: _wood
+      value: 88
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

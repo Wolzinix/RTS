@@ -69,7 +69,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6174072497533667599
 Transform:
   m_ObjectHideFlags: 0
@@ -324,8 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectile: {fileID: 0}
-  _listForOrder: 
-  _listOfPath: []
+  _ListForOrder: 
   EntityIsArrive:
     m_PersistentCalls:
       m_Calls: []
@@ -333,6 +332,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   moving: 0
+  _entityManager: {fileID: 0}
   _animator: {fileID: 0}
   _collider: {fileID: 1182971380286798215}
 --- !u!114 &97933223646041361
