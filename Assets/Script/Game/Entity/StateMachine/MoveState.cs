@@ -22,10 +22,7 @@ public class MoveState : StateClassEntity
         if (navMeshController.notOnTraject())
         {
             navMeshController.GetNewPath(destination);
-            if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + 0.5)
-            {
-                end();
-            }
+            if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + 0.5)  { end(); }
         }
     }
 
