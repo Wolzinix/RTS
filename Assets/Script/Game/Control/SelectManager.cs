@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class SelectManager : MonoBehaviour
@@ -51,6 +50,7 @@ public class SelectManager : MonoBehaviour
     {
         if (toAdd.gameObject.CompareTag(_groupManager.GetAllieTag()))
         {
+            if (toAdd.GetComponent<BuilderController>()) { toAdd.GetComponent<BuilderController>().SetRessourceController(GetComponent<RessourceController>()) ; }
             _groupManager.AddSelect(toAdd);
         }
         else

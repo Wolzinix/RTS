@@ -41,8 +41,12 @@ public class BuildState : StateClassEntity
                     {
                         if (i.GetComponent<EntityController>() != null)
                         {
-                            Vector3 iPosition = i.GetComponent<EntityController>().transform.localPosition;
-                            i.GetComponent<EntityController>().AddPath((iPosition - (iPosition - position) - defenseManager.GetComponentInChildren<Renderer>().bounds.size * 2));
+                            if(i.GetComponent<DefenseManager>() != null) { end(); }
+                            else
+                            {
+                                Vector3 iPosition = i.GetComponent<EntityController>().transform.localPosition;
+                                i.GetComponent<EntityController>().AddPath((iPosition - (iPosition - position) - defenseManager.GetComponentInChildren<Renderer>().bounds.size * 2));
+                            }
                         }
                     }
                 }

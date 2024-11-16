@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class IAGroupManager
 {
@@ -141,7 +140,7 @@ public class IAGroupManager
             entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][0].building.transform.position);
             entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][1].building.transform.position);
         }
-        else { SendEverybodyToTheCenter(group); }
+        else if (!_ListOfGroupToProtectBuilding.Keys.Contains(group)) { SendEverybodyToTheCenter(group); }
     }
     public void AddBuilder(BuilderController builder)
     {
@@ -417,8 +416,6 @@ public class IAGroupManager
         {
             if (Vector3.Distance(building1.building.transform.position, building2.building.transform.position) < 30)
             {
-                
-
                 bool exist = false;
                 GroupManager NearestGroup = GetThenearsetGroupOfAPoint(building2.building.transform.position);
                 if (NearestGroup != null)

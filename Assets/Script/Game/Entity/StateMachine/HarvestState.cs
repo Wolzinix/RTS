@@ -46,7 +46,6 @@ public class HarvestState : StateClassEntity
                     builder.transform.LookAt(target.transform);
                     _animator.SetInteger(EntityController.Attacking, 1);
                 }
-                int i = _animator.GetInteger(EntityController.Attacking);
                 if (_animator.IsInTransition(0) && _animator.GetInteger(EntityController.Attacking) == 1) { _attacking = true; }
             }
             else

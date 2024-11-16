@@ -83,7 +83,7 @@ public class IABrain : MonoBehaviour
         Vector3 position = listOfPosition[0];
         foreach(Vector3 i in listOfPosition)
         {
-            if(Vector3.Distance(i,objectif) > Vector3.Distance(position, objectif))
+            if(Vector3.Distance(i,objectif) < Vector3.Distance(position, objectif))
             {
                 position = i;
             }

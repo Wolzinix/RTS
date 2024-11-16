@@ -12,11 +12,14 @@ public class StayState : StateClassEntity
     }
     public override void Start()
     {
-        controller._animator.SetBool(EntityController.Moving, false);
-        controller._animator.SetBool(EntityController.Attacking, false);
-        controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
-        navMeshController.StopPath();
-        controller.EntityIsArrive.Invoke();
+        if(navMeshController)
+        {
+            controller._animator.SetBool(EntityController.Moving, false);
+            controller._animator.SetBool(EntityController.Attacking, false);
+            controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+            navMeshController.StopPath();
+            controller.EntityIsArrive.Invoke();
+        }
     }
     public override void Update()
     { }

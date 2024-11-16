@@ -10,8 +10,6 @@ public class NavMeshController : MonoBehaviour
     public Vector3 _destination;
     [HideInInspector] public float _stoppingDistance;
     public float _speed;
-
-
     void Start()
     { 
         _navMesh = GetComponent<NavMeshAgent>();
@@ -35,7 +33,6 @@ public class NavMeshController : MonoBehaviour
         bool isnotarrived = Vector3.Distance(transform.localPosition, _destination) > _stoppingDistance && _destination != Vector3.zero;
         return isnotarrived;
     }
-
     private float SetStoppingDistance()
     {
         if(_navMesh) 
@@ -45,7 +42,6 @@ public class NavMeshController : MonoBehaviour
         }
         else { return 0f; }
     }
-
     public void SetSpeedWithNavMesh(float newSpeed)
     {
         _speed = newSpeed;
@@ -55,7 +51,7 @@ public class NavMeshController : MonoBehaviour
             _navObstacle.enabled = false;
             _navMesh.enabled = true;
 
-            _speed = _navMesh.speed;
+            _navMesh.speed = _speed ;
 
             _navMesh.enabled = false;
             _navObstacle.enabled = true;
@@ -77,7 +73,7 @@ public class NavMeshController : MonoBehaviour
         GetNewPath(_destination);
         if (_navPath.corners.Length > 1)
         {
-            transform.LookAt(new Vector3(0,_navPath.corners[1].y,0));
+            transform.LookAt(new Vector3(_navPath.corners[1].x, transform.localPosition.y, _navPath.corners[1].z));
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(_navPath.corners[1].x, transform.localPosition.y, _navPath.corners[1].z) , _speed * Time.deltaTime);
             _navMesh.enabled = false;
         }
