@@ -19,7 +19,7 @@ public class FollowState : StateClassEntity
     }
     public override void Update()
     {
-        if(target)
+        if(target && navMeshController)
         {
             if (navMeshController.notOnTraject())
             {
@@ -34,10 +34,13 @@ public class FollowState : StateClassEntity
 
     public override void end()
     {
-        controller._animator.SetBool(EntityController.Moving, false);
-        controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
-        navMeshController.StopPath();
+        if(navMeshController)
+        {
+            controller._animator.SetBool(EntityController.Moving, false);
+            controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+            navMeshController.StopPath();
 
-        controller.EntityIsArrive.Invoke();
+            controller.EntityIsArrive.Invoke();
+        }    
     }
 }

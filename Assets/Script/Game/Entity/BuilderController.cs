@@ -159,4 +159,9 @@ public class BuilderController : EntityController
         ressourceController.AddGold(-GetGoldCostOfBuilding(defense));
         ressourceController.AddWood(-GetWoodCostOfBuilding(defense));
     }
+
+    public void SetRessourceController(RessourceController ressourceController)
+    {
+        this.ressourceController = ressourceController;
+    }
 }

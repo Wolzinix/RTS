@@ -5992,7 +5992,7 @@ GameObject:
   m_Component:
   - component: {fileID: 950016817}
   m_Layer: 0
-  m_Name: Allie
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

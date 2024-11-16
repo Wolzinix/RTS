@@ -19,11 +19,16 @@ public class MoveState : StateClassEntity
     }
     public override void Update() 
     {
-        if (navMeshController.notOnTraject())
+        if(navMeshController != null)
         {
-            navMeshController.GetNewPath(destination);
-            if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + 0.5)  { end(); }
+            if (navMeshController.notOnTraject())
+            {
+                navMeshController.GetNewPath(destination);
+                if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + 0.5) { end(); }
+            }
         }
+        else{ end(); }
+      
     }
 
     public override void end() 

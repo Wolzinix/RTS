@@ -42,8 +42,11 @@ public class TargetState : StateClassEntity
 
     private void Stop()
     {
-        controller._animator.SetBool(EntityController.Moving, false);
-        controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
-        navMeshController.StopPath();
+        if(navMeshController != null)
+        {
+            controller._animator.SetBool(EntityController.Moving, false);
+            controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+            navMeshController.StopPath();
+        }
     }
 }
