@@ -51,7 +51,7 @@ public class NavMeshController : MonoBehaviour
             _navObstacle.enabled = false;
             _navMesh.enabled = true;
 
-            _speed = _navMesh.speed;
+            _navMesh.speed = _speed ;
 
             _navMesh.enabled = false;
             _navObstacle.enabled = true;
