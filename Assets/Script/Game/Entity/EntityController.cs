@@ -61,8 +61,12 @@ public class EntityController : MonoBehaviour
         _EnnemieList = new List<SelectableManager>();
         GetComponent<AggressifEntityManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
         _ListOfCollision = new List<GameObject>();
-        FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), true);
         
+    }
+    private void Start()
+    {
+
+        FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), true);
     }
 
     virtual protected void LateUpdate()
@@ -140,18 +144,12 @@ public class EntityController : MonoBehaviour
     }
     private void ClearListOfEnnemi(List<SelectableManager> list)
     {
-        if (list.Count != _EnnemieList.Count)
-        {
-            _EnnemieList.RemoveAll(i => !list.Contains(i));
-        }
+        if (list.Count != _EnnemieList.Count){ _EnnemieList.RemoveAll(i => !list.Contains(i)); }
     }
 
     private void StartFirstOrder()
     {
-        if(_ListOfstate.Count == 1)
-        {
-            _ListOfstate[0].Start();
-        }
+        if(_ListOfstate.Count == 1) { _ListOfstate[0].Start(); }
     }
     public void RemoveFirstOrder()
     {
@@ -324,10 +322,7 @@ public class EntityController : MonoBehaviour
             _ListOfCollision.Remove(collision.gameObject);
             collision.gameObject.GetComponent<SelectableManager>().deathEvent.RemoveListener(RemoveToCollision);
             SearchTarget();
-            if (_EnnemieList.Count == 0)
-            {
-                FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(),true);
-            }
+            if (_EnnemieList.Count == 0){ FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(),true); }
         }
     }
 
@@ -338,14 +333,8 @@ public class EntityController : MonoBehaviour
         SearchTarget();
 
         bool hide;
-        if (_EnnemieList.Count == 0)
-        {
-            hide = true;
-        }
-        else
-        {
-            hide = false;
-        }
+        if (_EnnemieList.Count == 0) { hide = true; }
+        else  { hide = false; }
         FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), hide);
     }
 }
