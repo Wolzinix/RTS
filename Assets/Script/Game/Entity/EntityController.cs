@@ -69,6 +69,10 @@ public class EntityController : MonoBehaviour
         {
             _ListOfstate[0].Update();
         }
+        else
+        {
+            SearchTarget();
+        }
     }
      virtual protected void SearchTarget()
     {
