@@ -8,6 +8,8 @@ public class SelectableManager : EntityManager
     [HideInInspector] public UnityEvent<SelectableManager> deathEvent = new UnityEvent<SelectableManager>();
     [HideInInspector] public UnityEvent<AggressifEntityManager> TakingDamageFromEntity = new UnityEvent<AggressifEntityManager>();
 
+    [SerializeField] protected float xpToGive = 0.5f;
+
     public float SeeRange
     {
         get => seeRange;
@@ -32,11 +34,9 @@ public class SelectableManager : EntityManager
         if (hp <= 0)
         {
             entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
+            if(entity.GetType() == typeof(TroupeManager)) { TroupeManager c = (TroupeManager)entity; c.AddXp(xpToGive); }
             Death();
-            
         }
-
-
     }
 
 
@@ -54,8 +54,5 @@ public class SelectableManager : EntityManager
             deathEvent.Invoke(this);
             Destroy(gameObject);
         }
-
     }
-
-  
 }

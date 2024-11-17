@@ -426,12 +426,18 @@ MonoBehaviour:
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
+  xpToGive: 50
   ressources: {fileID: 0}
   attack: 2
   attackSpeed: 2
   range: 4
   StartSpeed: 2
   speed: 2
+  xp: 0
+  level: 0
+  HpToAdd: 1
+  AttackToAdd: 1
+  DefenseToAdd: 1
 --- !u!208 &-1646710521796088695
 NavMeshObstacle:
   m_ObjectHideFlags: 0

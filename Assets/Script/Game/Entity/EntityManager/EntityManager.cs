@@ -17,8 +17,6 @@ public class EntityManager :  MonoBehaviour
 
     [HideInInspector] public float size;
 
-
-
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Sprite spriteImage;
 
@@ -26,7 +24,7 @@ public class EntityManager :  MonoBehaviour
     [SerializeField] public Sprite Ennemisprite;
     [SerializeField] public Sprite Neutralprite;
 
-    [SerializeField] protected float defense = 1;
+    [SerializeField] protected float defense = 0;
 
     [HideInInspector] public UnityEvent changeStats = new UnityEvent();
 
@@ -80,12 +78,10 @@ public class EntityManager :  MonoBehaviour
     }
     virtual public void TakeDamage(AggressifEntityManager entity, float nb)
     {
-        hp -= nb;
+        hp -= (nb - defense <= 0) ? 1 : (nb - defense);
     }
 
-    virtual protected void Death()
-    {
-    }
+    virtual protected void Death() { }
 
     public void OnSelected() { sprite.gameObject.SetActive(true); }
     public void OnDeselected() { sprite.gameObject.SetActive(false); }
