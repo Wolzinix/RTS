@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1974872821757856839
 Transform:
   m_ObjectHideFlags: 0
@@ -302,6 +302,7 @@ MonoBehaviour:
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
+  xpToGive: 0.5
 --- !u!1 &6138802333607729758
 GameObject:
   m_ObjectHideFlags: 0
