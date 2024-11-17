@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class TroupeManager : AggressifEntityManager
 {
@@ -9,6 +8,13 @@ public class TroupeManager : AggressifEntityManager
     private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
 
     private NavMeshController _navMeshAgent;
+
+    [SerializeField] private float xp;
+    [SerializeField] public float level;
+
+    [SerializeField] private int HpToAdd = 1;
+    [SerializeField] private int AttackToAdd = 1;
+    [SerializeField] private int DefenseToAdd = 1;
 
     protected override void Awake()
     {
@@ -57,5 +63,23 @@ public class TroupeManager : AggressifEntityManager
     private void SetNavMeshSpeed(float speed)
     {
         if (_navMeshAgent) {  _navMeshAgent.SetSpeedWithNavMesh(speed); }
+    }
+
+    public void AddXp(float xpGive)
+    {
+        xp += xpGive;
+        if(xp >= 100)
+        {
+            xp -= 100;
+            AddLevel();
+        }
+    }
+
+    public void AddLevel()
+    {
+        level += 1;
+        defense += DefenseToAdd;
+        MaxHp += HpToAdd;
+        Attack += AttackToAdd;
     }
 }

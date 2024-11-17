@@ -10,6 +10,8 @@ public class EntityUiManager : MonoBehaviour
     [SerializeField] private TMP_Text attack;
     [SerializeField] private TMP_Text defense;
 
+    [SerializeField] private TMP_Text level;
+
     private void Start()
     {
         gameObject.SetActive(false);
@@ -39,15 +41,27 @@ public class EntityUiManager : MonoBehaviour
         {
             entityName.text = _entity.gameObject.name;
             hp.text = "HP:" + _entity.Hp +" / " + _entity.MaxHp;
-            if(typeof(AggressifEntityManager) == _entity.GetType() )
+            if(typeof(AggressifEntityManager) == _entity.GetType() || typeof(TroupeManager) == _entity.GetType())
             {
                 AggressifEntityManager _entity2 = (AggressifEntityManager) _entity ;
                 attack.enabled = true;
                 attack.text = "Attack:" + _entity2.Attack;
+                if( typeof(TroupeManager) == _entity.GetType())
+                {
+
+                    TroupeManager _entity3 = (TroupeManager)_entity;
+                    level.enabled = true;
+                    level.text = "Level:" + _entity3.level;
+                }
+                else
+                {
+                    level.enabled = false;
+                }
             }
             else
             {
                 attack.enabled = false;
+                level.enabled = false;
             }
            
             defense.text = "Defense:" + _entity.Defense;
