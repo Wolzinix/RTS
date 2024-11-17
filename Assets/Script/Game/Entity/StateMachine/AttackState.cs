@@ -21,6 +21,7 @@ public class AttackState : StateClassEntity
     }
 
     public override void Start(){}
+
     void DoAttack()
     {
         if (_projectile)
@@ -37,31 +38,35 @@ public class AttackState : StateClassEntity
     {
         if (target)
         {
-            Animator _animator = controller._animator;
-            _animator.SetBool(EntityController.Moving, false);
-
-            if (!_animator.IsInTransition(0) &&
-                _animator.GetInteger(EntityController.Attacking) == 1 &&
-                _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
-                _attacking)
+            if (Vector3.Distance(controller.gameObject.transform.position, target.transform.position) <= controller._entityManager.Range + target.size)
             {
-                DoAttack();
-                _attacking = false;
+                Animator _animator = controller._animator;
+                _animator.SetBool(EntityController.Moving, false);
+
+                if (!_animator.IsInTransition(0) &&
+                    _animator.GetInteger(EntityController.Attacking) == 1 &&
+                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
+                    _attacking)
+                {
+                    DoAttack();
+                    _attacking = false;
+                }
+
+                if (!_animator.IsInTransition(0) &&
+                   _animator.GetInteger(EntityController.Attacking) == 1 &&
+                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+
+                { _animator.SetInteger(EntityController.Attacking, 0); }
+
+                else
+                {
+                    controller.gameObject.transform.LookAt(target.transform);
+                    _animator.SetInteger(EntityController.Attacking, 1);
+                }
+
+                if (_animator.IsInTransition(0) && _animator.GetInteger(EntityController.Attacking) == 1) { _attacking = true; }
             }
-
-            if (!_animator.IsInTransition(0) &&
-               _animator.GetInteger(EntityController.Attacking) == 1 &&
-                _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-
-            { _animator.SetInteger(EntityController.Attacking, 0); }
-
-            else
-            {
-                controller.gameObject.transform.LookAt(target.transform);
-                _animator.SetInteger(EntityController.Attacking, 1);
-            }
-
-            if (_animator.IsInTransition(0) && _animator.GetInteger(EntityController.Attacking) == 1) { _attacking = true; }
+            else { end(); }
         }
         else { end(); }
     }
