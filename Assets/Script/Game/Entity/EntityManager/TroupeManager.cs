@@ -10,7 +10,7 @@ public class TroupeManager : AggressifEntityManager
     private NavMeshController _navMeshAgent;
 
     [SerializeField] private float xp;
-    [SerializeField] private float level;
+    [SerializeField] public float level;
 
     [SerializeField] private int HpToAdd = 1;
     [SerializeField] private int AttackToAdd = 1;
