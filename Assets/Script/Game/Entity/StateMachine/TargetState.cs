@@ -2,7 +2,7 @@
 
 public class TargetState : StateClassEntity
 {
-    SelectableManager target;
+    public SelectableManager target;
     EntityController controller;
     NavMeshController navMeshController;
 

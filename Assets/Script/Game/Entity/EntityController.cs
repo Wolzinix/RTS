@@ -71,7 +71,10 @@ public class EntityController : MonoBehaviour
 
     virtual protected void LateUpdate()
     {
-        if(_ListOfstate.Count > 0) { _ListOfstate[0].Update(); }
+        if(_ListOfstate.Count > 0) 
+        {
+            _ListOfstate[0].Update(); 
+        }
         if (_navMesh && _ListForOrder.Count == 0 || _ListForOrder.Count != 0 && (_ListForOrder[0] == Order.Patrol || _ListForOrder[0] == Order.Aggressive || _ListForOrder[0] == Order.Follow) || _navMesh == null)
         {
             SearchTarget();
@@ -311,7 +314,6 @@ public class EntityController : MonoBehaviour
             SearchTarget();
 
             if (_EnnemieList.Count > 0) { FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), false); }
-
         }
     }
 
