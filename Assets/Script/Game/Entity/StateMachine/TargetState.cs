@@ -21,6 +21,7 @@ public class TargetState : StateClassEntity
     {
         if(target)
         {
+            controller.SortTarget();
             if (Vector3.Distance(controller.gameObject.transform.position, target.transform.position) <= controller._entityManager.Range + target.size)
             {
                 Stop();

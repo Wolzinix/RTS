@@ -33,11 +33,13 @@ public class MoveState : StateClassEntity
 
     public override void end() 
     {
-        controller.RemoveFirstOrder();
-        controller.EntityIsArrive.Invoke();
-
         controller._animator.SetBool(EntityController.Moving, false);
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         navMeshController.StopPath();
+
+        controller.EntityIsArrive.Invoke();
+        controller.RemoveFirstOrder();
+
+        
     }
 }

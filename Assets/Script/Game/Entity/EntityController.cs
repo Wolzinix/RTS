@@ -268,14 +268,34 @@ public class EntityController : MonoBehaviour
         resetEvent.Invoke();
 
     }
-    private int SortTargetByProximity(SelectableManager entity1, SelectableManager entity2)
+    public void SortTarget()
     {
-        if(entity1 == null) return 1;
-        if (entity2 == null) return 0;
-        return Vector3.Distance(transform.localPosition, entity1.gameObject.transform.localPosition)
-            .CompareTo(Vector3.Distance(transform.localPosition, entity2.gameObject.transform.localPosition));
-    }
+        TargetState nearest = (TargetState)_ListOfstate.Find(x => x.GetType() == typeof(TargetState));
+        if(nearest != null)
+        {
+            foreach (StateClassEntity i in _ListOfstate)
+            {
+                if (i.GetType() == typeof(TargetState))
+                {
+                    TargetState c = (TargetState)i;
+                    if (c.target)
+                    {
+                        if (nearest != i)
+                        {
 
+                            if (Vector3.Distance(transform.localPosition, nearest.target.gameObject.transform.localPosition) > Vector3.Distance(transform.localPosition, c.target.gameObject.transform.localPosition))
+                            {
+                                nearest = (TargetState)i;
+                            }
+                        }
+                    }
+                   
+                }
+            }
+            _ListOfstate.Remove(nearest);
+            InsertTarget(nearest.target);
+        }
+    }
     public void ChangeSpeed(float speed)
     {
         if(_entityManager.GetType() == typeof(TroupeManager))
