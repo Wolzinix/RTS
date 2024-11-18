@@ -39,7 +39,7 @@ public class MapMod
 
     private void SelectGestionMapMod()
     {
-        foreach (SelectableManager i in Resources.FindObjectsOfTypeAll<SelectableManager>())
+        foreach (SelectableManager i in GameObject.FindObjectsOfType<SelectableManager>())
         {
             if (_isMapMod) { i.OnSelected(); }
             else { i.OnDeselected(); }
@@ -49,7 +49,7 @@ public class MapMod
 
     private void ConnectToEventNewEtentity()
     {
-        foreach (BuildingController i in Resources.FindObjectsOfTypeAll<BuildingController>())
+        foreach (BuildingController i in GameObject.FindObjectsOfType<BuildingController>())
         {
             if (_isMapMod) { i.entitySpawnNow.AddListener(SelectGestionMapMod); }
             else { i.entitySpawnNow.RemoveListener(SelectGestionMapMod); }

@@ -4,7 +4,7 @@ public class FogWarManager : MonoBehaviour
 {
     void Start()
     {
-        foreach(AggressifEntityManager i in Resources.FindObjectsOfTypeAll<AggressifEntityManager>() as AggressifEntityManager[])
+        foreach(AggressifEntityManager i in FindObjectsOfType<AggressifEntityManager>())
         {
             if(i.gameObject.tag != gameObject.tag)
             {
@@ -29,6 +29,6 @@ public class FogWarManager : MonoBehaviour
 
     private void AddFromFog(AggressifEntityManager entity)
     {
-        //entity.GetComponentInChildren<MeshRenderer>().enabled = false;
+        entity.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 }
