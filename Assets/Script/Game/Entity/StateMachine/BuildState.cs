@@ -11,11 +11,11 @@ public class BuildState : StateClassEntity
         this.position = position;
         this.defenseManager = defenseManager;
     }
-    public override void  Start() {}
+    public override void Start() { }
 
     public override void Update()
     {
-        if(Vector3.Distance(builder.transform.position, position)
+        if (Vector3.Distance(builder.transform.position, position)
             <=
             builder.GetComponent<NavMeshController>().HaveStoppingDistance() + defenseManager.GetComponentInChildren<Renderer>().bounds.size.x + defenseManager.GetComponentInChildren<Renderer>().bounds.size.y)
         {
@@ -41,7 +41,7 @@ public class BuildState : StateClassEntity
                     {
                         if (i.GetComponent<EntityController>() != null)
                         {
-                            if(i.GetComponent<DefenseManager>() != null) { end(); }
+                            if (i.GetComponent<DefenseManager>() != null) { end(); }
                             else
                             {
                                 Vector3 iPosition = i.GetComponent<EntityController>().transform.localPosition;

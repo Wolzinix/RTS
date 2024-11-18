@@ -3,13 +3,13 @@ using UnityEngine.InputSystem;
 
 public class CameraControl : MonoBehaviour
 {
-    
+
     [SerializeField] private InputActionReference moveCameraInput;
     [SerializeField] private InputActionReference rotateCameraInput;
     [SerializeField] private InputActionReference activeRotateCameraInput;
     [SerializeField] private InputActionReference zoomCameraInput;
     [SerializeField] private InputActionReference accelerateInput;
-    
+
     [SerializeField] private float speedOfDeplacement = 1;
     [SerializeField] private float speedOfZoom = 10;
 
@@ -24,7 +24,7 @@ public class CameraControl : MonoBehaviour
     private Rigidbody _rb;
 
     [SerializeField] private GameObject mainGround;
-    
+
     void Start()
     {
         activeRotateCameraInput.action.performed += ActiveRotation;
@@ -37,7 +37,7 @@ public class CameraControl : MonoBehaviour
         SetLimitation();
 
         transform.position = new Vector3(
-            transform.position.x > xmax ? xmax: transform.position.x < xmin? xmin : transform.position.x
+            transform.position.x > xmax ? xmax : transform.position.x < xmin ? xmin : transform.position.x
             , transform.position.y
             , transform.position.z > zmax ? zmax : transform.position.z < zmin ? zmin : transform.position.z);
     }
@@ -76,16 +76,16 @@ public class CameraControl : MonoBehaviour
     }
     private void Zoom(InputAction.CallbackContext obj)
     {
-        if (transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0 || 
+        if (transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0 ||
             transform.position.y <= 8 && zoomCameraInput.action.ReadValue<Vector2>().y <= 0)
         {
             Vector3 newPosition = new Vector3(zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.x,
                 zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.y,
                 zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.z)
-                                  * (Time.deltaTime * speedOfDeplacement) ;
+                                  * (Time.deltaTime * speedOfDeplacement);
 
             if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
-            
+
             _rb.MovePosition(transform.position + newPosition);
         }
     }
@@ -104,11 +104,11 @@ public class CameraControl : MonoBehaviour
         }
         newPosition *= 10;
 
-       
+
 
 
         if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
-       
+
         _rb.velocity = newPosition;
 
         transform.position = new Vector3(
@@ -123,7 +123,7 @@ public class CameraControl : MonoBehaviour
     {
         Quaternion rotation = transform.rotation;
         rotation.eulerAngles += new Vector3(0, rotateCameraInput.action.ReadValue<Vector2>().x / 5, 0);
-        _rb.MoveRotation( rotation);
+        _rb.MoveRotation(rotation);
     }
 
 }

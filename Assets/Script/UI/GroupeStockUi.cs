@@ -14,7 +14,7 @@ public class GroupeStockUi : MonoBehaviour
     }
     public void AddEntity()
     {
-        if(_listOfGroup.Count < 6 ) 
+        if (_listOfGroup.Count < 6)
         {
             GameObject newGroup = Instantiate(groupUi, image.transform);
 
@@ -29,7 +29,7 @@ public class GroupeStockUi : MonoBehaviour
         {
             i.GetComponent<RectTransform>().anchoredPosition = new Vector3(55 * _listOfGroup.IndexOf(i) + 25, 0, 0);
         }
-        
+
     }
     public void RemoveCadre(GameObject cadreToRemove)
     {

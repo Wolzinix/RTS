@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EntityManager :  MonoBehaviour
+public class EntityManager : MonoBehaviour
 {
 
     [SerializeField] protected float hp = 10;
@@ -33,8 +33,8 @@ public class EntityManager :  MonoBehaviour
     {
         return spriteImage;
     }
-  
-    virtual  protected void Awake()
+
+    virtual protected void Awake()
     {
         ActualiseSprite();
 
@@ -49,8 +49,8 @@ public class EntityManager :  MonoBehaviour
     public void ActualiseSprite()
     {
         sprite.gameObject.SetActive(true);
-        if (CompareTag("Allie")) {sprite.sprite = Allisprite; }
-        else if (CompareTag("ennemie")) { sprite.sprite = Ennemisprite;}
+        if (CompareTag("Allie")) { sprite.sprite = Allisprite; }
+        else if (CompareTag("ennemie")) { sprite.sprite = Ennemisprite; }
         else { sprite.sprite = Neutralprite; }
 
         sprite.gameObject.SetActive(false);

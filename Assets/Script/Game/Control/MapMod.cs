@@ -32,7 +32,7 @@ public class MapMod
         if (_isMapMod)
         {
             cameraControl.DesactiveZoom();
-            
+
         }
         else { cameraControl.ActiveZoom(); }
     }
@@ -58,7 +58,7 @@ public class MapMod
 
     public void TeleporteMainCamera(Vector3 destination)
     {
-        if (_mapCamera && _camera) 
+        if (_mapCamera && _camera)
         {
             _camera.gameObject.transform.position = new Vector3(destination.x, _camera.gameObject.transform.position.y, destination.z);
             MapModActive();

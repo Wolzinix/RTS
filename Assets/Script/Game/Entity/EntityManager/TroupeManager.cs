@@ -33,7 +33,7 @@ public class TroupeManager : AggressifEntityManager
         SetSpeed(StartSpeed);
     }
 
-   
+
     public float Speed
     {
         get => speed;
@@ -49,7 +49,7 @@ public class TroupeManager : AggressifEntityManager
         }
     }
 
- 
+
     public void AddSpeed(float nb)
     {
         speed += nb;
@@ -62,13 +62,13 @@ public class TroupeManager : AggressifEntityManager
 
     private void SetNavMeshSpeed(float speed)
     {
-        if (_navMeshAgent) {  _navMeshAgent.SetSpeedWithNavMesh(speed); }
+        if (_navMeshAgent) { _navMeshAgent.SetSpeedWithNavMesh(speed); }
     }
 
     public void AddXp(float xpGive)
     {
         xp += xpGive;
-        if(xp >= 100)
+        if (xp >= 100)
         {
             xp -= 100;
             AddLevel();

@@ -7,8 +7,8 @@ public class IABrain : MonoBehaviour
     [SerializeField] public GameObject groupOfEntity;
     [HideInInspector] public IAStockBuilding stockBuilding;
 
-    [HideInInspector] public  UnityEvent<BuildingIA,Vector3> NeedToSendEntityToBuildingEvent;
-    [HideInInspector] public  UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
+    [HideInInspector] public UnityEvent<BuildingIA, Vector3> NeedToSendEntityToBuildingEvent;
+    [HideInInspector] public UnityEvent<BuildingIA, Vector3> NeedToSendGroupToBuildingEvent;
     [HideInInspector] public UnityEvent<BuildingIA, Vector3> ATowerIsDestroyEvent;
     public int nbMaxOfTower;
 
@@ -41,7 +41,7 @@ public class IABrain : MonoBehaviour
 
     public void AddObjectif(GameObject newObject)
     {
-        if (!Objectif.Contains(newObject)) 
+        if (!Objectif.Contains(newObject))
         {
             Objectif.Insert(0, newObject);
             AddTowerToEveryBuilding(newObject);
@@ -49,7 +49,7 @@ public class IABrain : MonoBehaviour
     }
     public void RemoveObjectif(GameObject oldObjectif)
     {
-        Objectif.Remove( oldObjectif );
+        Objectif.Remove(oldObjectif);
     }
 
     private void AddTowerToEveryBuilding(GameObject newObject)
@@ -62,7 +62,7 @@ public class IABrain : MonoBehaviour
         building.AddTower(defense);
     }
 
-    private void AddTowerToBuilding(BuildingIA building,Vector3 position)
+    private void AddTowerToBuilding(BuildingIA building, Vector3 position)
     {
         if (building._ListOfTower.Count < nbMaxOfTower && stockBuilding._AllieBuilding.Contains(building))
         {
@@ -81,9 +81,9 @@ public class IABrain : MonoBehaviour
     private Vector3 GetTheNerestPoint(Vector3 objectif, List<Vector3> listOfPosition)
     {
         Vector3 position = listOfPosition[0];
-        foreach(Vector3 i in listOfPosition)
+        foreach (Vector3 i in listOfPosition)
         {
-            if(Vector3.Distance(i,objectif) < Vector3.Distance(position, objectif))
+            if (Vector3.Distance(i, objectif) < Vector3.Distance(position, objectif))
             {
                 position = i;
             }
@@ -98,11 +98,11 @@ public class IABrain : MonoBehaviour
     {
         GameObject ThenearsetEntity = null;
 
-        foreach(EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
+        foreach (EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
         {
             if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset.gameObject; }
 
-            if(Vector3.Distance(point,ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
+            if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
             {
                 ThenearsetEntity = Thenearset.gameObject;
             }
@@ -112,8 +112,8 @@ public class IABrain : MonoBehaviour
     }
     public RessourceManager GetThenearsetHarvestOfABuilder(BuilderController builder)
     {
-        RessourceManager[] listOfRessources =  FindObjectsOfType<RessourceManager>();
-        if(listOfRessources.Length > 0)
+        RessourceManager[] listOfRessources = FindObjectsOfType<RessourceManager>();
+        if (listOfRessources.Length > 0)
         {
             RessourceManager ThenearsetToReturn = listOfRessources[0];
 
@@ -130,7 +130,7 @@ public class IABrain : MonoBehaviour
             if (listOfRessources.Length > 0) { return ThenearsetToReturn; }
             else { return null; }
         }
-        else  {  return null;}
+        else { return null; }
     }
     private void SendEntityToBuilding(BuildingIA building, Vector3 point)
     {
@@ -138,7 +138,7 @@ public class IABrain : MonoBehaviour
         {
             EntityController entity = GetThenearsetEntityOfAPoint(point).GetComponent<EntityController>();
             GroupManager group = groupManager.SendEntityToBuilding(building, entity);
-            if(group != null)
+            if (group != null)
             {
 
                 building.AddSpawnGroup(group);
@@ -157,13 +157,13 @@ public class IABrain : MonoBehaviour
 
                 else if (currentEntity.CompareTag(gameObject.tag) && currentEntity.GetComponent<TroupeManager>())
                 {
-                    groupManager.EntityJoinAGroup(currentEntity); 
+                    groupManager.EntityJoinAGroup(currentEntity);
                 }
             }
         }
         //DebugGroup();
     }
-   
+
     public void ActualiseTheGroup(GroupManager group)
     {
         if (Objectif.Count > 0)
@@ -186,7 +186,7 @@ public class IABrain : MonoBehaviour
     {
         List<BuildingIA> listOfAllie = stockBuilding.GetAllieBuilding();
         groupManager.ClearListOfPatrol();
-        for (int i = 0; i < listOfAllie.Count - 1 ; i++)
+        for (int i = 0; i < listOfAllie.Count - 1; i++)
         {
             for (int w = 1; w < listOfAllie.Count; w++)
             {
@@ -197,9 +197,9 @@ public class IABrain : MonoBehaviour
     public void ActualisePatrol(BuildingIA building)
     {
         List<BuildingIA> listOfAllie = stockBuilding.GetAllieBuilding();
-        foreach(BuildingIA i  in   listOfAllie)
+        foreach (BuildingIA i in listOfAllie)
         {
-            if(i != building) { groupManager.VerifyForPatrol(building, i); }
+            if (i != building) { groupManager.VerifyForPatrol(building, i); }
         }
     }
     public void SendRenfortToBuilding(BuildingIA building, Vector3 location)
@@ -216,6 +216,6 @@ public class IABrain : MonoBehaviour
 
     public void SpawnEntityOfBuilding(BuildingController building, GameObject entity)
     {
-        building.SpawnEntity(entity,tag, groupOfEntity.GetComponentInChildren<EntityController>().gameObject, GetComponent<RessourceController>());
+        building.SpawnEntity(entity, tag, groupOfEntity.GetComponentInChildren<EntityController>().gameObject, GetComponent<RessourceController>());
     }
 }

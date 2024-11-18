@@ -15,10 +15,10 @@ public class BuildUi : MonoBehaviour
 
     void Start()
     {
-      gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
-    public void SetBuilder(BuilderController builder) 
+    public void SetBuilder(BuilderController builder)
     {
         _builder = builder;
         ActualiseButtons();
@@ -44,9 +44,9 @@ public class BuildUi : MonoBehaviour
     {
         List<GameObject> listOfGameobject = _builder.getBuildings();
 
-        foreach (Button button in _ListOfButton) 
+        foreach (Button button in _ListOfButton)
         {
-            if (_ListOfButton.IndexOf(button)+ _numberOfbutton < listOfGameobject.Count())
+            if (_ListOfButton.IndexOf(button) + _numberOfbutton < listOfGameobject.Count())
             {
                 button.gameObject.SetActive(true);
                 button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<DefenseManager>().GetSprit();
@@ -64,11 +64,11 @@ public class BuildUi : MonoBehaviour
     public void goToLeft()
     {
         _numberOfbutton -= _ListOfButton.Count();
-        if( _numberOfbutton < 0 )
+        if (_numberOfbutton < 0)
         {
-            if(_builder.getBuildings().Count >= _ListOfButton.Count())
+            if (_builder.getBuildings().Count >= _ListOfButton.Count())
             {
-                _numberOfbutton =  _ListOfButton.Count() *( _builder.getBuildings().Count / _ListOfButton.Count());
+                _numberOfbutton = _ListOfButton.Count() * (_builder.getBuildings().Count / _ListOfButton.Count());
             }
             else
             {
@@ -84,7 +84,7 @@ public class BuildUi : MonoBehaviour
 
         if (_numberOfbutton >= _builder.getBuildings().Count)
         {
-             _numberOfbutton = 0;
+            _numberOfbutton = 0;
         }
         ActualiseButtons();
     }

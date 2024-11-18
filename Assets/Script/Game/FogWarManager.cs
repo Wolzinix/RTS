@@ -4,9 +4,9 @@ public class FogWarManager : MonoBehaviour
 {
     void Start()
     {
-        foreach(AggressifEntityManager i in FindObjectsOfType<AggressifEntityManager>())
+        foreach (AggressifEntityManager i in FindObjectsOfType<AggressifEntityManager>())
         {
-            if(i.gameObject.tag != gameObject.tag)
+            if (i.gameObject.tag != gameObject.tag)
             {
                 AddFromFog(i);
             }

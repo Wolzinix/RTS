@@ -1,5 +1,4 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HarvestState : StateClassEntity
 {
@@ -8,7 +7,7 @@ public class HarvestState : StateClassEntity
     bool _attacking = false;
 
 
-    public HarvestState(BuilderController builderController,RessourceManager target)
+    public HarvestState(BuilderController builderController, RessourceManager target)
     {
         this.builder = builderController;
         this.target = target;
@@ -16,7 +15,7 @@ public class HarvestState : StateClassEntity
 
     public override void Update()
     {
-        if(target)
+        if (target)
         {
             if (Vector3.Distance(builder.transform.position, target.transform.position) <= builder._entityManager.Range + target.size)
             {
@@ -57,7 +56,7 @@ public class HarvestState : StateClassEntity
         {
             end();
         }
-        
+
     }
 
     void DoAnAttackOnRessource(RessourceManager target)

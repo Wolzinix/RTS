@@ -14,7 +14,7 @@ public class AggressifEntityManager : SelectableManager
     {
         base.Awake();
 
-        foreach (RessourceController i in FindObjectsOfType(typeof(RessourceController),false))
+        foreach (RessourceController i in FindObjectsOfType(typeof(RessourceController), false))
         {
             if (i.gameObject.CompareTag(gameObject.tag))
             {

@@ -7,7 +7,7 @@ public class BuilderController : EntityController
     [SerializeField] List<GameObject> _buildings;
 
     [HideInInspector] public UnityEvent<BuilderController> NoMoreToHarvest = new UnityEvent<BuilderController>();
-    [HideInInspector] public UnityEvent<BuilderController,DefenseManager> TowerIsBuild = new UnityEvent<BuilderController,DefenseManager> ();
+    [HideInInspector] public UnityEvent<BuilderController, DefenseManager> TowerIsBuild = new UnityEvent<BuilderController, DefenseManager>();
 
 
     private RessourceController ressourceController;
@@ -62,14 +62,14 @@ public class BuilderController : EntityController
     protected override void LateUpdate()
     {
         base.LateUpdate();
-        if(_ListOfstate .Count < 0) { NoMoreToHarvest.Invoke(this); }
+        if (_ListOfstate.Count < 0) { NoMoreToHarvest.Invoke(this); }
     }
 
     public void SearchClosetHarvestTarget()
     {
         GameObject nextHarvest = DoCircleRaycastForHarvest();
         if (nextHarvest != null) { AddHarvestTarget(nextHarvest); }
-        else {  NoMoreToHarvest.Invoke(this); }
+        else { NoMoreToHarvest.Invoke(this); }
     }
 
     private GameObject DoCircleRaycastForHarvest()
@@ -89,14 +89,14 @@ public class BuilderController : EntityController
 
             foreach (RaycastHit hit in hits)
             {
-                if (hit.transform &&  hit.transform.gameObject.GetComponent<RessourceManager>())
+                if (hit.transform && hit.transform.gameObject.GetComponent<RessourceManager>())
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
-                    if(closet == null)
+                    if (closet == null)
                     {
                         closet = hit.transform.gameObject;
                     }
-                    else if(Vector3.Distance(transform.position,closet.transform.position)> Vector3.Distance(transform.position, hit.transform.position))
+                    else if (Vector3.Distance(transform.position, closet.transform.position) > Vector3.Distance(transform.position, hit.transform.position))
                     {
                         closet = hit.transform.gameObject;
                     }
@@ -105,7 +105,7 @@ public class BuilderController : EntityController
         }
         return closet;
     }
-    protected override void SearchTarget(){ }
+    protected override void SearchTarget() { }
 
     private void ResetHarvestOrder()
     {
@@ -119,14 +119,14 @@ public class BuilderController : EntityController
     public void AddHarvestTarget(GameObject hit)
     {
         bool already = false;
-        foreach(StateClassEntity i in _ListOfstate)
+        foreach (StateClassEntity i in _ListOfstate)
         {
-            if(i.GetType() ==  typeof(HarvestState))
+            if (i.GetType() == typeof(HarvestState))
             {
                 already = true;
             }
         }
-        if(!already)
+        if (!already)
         {
             _ListOfstate.Add(new HarvestState(this, hit.GetComponent<RessourceManager>()));
         }
@@ -139,9 +139,9 @@ public class BuilderController : EntityController
 
     public bool BuilderIsAlradyBuilding()
     {
-        foreach(StateClassEntity i in _ListOfstate)
+        foreach (StateClassEntity i in _ListOfstate)
         {
-            if(i.GetType() == typeof(BuildState))
+            if (i.GetType() == typeof(BuildState))
             {
                 return true;
             }

@@ -30,16 +30,16 @@ public class CadreController : MonoBehaviour
 
     private void DestroyHimSelf(SelectableManager entity)
     {
-        if(FindObjectOfType<GroupeUiManager>())
+        if (FindObjectOfType<GroupeUiManager>())
         {
             FindObjectOfType<GroupeUiManager>().RemoveCadre(transform.gameObject);
         }
-        if(_entity)
+        if (_entity)
         {
             _entity.changeStats.RemoveListener(ActualiseHp);
             _entity.deathEvent.RemoveListener(DestroyHimSelf);
         }
-        
+
         Destroy(gameObject);
     }
 

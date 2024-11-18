@@ -25,11 +25,11 @@ public class GroupeStockManager : MonoBehaviour
     {
         multiSelectionInput.action.performed -= SetAddMore;
         multiSelectionInput.action.canceled -= SetAddMore;
-        if(FindObjectOfType<GroupeStockUi>())
+        if (FindObjectOfType<GroupeStockUi>())
         {
             FindObjectOfType<GroupeStockUi>().RemoveCadre(gameObject);
         }
-        
+
     }
     private void SetAddMore(InputAction.CallbackContext context)
     {
@@ -49,9 +49,9 @@ public class GroupeStockManager : MonoBehaviour
 
     private void AddToList(List<EntityController> listOfEntityManager)
     {
-        foreach(EntityController entityManager in listOfEntityManager)
+        foreach (EntityController entityManager in listOfEntityManager)
         {
-            if(!_listOfEntityManager.Contains(entityManager))
+            if (!_listOfEntityManager.Contains(entityManager))
             {
                 _listOfEntityManager.Add(entityManager);
                 entityManager.gameObject.GetComponent<SelectableManager>().deathEvent.AddListener(RemoveEntity);
@@ -64,7 +64,7 @@ public class GroupeStockManager : MonoBehaviour
 
     public virtual void OnPointerClick(BaseEventData data)
     {
-        
+
         PointerEventData eventData = data as PointerEventData;
 
         SelectManager selectManager = FindObjectOfType<SelectManager>();
@@ -72,16 +72,16 @@ public class GroupeStockManager : MonoBehaviour
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             List<EntityController> list = selectManager.getSelectList();
-            if(list.Count > 0)
+            if (list.Count > 0)
             {
-                if (AddMore){AddToList(list); }
-                else 
+                if (AddMore) { AddToList(list); }
+                else
                 {
                     ResetList();
                     AddList(list);
                 }
             }
-           
+
         }
         if (eventData.button == PointerEventData.InputButton.Left)
         {
@@ -89,15 +89,15 @@ public class GroupeStockManager : MonoBehaviour
             selectManager.ClearList();
 
             uiGestioneur.ActualiseUi(_listOfEntityManager[0].gameObject.GetComponent<AggressifEntityManager>());
-            foreach ( EntityController entityController in _listOfEntityManager)
+            foreach (EntityController entityController in _listOfEntityManager)
             {
                 AggressifEntityManager entityManager = entityController.gameObject.GetComponent<AggressifEntityManager>();
                 selectManager.AddSelect(entityManager);
-                
+
                 uiGestioneur.AddOnGroupUi(entityManager);
             }
         }
-        
+
     }
 
     public List<EntityController> GetList()
@@ -105,21 +105,21 @@ public class GroupeStockManager : MonoBehaviour
         return _listOfEntityManager;
     }
 
-    public void ResetList (){ _listOfEntityManager.Clear(); }
+    public void ResetList() { _listOfEntityManager.Clear(); }
 
     private void RemoveEntity(SelectableManager entityManager)
     {
         _listOfEntityManager.Remove(entityManager.gameObject.GetComponent<EntityController>());
         entityManager.deathEvent.RemoveListener(RemoveEntity);
         _nbOfEntity -= 1;
-        if(_nbOfEntity == 0)
+        if (_nbOfEntity == 0)
         {
             Destroy(gameObject); return;
         }
         ActualiseAffichage();
     }
 
-    private  void ActualiseAffichage()
+    private void ActualiseAffichage()
     {
         GetComponentInChildren<TMP_Text>().text = _nbOfEntity.ToString();
         GetComponentInChildren<Image>().sprite = _listOfEntityManager[0].gameObject.GetComponent<AggressifEntityManager>().GetSprit();

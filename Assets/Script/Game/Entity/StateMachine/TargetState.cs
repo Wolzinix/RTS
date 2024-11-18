@@ -17,9 +17,9 @@ public class TargetState : StateClassEntity
         controller._animator.SetBool(EntityController.Moving, true);
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
     }
-    public override void Update() 
+    public override void Update()
     {
-        if(target)
+        if (target)
         {
             controller.SortTarget();
             if (Vector3.Distance(controller.gameObject.transform.position, target.transform.position) <= controller._entityManager.Range + target.size)
@@ -32,10 +32,10 @@ public class TargetState : StateClassEntity
                 if (navMeshController) { navMeshController.GetNewPath(target.transform.position); controller.moving = true; }
             }
         }
-        else{ end(); }
+        else { end(); }
     }
 
-    public override void end() 
+    public override void end()
     {
         controller.moving = false;
         Stop();
@@ -44,7 +44,7 @@ public class TargetState : StateClassEntity
 
     private void Stop()
     {
-        if(navMeshController != null)
+        if (navMeshController != null)
         {
             controller._animator.SetBool(EntityController.Moving, false);
             controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;

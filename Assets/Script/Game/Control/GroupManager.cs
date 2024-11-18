@@ -20,8 +20,8 @@ public class GroupManager
     public UnityEvent<GroupManager> GroupIsDeadevent = new UnityEvent<GroupManager>();
 
     public UnityEvent<GroupManager> SomeoneIsImmobile = new UnityEvent<GroupManager>();
-     
-    private SelectableManager _OneSelected; 
+
+    private SelectableManager _OneSelected;
 
     public GroupManager()
     {
@@ -34,7 +34,7 @@ public class GroupManager
         bool mooving = false;
         foreach (EntityController controller in _selectedObject)
         {
-            if(!mooving )
+            if (!mooving)
             {
                 mooving = controller.GetComponent<NavMeshController>().notAtLocation();
                 break;
@@ -43,26 +43,26 @@ public class GroupManager
         return mooving;
     }
 
-    public bool getAddingMoreThanOne()  { return _addingMoreThanOne; }
-    public void setAddingMoreThanOne(bool val) { _addingMoreThanOne = val;}
+    public bool getAddingMoreThanOne() { return _addingMoreThanOne; }
+    public void setAddingMoreThanOne(bool val) { _addingMoreThanOne = val; }
     public int getNumberOnGroup() { return _selectedObject.Count; }
 
-    public void SetEnnemieTag(string tag) { _ennemieTag = tag;  }
+    public void SetEnnemieTag(string tag) { _ennemieTag = tag; }
 
-    public void SetAllieTag(string tag) { _alliTag = tag;}
+    public void SetAllieTag(string tag) { _alliTag = tag; }
 
 
-    public string GetAllieTag() { return _alliTag;}
+    public string GetAllieTag() { return _alliTag; }
     public Vector3 getCenterofGroup()
     {
         _CenterOfGroup = new Vector3();
         foreach (EntityController controller in _selectedObject)
         {
-            if(controller)
+            if (controller)
             {
                 _CenterOfGroup += controller.gameObject.transform.position;
             }
-            
+
         }
         _CenterOfGroup /= _selectedObject.Count;
 
@@ -83,7 +83,7 @@ public class GroupManager
                 i.gameObject.GetComponent<AggressifEntityManager>().OnDeselected(); ;
             }
             _selectedObject.Clear();
-           
+
         }
         else if (_OneSelected)
         {
@@ -99,7 +99,7 @@ public class GroupManager
 
     private void ChangeSpeedWhenAdd(EntityController entity)
     {
-        if(_selectedObject.Count > 1)
+        if (_selectedObject.Count > 1)
         {
             if (entity.GetStartSpeed() > 0)
             {
@@ -121,8 +121,8 @@ public class GroupManager
         {
             entity.ChangeSpeed(entity.GetStartSpeed());
         }
-       
-  
+
+
     }
 
     public void AddSelect(SelectableManager toAdd)
@@ -140,7 +140,7 @@ public class GroupManager
                 toAdd.gameObject.GetComponent<EntityController>().groupManager = this;
                 toAdd.GetComponent<EntityController>().EntityIsArrive.AddListener(SomeOneIsImmobile);
                 toAdd.deathEvent.AddListener(RemoveSelect);
-                if(IsPlayer)
+                if (IsPlayer)
                 {
                     toAdd.gameObject.GetComponent<AggressifEntityManager>().OnSelected();
                 }
@@ -149,7 +149,7 @@ public class GroupManager
         else
         {
             ClearList();
-            if(IsPlayer)
+            if (IsPlayer)
             {
 
                 toAdd.OnSelected();
@@ -160,7 +160,7 @@ public class GroupManager
 
     private void ChangeSpeedWhenRemove(EntityController entity)
     {
-        if(!SelectedObjectIsEmpty())
+        if (!SelectedObjectIsEmpty())
         {
             if (entity.GetStartSpeed() < _selectedObject[0].GetSpeed())
             {
@@ -182,7 +182,7 @@ public class GroupManager
     }
     public void RemoveSelect(SelectableManager toAdd)
     {
-        if(toAdd)
+        if (toAdd)
         {
             ChangeSpeedWhenRemove(toAdd.GetComponent<EntityController>());
             toAdd.gameObject.GetComponent<EntityController>().groupManager = null;
@@ -237,9 +237,9 @@ public class GroupManager
             foreach (EntityController i in _selectedObject)
             {
                 Vector3 _PointToReach = _CenterOfGroup - i.transform.position;
-                if(dontGoOnPoint) {   i.GetComponent<EntityController>().AddPath(point - _PointToReach);   }
+                if (dontGoOnPoint) { i.GetComponent<EntityController>().AddPath(point - _PointToReach); }
                 else { i.GetComponent<EntityController>().AddPath(point); }
-               
+
             }
         }
     }
@@ -346,7 +346,7 @@ public class GroupManager
         }
     }
 
-    public void SpecificPatrouilleOrder(Vector3 start,Vector3 end)
+    public void SpecificPatrouilleOrder(Vector3 start, Vector3 end)
     {
         if (!SelectedObjectIsEmpty())
         {
@@ -361,7 +361,7 @@ public class GroupManager
 
     private bool SelectedObjectIsEmpty()
     {
-        if(_selectedObject.Count <= 0)
+        if (_selectedObject.Count <= 0)
         {
             OnDestroy();
             return true;
@@ -414,7 +414,7 @@ public class GroupManager
         bool moving = false;
         foreach (EntityController i in _selectedObject)
         {
-            if(i.moving) moving = true;
+            if (i.moving) moving = true;
         }
         return moving;
     }

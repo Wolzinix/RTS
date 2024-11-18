@@ -34,7 +34,7 @@ public class SelectableManager : EntityManager
         if (hp <= 0)
         {
             entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
-            if(entity.GetType() == typeof(TroupeManager)) { TroupeManager c = (TroupeManager)entity; c.AddXp(xpToGive); }
+            if (entity.GetType() == typeof(TroupeManager)) { TroupeManager c = (TroupeManager)entity; c.AddXp(xpToGive); }
             Death();
         }
     }

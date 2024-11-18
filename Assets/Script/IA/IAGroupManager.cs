@@ -20,7 +20,7 @@ public class IAGroupManager
     public IABrain ia;
 
     public float DistanceOfSecurity = 3f;
-   
+
     public void CreateGroup(AggressifEntityManager entity)
     {
         GroupManager groupToCreate = new GroupManager();
@@ -35,7 +35,7 @@ public class IAGroupManager
 
         groupToCreate.AddSelect(entity);
 
-        if(ia.GetAllieBuilding().Count>0)
+        if (ia.GetAllieBuilding().Count > 0)
         {
             groupToCreate.AttackingOnTravel(GetPosWithSecurity(groupToCreate, ia.GetAllieBuilding()[0].building.transform.position));
         }
@@ -91,9 +91,9 @@ public class IAGroupManager
 
         foreach (GroupManager group in _ListOfGroup)
         {
-            if (group.getNumberOnGroup() == 0) { groupList.Add(group);  }
+            if (group.getNumberOnGroup() == 0) { groupList.Add(group); }
         }
-        foreach(GroupManager group in groupList)
+        foreach (GroupManager group in groupList)
         {
             RemoveAGroup(group);
         }
@@ -135,7 +135,7 @@ public class IAGroupManager
 
         group.AddSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
 
-        if(_ListOfGroupPatrol.Keys.Contains(group))
+        if (_ListOfGroupPatrol.Keys.Contains(group))
         {
             entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][0].building.transform.position);
             entity.GetComponent<EntityController>().AddPatrol(_ListOfGroupPatrol[group][1].building.transform.position);
@@ -213,8 +213,8 @@ public class IAGroupManager
 
     public void SendBuilderToHarvest(BuilderController builder)
     {
-        if(ia.GetThenearsetHarvestOfABuilder(builder) != null) {  SendBuilderToNextHarvest(builder, ia.GetThenearsetHarvestOfABuilder(builder).gameObject); }
-        
+        if (ia.GetThenearsetHarvestOfABuilder(builder) != null) { SendBuilderToNextHarvest(builder, ia.GetThenearsetHarvestOfABuilder(builder).gameObject); }
+
     }
     public void SendBuilderToNextHarvest(BuilderController builder, GameObject nextHarvest)
     {
@@ -223,14 +223,14 @@ public class IAGroupManager
             builder.AddHarvestTarget(nextHarvest);
         }
     }
-    public bool SendBuilderToBuildTower(BuildingIA building,Vector3 position)
+    public bool SendBuilderToBuildTower(BuildingIA building, Vector3 position)
     {
-        if(_ListOfBuilder.Count >= 1)
+        if (_ListOfBuilder.Count >= 1)
         {
             BuilderController buildeur = GetThenearsetBuildeurOfAPoint(position);
-            if(buildeur && buildeur.DoAbuild(0, position, ia.gameObject.GetComponent<RessourceController>()))
+            if (buildeur && buildeur.DoAbuild(0, position, ia.gameObject.GetComponent<RessourceController>()))
             {
-                buildeur.TowerIsBuild.AddListener((BuilderController builder, DefenseManager defense) => TowerIsNowBUild(builder,defense, building));
+                buildeur.TowerIsBuild.AddListener((BuilderController builder, DefenseManager defense) => TowerIsNowBUild(builder, defense, building));
                 return true;
             }
         }
@@ -257,7 +257,7 @@ public class IAGroupManager
         if (group.getNumberOnGroup() >= TailleDuGroupe && EverybodyIsImmobile(group))
         {
             group.ResetOrder();
-            SendToAttack(group, objectif); 
+            SendToAttack(group, objectif);
         }
     }
     public void SendEverybodyToTheCenter(GroupManager group)
@@ -271,7 +271,7 @@ public class IAGroupManager
     public GroupManager SendRenfortToBuilding(BuildingIA building, Vector3 location)
     {
         GroupManager group = GetThenearsetGroupOfAPoint(location);
-        if (group != null && building.IsProtected==false)
+        if (group != null && building.IsProtected == false)
         {
             MakeProtectBuildingGroup(group, building);
 
@@ -307,7 +307,7 @@ public class IAGroupManager
 
     public GroupManager SendEntityToBuilding(BuildingIA building, EntityController entity)
     {
-        if(!BuildingHaveAlreadyAGroup(building))
+        if (!BuildingHaveAlreadyAGroup(building))
         {
             foreach (GroupManager group in _ListOfGroup)
             {
@@ -331,7 +331,7 @@ public class IAGroupManager
 
             return building._GroupOfSpawn;
         }
-        
+
         //DebugGroup();
     }
 
@@ -339,7 +339,7 @@ public class IAGroupManager
     {
         foreach (GroupManager group in _ListOfGroup)
         {
-            if (group.GroupContainUnity(entity)) {  return true; }
+            if (group.GroupContainUnity(entity)) { return true; }
         }
         return false;
     }
@@ -363,23 +363,23 @@ public class IAGroupManager
         }
         return groupeARejoindre;
     }
-    public GroupManager NearestGroup(EntityController entity,GroupManager group, GroupManager group2)
+    public GroupManager NearestGroup(EntityController entity, GroupManager group, GroupManager group2)
     {
         if (group2 != null)
         {
-            if(group != null)
+            if (group != null)
             {
                 if (Vector3.Distance(group.getCenterofGroup(), entity.gameObject.transform.position) > Vector3.Distance(group2.getCenterofGroup(), entity.gameObject.transform.position))
                 {
                     return group2;
                 }
             }
-            else{ return group2; }
+            else { return group2; }
         }
         return group;
     }
 
-    private GroupManager FindNearstGroup (EntityController entity,List<GroupManager> groupType, GroupManager groupToJoin)
+    private GroupManager FindNearstGroup(EntityController entity, List<GroupManager> groupType, GroupManager groupToJoin)
     {
         GroupManager c = NearestGroupOfType(entity, groupType);
         return NearestGroup(entity, groupToJoin, c);
@@ -388,7 +388,7 @@ public class IAGroupManager
     {
         GroupManager groupeARejoindre = null;
 
-        groupeARejoindre = FindNearstGroup(entity, _ListOfGroupPatrol.Keys.ToList(),groupeARejoindre);
+        groupeARejoindre = FindNearstGroup(entity, _ListOfGroupPatrol.Keys.ToList(), groupeARejoindre);
         groupeARejoindre = FindNearstGroup(entity, _ListOfGroupToProtectBuilding.Keys.ToList(), groupeARejoindre);
         groupeARejoindre = FindNearstGroup(entity, _ListOfGroupAttack, groupeARejoindre);
 
@@ -424,19 +424,19 @@ public class IAGroupManager
                     {
                         if (_ListOfGroupPatrol[x].SequenceEqual(buildings) || x == NearestGroup) { exist = true; break; }
                     }
-                    if (!exist){ SendAGroupToPatrol(NearestGroup, buildings); }
+                    if (!exist) { SendAGroupToPatrol(NearestGroup, buildings); }
                 }
             }
         }
         else
         {
-            if(_ListOfGroupPatrol.FirstOrDefault(x => x.Value == buildings).Key != null)
+            if (_ListOfGroupPatrol.FirstOrDefault(x => x.Value == buildings).Key != null)
             {
 
                 ClearAPatrol(_ListOfGroupPatrol.FirstOrDefault(x => x.Value == buildings).Key);
             }
         }
-           
+
     }
     private void DebugGroup()
     {

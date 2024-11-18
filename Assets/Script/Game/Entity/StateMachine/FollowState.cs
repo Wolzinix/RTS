@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 
 public class FollowState : StateClassEntity
 {
     SelectableManager target;
     EntityController controller;
     NavMeshController navMeshController;
-    public FollowState(SelectableManager target,NavMeshController navMeshController,EntityController entityController)
+    public FollowState(SelectableManager target, NavMeshController navMeshController, EntityController entityController)
     {
         this.target = target;
         this.controller = entityController;
@@ -19,7 +18,7 @@ public class FollowState : StateClassEntity
     }
     public override void Update()
     {
-        if(target && navMeshController)
+        if (target && navMeshController)
         {
             if (navMeshController.notOnTraject())
             {
@@ -30,18 +29,18 @@ public class FollowState : StateClassEntity
                 }
             }
         }
-        else{ end(); }
+        else { end(); }
     }
 
     public override void end()
     {
-        if(navMeshController)
+        if (navMeshController)
         {
             controller._animator.SetBool(EntityController.Moving, false);
             controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             navMeshController.StopPath();
 
             controller.EntityIsArrive.Invoke();
-        }    
+        }
     }
 }

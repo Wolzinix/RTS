@@ -14,7 +14,7 @@ public class UiGestioneur : MonoBehaviour
     [SerializeField] private GameObject NoUi;
 
     private bool _multiSelectionIsActive;
-    public void SetMulitSelection(bool multi) {  _multiSelectionIsActive = multi; }
+    public void SetMulitSelection(bool multi) { _multiSelectionIsActive = multi; }
 
     private void ActualiseEntityUI(SelectableManager entity)
     {
@@ -57,14 +57,14 @@ public class UiGestioneur : MonoBehaviour
     {
         if (entity.gameObject.GetComponent<SelectableManager>())
         {
-            if (entity.CompareTag("Allie")) { entityUi.GetComponentInChildren<Image>().color = Color.green;  }
+            if (entity.CompareTag("Allie")) { entityUi.GetComponentInChildren<Image>().color = Color.green; }
             else if (entity.CompareTag("ennemie")) { entityUi.GetComponentInChildren<Image>().color = Color.red; }
-            else {  entityUi.GetComponentInChildren<Image>().color = Color.grey; }
+            else { entityUi.GetComponentInChildren<Image>().color = Color.grey; }
         }
         else if (entity.gameObject.GetComponent<BuildingController>())
         {
-            if (entity.CompareTag("Allie")) { entityUi.GetComponentInChildren<Image>().color = Color.blue;  }
-            else if (entity.CompareTag("ennemie")) { entityUi.GetComponentInChildren<Image>().color = Color.black;  }
+            if (entity.CompareTag("Allie")) { entityUi.GetComponentInChildren<Image>().color = Color.blue; }
+            else if (entity.CompareTag("ennemie")) { entityUi.GetComponentInChildren<Image>().color = Color.black; }
             else { entityUi.GetComponentInChildren<Image>().color = Color.grey; }
         }
     }
@@ -76,12 +76,12 @@ public class UiGestioneur : MonoBehaviour
 
         if (entity.gameObject.GetComponent<AggressifEntityManager>())
         {
-            if ( entity.CompareTag("Allie"))
+            if (entity.CompareTag("Allie"))
             {
                 orderUi.gameObject.SetActive(true);
                 orderUi.SetEntity(entity.gameObject);
             }
-    
+
             buildingUi.gameObject.SetActive(false);
             buildUI.gameObject.SetActive(false);
         }

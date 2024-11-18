@@ -5,7 +5,7 @@ public class SelectManager : MonoBehaviour
 {
     public GroupManager _groupManager = new GroupManager();
     public GroupManager _selected = new GroupManager();
-    
+
     void Start()
     {
         _groupManager.IsPlayer = true;
@@ -50,7 +50,7 @@ public class SelectManager : MonoBehaviour
     {
         if (toAdd.gameObject.CompareTag(_groupManager.GetAllieTag()))
         {
-            if (toAdd.GetComponent<BuilderController>()) { toAdd.GetComponent<BuilderController>().SetRessourceController(GetComponent<RessourceController>()) ; }
+            if (toAdd.GetComponent<BuilderController>()) { toAdd.GetComponent<BuilderController>().SetRessourceController(GetComponent<RessourceController>()); }
             _groupManager.AddSelect(toAdd);
         }
         else
