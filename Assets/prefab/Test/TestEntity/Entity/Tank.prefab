@@ -253,7 +253,6 @@ GameObject:
   - component: {fileID: 5592201362407160647}
   - component: {fileID: 3648613589935070831}
   - component: {fileID: 2033893907195975481}
-  - component: {fileID: 97933223646041361}
   - component: {fileID: 6208376071361995173}
   - component: {fileID: 1448527202929963815}
   - component: {fileID: -6948177359517586646}
@@ -331,25 +330,11 @@ MonoBehaviour:
   resetEvent:
     m_PersistentCalls:
       m_Calls: []
+  _EnnemieList: []
   moving: 0
   _entityManager: {fileID: 0}
   _animator: {fileID: 0}
   _collider: {fileID: 1182971380286798215}
---- !u!114 &97933223646041361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4825870592483654779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _destination: {x: 0, y: 0, z: 0}
-  _stoppingDistance: 0
-  _speed: 0
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0

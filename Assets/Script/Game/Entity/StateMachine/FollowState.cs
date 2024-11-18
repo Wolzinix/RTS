@@ -26,6 +26,7 @@ public class FollowState : StateClassEntity
                 if (Vector3.Distance(controller.gameObject.transform.position, target.transform.localPosition) >= navMeshController.HaveStoppingDistance() + 0.5)
                 {
                     navMeshController.GetNewPath(target.transform.localPosition);
+                    controller.moving = true;
                 }
             }
         }

@@ -24,6 +24,7 @@ public class MoveState : StateClassEntity
             if (navMeshController.notOnTraject())
             {
                 navMeshController.GetNewPath(destination);
+                controller.moving = true;
                 if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + 0.5) { end(); }
             }
         }
@@ -33,6 +34,7 @@ public class MoveState : StateClassEntity
 
     public override void end() 
     {
+        controller.moving = false;
         controller._animator.SetBool(EntityController.Moving, false);
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         navMeshController.StopPath();

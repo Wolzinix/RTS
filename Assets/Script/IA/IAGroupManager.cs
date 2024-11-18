@@ -149,7 +149,7 @@ public class IAGroupManager
             _ListOfBuilder.Add(builder);
             builder.NoMoreToHarvest.AddListener(SendBuilderToHarvest);
         }
-        if (builder._ListForOrder.Count == 0)
+        if (builder._ListOfstate.Count == 0)
         {
             SendBuilderToHarvest(builder);
         }
@@ -245,7 +245,7 @@ public class IAGroupManager
         bool Immobile = true;
         foreach (EntityController entity in group.getSelectList())
         {
-            if (entity._ListForOrder.Count > 0)
+            if (entity._ListOfstate.Count > 0)
             {
                 Immobile = false;
             }

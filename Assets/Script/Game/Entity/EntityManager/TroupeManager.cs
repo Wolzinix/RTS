@@ -4,7 +4,7 @@ public class TroupeManager : AggressifEntityManager
 {
 
     [SerializeField] public float StartSpeed = 2;
-    [SerializeField]  private float speed = 2;
+    private float speed = 2;
     private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
 
     private NavMeshController _navMeshAgent;

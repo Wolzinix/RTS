@@ -29,7 +29,7 @@ public class TargetState : StateClassEntity
             }
             else
             {
-                if (navMeshController) { navMeshController.GetNewPath(target.transform.position);  }
+                if (navMeshController) { navMeshController.GetNewPath(target.transform.position); controller.moving = true; }
             }
         }
         else{ end(); }
@@ -37,8 +37,9 @@ public class TargetState : StateClassEntity
 
     public override void end() 
     {
-        controller.RemoveFirstOrder();
+        controller.moving = false;
         Stop();
+        controller.RemoveFirstOrder();
     }
 
     private void Stop()

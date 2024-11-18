@@ -22,7 +22,6 @@ public class BuilderController : EntityController
     }
     public void DoAbuildWithRaycast(int nb, RaycastHit hit)
     {
-        _ListForOrder.Add(Order.Build);
         _ListOfstate.Add(new BuildState(this, hit.point, _buildings[nb].GetComponent<DefenseManager>()));
     }
     public List<GameObject> getBuildings() { return _buildings; }
@@ -34,7 +33,6 @@ public class BuilderController : EntityController
         {
             ResetHarvestOrder();
 
-            _ListForOrder.Add(Order.Build);
             _ListOfstate.Add(new BuildState(this, position, _buildings[nb].GetComponent<DefenseManager>()));
             return true;
         }
@@ -112,7 +110,6 @@ public class BuilderController : EntityController
     private void ResetHarvestOrder()
     {
         _ListOfstate.RemoveAll(x => x.GetType() == typeof(HarvestState));
-        _ListForOrder.RemoveAll(x => x == Order.Harvest); 
     }
     public Collider[] DoAOverlap(Vector3 spawnPosition)
     {
@@ -132,9 +129,7 @@ public class BuilderController : EntityController
         if(!already)
         {
             _ListOfstate.Add(new HarvestState(this, hit.GetComponent<RessourceManager>()));
-            _ListForOrder.Add(Order.Harvest);
         }
-        
     }
 
     public override void ClearAllOrder()
