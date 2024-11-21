@@ -97,6 +97,7 @@ public class BuildingController : MonoBehaviour
         }
         else if (_ally) { tagOfNerestEntity = "Allie"; _canSpawn = true; }
         else { _canSpawn = false; tagOfNerestEntity = ""; }
+        GetComponent<FogWarManager>().SetTag(tagOfNerestEntity);
     }
     public void SpawnEveryEntity(string tag, GameObject entity, RessourceController ressource)
     {
@@ -232,6 +233,7 @@ public class BuildingController : MonoBehaviour
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
                 go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.AddListener(EntityProximityDeath);
+                
             }
         }
     }
@@ -250,6 +252,7 @@ public class BuildingController : MonoBehaviour
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
                 go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.RemoveListener(EntityProximityDeath);
+               
             }
         }
     }

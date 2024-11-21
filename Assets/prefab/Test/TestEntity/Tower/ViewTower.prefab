@@ -404,7 +404,7 @@ MonoBehaviour:
   moving: 0
   _entityManager: {fileID: 0}
   _animator: {fileID: 0}
-  _collider: {fileID: 0}
+  _collider: {fileID: 8512891494205341763}
 --- !u!114 &8294493446463125961
 MonoBehaviour:
   m_ObjectHideFlags: 0
