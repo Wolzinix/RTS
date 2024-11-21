@@ -40,13 +40,13 @@ public class EntityUiManager : MonoBehaviour
         if (_entity)
         {
             entityName.text = _entity.gameObject.name;
-            hp.text = "HP:" + _entity.Hp +" / " + _entity.MaxHp;
-            if(typeof(AggressifEntityManager) == _entity.GetType() || typeof(TroupeManager) == _entity.GetType())
+            hp.text = "HP:" + _entity.Hp + " / " + _entity.MaxHp;
+            if (typeof(AggressifEntityManager) == _entity.GetType() || typeof(TroupeManager) == _entity.GetType())
             {
-                AggressifEntityManager _entity2 = (AggressifEntityManager) _entity ;
+                AggressifEntityManager _entity2 = (AggressifEntityManager)_entity;
                 attack.enabled = true;
                 attack.text = "Attack:" + _entity2.Attack;
-                if( typeof(TroupeManager) == _entity.GetType())
+                if (typeof(TroupeManager) == _entity.GetType())
                 {
 
                     TroupeManager _entity3 = (TroupeManager)_entity;
@@ -63,7 +63,7 @@ public class EntityUiManager : MonoBehaviour
                 attack.enabled = false;
                 level.enabled = false;
             }
-           
+
             defense.text = "Defense:" + _entity.Defense;
         }
     }

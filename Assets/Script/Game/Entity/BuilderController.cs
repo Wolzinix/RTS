@@ -7,7 +7,7 @@ public class BuilderController : EntityController
     [SerializeField] List<GameObject> _buildings;
 
     [HideInInspector] public UnityEvent<BuilderController> NoMoreToHarvest = new UnityEvent<BuilderController>();
-    [HideInInspector] public UnityEvent<BuilderController,DefenseManager> TowerIsBuild = new UnityEvent<BuilderController,DefenseManager> ();
+    [HideInInspector] public UnityEvent<BuilderController, DefenseManager> TowerIsBuild = new UnityEvent<BuilderController, DefenseManager>();
 
 
     private RessourceController ressourceController;
@@ -22,8 +22,7 @@ public class BuilderController : EntityController
     }
     public void DoAbuildWithRaycast(int nb, RaycastHit hit)
     {
-        _ListForOrder.Add(Order.Build);
-        _ListOfstate.Add(new BuildState(this, hit.point, _buildings[nb].GetComponent<DefenseManager>()));
+        _ListOfstate.Add(new BuildState(this, hit.point, _buildings[nb].GetComponent<SelectableManager>()));
     }
     public List<GameObject> getBuildings() { return _buildings; }
 
@@ -34,8 +33,7 @@ public class BuilderController : EntityController
         {
             ResetHarvestOrder();
 
-            _ListForOrder.Add(Order.Build);
-            _ListOfstate.Add(new BuildState(this, position, _buildings[nb].GetComponent<DefenseManager>()));
+            _ListOfstate.Add(new BuildState(this, position, _buildings[nb].GetComponent<SelectableManager>()));
             return true;
         }
         return false;
@@ -64,14 +62,14 @@ public class BuilderController : EntityController
     protected override void LateUpdate()
     {
         base.LateUpdate();
-        if(_ListOfstate .Count < 0) { NoMoreToHarvest.Invoke(this); }
+        if (_ListOfstate.Count < 0) { NoMoreToHarvest.Invoke(this); }
     }
 
     public void SearchClosetHarvestTarget()
     {
         GameObject nextHarvest = DoCircleRaycastForHarvest();
         if (nextHarvest != null) { AddHarvestTarget(nextHarvest); }
-        else {  NoMoreToHarvest.Invoke(this); }
+        else { NoMoreToHarvest.Invoke(this); }
     }
 
     private GameObject DoCircleRaycastForHarvest()
@@ -91,14 +89,14 @@ public class BuilderController : EntityController
 
             foreach (RaycastHit hit in hits)
             {
-                if (hit.transform &&  hit.transform.gameObject.GetComponent<RessourceManager>())
+                if (hit.transform && hit.transform.gameObject.GetComponent<RessourceManager>())
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
-                    if(closet == null)
+                    if (closet == null)
                     {
                         closet = hit.transform.gameObject;
                     }
-                    else if(Vector3.Distance(transform.position,closet.transform.position)> Vector3.Distance(transform.position, hit.transform.position))
+                    else if (Vector3.Distance(transform.position, closet.transform.position) > Vector3.Distance(transform.position, hit.transform.position))
                     {
                         closet = hit.transform.gameObject;
                     }
@@ -107,12 +105,11 @@ public class BuilderController : EntityController
         }
         return closet;
     }
-    protected override void SearchTarget(){ }
+    protected override void SearchTarget() { }
 
     private void ResetHarvestOrder()
     {
         _ListOfstate.RemoveAll(x => x.GetType() == typeof(HarvestState));
-        _ListForOrder.RemoveAll(x => x == Order.Harvest); 
     }
     public Collider[] DoAOverlap(Vector3 spawnPosition)
     {
@@ -122,19 +119,17 @@ public class BuilderController : EntityController
     public void AddHarvestTarget(GameObject hit)
     {
         bool already = false;
-        foreach(StateClassEntity i in _ListOfstate)
+        foreach (StateClassEntity i in _ListOfstate)
         {
-            if(i.GetType() ==  typeof(HarvestState))
+            if (i.GetType() == typeof(HarvestState))
             {
                 already = true;
             }
         }
-        if(!already)
+        if (!already)
         {
             _ListOfstate.Add(new HarvestState(this, hit.GetComponent<RessourceManager>()));
-            _ListForOrder.Add(Order.Harvest);
         }
-        
     }
 
     public override void ClearAllOrder()
@@ -144,9 +139,9 @@ public class BuilderController : EntityController
 
     public bool BuilderIsAlradyBuilding()
     {
-        foreach(StateClassEntity i in _ListOfstate)
+        foreach (StateClassEntity i in _ListOfstate)
         {
-            if(i.GetType() == typeof(BuildState))
+            if (i.GetType() == typeof(BuildState))
             {
                 return true;
             }
@@ -154,7 +149,7 @@ public class BuilderController : EntityController
         return false;
     }
 
-    public void PayCostOfBuilding(DefenseManager defense)
+    public void PayCostOfBuilding(SelectableManager defense)
     {
         ressourceController.AddGold(-GetGoldCostOfBuilding(defense));
         ressourceController.AddWood(-GetWoodCostOfBuilding(defense));

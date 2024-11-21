@@ -43,7 +43,7 @@ public class ControlManager : MonoBehaviour
 
     private bool _buildingOrder;
     private int _nbOfBuilding;
-    
+
     private UiGestioneur _UiGestioneur;
 
     [SerializeField] string _ennemieTag;
@@ -75,7 +75,7 @@ public class ControlManager : MonoBehaviour
 
     private void ActiveMultiSelection(InputAction.CallbackContext obj)
     {
-        _multiSelectionIsActive =  true;
+        _multiSelectionIsActive = true;
         _UiGestioneur.SetMulitSelection(_multiSelectionIsActive);
     }
 
@@ -103,11 +103,11 @@ public class ControlManager : MonoBehaviour
             _selectManager.ClearList();
             _UiGestioneur.DesactiveUi();
         }
-        else 
+        else
         {
             selectEntityInput.action.started -= TeleporteOnMap;
-            _UiGestioneur.gameObject.SetActive(true); 
-            ActiveAllInput(); 
+            _UiGestioneur.gameObject.SetActive(true);
+            ActiveAllInput();
         }
     }
 
@@ -117,23 +117,23 @@ public class ControlManager : MonoBehaviour
         selectEntityInput.action.started -= TeleporteOnMap;
         _UiGestioneur.gameObject.SetActive(true);
         ActiveAllInput();
-        
+
     }
 
-    public void SetPause(InputAction.CallbackContext obj){  ActivePause(); }
+    public void SetPause(InputAction.CallbackContext obj) { ActivePause(); }
 
     public void ActivePause()
     {
-        if(_pauseCanvas.gameObject.activeSelf)
-        { 
+        if (_pauseCanvas.gameObject.activeSelf)
+        {
             Time.timeScale = 1;
             _pauseCanvas.gameObject.SetActive(false);
         }
-        else 
+        else
         {
             _pauseCanvas.gameObject.SetActive(true);
-            Time.timeScale = 0; 
-        } 
+            Time.timeScale = 0;
+        }
     }
 
     private void ActiveAllInput()
@@ -172,15 +172,15 @@ public class ControlManager : MonoBehaviour
         if (_dragging)
         {
             _timeOfDragging += Time.deltaTime;
-            
-            float longueur =  Input.mousePosition.x - _dragCoord.x;
-            float largeur =  Input.mousePosition.y - _dragCoord.y;
 
-            dragBox.anchoredPosition = new Vector2(_dragCoord.x,_dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
+            float longueur = Input.mousePosition.x - _dragCoord.x;
+            float largeur = Input.mousePosition.y - _dragCoord.y;
+
+            dragBox.anchoredPosition = new Vector2(_dragCoord.x, _dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
             dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
         }
     }
-    private void DoASelection(InputAction.CallbackContext context )
+    private void DoASelection(InputAction.CallbackContext context)
     {
         Physics.SyncTransforms();
         RaycastHit hit = DoARayCast(_camera);
@@ -198,8 +198,8 @@ public class ControlManager : MonoBehaviour
         else if (_travelAttack)
         {
             IsMultipathActive();
-            if(hit.transform && hit.transform.GetComponent<SelectableManager>()) { _selectManager.AddTarget(hit.transform.GetComponent<SelectableManager>()); }
-            else {_selectManager.AttackingOnTravel(hit.point);}
+            if (hit.transform && hit.transform.GetComponent<SelectableManager>()) { _selectManager.AddTarget(hit.transform.GetComponent<SelectableManager>()); }
+            else { _selectManager.AttackingOnTravel(hit.point); }
         }
 
         else if (_patrolOrder)
@@ -213,10 +213,10 @@ public class ControlManager : MonoBehaviour
             List<RaycastResult> listOfUIRay = DoUiRayCast();
             if (listOfUIRay.Count == 0)
             {
-                if (!_multiSelectionIsActive) {_selectManager.ClearList();  }
+                if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
                 if (hit.collider)
                 {
-                    Debug.DrawLine(_camera.transform.position, hit.point, color:Color.blue, 10f);
+                    Debug.DrawLine(_camera.transform.position, hit.point, color: Color.blue, 10f);
                     if (hit.transform.GetComponent<SelectableManager>())
                     {
                         _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<SelectableManager>());
@@ -263,7 +263,7 @@ public class ControlManager : MonoBehaviour
         {
             IsMultipathActive();
             RaycastHit hit = DoARayCast(_camera);
-            
+
             _selectManager.ActionGroup(hit);
         }
         else { ResetUiOrder(); }
@@ -287,23 +287,23 @@ public class ControlManager : MonoBehaviour
 
         Cursor.SetCursor(null, hotSpot, cursorMode);
     }
-    
+
     private RaycastHit DoARayCast(Camera camera)
     {
-        Ray ray = camera.ScreenPointToRay (Input.mousePosition);
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~0, queryTriggerInteraction:QueryTriggerInteraction.Ignore)){ return hit;}
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
         return hit;
     }
 
-    private  List<RaycastResult> DoUiRayCast()
+    private List<RaycastResult> DoUiRayCast()
     {
         PointerEventData eventData = new PointerEventData(EventSystem.current);
         List<RaycastResult> results = new List<RaycastResult>();
-        eventData.position =  Input.mousePosition;
+        eventData.position = Input.mousePosition;
         EventSystem.current.RaycastAll(eventData, results);
-        
-        return results; 
+
+        return results;
     }
     private void StartDragSelect(InputAction.CallbackContext obj)
     {
@@ -316,10 +316,10 @@ public class ControlManager : MonoBehaviour
     private void EndDragSelect(InputAction.CallbackContext obj)
     {
 
-        if(_timeOfDragging > 0.1) { StartCoroutine(IsOnDragBox()); }
+        if (_timeOfDragging > 0.1) { StartCoroutine(IsOnDragBox()); }
         dragBox.anchoredPosition = new Vector2(0, 0);
         dragBox.sizeDelta = new Vector2(0, 0);
-       
+
         dragBox.GameObject().SetActive(false);
         _dragging = false;
 
@@ -353,13 +353,14 @@ public class ControlManager : MonoBehaviour
         return coords.x >= bounds.min.x && coords.x <= bounds.max.x && coords.y >= bounds.min.y && coords.y <= bounds.max.y;
     }
 
-    public void ResetOrder() { _selectManager.ResetOrder();}
+    public void ResetOrder() { _selectManager.ResetOrder(); }
 
     public void TenirPosition() { _selectManager.TenirPositionOrder(); }
 
-    public void MoveOrder() {
+    public void MoveOrder()
+    {
 
-        ResetUiOrder(); 
+        ResetUiOrder();
         _order = true;
         Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
     }
@@ -375,7 +376,7 @@ public class ControlManager : MonoBehaviour
     public void DoTravelAttack()
     {
 
-        ResetUiOrder(); 
+        ResetUiOrder();
         _travelAttack = true;
 
         Cursor.SetCursor(AttackCursor, hotSpot, cursorMode);

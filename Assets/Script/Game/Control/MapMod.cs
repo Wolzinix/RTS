@@ -32,14 +32,14 @@ public class MapMod
         if (_isMapMod)
         {
             cameraControl.DesactiveZoom();
-            
+
         }
         else { cameraControl.ActiveZoom(); }
     }
 
     private void SelectGestionMapMod()
     {
-        foreach (SelectableManager i in Resources.FindObjectsOfTypeAll<SelectableManager>())
+        foreach (SelectableManager i in GameObject.FindObjectsOfType<SelectableManager>())
         {
             if (_isMapMod) { i.OnSelected(); }
             else { i.OnDeselected(); }
@@ -49,7 +49,7 @@ public class MapMod
 
     private void ConnectToEventNewEtentity()
     {
-        foreach (BuildingController i in Resources.FindObjectsOfTypeAll<BuildingController>())
+        foreach (BuildingController i in GameObject.FindObjectsOfType<BuildingController>())
         {
             if (_isMapMod) { i.entitySpawnNow.AddListener(SelectGestionMapMod); }
             else { i.entitySpawnNow.RemoveListener(SelectGestionMapMod); }
@@ -58,7 +58,7 @@ public class MapMod
 
     public void TeleporteMainCamera(Vector3 destination)
     {
-        if (_mapCamera && _camera) 
+        if (_mapCamera && _camera)
         {
             _camera.gameObject.transform.position = new Vector3(destination.x, _camera.gameObject.transform.position.y, destination.z);
             MapModActive();

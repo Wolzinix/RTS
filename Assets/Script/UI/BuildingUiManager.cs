@@ -15,10 +15,10 @@ public class BuildingUiManager : MonoBehaviour
 
     void Start()
     {
-      gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
-    public void SetBuilding(BuildingController building) 
+    public void SetBuilding(BuildingController building)
     {
         _building = building;
         ActualiseButtons();
@@ -48,9 +48,9 @@ public class BuildingUiManager : MonoBehaviour
     {
         GameObject[] listOfGameobject = _building.GetEntityDictionary().Keys.ToArray();
 
-        foreach (Button button in _ListOfButton) 
+        foreach (Button button in _ListOfButton)
         {
-            if (_ListOfButton.IndexOf(button)+ _numberOfbutton < listOfGameobject.Count())
+            if (_ListOfButton.IndexOf(button) + _numberOfbutton < listOfGameobject.Count())
             {
                 button.gameObject.SetActive(true);
                 GameObject entity = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton];
@@ -72,11 +72,11 @@ public class BuildingUiManager : MonoBehaviour
     public void goToLeft()
     {
         _numberOfbutton -= _ListOfButton.Count();
-        if( _numberOfbutton < 0 )
+        if (_numberOfbutton < 0)
         {
-            if(_building.GetEntityDictionary().Keys.ToArray().Length >= _ListOfButton.Count())
+            if (_building.GetEntityDictionary().Keys.ToArray().Length >= _ListOfButton.Count())
             {
-                _numberOfbutton =  _ListOfButton.Count() *( _building.GetEntityDictionary().Keys.ToArray().Length / _ListOfButton.Count());
+                _numberOfbutton = _ListOfButton.Count() * (_building.GetEntityDictionary().Keys.ToArray().Length / _ListOfButton.Count());
             }
             else { _numberOfbutton = 0; }
         }
@@ -89,7 +89,7 @@ public class BuildingUiManager : MonoBehaviour
 
         if (_numberOfbutton >= _building.GetEntityDictionary().Keys.ToArray().Length)
         {
-             _numberOfbutton = 0;
+            _numberOfbutton = 0;
         }
         ActualiseButtons();
     }

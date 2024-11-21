@@ -20,7 +20,7 @@ public class AttackState : StateClassEntity
         this.target = target;
     }
 
-    public override void Start(){}
+    public override void Start() { }
 
     void DoAttack()
     {

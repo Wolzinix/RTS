@@ -4,16 +4,16 @@ public class FogWarManager : MonoBehaviour
 {
     void Start()
     {
-        foreach(AggressifEntityManager i in Resources.FindObjectsOfTypeAll(typeof(AggressifEntityManager)) as AggressifEntityManager[])
+        foreach (SelectableManager i in FindObjectsOfType<SelectableManager>())
         {
-            if(i.gameObject.tag != gameObject.tag)
+            if (i.gameObject.tag != gameObject.tag)
             {
                 AddFromFog(i);
             }
         }
     }
 
-    public void FogGestion(AggressifEntityManager entity, bool hide)
+    public void FogGestion(SelectableManager entity, bool hide)
     {
         if (entity.gameObject.tag != gameObject.tag)
         {
@@ -22,12 +22,12 @@ public class FogWarManager : MonoBehaviour
         }
     }
 
-    private void RemoveFromFog(AggressifEntityManager entity)
+    private void RemoveFromFog(SelectableManager entity)
     {
         entity.GetComponentInChildren<MeshRenderer>().enabled = true;
     }
 
-    private void AddFromFog(AggressifEntityManager entity)
+    private void AddFromFog(SelectableManager entity)
     {
         entity.GetComponentInChildren<MeshRenderer>().enabled = false;
     }

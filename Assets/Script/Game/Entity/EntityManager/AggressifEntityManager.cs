@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AggressifEntityManager : SelectableManager
 {
-     public RessourceController ressources;
+    [HideInInspector] public RessourceController ressources;
 
     [SerializeField] private float attack = 1;
     [SerializeField] private float attackSpeed = 1;
@@ -14,7 +14,7 @@ public class AggressifEntityManager : SelectableManager
     {
         base.Awake();
 
-        foreach (RessourceController i in FindObjectsOfType(typeof(RessourceController),false))
+        foreach (RessourceController i in FindObjectsOfType(typeof(RessourceController), false))
         {
             if (i.gameObject.CompareTag(gameObject.tag))
             {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.HID;
 
 public class BuildingController : MonoBehaviour
 {
@@ -21,12 +20,12 @@ public class BuildingController : MonoBehaviour
     private bool _ennemie;
     private bool _canSpawn;
 
-    public string tagOfNerestEntity;
+    [HideInInspector] public string tagOfNerestEntity;
 
     int NbSpawnpoint = 10;
     public float spawnrayon = 2f;
     public LineRenderer lineRenderer;
-    public List<GameObject> ListOfNearEntity;
+    [HideInInspector] public List<GameObject> ListOfNearEntity;
 
     [SerializeField] private List<GameObject> prefabToSpawn;
     [Serializable] public class SpawnTime {

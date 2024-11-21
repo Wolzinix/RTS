@@ -5,14 +5,14 @@ public class StayState : StateClassEntity
 {
     protected NavMeshController navMeshController;
     protected EntityController controller;
-    public StayState(NavMeshController navmesh,  EntityController entity)
+    public StayState(NavMeshController navmesh, EntityController entity)
     {
         navMeshController = navmesh;
         controller = entity;
     }
     public override void Start()
     {
-        if(navMeshController)
+        if (navMeshController)
         {
             controller._animator.SetBool(EntityController.Moving, false);
             controller._animator.SetBool(EntityController.Attacking, false);

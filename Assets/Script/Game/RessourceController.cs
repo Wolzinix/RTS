@@ -3,7 +3,7 @@ public class RessourceController : MonoBehaviour
 {
 
     [SerializeField] private int _gold;
-    [SerializeField] private int _wood;   
+    [SerializeField] private int _wood;
 
     RessourceUi _ui;
 
@@ -11,19 +11,19 @@ public class RessourceController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(GetComponent<ControlManager>())
+        if (GetComponent<ControlManager>())
         {
             _ui = FindAnyObjectByType<RessourceUi>();
             _ui.AddWood(_wood);
             _ui.AddGold(_gold);
         }
-     
+
     }
 
     public void AddGold(int gold)
     {
         _gold += gold;
-        if(GetComponent<ControlManager>())
+        if (GetComponent<ControlManager>())
         {
             _ui.AddGold(gold);
         }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GroupeUiManager : MonoBehaviour
 {
@@ -9,12 +8,12 @@ public class GroupeUiManager : MonoBehaviour
 
     private List<GameObject> _listOfCadreControllers;
     [SerializeField] private GameObject image;
-    
+
     void Awake()
     {
         _listOfEntity = new List<SelectableManager>();
         _listOfCadreControllers = new List<GameObject>();
-        
+
         gameObject.SetActive(false);
     }
 
@@ -29,9 +28,9 @@ public class GroupeUiManager : MonoBehaviour
         if (index == -1)
         {
             _listOfEntity.Add(entity);
-            GameObject newCadre = Instantiate(cadre,image.transform);
+            GameObject newCadre = Instantiate(cadre, image.transform);
             newCadre.GetComponent<CadreController>().SetEntity(entity);
-        
+
             _listOfCadreControllers.Add(newCadre);
         }
         else { RemoveCadre(_listOfCadreControllers[index]); }
@@ -48,9 +47,9 @@ public class GroupeUiManager : MonoBehaviour
                 Rect rect = i.GetComponent<RectTransform>().rect;
                 Rect rectParent = i.transform.parent.GetComponent<RectTransform>().rect;
                 int index = _listOfCadreControllers.IndexOf(i);
-                
+
                 i.transform.position = new Vector3(
-                    (150 * index + rect.width/2) - (rectParent.width * ((int)((150 * index + rect.width) / rectParent.width))) ,
+                    (150 * index + rect.width / 2) - (rectParent.width * ((int)((150 * index + rect.width) / rectParent.width))),
                     rect.height * (0.5f + (int)((150 * index + rect.width) / rectParent.width)),
                     0);
             }
@@ -59,7 +58,7 @@ public class GroupeUiManager : MonoBehaviour
 
     private void ClearListOfEntity()
     {
-        if (_listOfEntity.Count > 0)  {_listOfEntity.Clear();}
+        if (_listOfEntity.Count > 0) { _listOfEntity.Clear(); }
     }
 
     private void ClearListOfCadre()

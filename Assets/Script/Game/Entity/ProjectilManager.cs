@@ -21,13 +21,13 @@ public class ProjectilManager : MonoBehaviour
         transform.LookAt(_target.gameObject.transform);
 
 
-        _rb.AddForce( new Vector3(
-            _target.transform.position.x - transform.position.x, 
-            _target.transform.position.y - transform.position.y, 
-            _target.transform.position.z - transform.position.z),ForceMode.Impulse);
+        _rb.AddForce(new Vector3(
+            _target.transform.position.x - transform.position.x,
+            _target.transform.position.y - transform.position.y,
+            _target.transform.position.z - transform.position.z), ForceMode.Impulse);
     }
 
-    public void SetDamage(float damage){_damage = damage;}
+    public void SetDamage(float damage) { _damage = damage; }
 
     public void SetTarget(GameObject target)
     {
@@ -40,11 +40,11 @@ public class ProjectilManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other != null && other.gameObject == _target)
-        { 
-            _target.GetComponent<SelectableManager>().TakeDamage(_invoker,_damage);
-            if( _invoker ) {_target.GetComponent<SelectableManager>().TakingDamageFromEntity.Invoke(_invoker.GetComponent<AggressifEntityManager>());}
-            
+        if (other != null && other.gameObject == _target)
+        {
+            _target.GetComponent<SelectableManager>().TakeDamage(_invoker, _damage);
+            if (_invoker) { _target.GetComponent<SelectableManager>().TakingDamageFromEntity.Invoke(_invoker.GetComponent<AggressifEntityManager>()); }
+
             Destroy(gameObject);
         }
     }

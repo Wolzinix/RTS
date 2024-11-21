@@ -41,6 +41,7 @@ public class PatrolState : StateClassEntity
     }
     public override void end()
     {
+        controller.moving = false;
         controller.RemoveFirstOrder();
     }
 }

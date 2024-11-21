@@ -32,12 +32,13 @@ public class BuildingIA
         {
             IsProtected = false;
             IAbrain.ActualiseBuilding();
-            if(IAbrain.GetAllieBuilding().Contains(this)){ NeedAGroup();}
+            if (IAbrain.GetAllieBuilding().Contains(this)) { NeedAGroup(); }
         }
     }
 
-    public void NeedAGroup() {
-        IAbrain.NeedToSendGroupToBuildingEvent.Invoke(this, building.transform.position); 
+    public void NeedAGroup()
+    {
+        IAbrain.NeedToSendGroupToBuildingEvent.Invoke(this, building.transform.position);
     }
 
     public void changeHaveEntity(List<GameObject> Entity, BuildingController building)
@@ -47,11 +48,11 @@ public class BuildingIA
         IAbrain.ActualiseBuilding();
         if (CanSpawn && building.tagOfNerestEntity == IAbrain.gameObject.tag)
         {
-            
+
             EntityNextTo.Clear();
             foreach (GameObject gameObject in Entity)
             {
-                if(gameObject)
+                if (gameObject)
                 {
                     TagOfEntity = gameObject.tag;
                     EntityNextTo.Add(gameObject);
@@ -70,7 +71,7 @@ public class BuildingIA
     }
     public void NeedToSendEntity()
     {
-        if(!CanSpawn)
+        if (!CanSpawn)
         {
             IAbrain.NeedToSendEntityToBuildingEvent.Invoke(this, building.gameObject.transform.position);
         }
@@ -84,7 +85,7 @@ public class BuildingIA
 
     public void ATowerIsDeath(SelectableManager tower)
     {
-        DefenseManager deadTower = (DefenseManager) tower;
+        DefenseManager deadTower = (DefenseManager)tower;
         _ListOfTower.Remove(deadTower);
         NbOfTower -= 1;
         IAbrain.ATowerIsDestroyEvent.Invoke(this, tower.transform.position);
@@ -92,7 +93,7 @@ public class BuildingIA
 
     public void Dispose()
     {
-        foreach(DefenseManager i in _ListOfTower)
+        foreach (DefenseManager i in _ListOfTower)
         {
             i.deathEvent.RemoveListener(ATowerIsDeath);
         }
@@ -107,7 +108,7 @@ public class BuildingIA
 
     public void RemoveSpawnGroup(GroupManager group)
     {
-        if(_GroupOfSpawn != null)
+        if (_GroupOfSpawn != null)
         {
             _GroupOfSpawn.GroupIsDeadevent.RemoveListener(RemoveSpawnGroup);
         }
@@ -120,5 +121,5 @@ public class BuildingIA
         group.GroupIsDeadevent.AddListener(RemoveSpawnGroup);
     }
 
-    
+
 }

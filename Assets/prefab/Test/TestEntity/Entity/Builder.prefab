@@ -410,7 +410,6 @@ MonoBehaviour:
   attackSpeed: 1
   range: 2
   StartSpeed: 2
-  speed: 2
   xp: 0
   level: 0
   HpToAdd: 1
@@ -429,7 +428,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectile: {fileID: 0}
-  _ListForOrder: 
   EntityIsArrive:
     m_PersistentCalls:
       m_Calls: []
@@ -442,6 +440,7 @@ MonoBehaviour:
   _collider: {fileID: 2835410375128095275}
   _buildings:
   - {fileID: 4825870592483654779, guid: a65b938add593874782dc2957ec066e7, type: 3}
+  - {fileID: 4825870592483654779, guid: 4706728cdffc0d7479578b1f960cc735, type: 3}
   NoMoreToHarvest:
     m_PersistentCalls:
       m_Calls: []

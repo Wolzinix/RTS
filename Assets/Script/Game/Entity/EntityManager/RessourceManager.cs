@@ -14,12 +14,12 @@ public class RessourceManager : EntityManager
         base.TakeDamage(entity, nb);
 
         changeStats.Invoke();
-        if(_animator)
+        if (_animator)
         {
 
             StartCoroutine(DoHarvestAnimation());
         }
-        
+
 
         if (hp <= 0)
         {
@@ -67,6 +67,6 @@ public class RessourceManager : EntityManager
         Destroy(gameObject);
     }
 
-  
+
 
 }
