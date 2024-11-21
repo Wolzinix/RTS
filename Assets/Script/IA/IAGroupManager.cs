@@ -202,12 +202,15 @@ public class IAGroupManager
         foreach (BuilderController Thenearset in _ListOfBuilder)
         {
             if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
-
-            if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
+            if(Thenearset && ThenearsetEntity)
             {
-                ThenearsetEntity = Thenearset;
+                if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
+                {
+                    ThenearsetEntity = Thenearset;
+                }
             }
         }
+
         return ThenearsetEntity;
     }
 
