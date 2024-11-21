@@ -31,7 +31,6 @@ public class BuildState : StateClassEntity
                     gm.gameObject.tag = builder.tag;
                     if(gm.GetComponent<DefenseManager>())
                     {
-
                         builder.TowerIsBuild.Invoke(builder, gm.GetComponent<DefenseManager>());
                     }
                     gm.ActualiseSprite();

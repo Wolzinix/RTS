@@ -1,4 +1,5 @@
-
+﻿
 public class BuildingManager : SelectableManager
 {
+
 }

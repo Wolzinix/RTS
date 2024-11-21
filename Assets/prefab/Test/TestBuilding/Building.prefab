@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 7696095010799487015}
   - component: {fileID: 2140429094921462342}
   - component: {fileID: 3885713406343502723}
+  - component: {fileID: 7695264714245882759}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -303,6 +304,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   xpToGive: 0.5
+--- !u!114 &7695264714245882759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6084191280811076340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbe032d10478cd14aae1ad734473b2d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6138802333607729758
 GameObject:
   m_ObjectHideFlags: 0

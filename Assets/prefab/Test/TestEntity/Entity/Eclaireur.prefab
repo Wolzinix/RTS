@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 1448527202929963815}
   - component: {fileID: -2430026522903451483}
   - component: {fileID: 9212388207474789640}
+  - component: {fileID: -4085421944575368019}
   m_Layer: 6
   m_Name: Eclaireur
   m_TagString: Allie
@@ -268,15 +269,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectile: {fileID: 0}
-  _listForOrder: 
-  _listOfPath: []
   EntityIsArrive:
     m_PersistentCalls:
       m_Calls: []
   resetEvent:
     m_PersistentCalls:
       m_Calls: []
+  _EnnemieList: []
   moving: 0
+  _entityManager: {fileID: 0}
   _animator: {fileID: 0}
   _collider: {fileID: 0}
 --- !u!195 &6208376071361995173
@@ -338,6 +339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
+  _speed: 0
 --- !u!114 &9212388207474789640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,9 +374,26 @@ MonoBehaviour:
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
+  xpToGive: 0.5
   ressources: {fileID: 0}
   attack: 2
   attackSpeed: 3
   range: 2
   StartSpeed: 2
-  speed: 2
+  xp: 0
+  level: 0
+  HpToAdd: 1
+  AttackToAdd: 1
+  DefenseToAdd: 1
+--- !u!114 &-4085421944575368019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbe032d10478cd14aae1ad734473b2d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

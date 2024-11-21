@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FogWarManager : MonoBehaviour
+public class FogWarController : MonoBehaviour
 {
     void Start()
     {

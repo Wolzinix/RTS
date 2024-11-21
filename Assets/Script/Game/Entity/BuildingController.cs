@@ -43,9 +43,9 @@ public class BuildingController : MonoBehaviour
     void Start()
     {
         _sphereCollider = GetComponentInChildren<SphereCollider>();
-        _sphereCollider.radius = gameObject.GetComponent<BuildingManager>().SeeRange;
+        _sphereCollider.radius = gameObject.GetComponent<ProductionBuildingManager>().SeeRange;
         entityDictionary = new Dictionary<GameObject, SpawnTime>();
-        _rangeDetection = gameObject.GetComponent<BuildingManager>().SeeRange;
+        _rangeDetection = gameObject.GetComponent<ProductionBuildingManager>().SeeRange;
 
         if (prefabToSpawn.Count == MySpawns.Count)
         {
@@ -232,10 +232,6 @@ public class BuildingController : MonoBehaviour
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
                 go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.AddListener(EntityProximityDeath);
-                if(go.GetComponent<EntityController>() && tagOfNerestEntity!= "" && !go.CompareTag(tagOfNerestEntity))
-                {
-                    FindAnyObjectByType<FogWarManager>().FogGestion(go.GetComponent<EntityController>(), false);
-                }
             }
         }
     }
@@ -254,10 +250,6 @@ public class BuildingController : MonoBehaviour
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
                 go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.RemoveListener(EntityProximityDeath);
-                if (go.GetComponent<EntityController>() && !go.CompareTag(tagOfNerestEntity))
-                {
-                    FindAnyObjectByType<FogWarManager>().FogGestion(go.GetComponent<EntityController>(), true);
-                }
             }
         }
     }
