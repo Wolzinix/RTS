@@ -232,6 +232,10 @@ public class BuildingController : MonoBehaviour
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
                 go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.AddListener(EntityProximityDeath);
+                if(go.GetComponent<AggressifEntityManager>())
+                {
+                    FindAnyObjectByType<FogWarManager>().FogGestion(go.GetComponent<AggressifEntityManager>(), false);
+                }
             }
         }
     }
@@ -250,6 +254,10 @@ public class BuildingController : MonoBehaviour
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
                 go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.RemoveListener(EntityProximityDeath);
+                if (go.GetComponent<AggressifEntityManager>())
+                {
+                    FindAnyObjectByType<FogWarManager>().FogGestion(go.GetComponent<AggressifEntityManager>(), true);
+                }
             }
         }
     }
