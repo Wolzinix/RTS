@@ -3,9 +3,9 @@ public class BuildState : StateClassEntity
 {
     BuilderController builder;
     Vector3 position;
-    DefenseManager defenseManager;
+    SelectableManager defenseManager;
 
-    public BuildState(BuilderController builder, Vector3 position, DefenseManager defenseManager)
+    public BuildState(BuilderController builder, Vector3 position, SelectableManager defenseManager)
     {
         this.builder = builder;
         this.position = position;
@@ -25,11 +25,15 @@ public class BuildState : StateClassEntity
 
                 if (colliders.Length == 0 || colliders.Length == 1 && colliders[0].gameObject.GetComponent<EntityManager>() == null || (colliders.Length == 2 && (colliders[1] == builder || colliders[0] == builder)))
                 {
-                    DefenseManager gm = BuilderController.Instantiate(defenseManager, new Vector3(position.x, builder.transform.position.y, position.z), builder.transform.rotation, builder.transform.parent).GetComponent<DefenseManager>();
+                    SelectableManager gm = BuilderController.Instantiate(defenseManager, new Vector3(position.x, builder.transform.position.y, position.z), builder.transform.rotation, builder.transform.parent).GetComponent<SelectableManager>();
                     builder.GetComponent<AggressifEntityManager>().ressources.AddGold(-defenseManager.GetComponent<EntityManager>().GoldAmount);
                     builder.GetComponent<AggressifEntityManager>().ressources.AddWood(-defenseManager.GetComponent<EntityManager>().WoodAmount);
                     gm.gameObject.tag = builder.tag;
-                    builder.TowerIsBuild.Invoke(builder, gm);
+                    if(gm.GetComponent<DefenseManager>())
+                    {
+
+                        builder.TowerIsBuild.Invoke(builder, gm.GetComponent<DefenseManager>());
+                    }
                     gm.ActualiseSprite();
 
                     builder.PayCostOfBuilding(defenseManager);

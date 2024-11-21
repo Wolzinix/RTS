@@ -22,7 +22,7 @@ public class BuilderController : EntityController
     }
     public void DoAbuildWithRaycast(int nb, RaycastHit hit)
     {
-        _ListOfstate.Add(new BuildState(this, hit.point, _buildings[nb].GetComponent<DefenseManager>()));
+        _ListOfstate.Add(new BuildState(this, hit.point, _buildings[nb].GetComponent<SelectableManager>()));
     }
     public List<GameObject> getBuildings() { return _buildings; }
 
@@ -33,7 +33,7 @@ public class BuilderController : EntityController
         {
             ResetHarvestOrder();
 
-            _ListOfstate.Add(new BuildState(this, position, _buildings[nb].GetComponent<DefenseManager>()));
+            _ListOfstate.Add(new BuildState(this, position, _buildings[nb].GetComponent<SelectableManager>()));
             return true;
         }
         return false;
@@ -149,7 +149,7 @@ public class BuilderController : EntityController
         return false;
     }
 
-    public void PayCostOfBuilding(DefenseManager defense)
+    public void PayCostOfBuilding(SelectableManager defense)
     {
         ressourceController.AddGold(-GetGoldCostOfBuilding(defense));
         ressourceController.AddWood(-GetWoodCostOfBuilding(defense));

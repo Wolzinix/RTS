@@ -44,13 +44,12 @@ public class EntityController : MonoBehaviour
 
         _animator = GetComponentInChildren<Animator>();
         _EnnemieList = new List<SelectableManager>();
-        GetComponent<AggressifEntityManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
+        GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
         _ListOfCollision = new List<GameObject>();
 
     }
     private void Start()
     {
-
         FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), true);
     }
 
@@ -325,6 +324,9 @@ public class EntityController : MonoBehaviour
         bool hide;
         if (_EnnemieList.Count == 0) { hide = true; }
         else { hide = false; }
-        FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), hide);
+        if(SM.GetComponent<AggressifEntityManager>())
+        {
+            FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), hide);
+        }
     }
 }
