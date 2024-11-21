@@ -4,7 +4,7 @@ public class FogWarManager : MonoBehaviour
 {
     void Start()
     {
-        foreach (AggressifEntityManager i in FindObjectsOfType<AggressifEntityManager>())
+        foreach (EntityController i in FindObjectsOfType<EntityController>())
         {
             if (i.gameObject.tag != gameObject.tag)
             {
@@ -13,21 +13,21 @@ public class FogWarManager : MonoBehaviour
         }
     }
 
-    public void FogGestion(SelectableManager entity, bool hide)
+    public void FogGestion(EntityController entity, bool hide)
     {
         if (entity.gameObject.tag != gameObject.tag)
         {
-            if (hide) { AddFromFog(entity); }
+            if (hide && entity.GetComponent<EntityController>()._EnnemieList.Count <= 0 ) { AddFromFog(entity); }
             else { RemoveFromFog(entity); }
         }
     }
 
-    private void RemoveFromFog(SelectableManager entity)
+    private void RemoveFromFog(EntityController entity)
     {
         entity.GetComponentInChildren<MeshRenderer>().enabled = true;
     }
 
-    private void AddFromFog(SelectableManager entity)
+    private void AddFromFog(EntityController entity)
     {
         entity.GetComponentInChildren<MeshRenderer>().enabled = false;
     }

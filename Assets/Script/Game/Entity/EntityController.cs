@@ -14,7 +14,7 @@ public class EntityController : MonoBehaviour
     [HideInInspector] public UnityEvent EntityIsArrive = new UnityEvent();
     [HideInInspector] public UnityEvent resetEvent = new UnityEvent();
 
-    private List<SelectableManager> _EnnemieList;
+    public List<SelectableManager> _EnnemieList;
 
     [HideInInspector] public bool moving = false;
     protected bool _attacking;
@@ -50,7 +50,7 @@ public class EntityController : MonoBehaviour
     }
     private void Start()
     {
-        FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), true);
+        FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<EntityController>(), true);
     }
 
     virtual protected void LateUpdate()
@@ -94,7 +94,7 @@ public class EntityController : MonoBehaviour
                 if (!_EnnemieList.Contains(target.GetComponent<SelectableManager>()))
                 {
 
-                    FindAnyObjectByType<FogWarManager>().FogGestion(target.gameObject.GetComponent<AggressifEntityManager>(), false);
+                    FindAnyObjectByType<FogWarManager>().FogGestion(target.gameObject.GetComponent<EntityController>(), false);
                     InsertTarget(target.GetComponent<SelectableManager>());
                     _EnnemieList.Add(target.GetComponent<SelectableManager>());
                 }
@@ -136,7 +136,7 @@ public class EntityController : MonoBehaviour
         {
             if (!list.Contains(o))
             {
-                FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), true);
+                FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<EntityController>(), true);
             }
         }
         if (list.Count != _EnnemieList.Count) { _EnnemieList.RemoveAll(i => !list.Contains(i)); }
@@ -307,7 +307,7 @@ public class EntityController : MonoBehaviour
             _ListOfCollision.Add(collision.gameObject);
             collision.gameObject.GetComponent<SelectableManager>().deathEvent.AddListener(RemoveToCollision);
             SearchTarget();
-            if(collision.gameObject.GetComponent<AggressifEntityManager>() && !collision.CompareTag(this.tag)) { FindAnyObjectByType<FogWarManager>().FogGestion(collision.gameObject.GetComponent<AggressifEntityManager>(), false); }
+            if(collision.gameObject.GetComponent<EntityController>() && !collision.CompareTag(this.tag)) { FindAnyObjectByType<FogWarManager>().FogGestion(collision.gameObject.GetComponent<EntityController>(), false); }
         }
     }
 
@@ -318,9 +318,9 @@ public class EntityController : MonoBehaviour
             _ListOfCollision.Remove(collision.gameObject);
             collision.gameObject.GetComponent<SelectableManager>().deathEvent.RemoveListener(RemoveToCollision);
             SearchTarget();
-            if (collision.gameObject.GetComponent<AggressifEntityManager>() && !collision.CompareTag(this.tag))
+            if (collision.gameObject.GetComponent<EntityController>() && !collision.CompareTag(this.tag))
             {
-                FindAnyObjectByType<FogWarManager>().FogGestion(collision.gameObject.GetComponent<AggressifEntityManager>(), true);
+                FindAnyObjectByType<FogWarManager>().FogGestion(collision.gameObject.GetComponent<EntityController>(), true);
             }
         }
     }
@@ -334,9 +334,9 @@ public class EntityController : MonoBehaviour
         bool hide;
         if (_EnnemieList.Count == 0) { hide = true; }
         else { hide = false; }
-        if(SM.GetComponent<AggressifEntityManager>())
+        if(SM.GetComponent<EntityController>() && !SM.CompareTag(this.tag))
         {
-            FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), hide);
+            FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<EntityController>(), hide);
         }
     }
 }

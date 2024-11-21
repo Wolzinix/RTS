@@ -20,7 +20,7 @@ public class BuildingController : MonoBehaviour
     private bool _ennemie;
     private bool _canSpawn;
 
-    [HideInInspector] public string tagOfNerestEntity;
+     public string tagOfNerestEntity;
 
     int NbSpawnpoint = 10;
     public float spawnrayon = 2f;
@@ -232,9 +232,9 @@ public class BuildingController : MonoBehaviour
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
                 go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.AddListener(EntityProximityDeath);
-                if(go.GetComponent<AggressifEntityManager>())
+                if(go.GetComponent<EntityController>() && tagOfNerestEntity!= "" && !go.CompareTag(tagOfNerestEntity))
                 {
-                    FindAnyObjectByType<FogWarManager>().FogGestion(go.GetComponent<AggressifEntityManager>(), false);
+                    FindAnyObjectByType<FogWarManager>().FogGestion(go.GetComponent<EntityController>(), false);
                 }
             }
         }
@@ -254,9 +254,9 @@ public class BuildingController : MonoBehaviour
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
                 go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.RemoveListener(EntityProximityDeath);
-                if (go.GetComponent<AggressifEntityManager>())
+                if (go.GetComponent<EntityController>() && !go.CompareTag(tagOfNerestEntity))
                 {
-                    FindAnyObjectByType<FogWarManager>().FogGestion(go.GetComponent<AggressifEntityManager>(), true);
+                    FindAnyObjectByType<FogWarManager>().FogGestion(go.GetComponent<EntityController>(), true);
                 }
             }
         }

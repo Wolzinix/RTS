@@ -3906,6 +3906,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7918695989419762903, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: _buildings.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7918695989419762903, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: _buildings.Array.data[2]
+      value: 
+      objectReference: {fileID: 4825870592483654779, guid: 8dfb42e70a4ae324b9d20eb990838aa3, type: 3}
+    - target: {fileID: 7918695989419762903, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
       propertyPath: _listForOrder.Array.size
       value: 0
       objectReference: {fileID: 0}
