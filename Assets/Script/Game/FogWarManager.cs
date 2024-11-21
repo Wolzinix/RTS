@@ -4,7 +4,7 @@ public class FogWarManager : MonoBehaviour
 {
     void Start()
     {
-        foreach (SelectableManager i in FindObjectsOfType<SelectableManager>())
+        foreach (AggressifEntityManager i in FindObjectsOfType<AggressifEntityManager>())
         {
             if (i.gameObject.tag != gameObject.tag)
             {

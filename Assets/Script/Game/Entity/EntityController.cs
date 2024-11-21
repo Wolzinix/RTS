@@ -94,6 +94,7 @@ public class EntityController : MonoBehaviour
                 if (!_EnnemieList.Contains(target.GetComponent<SelectableManager>()))
                 {
 
+                    FindAnyObjectByType<FogWarManager>().FogGestion(target.gameObject.GetComponent<AggressifEntityManager>(), false);
                     InsertTarget(target.GetComponent<SelectableManager>());
                     _EnnemieList.Add(target.GetComponent<SelectableManager>());
                 }
@@ -299,8 +300,11 @@ public class EntityController : MonoBehaviour
             _ListOfCollision.Add(collision.gameObject);
             collision.gameObject.GetComponent<SelectableManager>().deathEvent.AddListener(RemoveToCollision);
             SearchTarget();
+            if(collision.gameObject.GetComponent<AggressifEntityManager>() && !collision.CompareTag(this.tag))
+            {
 
-            if (_EnnemieList.Count > 0) { FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), false); }
+                FindAnyObjectByType<FogWarManager>().FogGestion(collision.gameObject.GetComponent<AggressifEntityManager>(), false);
+            }
         }
     }
 
@@ -311,7 +315,10 @@ public class EntityController : MonoBehaviour
             _ListOfCollision.Remove(collision.gameObject);
             collision.gameObject.GetComponent<SelectableManager>().deathEvent.RemoveListener(RemoveToCollision);
             SearchTarget();
-            if (_EnnemieList.Count == 0) { FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), true); }
+            if (collision.gameObject.GetComponent<AggressifEntityManager>() && !collision.CompareTag(this.tag))
+            {
+                FindAnyObjectByType<FogWarManager>().FogGestion(collision.gameObject.GetComponent<AggressifEntityManager>(), true);
+            }
         }
     }
 
