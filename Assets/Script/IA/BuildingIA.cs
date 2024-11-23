@@ -9,7 +9,7 @@ public class BuildingIA
     public string Tag;
     public bool CanSpawn;
     public string TagOfEntity;
-    public BuildingController building;
+    public ProductBuildingController building;
 
     public bool IsProtected;
     public List<GroupManager> _ListOfProtector = new List<GroupManager>();
@@ -41,7 +41,7 @@ public class BuildingIA
         IAbrain.NeedToSendGroupToBuildingEvent.Invoke(this, building.transform.position);
     }
 
-    public void changeHaveEntity(List<GameObject> Entity, BuildingController building)
+    public void changeHaveEntity(List<GameObject> Entity, ProductBuildingController building)
     {
         CanSpawn = building.GetCanSpawn();
 

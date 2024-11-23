@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class IAStockBuilding
 {
     public IABrain IAbrain;
-    private Dictionary<BuildingController, BuildingIA> DicoOfBuilding = new Dictionary<BuildingController, BuildingIA>();
+    private Dictionary<ProductBuildingController, BuildingIA> DicoOfBuilding = new Dictionary<ProductBuildingController, BuildingIA>();
     public List<BuildingIA> _AllieBuilding = new List<BuildingIA>();
     public List<BuildingIA> _EnnemieBuilding = new List<BuildingIA>();
     public List<BuildingIA> _NeutralBuilding = new List<BuildingIA>();
@@ -26,7 +26,7 @@ public class IAStockBuilding
         return _AllieBuilding;
     }
 
-    private BuildingIA CreateBuildingForIa(BuildingController building)
+    private BuildingIA CreateBuildingForIa(ProductBuildingController building)
     {
         BuildingIA stats = new BuildingIA();
         stats.Tag = building.tag;
@@ -38,9 +38,9 @@ public class IAStockBuilding
         DicoOfBuilding[building] = stats;
         return stats;
     }
-    public void ActualiseBuilding(BuildingController[] buildings)
+    public void ActualiseBuilding(ProductBuildingController[] buildings)
     {
-        foreach (BuildingController building in buildings)
+        foreach (ProductBuildingController building in buildings)
         {
             BuildingIA stats = DicoOfBuilding.Keys.Contains(building) ? DicoOfBuilding[building] : CreateBuildingForIa(building);
 

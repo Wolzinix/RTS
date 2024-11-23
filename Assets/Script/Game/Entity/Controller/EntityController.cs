@@ -2,58 +2,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EntityController : MonoBehaviour
+public class EntityController : BuildingController
 {
     protected NavMeshController _navMesh;
 
     public List<StateClassEntity> _ListOfstate;
     [SerializeField] private ProjectilManager _projectile;
 
-    private List<GameObject> _listOfalliesOnRange;
 
     [HideInInspector] public UnityEvent EntityIsArrive = new UnityEvent();
     [HideInInspector] public UnityEvent resetEvent = new UnityEvent();
 
-    private List<SelectableManager> _EnnemieList;
 
     [HideInInspector] public bool moving = false;
     protected bool _attacking;
-
-    [HideInInspector] public AggressifEntityManager _entityManager;
-    [HideInInspector] public GroupManager groupManager;
-
 
     [HideInInspector] public Animator _animator;
     public static readonly int Moving = Animator.StringToHash("Mooving");
     public static readonly int Attacking = Animator.StringToHash("Attacking");
 
-    [SerializeField] private SphereCollider _collider;
-    private List<GameObject> _ListOfCollision;
-
-    virtual protected void Awake()
+    override protected void Awake()
     {
+        base.Awake();
+
         _navMesh = GetComponent<NavMeshController>();
-
-        _collider.radius = gameObject.GetComponent<SelectableManager>().SeeRange;
-
         _ListOfstate = new List<StateClassEntity>();
 
-        _listOfalliesOnRange = new List<GameObject>();
-
-        _entityManager = GetComponent<AggressifEntityManager>();
-
         _animator = GetComponentInChildren<Animator>();
-        _EnnemieList = new List<SelectableManager>();
         GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
-        _ListOfCollision = new List<GameObject>();
 
     }
-    private void Start()
-    {
-        FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), true);
-    }
-
-    virtual protected void LateUpdate()
+    override protected void LateUpdate()
     {
         if (_ListOfstate.Count > 0)
         {
@@ -64,17 +43,9 @@ public class EntityController : MonoBehaviour
             SearchTarget();
         }
     }
-    virtual protected void SearchTarget()
+    override protected void SearchTarget()
     {
-        List<GameObject> listOfAlly = new List<GameObject>();
-        List<SelectableManager> listOfennemie = new List<SelectableManager>();
-
-        foreach (GameObject hit in _ListOfCollision)
-        {
-            hitGestion(hit, listOfAlly, listOfennemie);
-        }
-        ClearListOfEnnemi(listOfennemie);
-        ClearListOfAlly(listOfAlly);
+        base.SearchTarget();
 
         if (_ListOfstate.Exists(r => r.GetType() == typeof(TargetState)))
         {
@@ -82,40 +53,13 @@ public class EntityController : MonoBehaviour
         }
 
     }
-    private void hitGestion(GameObject hit, List<GameObject> listOfAlly, List<SelectableManager> listOfennemie)
+    override protected void AddEnnemi(SelectableManager target)
     {
-        if (hit.transform && !hit.CompareTag("neutral") && hit.GetComponent<SelectableManager>())
-        {
-            Debug.DrawLine(transform.position, hit.transform.localPosition, Color.green, 1f);
-            GameObject target = hit.transform.gameObject;
-
-            if (target != gameObject && !target.CompareTag(gameObject.tag))
-            {
-                if (!_EnnemieList.Contains(target.GetComponent<SelectableManager>()))
-                {
-
-                    InsertTarget(target.GetComponent<SelectableManager>());
-                    _EnnemieList.Add(target.GetComponent<SelectableManager>());
-                }
-
-                if (!listOfennemie.Contains(target.GetComponent<SelectableManager>()))
-                {
-                    listOfennemie.Add(target.GetComponent<SelectableManager>());
-                }
-            }
-
-            if (target != gameObject && target.CompareTag(gameObject.tag))
-            {
-                if (!_listOfalliesOnRange.Contains(target))
-                {
-                    target.GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(InsertTarget);
-                    _listOfalliesOnRange.Add(target);
-                }
-                if (!listOfAlly.Contains(target)) { listOfAlly.Add(target); }
-            }
-        }
+        base.AddEnnemi(target);
+        InsertTarget(target);
     }
-    private void ClearListOfAlly(List<GameObject> list)
+
+    protected override void ClearListOfAlly(List<GameObject> list)
     {
         if (list.Count != _listOfalliesOnRange.Count)
         {
@@ -126,12 +70,9 @@ public class EntityController : MonoBehaviour
                     if (i) { i.GetComponent<SelectableManager>().TakingDamageFromEntity.RemoveListener(InsertTarget); }
                 }
             }
-            _listOfalliesOnRange.RemoveAll(i => !list.Contains(i));
+
+            base.ClearListOfAlly(list);
         }
-    }
-    private void ClearListOfEnnemi(List<SelectableManager> list)
-    {
-        if (list.Count != _EnnemieList.Count) { _EnnemieList.RemoveAll(i => !list.Contains(i)); }
     }
 
     private void StartFirstOrder()
@@ -192,7 +133,6 @@ public class EntityController : MonoBehaviour
 
         if (_ListOfstate.Count == 0 || (_ListOfstate.Count == 2 && _ListOfstate[1].GetType() != typeof(PatrolState)))
         {
-
             _ListOfstate.Add(new PatrolState(destination, _navMesh, this));
             StartFirstOrder();
         }
@@ -229,16 +169,13 @@ public class EntityController : MonoBehaviour
     {
         if (_navMesh && _navMesh.notOnTraject() && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState)) || _navMesh == null) { InsertTarget(entityToAggresse); }
     }
-    virtual public void ClearAllOrder()
+    override public void ClearAllOrder()
     {
+        base.ClearAllOrder();
+
         _ListOfstate.Clear();
-
-
         if (_navMesh) { _navMesh.StopPath(); }
-
-        ClearListOfAlly(new List<GameObject>());
         resetEvent.Invoke();
-
     }
     public void SortTarget()
     {
@@ -290,43 +227,5 @@ public class EntityController : MonoBehaviour
             return entity.StartSpeed;
         }
         return 0;
-    }
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.GetComponent<SelectableManager>() != null)
-        {
-            _ListOfCollision.Add(collision.gameObject);
-            collision.gameObject.GetComponent<SelectableManager>().deathEvent.AddListener(RemoveToCollision);
-            SearchTarget();
-
-            if (_EnnemieList.Count > 0) { FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), false); }
-        }
-    }
-
-    private void OnTriggerExit(Collider collision)
-    {
-        if (_ListOfCollision.Contains(collision.gameObject))
-        {
-            _ListOfCollision.Remove(collision.gameObject);
-            collision.gameObject.GetComponent<SelectableManager>().deathEvent.RemoveListener(RemoveToCollision);
-            SearchTarget();
-            if (_EnnemieList.Count == 0) { FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), true); }
-        }
-    }
-
-    private void RemoveToCollision(SelectableManager SM)
-    {
-        _ListOfCollision.Remove(SM.gameObject);
-        SM.deathEvent.RemoveListener(RemoveToCollision);
-        SearchTarget();
-
-        bool hide;
-        if (_EnnemieList.Count == 0) { hide = true; }
-        else { hide = false; }
-        if(SM.GetComponent<AggressifEntityManager>())
-        {
-            FindAnyObjectByType<FogWarManager>().FogGestion(GetComponent<AggressifEntityManager>(), hide);
-        }
     }
 }

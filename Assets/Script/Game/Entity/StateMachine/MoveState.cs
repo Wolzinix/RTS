@@ -38,8 +38,8 @@ public class MoveState : StateClassEntity
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         navMeshController.StopPath();
 
-        controller.EntityIsArrive.Invoke();
         controller.RemoveFirstOrder();
+        controller.EntityIsArrive.Invoke();
 
 
     }

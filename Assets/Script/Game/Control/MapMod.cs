@@ -49,7 +49,7 @@ public class MapMod
 
     private void ConnectToEventNewEtentity()
     {
-        foreach (BuildingController i in GameObject.FindObjectsOfType<BuildingController>())
+        foreach (ProductBuildingController i in GameObject.FindObjectsOfType<ProductBuildingController>())
         {
             if (_isMapMod) { i.entitySpawnNow.AddListener(SelectGestionMapMod); }
             else { i.entitySpawnNow.RemoveListener(SelectGestionMapMod); }

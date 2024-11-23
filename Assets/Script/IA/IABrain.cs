@@ -179,7 +179,7 @@ public class IABrain : MonoBehaviour
 
     public void ActualiseBuilding()
     {
-        stockBuilding.ActualiseBuilding(FindObjectsOfType<BuildingController>());
+        stockBuilding.ActualiseBuilding(FindObjectsOfType<ProductBuildingController>());
     }
 
     public void ActualisePatrol()
@@ -209,12 +209,12 @@ public class IABrain : MonoBehaviour
             groupManager.SendRenfortToBuilding(building, location);
         }
     }
-    public void SpawnEveryEntityOfABuilding(BuildingController building)
+    public void SpawnEveryEntityOfABuilding(ProductBuildingController building)
     {
         building.SpawnEveryEntity(tag, groupOfEntity, GetComponent<RessourceController>());
     }
 
-    public void SpawnEntityOfBuilding(BuildingController building, GameObject entity)
+    public void SpawnEntityOfBuilding(ProductBuildingController building, GameObject entity)
     {
         building.SpawnEntity(entity, tag, groupOfEntity.GetComponentInChildren<EntityController>().gameObject, GetComponent<RessourceController>());
     }

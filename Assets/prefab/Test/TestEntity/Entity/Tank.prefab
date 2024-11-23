@@ -258,6 +258,7 @@ GameObject:
   - component: {fileID: -6948177359517586646}
   - component: {fileID: 1314613499554875902}
   - component: {fileID: 2294858842063284346}
+  - component: {fileID: -8206696815783975533}
   m_Layer: 6
   m_Name: Tank
   m_TagString: Allie
@@ -323,7 +324,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectile: {fileID: 0}
-  _ListForOrder: 
   EntityIsArrive:
     m_PersistentCalls:
       m_Calls: []
@@ -435,7 +435,6 @@ MonoBehaviour:
   attackSpeed: 1
   range: 2
   StartSpeed: 2
-  speed: 2
   xp: 0
   level: 0
   HpToAdd: 1
@@ -457,3 +456,15 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &-8206696815783975533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbe032d10478cd14aae1ad734473b2d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
