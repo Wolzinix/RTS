@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEngine.GraphicsBuffer;
 
 public class EntityController : BuildingController
 {
@@ -134,7 +133,6 @@ public class EntityController : BuildingController
 
         if (_ListOfstate.Count == 0 || (_ListOfstate.Count == 2 && _ListOfstate[1].GetType() != typeof(PatrolState)))
         {
-
             _ListOfstate.Add(new PatrolState(destination, _navMesh, this));
             StartFirstOrder();
         }
@@ -178,7 +176,6 @@ public class EntityController : BuildingController
         _ListOfstate.Clear();
         if (_navMesh) { _navMesh.StopPath(); }
         resetEvent.Invoke();
-
     }
     public void SortTarget()
     {

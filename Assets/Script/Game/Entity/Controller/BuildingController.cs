@@ -11,6 +11,8 @@ public class BuildingController : MonoBehaviour
     [SerializeField] private SphereCollider _collider;
     private List<GameObject> _ListOfCollision;
 
+    protected FogWarManager fog;
+
     protected virtual void Awake()
     {
         _collider.radius = gameObject.GetComponent<SelectableManager>().SeeRange;
@@ -21,11 +23,22 @@ public class BuildingController : MonoBehaviour
 
         _EnnemieList = new List<SelectableManager>();
         _ListOfCollision = new List<GameObject>();
+        fog= GetComponent<FogWarManager>();
     }
 
     virtual protected void LateUpdate()
     {
         SearchTarget();
+        if(fog)
+        {
+            foreach (SelectableManager go in _EnnemieList)
+            {
+                if (go.GetComponent<EntityController>())
+                {
+                    fog.ActualiseFog(go.GetComponent<EntityController>(), false);
+                }
+            }
+        }
     }
     virtual protected void ClearListOfAlly(List<GameObject> list)
     {

@@ -14,23 +14,27 @@ public class FogWarManager : MonoBehaviour
         }
     }
 
+    public void ActualiseFog(EntityController controller, bool hide)
+    {
+        fogWar.FogGestion(controller, hide);
+    }
+
     private void OnTriggerEnter(Collider collision)
     {
         if(_tag != "" && _tag != "neutral")
         {
             if (collision.gameObject.GetComponent<EntityController>() && !collision.CompareTag(_tag))
             {
-                fogWar.FogGestion(collision.gameObject.GetComponent<EntityController>(), false);
+                ActualiseFog(collision.gameObject.GetComponent<EntityController>(), false);
             }
         }
-        
     }
 
     private void OnTriggerExit(Collider collision)
     {
         if (collision.gameObject.GetComponent<EntityController>() && !collision.CompareTag(tag))
         {
-            fogWar.FogGestion(collision.gameObject.GetComponent<EntityController>(), true);
+            ActualiseFog(collision.gameObject.GetComponent<EntityController>(), true);
         }
     }
 
