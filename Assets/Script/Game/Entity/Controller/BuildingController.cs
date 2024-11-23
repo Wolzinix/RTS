@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BuildingController : MonoBehaviour
 {
-    private List<GameObject> _listOfalliesOnRange;
+    protected List<GameObject> _listOfalliesOnRange;
     public List<SelectableManager> _EnnemieList;
 
     [HideInInspector] public AggressifEntityManager _entityManager;
@@ -11,7 +11,7 @@ public class BuildingController : MonoBehaviour
     [SerializeField] private SphereCollider _collider;
     private List<GameObject> _ListOfCollision;
 
-    void Start()
+    protected virtual void Awake()
     {
         _collider.radius = gameObject.GetComponent<SelectableManager>().SeeRange;
 
@@ -27,7 +27,7 @@ public class BuildingController : MonoBehaviour
     {
         SearchTarget();
     }
-    private void ClearListOfAlly(List<GameObject> list)
+    virtual protected void ClearListOfAlly(List<GameObject> list)
     {
         if (list.Count != _listOfalliesOnRange.Count)
         {
@@ -64,7 +64,7 @@ public class BuildingController : MonoBehaviour
             {
                 if (!_EnnemieList.Contains(target.GetComponent<SelectableManager>()))
                 {
-                    _EnnemieList.Add(target.GetComponent<SelectableManager>());
+                    AddEnnemi(target.GetComponent<SelectableManager>());
                 }
 
                 if (!listOfennemie.Contains(target.GetComponent<SelectableManager>()))
@@ -84,12 +84,17 @@ public class BuildingController : MonoBehaviour
         }
     }
 
+    virtual protected void AddEnnemi(SelectableManager target)
+    {
+        _EnnemieList.Add(target);
+    }
+
     virtual public void ClearAllOrder()
     {
         ClearListOfAlly(new List<GameObject>());
     }
 
-    private void OnTriggerEnter(Collider collision)
+    protected void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.GetComponent<SelectableManager>() != null)
         {
@@ -99,7 +104,7 @@ public class BuildingController : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider collision)
+    protected void OnTriggerExit(Collider collision)
     {
         if (_ListOfCollision.Contains(collision.gameObject))
         {
@@ -109,7 +114,7 @@ public class BuildingController : MonoBehaviour
         }
     }
 
-    private void RemoveToCollision(SelectableManager SM)
+    protected void RemoveToCollision(SelectableManager SM)
     {
         _ListOfCollision.Remove(SM.gameObject);
         SM.deathEvent.RemoveListener(RemoveToCollision);
