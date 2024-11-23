@@ -17,7 +17,7 @@ public class CameraControl : MonoBehaviour
     private const float IncrementSpeed = 2;
     private bool _rotationActivated;
 
-    private bool isMapCamera;
+    public bool isMapCamera;
 
     private float xmax, xmin, zmax, zmin;
 
