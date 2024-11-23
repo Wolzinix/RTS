@@ -4,15 +4,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BuildingController : MonoBehaviour
+public class ProductBuildingController : MonoBehaviour
 {
     private Dictionary<GameObject, SpawnTime> entityDictionary;
 
     [HideInInspector] public UnityEvent entitySpawnNow = new UnityEvent();
-    [HideInInspector] public UnityEvent<BuildingController, GameObject> entityCanSpawnNow = new UnityEvent<BuildingController, GameObject>();
+    [HideInInspector] public UnityEvent<ProductBuildingController, GameObject> entityCanSpawnNow = new UnityEvent<ProductBuildingController, GameObject>();
     [HideInInspector] public UnityEvent entityAsBeenBuy = new UnityEvent();
 
-    [HideInInspector] public UnityEvent<List<GameObject>,BuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, BuildingController>();
+    [HideInInspector] public UnityEvent<List<GameObject>,ProductBuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, ProductBuildingController>();
 
     private float _rangeDetection;
 

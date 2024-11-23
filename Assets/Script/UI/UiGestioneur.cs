@@ -61,7 +61,7 @@ public class UiGestioneur : MonoBehaviour
             else if (entity.CompareTag("ennemie")) { entityUi.GetComponentInChildren<Image>().color = Color.red; }
             else { entityUi.GetComponentInChildren<Image>().color = Color.grey; }
         }
-        else if (entity.gameObject.GetComponent<BuildingController>())
+        else if (entity.gameObject.GetComponent<ProductBuildingController>())
         {
             if (entity.CompareTag("Allie")) { entityUi.GetComponentInChildren<Image>().color = Color.blue; }
             else if (entity.CompareTag("ennemie")) { entityUi.GetComponentInChildren<Image>().color = Color.black; }
@@ -86,12 +86,12 @@ public class UiGestioneur : MonoBehaviour
             buildUI.gameObject.SetActive(false);
         }
 
-        else if (entity.gameObject.GetComponent<BuildingController>())
+        else if (entity.gameObject.GetComponent<ProductBuildingController>())
         {
             if (!entity.CompareTag("ennemie"))
             {
                 buildingUi.gameObject.SetActive(true);
-                buildingUi.SetBuilding(entity.gameObject.GetComponent<BuildingController>());
+                buildingUi.SetBuilding(entity.gameObject.GetComponent<ProductBuildingController>());
             }
             buildUI.gameObject.SetActive(false);
             orderUi.gameObject.SetActive(false);

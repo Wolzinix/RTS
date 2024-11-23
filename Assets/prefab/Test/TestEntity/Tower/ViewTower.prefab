@@ -255,8 +255,8 @@ GameObject:
   - component: {fileID: 2798183401605432793}
   - component: {fileID: 4867765004653779462}
   - component: {fileID: 9105832601213662306}
-  - component: {fileID: -3995896605404271449}
   - component: {fileID: 8294493446463125961}
+  - component: {fileID: 7536747444530377632}
   m_Layer: 6
   m_Name: ViewTower
   m_TagString: ennemie
@@ -373,7 +373,7 @@ MonoBehaviour:
   changeStats:
     m_PersistentCalls:
       m_Calls: []
-  seeRange: 3
+  seeRange: 18.04
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -381,30 +381,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   xpToGive: 0.5
---- !u!114 &-3995896605404271449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4825870592483654779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3591858989714b43970e271f2d63062, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _projectile: {fileID: 0}
-  EntityIsArrive:
-    m_PersistentCalls:
-      m_Calls: []
-  resetEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  _EnnemieList: []
-  moving: 0
-  _entityManager: {fileID: 0}
-  _animator: {fileID: 0}
-  _collider: {fileID: 8512891494205341763}
 --- !u!114 &8294493446463125961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,3 +393,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe032d10478cd14aae1ad734473b2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7536747444530377632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 881217531f33fe940b3472a727605a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _EnnemieList: []
+  _entityManager: {fileID: 0}
+  _collider: {fileID: 8512891494205341763}
