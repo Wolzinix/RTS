@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 public class PoisonState : StateEffect
 {
     float damage;
@@ -8,17 +8,25 @@ public class PoisonState : StateEffect
         this.duration = duration; 
         actualTime = 0;
         this.damage = damage;
+        nextTime = 0;
+
+        if (entityAffected.GetType() == typeof(TroupeManager) && !entityAffected.gotTheEffect(GetType()))
+        {
+            entity.AddEffect(this);
+        }
     }
     public override void Start()
     {
-        if(entityAffected.GetType() != typeof(TroupeManager) && entityAffected.gotTheEffect(GetType()))
-        {
-            end();
-        }
+        
     }
     public override void Update()
     {
-        if(actualTime < duration || !entityAffected) {  entityAffected.TakeDamage(damage); }
+        actualTime += Time.deltaTime;
+        if (actualTime < nextTime && nextTime<duration || !entityAffected) 
+        {
+            entityAffected.TakeDamage(damage);
+            nextTime += 1;
+        }
         else{ end(); }
     }
     virtual public void end() 

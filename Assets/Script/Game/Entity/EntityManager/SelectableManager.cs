@@ -92,6 +92,12 @@ public class SelectableManager : EntityManager
 
     public void AddEffect(StateEffect effect)
     {
+        effect.Start();
         effects.Add(effect);
+    }
+
+    public void RemoveEffect(StateEffect effect)
+    {
+        effects.Remove(effect);
     }
 }
