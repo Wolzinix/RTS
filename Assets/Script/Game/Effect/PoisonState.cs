@@ -11,11 +11,18 @@ public class PoisonState : StateEffect
     }
     protected override void Start()
     {
+        if(entityAffected.GetType() != typeof(TroupeManager) && entityAffected.gotTheEffect(GetType()))
+        {
+            end();
+        }
     }
     protected override void Update()
     {
         if(actualTime < duration || !entityAffected) {  entityAffected.TakeDamage(damage); }
         else{ end(); }
     }
-    virtual protected void end() { }
+    virtual protected void end() 
+    {
+        Destroy(this);
+    }
 }

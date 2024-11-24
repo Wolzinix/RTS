@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +11,8 @@ public class SelectableManager : EntityManager
     [HideInInspector] public UnityEvent<AggressifEntityManager> TakingDamageFromEntity = new UnityEvent<AggressifEntityManager>();
 
     [SerializeField] protected float xpToGive = 0.5f;
+
+    private List<StateEffect> effects = new List<StateEffect>();
 
     public float SeeRange
     {
@@ -64,5 +68,17 @@ public class SelectableManager : EntityManager
             deathEvent.Invoke(this);
             Destroy(gameObject);
         }
+    }
+
+    public bool gotTheEffect(Type type)
+    {
+        foreach(StateEffect i in effects)
+        {
+            if(i.GetType() == type)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
