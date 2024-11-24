@@ -199,7 +199,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c719e38f25a9480abd2480ab621a2949, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -323,6 +323,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3591858989714b43970e271f2d63062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _EnnemieList: []
+  _entityManager: {fileID: 0}
+  _collider: {fileID: 1182971380286798215}
   _projectile: {fileID: 0}
   EntityIsArrive:
     m_PersistentCalls:
@@ -330,11 +333,8 @@ MonoBehaviour:
   resetEvent:
     m_PersistentCalls:
       m_Calls: []
-  _EnnemieList: []
   moving: 0
-  _entityManager: {fileID: 0}
   _animator: {fileID: 0}
-  _collider: {fileID: 1182971380286798215}
 --- !u!195 &6208376071361995173
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -350,7 +350,7 @@ NavMeshAgent:
   avoidancePriority: 0
   m_AngularSpeed: 120
   m_StoppingDistance: 1.5
-  m_AutoTraverseOffMeshLink: 1
+  m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
