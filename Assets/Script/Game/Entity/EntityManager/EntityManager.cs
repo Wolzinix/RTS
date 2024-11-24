@@ -81,6 +81,11 @@ public class EntityManager : MonoBehaviour
         hp -= (nb - defense <= 0) ? 1 : (nb - defense);
     }
 
+    virtual public void TakeDamage(float nb)
+    {
+        hp -= (nb - defense <= 0) ? 1 : (nb - defense);
+    }
+
     virtual protected void Death() { }
 
     public void OnSelected() { sprite.gameObject.SetActive(true); }

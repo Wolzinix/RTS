@@ -38,7 +38,17 @@ public class SelectableManager : EntityManager
             Death();
         }
     }
+    public override void TakeDamage(float nb)
+    {
+        base.TakeDamage(nb);
 
+        changeStats.Invoke();
+
+        if (hp <= 0)
+        {
+            Death();
+        }
+    }
 
     public override void AddHp(float hp)
     {

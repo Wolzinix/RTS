@@ -3,7 +3,11 @@ using UnityEngine;
 public  abstract class StateEffect : MonoBehaviour
 {
     protected SelectableManager entityAffected;
-    virtual protected void Start() {}
+    protected float duration;
+    protected float actualTime;
+    virtual protected void Start() 
+    {
+    }
 
     virtual protected void Update() {}
 
