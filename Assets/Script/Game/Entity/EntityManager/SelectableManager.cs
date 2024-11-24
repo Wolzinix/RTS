@@ -29,6 +29,14 @@ public class SelectableManager : EntityManager
         }
     }
 
+    private void Update()
+    {
+        foreach(StateEffect effect in effects)
+        {
+            if (effect != null) { effect.Update(); }
+        }
+    }
+
     public override void TakeDamage(AggressifEntityManager entity, float nb)
     {
         base.TakeDamage(entity, nb);
@@ -80,5 +88,10 @@ public class SelectableManager : EntityManager
             }
         }
         return false;
+    }
+
+    public void AddEffect(StateEffect effect)
+    {
+        effects.Add(effect);
     }
 }

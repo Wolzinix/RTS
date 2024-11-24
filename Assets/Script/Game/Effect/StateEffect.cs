@@ -1,15 +1,11 @@
-using UnityEngine;
-
-public  abstract class StateEffect : MonoBehaviour
+public  abstract class StateEffect
 {
     protected SelectableManager entityAffected;
     protected float duration;
     protected float actualTime;
-    virtual protected void Start() 
-    {
-    }
+    virtual public void Start() { }
 
-    virtual protected void Update() {}
+    virtual public void Update() { }
 
-    virtual protected void end() { }
+    virtual public void end() { }
 }

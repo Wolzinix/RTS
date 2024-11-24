@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class AttackState : StateClassEntity
 {
@@ -31,7 +32,7 @@ public class AttackState : StateClassEntity
             pj.SetInvoker(controller.GetComponent<AggressifEntityManager>());
             pj.gameObject.transform.position = new Vector3(controller.transform.position.x, controller.transform.position.y + 1, controller.transform.position.z);
         }
-        else { controller._entityManager.DoAttack(target); }
+        else { controller._entityManager.DoAttack(target); target.AddEffect(new PoisonState(target, 5, 1)); }
     }
 
     public override void Update()
