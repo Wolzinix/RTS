@@ -105,6 +105,8 @@ public class BuildingController : MonoBehaviour
     virtual public void ClearAllOrder()
     {
         ClearListOfAlly(new List<GameObject>());
+        _EnnemieList.Clear();
+        SearchTarget();
     }
 
     protected void OnTriggerEnter(Collider collision)

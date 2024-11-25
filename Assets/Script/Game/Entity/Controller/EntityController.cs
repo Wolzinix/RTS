@@ -182,9 +182,9 @@ public class EntityController : BuildingController
     }
     override public void ClearAllOrder()
     {
+        _ListOfstate.Clear();
         base.ClearAllOrder();
 
-        _ListOfstate.Clear();
         if (_navMesh) { _navMesh.StopPath(); }
         resetEvent.Invoke();
     }
