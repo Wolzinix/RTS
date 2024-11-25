@@ -2,35 +2,19 @@
 public class PoisonState : StateEffect
 {
     float damage;
-    public PoisonState(SelectableManager entity, float duration, float damage)
+    public PoisonState(SelectableManager entity, float duration, float damage) : base(entity, duration)
     {
-        entityAffected = entity; 
-        this.duration = duration; 
-        actualTime = 0;
         this.damage = damage;
-        nextTime = 0;
 
-        if (entityAffected.GetType() == typeof(TroupeManager) && !entityAffected.gotTheEffect(GetType()))
+        if (entityAffected.GetType() == typeof(TroupeManager))
         {
-            entity.AddEffect(this);
+            if (!entityAffected.gotTheEffect(GetType())) { entity.AddEffect(this); }
+            else { entity.RemoveFirstEffectOfType(typeof(PoisonState)); entity.AddEffect(this); }
         }
     }
-    public override void Start()
+
+    protected override void ApplyEffect()
     {
-        
-    }
-    public override void Update()
-    {
-        actualTime += Time.deltaTime;
-        if (actualTime < nextTime && nextTime<duration || !entityAffected) 
-        {
-            entityAffected.TakeDamage(damage);
-            nextTime += 1;
-        }
-        else{ end(); }
-    }
-    virtual public void end() 
-    {
-        base.end();
+        entityAffected.TakeDamage(damage);
     }
 }

@@ -20,7 +20,7 @@ public class SelectableManager : EntityManager
         set => seeRange = value;
     }
 
-    override protected void Awake()
+    override protected void Awake() 
     {
         base.Awake();
         if (GetComponentInChildren<Animator>())
@@ -31,7 +31,8 @@ public class SelectableManager : EntityManager
 
     private void Update()
     {
-        foreach(StateEffect effect in effects)
+        List<StateEffect> list = new List<StateEffect>(effects);
+        foreach(StateEffect effect in list)
         {
             if (effect != null) { effect.Update(); }
         }
@@ -99,5 +100,17 @@ public class SelectableManager : EntityManager
     public void RemoveEffect(StateEffect effect)
     {
         effects.Remove(effect);
+    }
+
+    public void RemoveFirstEffectOfType(Type type)
+    {
+        foreach (StateEffect i in effects)
+        {
+            if (i.GetType() == type)
+            {
+                effects.Remove( i);
+                break;
+            }
+        }
     }
 }
