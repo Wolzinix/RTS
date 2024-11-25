@@ -93,20 +93,21 @@ public class SelectableManager : EntityManager
 
     public void AddEffect(StateEffect effect)
     {
-        effect.Start();
-        effects.Add(effect);
+        if(!gotTheEffect(effect.GetType()))
+        {
+
+            effect.Start();
+            effects.Add(effect);
+        }
     }
 
-    public void RemoveEffect(StateEffect effect)
-    {
-        effects.Remove(effect);
-    }
+    public void RemoveEffect(StateEffect effect) { effects.Remove(effect); }
 
     public void RemoveFirstEffectOfType(Type type)
     {
         foreach (StateEffect i in effects)
         {
-            if (i.GetType() == type)
+            if (i.GetType() == type && (i.nextTime != 1  || i.nextTime <= i.actualTime ))
             {
                 effects.Remove( i);
                 break;

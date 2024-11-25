@@ -1,12 +1,11 @@
-using System;
 using UnityEngine;
 
 public  abstract class StateEffect
 {
     protected SelectableManager entityAffected;
     protected float duration;
-    protected float actualTime;
-    protected float nextTime;
+    public float actualTime;
+    public float nextTime;
 
     protected StateEffect(SelectableManager entityAffected, float duration)
     {
@@ -34,5 +33,5 @@ public  abstract class StateEffect
         entityAffected.RemoveEffect(this);
     }
 
-    virtual protected void ApplyEffect() { }
+    virtual public void ApplyEffect() { }
 }

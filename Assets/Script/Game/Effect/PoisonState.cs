@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-public class PoisonState : StateEffect
+﻿public class PoisonState : StateEffect
 {
     float damage;
     public PoisonState(SelectableManager entity, float duration, float damage) : base(entity, duration)
@@ -13,7 +12,7 @@ public class PoisonState : StateEffect
         }
     }
 
-    protected override void ApplyEffect()
+    public override void ApplyEffect()
     {
         entityAffected.TakeDamage(damage);
     }
