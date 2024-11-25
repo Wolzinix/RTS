@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -123,6 +124,11 @@ public class EntityController : BuildingController
     {
         _ListOfstate.Add(new FollowState(target, _navMesh, this));
         StartFirstOrder();
+    }
+
+    public void ClearAllOrderOfType(Type type)
+    {
+        _ListOfstate.RemoveAll(x => x.GetType() == type);
     }
     public void AddPatrol(Vector3 point)
     {

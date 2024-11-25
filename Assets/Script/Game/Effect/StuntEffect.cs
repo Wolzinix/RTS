@@ -22,7 +22,7 @@
     {
         if (entityAffected.GetComponent<EntityController>() != null)
         {
-            entityAffected.GetComponent<EntityController>().ClearAllOrder();
+            entityAffected.GetComponent<EntityController>().ClearAllOrderOfType(typeof(StayState));
         }
         base.end();
     }
