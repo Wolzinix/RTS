@@ -165,6 +165,11 @@ public class EntityController : BuildingController
         _ListOfstate.Add(new StayState(_navMesh, this));
         StartFirstOrder();
     }
+    public void AddStayOrderAtFirst()
+    {
+        _ListOfstate.Insert(0,new StayState(_navMesh, this));
+        StartFirstOrder();
+    }
     private void AddAggresseurTarget(AggressifEntityManager entityToAggresse)
     {
         if (_navMesh && _navMesh.notOnTraject() && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState)) || _navMesh == null) { InsertTarget(entityToAggresse); }

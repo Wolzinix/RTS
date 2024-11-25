@@ -7,13 +7,14 @@
             if (!entityAffected.gotTheEffect(GetType())) { entity.AddEffect(this); }
             else { entity.RemoveFirstEffectOfType(typeof(StuntEffect)); entity.AddEffect(this); }
         }
+        nextTime = 0;
     }
 
     public override void ApplyEffect()
     {
         if(entityAffected.GetComponent<EntityController>() != null)
         {
-            entityAffected.GetComponent<EntityController>().AddStayOrder();
+            entityAffected.GetComponent<EntityController>().AddStayOrderAtFirst();
         }
     }
 
@@ -23,5 +24,6 @@
         {
             entityAffected.GetComponent<EntityController>().ClearAllOrder();
         }
+        base.end();
     }
 }
