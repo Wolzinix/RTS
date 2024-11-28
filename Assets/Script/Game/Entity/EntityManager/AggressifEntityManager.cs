@@ -9,6 +9,7 @@ public class AggressifEntityManager : SelectableManager
     [SerializeField] private float range = 1;
 
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
+    [SerializeField] public StateEffect effect;
     protected override void Awake()
     {
         base.Awake();

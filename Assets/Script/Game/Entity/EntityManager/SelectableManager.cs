@@ -12,7 +12,6 @@ public class SelectableManager : EntityManager
 
     [SerializeField] protected float xpToGive = 0.5f;
 
-    private List<StateEffect> effects = new List<StateEffect>();
 
     public float SeeRange
     {
@@ -26,15 +25,6 @@ public class SelectableManager : EntityManager
         if (GetComponentInChildren<Animator>())
         {
             _animator = GetComponentInChildren<Animator>();
-        }
-    }
-
-    private void Update()
-    {
-        List<StateEffect> list = new List<StateEffect>(effects);
-        foreach(StateEffect effect in list)
-        {
-            if (effect != null) { effect.Update(); }
         }
     }
 
@@ -76,42 +66,6 @@ public class SelectableManager : EntityManager
         {
             deathEvent.Invoke(this);
             Destroy(gameObject);
-        }
-    }
-
-    public bool gotTheEffect(Type type)
-    {
-        foreach(StateEffect i in effects)
-        {
-            if(i.GetType() == type)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void AddEffect(StateEffect effect)
-    {
-        if(!gotTheEffect(effect.GetType()))
-        {
-
-            effect.Start();
-            effects.Add(effect);
-        }
-    }
-
-    public void RemoveEffect(StateEffect effect) { effects.Remove(effect); }
-
-    public void RemoveFirstEffectOfType(Type type)
-    {
-        foreach (StateEffect i in effects)
-        {
-            if (i.GetType() == type && (i.nextTime != 1  || i.nextTime <= i.actualTime ))
-            {
-                effects.Remove( i);
-                break;
-            }
         }
     }
 }

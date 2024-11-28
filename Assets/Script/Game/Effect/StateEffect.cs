@@ -1,19 +1,19 @@
 using UnityEngine;
 
-public  abstract class StateEffect
+public abstract class StateEffect: MonoBehaviour
 {
-    protected SelectableManager entityAffected;
-    protected float duration;
+    public SelectableManager entityAffected;
+    [SerializeField] protected float duration;
     public float actualTime;
     public float nextTime;
 
-    protected StateEffect(float duration)
+    virtual public void InitEffect(float duration)
     {
         this.duration = duration;
         actualTime = 0;
         nextTime = 1;
     }
-    protected StateEffect(SelectableManager entityAffected, float duration)
+    virtual public void InitEffect(SelectableManager entityAffected, float duration)
     {
         this.entityAffected = entityAffected;
         this.duration = duration;
@@ -28,19 +28,29 @@ public  abstract class StateEffect
 
     virtual public void Update() 
     {
-        actualTime += Time.deltaTime;
-        if (actualTime > nextTime && nextTime < duration || !entityAffected)
+        if (entityAffected)
         {
-            ApplyEffect();
-            nextTime += 1;
+            actualTime += Time.deltaTime;
+            if (actualTime > nextTime && nextTime < duration || !entityAffected)
+            {
+                ApplyEffect();
+                nextTime += 1;
+            }
+            else if (nextTime >= duration) { end(); }
         }
-        else if (nextTime >= duration) { end(); }
     }
 
     virtual public void end() 
     {
-        entityAffected.RemoveEffect(this);
+        Destroy(this);
     }
 
     virtual public void ApplyEffect() { }
+
+    public void ResetEffect()
+    {
+        ApplyEffect();
+        actualTime = 0;
+        nextTime = 1;
+    }
 }

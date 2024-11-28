@@ -1,19 +1,25 @@
-﻿public class PoisonEffect : StateEffect
+﻿using System;
+using Unity.VisualScripting;
+
+public class PoisonEffect : StateEffect
 {
     float damage;
 
-    public PoisonEffect(float duration, float damage) : base(duration)
+    public void InitEffect(float duration, float damage)
     {
+        base.InitEffect(duration);
         this.damage = damage;
     }
-    public PoisonEffect(SelectableManager entity, float duration, float damage) : base(entity, duration)
+    public void InitEffect(SelectableManager entity, float duration, float damage) 
     {
+        base.InitEffect(entity, duration);
         this.damage = damage;
 
+        PoisonEffect effect = Array.Find(entityAffected.GetComponents(typeof(PoisonEffect)) as StateEffect[],x => x.entityAffected != null) as PoisonEffect;
         if (entityAffected.GetType() == typeof(TroupeManager))
         {
-            if (!entityAffected.gotTheEffect(GetType())) { entity.AddEffect(this); }
-            else { entity.RemoveFirstEffectOfType(typeof(PoisonEffect)); entity.AddEffect(this); }
+            if (!effect) { entityAffected.AddComponent<PoisonEffect>(); }
+            else { effect.ResetEffect(); }
         }
     }
 
@@ -25,10 +31,11 @@
     public override void SetEntity(SelectableManager entity)
     {
         base.SetEntity(entity);
+        PoisonEffect effect = Array.Find(entityAffected.GetComponents(typeof(PoisonEffect)) as StateEffect[], x => x.entityAffected != null) as PoisonEffect;
         if (entityAffected.GetType() == typeof(TroupeManager))
         {
-            if (!entityAffected.gotTheEffect(GetType())) { entity.AddEffect(this); }
-            else { entity.RemoveFirstEffectOfType(typeof(PoisonEffect)); entity.AddEffect(this); }
+            if (!effect) { entityAffected.AddComponent<PoisonEffect>(); }
+            else { effect.ResetEffect(); }
         }
     }
 }
