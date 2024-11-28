@@ -7,6 +7,12 @@ public  abstract class StateEffect
     public float actualTime;
     public float nextTime;
 
+    protected StateEffect(float duration)
+    {
+        this.duration = duration;
+        actualTime = 0;
+        nextTime = 1;
+    }
     protected StateEffect(SelectableManager entityAffected, float duration)
     {
         this.entityAffected = entityAffected;
@@ -14,7 +20,10 @@ public  abstract class StateEffect
         actualTime = 0;
         nextTime = 1;
     }
-
+    virtual public void SetEntity(SelectableManager entity)
+    {
+        entityAffected = entity;
+    }
     virtual public void Start() { }
 
     virtual public void Update() 

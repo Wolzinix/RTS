@@ -11,6 +11,8 @@ public class ProjectilManager : MonoBehaviour
 
     private Rigidbody _rb;
 
+    public StateEffect _effect;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -43,8 +45,11 @@ public class ProjectilManager : MonoBehaviour
         if (other != null && other.gameObject == _target)
         {
             _target.GetComponent<SelectableManager>().TakeDamage(_invoker, _damage);
-            if (_invoker) { _target.GetComponent<SelectableManager>().TakingDamageFromEntity.Invoke(_invoker.GetComponent<AggressifEntityManager>());
+            if (_invoker) 
+            {
+                _target.GetComponent<SelectableManager>().TakingDamageFromEntity.Invoke(_invoker.GetComponent<AggressifEntityManager>());
 
+                _invoker.GetType();
                 new StuntEffect(_target.GetComponent<SelectableManager>(), 2);
             }
 

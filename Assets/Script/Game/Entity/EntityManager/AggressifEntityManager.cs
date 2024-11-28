@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AggressifEntityManager : SelectableManager
 {
@@ -26,7 +25,6 @@ public class AggressifEntityManager : SelectableManager
         {
             _animator.SetFloat(AttackSpeedAnim, attackSpeed);
         }
-
     }
 
     public void AddToRessourcesKilledEntity(int gold, int wood)
@@ -66,8 +64,6 @@ public class AggressifEntityManager : SelectableManager
     {
         attack += nb;
     }
-
-
 
     public void AddAttackSpeed(float nb)
     {
