@@ -53,4 +53,6 @@ public abstract class StateEffect: MonoBehaviour
         actualTime = 0;
         nextTime = 1;
     }
+
+    virtual public void AddEffectToTarget(SelectableManager entityAffected) { }
 }

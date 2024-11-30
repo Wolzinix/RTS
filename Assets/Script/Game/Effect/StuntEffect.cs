@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.VisualScripting;
+﻿using Unity.VisualScripting;
 
 public class StuntEffect : StateEffect
 {
@@ -12,11 +11,18 @@ public class StuntEffect : StateEffect
     override public void InitEffect(SelectableManager entity, float duration) 
     {
         base.InitEffect(entity,duration);
-        StuntEffect effect = Array.Find(entityAffected.GetComponents(typeof(StuntEffect)) as StateEffect[], x => x.entityAffected != null) as StuntEffect;
+        StuntEffect effect = null;
+        foreach (StuntEffect i in entityAffected.GetComponents(typeof(StuntEffect)))
+        {
+            if(i.entityAffected != null && i!=this)
+            {
+                effect = i;
+                break;
+            }
+        }
         if (entityAffected.GetType() == typeof(TroupeManager))
         {
-            if (!effect) { entityAffected.AddComponent<StuntEffect>(); }
-            else { effect.ResetEffect(); }
+            if (effect) { effect.ResetEffect(); end(); }
         }
         nextTime = 0;
     }
@@ -41,12 +47,25 @@ public class StuntEffect : StateEffect
     public override void SetEntity(SelectableManager entity)
     {
         base.SetEntity(entity);
-
-        StuntEffect effect = Array.Find(entityAffected.GetComponents(typeof(StuntEffect)) as StateEffect[], x => x.entityAffected != null) as StuntEffect;
+        StuntEffect effect = null;
+        foreach (StuntEffect i in entityAffected.GetComponents(typeof(StuntEffect)))
+        {
+            if (i.entityAffected != null)
+            {
+                effect = i;
+                break;
+            }
+        }
         if (entityAffected.GetType() == typeof(TroupeManager))
         {
             if (!effect) { entityAffected.AddComponent<StuntEffect>(); }
-            else { effect.ResetEffect(); }
+            else { effect.ResetEffect(); end(); }
         }
+    }
+
+    override public void AddEffectToTarget(SelectableManager entityAffected)
+    {
+        StuntEffect effect = entityAffected.AddComponent<StuntEffect>();
+        effect.InitEffect(entityAffected, duration);
     }
 }

@@ -48,9 +48,10 @@ public class ProjectilManager : MonoBehaviour
             if (_invoker) 
             {
                 _target.GetComponent<SelectableManager>().TakingDamageFromEntity.Invoke(_invoker.GetComponent<AggressifEntityManager>());
-
-                StuntEffect stunt = _target.AddComponent<StuntEffect>();
-                stunt.InitEffect(_target.GetComponent<SelectableManager>(), 2);
+                if(_effect)
+                {
+                    _effect.AddEffectToTarget(_target.GetComponent<SelectableManager>());
+                }
             }
 
             Destroy(gameObject);

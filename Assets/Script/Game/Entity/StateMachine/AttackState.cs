@@ -31,11 +31,17 @@ public class AttackState : StateClassEntity
             pj.SetTarget(target.gameObject);
             pj.SetInvoker(controller.GetComponent<AggressifEntityManager>());
             pj.gameObject.transform.position = new Vector3(controller.transform.position.x, controller.transform.position.y + 1, controller.transform.position.z);
+            if(controller.GetComponent<AggressifEntityManager>().effect)
+            {
+                _projectile._effect = controller.GetComponent<AggressifEntityManager>().effect;
+            }
         }
         else { 
             controller._entityManager.DoAttack(target);
-            PoisonEffect poison = target.AddComponent<PoisonEffect>();
-            poison.InitEffect(target, 5, 1);
+            if (controller.GetComponent<AggressifEntityManager>().effect)
+            {
+                controller.GetComponent<AggressifEntityManager>().effect.AddEffectToTarget(target);
+            }
         }
     }
 
