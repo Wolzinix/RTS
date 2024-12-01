@@ -41,7 +41,6 @@ public class PoisonEffect : StateEffect
 
     public override void SetEntity(SelectableManager entity)
     {
-        base.SetEntity(entity); 
         PoisonEffect effect = null;
         foreach (PoisonEffect i in entityAffected.GetComponents(typeof(PoisonEffect)))
         {
@@ -56,6 +55,8 @@ public class PoisonEffect : StateEffect
             if (!effect) { entityAffected.AddComponent<PoisonEffect>(); }
             else { effect.ResetEffect(); end(); }
         }
+
+        base.SetEntity(entity);
     }
 
 

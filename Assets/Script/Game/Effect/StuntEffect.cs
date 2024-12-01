@@ -10,9 +10,8 @@ public class StuntEffect : StateEffect
 
     override public void InitEffect(SelectableManager entity, float duration) 
     {
-        base.InitEffect(entity,duration);
         StuntEffect effect = null;
-        foreach (StuntEffect i in entityAffected.GetComponents(typeof(StuntEffect)))
+        foreach (StuntEffect i in entity.GetComponents(typeof(StuntEffect)))
         {
             if(i.entityAffected != null && i!=this)
             {
@@ -20,10 +19,12 @@ public class StuntEffect : StateEffect
                 break;
             }
         }
-        if (entityAffected.GetType() == typeof(TroupeManager))
+        if (entity.GetType() == typeof(TroupeManager))
         {
             if (effect) { effect.ResetEffect(); end(); }
         }
+
+        base.InitEffect(entity, duration);
         nextTime = 0;
     }
 
@@ -31,15 +32,15 @@ public class StuntEffect : StateEffect
     {
         if(entityAffected.GetComponent<EntityController>() != null)
         {
-            entityAffected.GetComponent<EntityController>().AddStayOrderAtFirst();
+            entityAffected.GetComponent<EntityController>().AddStuntOrder();
         }
     }
 
     override public void end()
     {
-        if (entityAffected.GetComponent<EntityController>() != null)
+        if (entityAffected != null && entityAffected.GetComponent<EntityController>() != null)
         {
-            entityAffected.GetComponent<EntityController>().ClearAllOrder();
+            entityAffected.GetComponent<EntityController>().RemoveFirstOrder();
         }
         base.end();
     }
