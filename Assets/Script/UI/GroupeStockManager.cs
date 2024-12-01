@@ -88,14 +88,18 @@ public class GroupeStockManager : MonoBehaviour
             UiGestioneur uiGestioneur = FindObjectOfType<UiGestioneur>();
             selectManager.ClearList();
 
-            uiGestioneur.ActualiseUi(_listOfEntityManager[0].gameObject.GetComponent<AggressifEntityManager>());
-            foreach (EntityController entityController in _listOfEntityManager)
+            if (_listOfEntityManager.Count > 0)
             {
-                AggressifEntityManager entityManager = entityController.gameObject.GetComponent<AggressifEntityManager>();
-                selectManager.AddSelect(entityManager);
+                uiGestioneur.ActualiseUi(_listOfEntityManager[0].gameObject.GetComponent<AggressifEntityManager>());
+                foreach (EntityController entityController in _listOfEntityManager)
+                {
+                    AggressifEntityManager entityManager = entityController.gameObject.GetComponent<AggressifEntityManager>();
+                    selectManager.AddSelect(entityManager);
 
-                uiGestioneur.AddOnGroupUi(entityManager);
+                    uiGestioneur.AddOnGroupUi(entityManager);
+                }
             }
+          
         }
 
     }
