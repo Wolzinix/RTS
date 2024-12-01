@@ -27,7 +27,7 @@ public class GroupeStockUi : MonoBehaviour
     {
         foreach (GameObject i in _listOfGroup)
         {
-            i.GetComponent<RectTransform>().anchoredPosition = new Vector3(55 * _listOfGroup.IndexOf(i) + 25, 0, 0);
+            i.GetComponent<RectTransform>().anchoredPosition = new Vector3(groupUi.GetComponent<RectTransform>().sizeDelta[0] * _listOfGroup.IndexOf(i) + (groupUi.GetComponent<RectTransform>().sizeDelta[0]/2), 0, 0);
         }
 
     }

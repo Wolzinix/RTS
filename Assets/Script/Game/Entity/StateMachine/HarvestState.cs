@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class HarvestState : StateClassEntity
 {
@@ -42,7 +43,7 @@ public class HarvestState : StateClassEntity
 
                 else
                 {
-                    builder.transform.LookAt(target.transform);
+                    builder.transform.LookAt(new Vector3(target.transform.localPosition.x, builder.transform.localPosition.y, target.transform.localPosition.z));
                     _animator.SetInteger(EntityController.Attacking, 1);
                 }
                 if (_animator.IsInTransition(0) && _animator.GetInteger(EntityController.Attacking) == 1) { _attacking = true; }

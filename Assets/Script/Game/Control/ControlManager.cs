@@ -259,14 +259,18 @@ public class ControlManager : MonoBehaviour
 
     private void MooveSelected(InputAction.CallbackContext context)
     {
-        if (!_order && !_patrolOrder && !_travelAttack)
+        List<RaycastResult> listOfUIRay = DoUiRayCast();
+        if (listOfUIRay.Count == 0)
         {
-            IsMultipathActive();
-            RaycastHit hit = DoARayCast(_camera);
+            if (!_order && !_patrolOrder && !_travelAttack)
+            {
+                IsMultipathActive();
+                RaycastHit hit = DoARayCast(_camera);
 
-            _selectManager.ActionGroup(hit);
+                _selectManager.ActionGroup(hit);
+            }
+            else { ResetUiOrder(); }
         }
-        else { ResetUiOrder(); }
     }
 
     private void IsMultipathActive()
