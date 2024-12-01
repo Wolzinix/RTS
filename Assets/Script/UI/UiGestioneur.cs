@@ -18,8 +18,15 @@ public class UiGestioneur : MonoBehaviour
 
     private void ActualiseEntityUI(SelectableManager entity)
     {
-        if (!_multiSelectionIsActive)
+        if (!_multiSelectionIsActive || groupUi._listOfEntity.Count == 0)
         {
+            if(_multiSelectionIsActive)
+            {
+                groupUi.gameObject.SetActive(true);
+                groupUi.AddEntity(entity);
+
+                groupUi.gameObject.SetActive(false);
+            }
             if (groupUi.gameObject.activeSelf) { groupUi.gameObject.SetActive(false); }
 
             if (!entityUi.gameObject.activeSelf)
