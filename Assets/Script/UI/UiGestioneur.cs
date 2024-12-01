@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class UiGestioneur : MonoBehaviour
 {
-
     [SerializeField] private EntityUiManager entityUi;
     [SerializeField] private GroupeUiManager groupUi;
     [SerializeField] private OrderUiScript orderUi;
@@ -88,6 +87,10 @@ public class UiGestioneur : MonoBehaviour
                 orderUi.gameObject.SetActive(true);
                 orderUi.SetEntity(entity.gameObject);
             }
+            else
+            {
+                orderUi.gameObject.SetActive(false);
+            }
 
             buildingUi.gameObject.SetActive(false);
             buildUI.gameObject.SetActive(false);
@@ -100,6 +103,16 @@ public class UiGestioneur : MonoBehaviour
                 buildingUi.gameObject.SetActive(true);
                 buildingUi.SetBuilding(entity.gameObject.GetComponent<ProductBuildingController>());
             }
+            else
+            {
+                buildingUi.gameObject.SetActive(false);
+            }
+
+            buildUI.gameObject.SetActive(false);
+            orderUi.gameObject.SetActive(false);
+        }
+        else
+        {
             buildUI.gameObject.SetActive(false);
             orderUi.gameObject.SetActive(false);
         }
