@@ -71,7 +71,7 @@ public class AttackState : StateClassEntity
 
                 else
                 {
-                    controller.gameObject.transform.LookAt(target.transform);
+                    controller.gameObject.transform.LookAt(new Vector3(target.transform.localPosition.x, controller.transform.localPosition.y, target.transform.localPosition.z));
                     _animator.SetInteger(EntityController.Attacking, 1);
                 }
 
