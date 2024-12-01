@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -40,14 +41,17 @@ public class EntityController : BuildingController
         }
         if (_navMesh && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState) || _ListOfstate[0].GetType() == typeof(FollowState) || _navMesh == null))
         {
-            SearchTarget();
+            if(_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+            {
+                SearchTarget();
+            }
         }
     }
     override protected void SearchTarget()
     {
         base.SearchTarget();
 
-        if (_ListOfstate.Exists(r => r.GetType() == typeof(TargetState)))
+        if (_ListOfstate.Count == 0 || _ListOfstate.Exists(r => r.GetType() == typeof(TargetState)))
         {
             if (_navMesh) { _navMesh.StopPath(); }
         }
@@ -55,8 +59,11 @@ public class EntityController : BuildingController
     }
     override protected void AddEnnemi(SelectableManager target)
     {
-        base.AddEnnemi(target);
-        InsertTarget(target);
+        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        {
+            base.AddEnnemi(target);
+            InsertTarget(target);
+        }
     }
 
     protected override void ClearListOfAlly(List<GameObject> list)
@@ -87,9 +94,12 @@ public class EntityController : BuildingController
 
     public void AddAttackState(SelectableManager target)
     {
-        if (_projectile) { _ListOfstate.Insert(0, new AttackState(this, _projectile, target)); }
-        else { _ListOfstate.Insert(0, new AttackState(this, target)); }
-        StartFirstOrder();
+        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        {
+            if (_projectile) { _ListOfstate.Insert(0, new AttackState(this, _projectile, target)); }
+            else { _ListOfstate.Insert(0, new AttackState(this, target)); }
+            StartFirstOrder();
+        }
     }
     public void AddPath(Vector3 newPath)
     {
@@ -102,27 +112,37 @@ public class EntityController : BuildingController
 
     public void AddPathInFirst(Vector3 newPath)
     {
-        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
+        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
         {
-            _ListOfstate.Insert(0, new MoveState(_navMesh, newPath, this));
-            StartFirstOrder();
+            if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
+            {
+                _ListOfstate.Insert(0, new MoveState(_navMesh, newPath, this));
+                StartFirstOrder();
+            }
         }
     }
     public void AddTarget(SelectableManager target)
     {
         _ListOfstate.Add(new TargetState(target, this, _navMesh));
         StartFirstOrder();
-
     }
     public void InsertTarget(SelectableManager target)
     {
-        _ListOfstate.Insert(0, new TargetState(target, this, _navMesh));
-        StartFirstOrder();
+        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        {
+            _ListOfstate.Insert(0, new TargetState(target, this, _navMesh));
+            StartFirstOrder();
+        }
     }
     public void AddAllie(SelectableManager target)
     {
         _ListOfstate.Add(new FollowState(target, _navMesh, this));
         StartFirstOrder();
+    }
+
+    public void ClearAllOrderOfType(Type type)
+    {
+        _ListOfstate.RemoveAll(x => x.GetType() == type);
     }
     public void AddPatrol(Vector3 point)
     {
@@ -165,15 +185,32 @@ public class EntityController : BuildingController
         _ListOfstate.Add(new StayState(_navMesh, this));
         StartFirstOrder();
     }
+    public void AddStayOrderAtFirst()
+    {
+        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        {
+            _ListOfstate.Insert(0, new StayState(_navMesh, this));
+            StartFirstOrder();
+        }
+    }
+
+    public void AddStuntOrder()
+    {
+        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        {
+            _ListOfstate.Insert(0, new StuntState(_navMesh, this));
+            StartFirstOrder();
+        }
+    }
     private void AddAggresseurTarget(AggressifEntityManager entityToAggresse)
     {
         if (_navMesh && _navMesh.notOnTraject() && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState)) || _navMesh == null) { InsertTarget(entityToAggresse); }
     }
     override public void ClearAllOrder()
     {
+        _ListOfstate.Clear();
         base.ClearAllOrder();
 
-        _ListOfstate.Clear();
         if (_navMesh) { _navMesh.StopPath(); }
         resetEvent.Invoke();
     }

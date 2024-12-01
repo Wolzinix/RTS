@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,13 +12,14 @@ public class SelectableManager : EntityManager
 
     [SerializeField] protected float xpToGive = 0.5f;
 
+
     public float SeeRange
     {
         get => seeRange;
         set => seeRange = value;
     }
 
-    override protected void Awake()
+    override protected void Awake() 
     {
         base.Awake();
         if (GetComponentInChildren<Animator>())
@@ -38,7 +41,17 @@ public class SelectableManager : EntityManager
             Death();
         }
     }
+    public override void TakeDamage(float nb)
+    {
+        base.TakeDamage(nb);
 
+        changeStats.Invoke();
+
+        if (hp <= 0)
+        {
+            Death();
+        }
+    }
 
     public override void AddHp(float hp)
     {

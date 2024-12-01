@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 2875708092518566237}
   - component: {fileID: -1646710521796088695}
   - component: {fileID: 7744115782921960021}
+  - component: {fileID: -2649082374202238321}
   m_Layer: 6
   m_Name: Tirreur
   m_TagString: Allie
@@ -432,6 +433,7 @@ MonoBehaviour:
   attack: 2
   attackSpeed: 2
   range: 4
+  effect: {fileID: -2649082374202238321}
   StartSpeed: 2
   xp: 0
   level: 0
@@ -466,3 +468,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe032d10478cd14aae1ad734473b2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2649082374202238321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a788c5cd48ed1684fa4adb353d0a38af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityAffected: {fileID: 0}
+  duration: 2
+  actualTime: 0
+  nextTime: 0

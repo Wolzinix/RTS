@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AggressifEntityManager : SelectableManager
 {
@@ -10,6 +9,7 @@ public class AggressifEntityManager : SelectableManager
     [SerializeField] private float range = 1;
 
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
+    [SerializeField] public StateEffect effect;
     protected override void Awake()
     {
         base.Awake();
@@ -26,7 +26,6 @@ public class AggressifEntityManager : SelectableManager
         {
             _animator.SetFloat(AttackSpeedAnim, attackSpeed);
         }
-
     }
 
     public void AddToRessourcesKilledEntity(int gold, int wood)
@@ -66,8 +65,6 @@ public class AggressifEntityManager : SelectableManager
     {
         attack += nb;
     }
-
-
 
     public void AddAttackSpeed(float nb)
     {

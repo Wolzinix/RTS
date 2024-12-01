@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class AttackState : StateClassEntity
 {
@@ -30,8 +31,18 @@ public class AttackState : StateClassEntity
             pj.SetTarget(target.gameObject);
             pj.SetInvoker(controller.GetComponent<AggressifEntityManager>());
             pj.gameObject.transform.position = new Vector3(controller.transform.position.x, controller.transform.position.y + 1, controller.transform.position.z);
+            if(controller.GetComponent<AggressifEntityManager>().effect)
+            {
+                _projectile._effect = controller.GetComponent<AggressifEntityManager>().effect;
+            }
         }
-        else { controller._entityManager.DoAttack(target); }
+        else { 
+            controller._entityManager.DoAttack(target);
+            if (controller.GetComponent<AggressifEntityManager>().effect)
+            {
+                controller.GetComponent<AggressifEntityManager>().effect.AddEffectToTarget(target);
+            }
+        }
     }
 
     public override void Update()
@@ -60,7 +71,7 @@ public class AttackState : StateClassEntity
 
                 else
                 {
-                    controller.gameObject.transform.LookAt(target.transform);
+                    controller.gameObject.transform.LookAt(new Vector3(target.transform.localPosition.x, controller.transform.localPosition.y, target.transform.localPosition.z));
                     _animator.SetInteger(EntityController.Attacking, 1);
                 }
 

@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 1314613499554875902}
   - component: {fileID: 2294858842063284346}
   - component: {fileID: -8206696815783975533}
+  - component: {fileID: 1477256233637486386}
   m_Layer: 6
   m_Name: Tank
   m_TagString: Allie
@@ -434,6 +435,7 @@ MonoBehaviour:
   attack: 1
   attackSpeed: 1
   range: 2
+  effect: {fileID: 1477256233637486386}
   StartSpeed: 2
   xp: 0
   level: 0
@@ -468,3 +470,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe032d10478cd14aae1ad734473b2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1477256233637486386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514070fefe911e5439fdb0cd801145f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityAffected: {fileID: 0}
+  duration: 3
+  actualTime: 0
+  nextTime: 0
