@@ -79,7 +79,14 @@ public class AttackState : StateClassEntity
             }
             else { end(); }
         }
-        else { end(); }
+        else 
+        { 
+            if(controller._EnnemieList.Count <= 0)
+            {
+                controller.GetComponent<FogWarManager>().ActualiseFog(controller,true);
+            }
+            end(); 
+        }
     }
     public override void end()
     {
