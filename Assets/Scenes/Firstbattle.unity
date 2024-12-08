@@ -11094,6 +11094,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1249935000}
     - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: AttackCursor
+      value: 
+      objectReference: {fileID: 2800000, guid: 2eef412916138f3429832c7ac0e9789e, type: 3}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: _pauseCanvas
       value: 
       objectReference: {fileID: 7425194147886088701}
