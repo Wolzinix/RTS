@@ -11109,6 +11109,10 @@ PrefabInstance:
       propertyPath: _selectManager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: DeplacementCursor
+      value: 
+      objectReference: {fileID: 2800000, guid: 8ea93deb2f313804dbc6bb87f88843be, type: 3}
     - target: {fileID: 6683642087610167980, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: m_RootOrder
       value: 11
