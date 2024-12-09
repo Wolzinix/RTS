@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FogWarController : MonoBehaviour
@@ -24,11 +26,19 @@ public class FogWarController : MonoBehaviour
 
     private void RemoveFromFog(EntityController entity)
     {
-        entity.GetComponentInChildren<MeshRenderer>().enabled = true;
+        List<MeshRenderer> list = entity.GetComponentsInChildren<MeshRenderer>().ToList();
+        foreach(MeshRenderer renderer in list)
+        {
+            renderer.enabled = true;
+        }
     }
 
     private void AddFromFog(EntityController entity)
     {
-        entity.GetComponentInChildren<MeshRenderer>().enabled = false;
+        List<MeshRenderer> list = entity.GetComponentsInChildren<MeshRenderer>().ToList();
+        foreach (MeshRenderer renderer in list)
+        {
+            renderer.enabled = false;
+        }
     }
 }
