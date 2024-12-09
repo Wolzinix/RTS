@@ -406,11 +406,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069a7d1dcb95cac4db81d0c4b22c0aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
-  GoldAmount: 1
+  hp: 5
+  GoldAmount: 2
   WoodAmount: 0
   GoldCost: 1
-  WoodCost: 1
+  WoodCost: 0
   size: 0
   sprite: {fileID: 7706548414058156727}
   spriteImage: {fileID: 21300000, guid: ae07f73ca9a419d4f82ea1282c9c04ac, type: 3}
@@ -437,9 +437,9 @@ MonoBehaviour:
   StartSpeed: 2
   xp: 0
   level: 0
-  HpToAdd: 1
+  HpToAdd: 0
   AttackToAdd: 1
-  DefenseToAdd: 1
+  DefenseToAdd: 0
 --- !u!208 &-1646710521796088695
 NavMeshObstacle:
   m_ObjectHideFlags: 0

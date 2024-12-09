@@ -440,7 +440,7 @@ MonoBehaviour:
   xp: 0
   level: 0
   HpToAdd: 1
-  AttackToAdd: 1
+  AttackToAdd: 0
   DefenseToAdd: 1
 --- !u!208 &2294858842063284346
 NavMeshObstacle:
