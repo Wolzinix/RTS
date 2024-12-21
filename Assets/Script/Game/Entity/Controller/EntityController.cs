@@ -212,8 +212,15 @@ public class EntityController : BuildingController
         _ListOfstate.Clear();
         base.ClearAllOrder();
 
+        StopALlAnimation();
         if (_navMesh) { _navMesh.StopPath(); }
         resetEvent.Invoke();
+    }
+
+    public void StopALlAnimation()
+    {
+        _animator.SetBool(Moving, false);
+        _animator.SetInteger(Attacking, 0);
     }
     public void SortTarget()
     {
