@@ -58,7 +58,7 @@ public class AttackState : StateClassEntity
 
                 if (!_animator.IsInTransition(0) &&
                     _animator.GetInteger(EntityController.Attacking) == 1 &&
-                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
+                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= _animator.GetCurrentAnimatorStateInfo(0).length/2 &&
                     _attacking)
                 {
                     DoAttack();
@@ -67,7 +67,7 @@ public class AttackState : StateClassEntity
 
                 if (!_animator.IsInTransition(0) &&
                    _animator.GetInteger(EntityController.Attacking) == 1 &&
-                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > _animator.GetCurrentAnimatorStateInfo(0).length/2)
 
                 { _animator.SetInteger(EntityController.Attacking, 0); }
 
@@ -77,7 +77,7 @@ public class AttackState : StateClassEntity
                     _animator.SetInteger(EntityController.Attacking, 1);
                 }
 
-                if (_animator.IsInTransition(0) && _animator.GetInteger(EntityController.Attacking) == 1) { _attacking = true; }
+                if (_animator.IsInTransition(0) && _animator.GetInteger(EntityController.Attacking) ==  _animator.GetCurrentAnimatorStateInfo(0).length) { _attacking = true; }
             }
             else { end(); }
         }
