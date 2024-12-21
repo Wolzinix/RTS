@@ -383,18 +383,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069a7d1dcb95cac4db81d0c4b22c0aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 30
+  hp: 5
   GoldAmount: 1
   WoodAmount: 0
   GoldCost: 1
-  WoodCost: 1
+  WoodCost: 0
   size: 0
   sprite: {fileID: 7706548414058156727}
-  spriteImage: {fileID: -9095717837082945937, guid: ff8e1e5671dc11d42ae7322385cb3432, type: 3}
+  spriteImage: {fileID: 21300000, guid: 8ee3219b868e7594dbb5f715bc84f907, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
-  defense: 1
+  defense: 0
   changeStats:
     m_PersistentCalls:
       m_Calls: []
@@ -405,16 +405,17 @@ MonoBehaviour:
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
-  xpToGive: 0.5
+  xpToGive: 1
   ressources: {fileID: 0}
   attack: 1
   attackSpeed: 1
   range: 2
+  effect: {fileID: 0}
   StartSpeed: 2
   xp: 0
   level: 0
   HpToAdd: 1
-  AttackToAdd: 1
+  AttackToAdd: 0
   DefenseToAdd: 1
 --- !u!114 &7918695989419762903
 MonoBehaviour:
@@ -428,6 +429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0caca22c2a37f7541b7ab36e61008b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _EnnemieList: []
+  _entityManager: {fileID: 0}
+  _collider: {fileID: 2835410375128095275}
   _projectile: {fileID: 0}
   EntityIsArrive:
     m_PersistentCalls:
@@ -435,11 +439,8 @@ MonoBehaviour:
   resetEvent:
     m_PersistentCalls:
       m_Calls: []
-  _EnnemieList: []
   moving: 0
-  _entityManager: {fileID: 0}
   _animator: {fileID: 0}
-  _collider: {fileID: 2835410375128095275}
   _buildings:
   - {fileID: 4825870592483654779, guid: a65b938add593874782dc2957ec066e7, type: 3}
   - {fileID: 4825870592483654779, guid: 4706728cdffc0d7479578b1f960cc735, type: 3}

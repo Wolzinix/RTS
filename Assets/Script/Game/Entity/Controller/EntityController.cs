@@ -9,6 +9,7 @@ public class EntityController : BuildingController
 
     public List<StateClassEntity> _ListOfstate;
     [SerializeField] private ProjectilManager _projectile;
+    [SerializeField] public Transform pointOfSpawn;
 
 
     [HideInInspector] public UnityEvent EntityIsArrive = new UnityEvent();

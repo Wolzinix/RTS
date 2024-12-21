@@ -15,9 +15,18 @@ public class NavMeshController : MonoBehaviour
         _navMesh = GetComponent<NavMeshAgent>();
         _navObstacle = GetComponent<NavMeshObstacle>();
         MeshRenderer meshrender = GetComponentInChildren<MeshRenderer>();
-        _navPath = new NavMeshPath();
 
-        _navMesh.stoppingDistance = meshrender.bounds.size.x + meshrender.bounds.size.z;
+        _navPath = new NavMeshPath();
+        if (meshrender == null)
+        {
+            SkinnedMeshRenderer render = GetComponentInChildren<SkinnedMeshRenderer>();
+            _navMesh.stoppingDistance = render.bounds.size.x + render.bounds.size.z;
+        }
+        else
+        {
+            _navMesh.stoppingDistance = meshrender.bounds.size.x + meshrender.bounds.size.z;
+
+        }
 
         _navMesh.updatePosition = false;
         _navMesh.updateRotation = false;

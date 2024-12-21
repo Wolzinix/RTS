@@ -30,7 +30,9 @@ public class AttackState : StateClassEntity
             ProjectilManager pj = EntityController.Instantiate(_projectile);
             pj.SetTarget(target.gameObject);
             pj.SetInvoker(controller.GetComponent<AggressifEntityManager>());
-            pj.gameObject.transform.position = new Vector3(controller.transform.position.x, controller.transform.position.y + 1, controller.transform.position.z);
+            Vector3 spawnPosition = new Vector3 (controller.transform.position.x,controller.transform.position.y + 1 , controller.transform.position.z);
+            if(controller.pointOfSpawn) { spawnPosition = controller.pointOfSpawn.position; }
+            pj.gameObject.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, spawnPosition.z);
             if(controller.GetComponent<AggressifEntityManager>().effect)
             {
                 _projectile._effect = controller.GetComponent<AggressifEntityManager>().effect;
