@@ -6325,6 +6325,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _button: {fileID: 739387019316487073}
   _buildUi: {fileID: 1171197594411671434}
+  _ListOfButton:
+  - {fileID: 8845253736949133996}
+  - {fileID: 2927703321908465945}
+  - {fileID: 7161474631434178145}
 --- !u!1 &8183208477398929848
 GameObject:
   m_ObjectHideFlags: 0

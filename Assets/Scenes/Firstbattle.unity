@@ -8981,12 +8981,8 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3460553344130278349, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
-      propertyPath: damage
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3460553344130278349, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: duration
-      value: 2
+      value: 2.1
       objectReference: {fileID: 0}
     - target: {fileID: 4825870592483654779, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_Name
