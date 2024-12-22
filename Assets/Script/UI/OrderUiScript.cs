@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class OrderUiScript : MonoBehaviour
 {
@@ -31,7 +33,16 @@ public class OrderUiScript : MonoBehaviour
                 if (_ListOfButton.IndexOf(button) < listOfCapacaity.Count)
                 {
                     button.gameObject.SetActive(true);
-                    button.onClick.RemoveAllListeners();
+                    if (listOfCapacaity[_ListOfButton.IndexOf(button)].GetType() == typeof(PassifCapacity))
+                    {
+                        button.GetComponent<Button>().enabled = false;
+                    }
+                    else
+                    {
+                        button.GetComponent<Button>().enabled = true;
+                        button.onClick.RemoveAllListeners();
+                        button.onClick.AddListener(delegate { FindAnyObjectByType<ControlManager>().CapacityOrder(_entity.GetComponent<TroupeManager>(), listOfCapacaity[_ListOfButton.IndexOf(button)]); });
+                    }
                 }
                 else
                 {

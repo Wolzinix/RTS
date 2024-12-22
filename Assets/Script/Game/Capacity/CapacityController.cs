@@ -2,7 +2,9 @@ using UnityEngine;
 
 public abstract class CapacityController : MonoBehaviour
 {
-    [SerializeField] StateEffect effect;
+    public string Name;
+    public Sprite sprite;
+    StateEffect effect;
     protected SelectableManager entityAffected;
     [SerializeField] float cooldown;
     float actualTime = 0;
@@ -10,7 +12,7 @@ public abstract class CapacityController : MonoBehaviour
 
     protected virtual void Start()
     {
-        
+        effect = GetComponentInChildren<StateEffect>();
     }
     protected virtual void Apply()
     {
@@ -25,9 +27,10 @@ public abstract class CapacityController : MonoBehaviour
         if (actualTime >= cooldown) { ready = true; }
     }
 
-    protected void AddTarget(SelectableManager target)
+    public void AddTarget(SelectableManager target)
     {
         entityAffected = target;
+        ready = true;
         Apply();
     }
 }

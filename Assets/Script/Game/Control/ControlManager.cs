@@ -30,6 +30,10 @@ public class ControlManager : MonoBehaviour
 
     private bool _patrolOrder;
 
+    CapacityController _capacityController;
+    TroupeManager _troupeManager;
+    private bool _capactityOrder;
+
 
     private Vector3 _dragCoord;
     [SerializeField] private RectTransform dragBox;
@@ -195,6 +199,15 @@ public class ControlManager : MonoBehaviour
             IsMultipathActive();
             _selectManager.ActionGroup(hit);
         }
+        else if (_capactityOrder)
+        {
+            IsMultipathActive();
+            if (hit.transform)
+            {
+                if (!hit.transform.gameObject.GetComponent<RessourceManager>()) { 
+                    _capacityController.AddTarget(hit.transform.GetComponent<SelectableManager>()); }
+            }
+        }
         else if (_travelAttack)
         {
             IsMultipathActive();
@@ -288,6 +301,7 @@ public class ControlManager : MonoBehaviour
         _patrolOrder = false;
         _buildingOrder = false;
         _travelAttack = false;
+        _capactityOrder = false;
 
         Cursor.SetCursor(null, hotSpot, cursorMode);
     }
@@ -363,9 +377,16 @@ public class ControlManager : MonoBehaviour
 
     public void MoveOrder()
     {
-
         ResetUiOrder();
         _order = true;
+        Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
+    }
+    public void CapacityOrder(TroupeManager troupeManager, CapacityController capacity)
+    {
+        ResetUiOrder();
+        _capactityOrder = true;
+        _troupeManager = troupeManager;
+        _capacityController = capacity;
         Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
     }
 

@@ -2,7 +2,8 @@
 {
     protected override void Start()
     {
-        entityAffected = GetComponent<SelectableManager>();
+        base.Start();
+        entityAffected = GetComponentInParent<SelectableManager>();
         base.Apply();
     }
     protected override void Apply()
