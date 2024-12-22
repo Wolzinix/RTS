@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8495090996273258929}
-  - component: {fileID: -1068361465648422245}
+  - component: {fileID: -1914071662152992651}
   - component: {fileID: 8460744914307186563}
   m_Layer: 0
-  m_Name: PoisonPassifCapacity
+  m_Name: PoisonActifCapacity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1068361465648422245
+--- !u!114 &-1914071662152992651
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3342758439556881967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7856c15119fa1c748ab5e707d30811b6, type: 3}
+  m_Script: {fileID: 11500000, guid: 9652af933385e2b47b132d5c35588a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Poison
