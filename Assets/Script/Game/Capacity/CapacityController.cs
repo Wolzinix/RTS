@@ -18,7 +18,7 @@ public abstract class CapacityController : MonoBehaviour
     {
         if (ready)
         {
-            effect.AddEffectToTarget(entityAffected);
+            DoEffect();
             ready = false;
             actualTime = 0;
         }
@@ -32,5 +32,11 @@ public abstract class CapacityController : MonoBehaviour
         entityAffected = target;
         ready = true;
         Apply();
+    }
+
+    protected virtual void DoEffect()
+    {
+
+        effect.AddEffectToTarget(entityAffected);
     }
 }
