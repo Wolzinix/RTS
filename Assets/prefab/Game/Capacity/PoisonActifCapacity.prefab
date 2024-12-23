@@ -48,7 +48,9 @@ MonoBehaviour:
   Name: Poison
   sprite: {fileID: 21300000, guid: 60d31445a12fb264ba089056e8baa008, type: 3}
   cooldown: 0
+  actualTime: 0
   ready: 1
+  range: 3
 --- !u!114 &8460744914307186563
 MonoBehaviour:
   m_ObjectHideFlags: 0

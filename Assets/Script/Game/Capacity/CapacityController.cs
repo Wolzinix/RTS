@@ -1,4 +1,6 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.InputSystem.XR;
 
 public abstract class CapacityController : MonoBehaviour
 {
@@ -7,30 +9,36 @@ public abstract class CapacityController : MonoBehaviour
     StateEffect effect;
     protected SelectableManager entityAffected;
     [SerializeField] float cooldown;
-    float actualTime = 0;
+    public float actualTime = 0;
     public bool ready = true;
+    public float range = 0;
 
     protected virtual void Start()
     {
         effect = GetComponentInChildren<StateEffect>();
     }
+
+    protected virtual void Update()
+    {
+        if (!ready) { actualTime += Time.deltaTime; }
+
+        if (actualTime >= cooldown) { ready = true; }
+    }
     protected virtual void Apply()
     {
         if (ready)
         {
-            DoEffect();
-            ready = false;
-            actualTime = 0;
+            if (Vector3.Distance(transform.position, entityAffected.transform.position) <= range)
+            {
+                DoEffect();
+                ready = false;
+                actualTime = 0;
+            }
         }
-        else{ actualTime += Time.deltaTime; }
-
-        if (actualTime >= cooldown) { ready = true; }
     }
-
     public void AddTarget(SelectableManager target)
     {
         entityAffected = target;
-        ready = true;
         Apply();
     }
 

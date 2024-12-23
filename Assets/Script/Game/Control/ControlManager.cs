@@ -121,7 +121,6 @@ public class ControlManager : MonoBehaviour
         selectEntityInput.action.started -= TeleporteOnMap;
         _UiGestioneur.gameObject.SetActive(true);
         ActiveAllInput();
-
     }
 
     public void SetPause(InputAction.CallbackContext obj) { ActivePause(); }
@@ -383,11 +382,14 @@ public class ControlManager : MonoBehaviour
     }
     public void CapacityOrder(TroupeManager troupeManager, CapacityController capacity)
     {
-        ResetUiOrder();
-        _capactityOrder = true;
-        _troupeManager = troupeManager;
-        _capacityController = capacity;
-        Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
+        if(capacity.ready)
+        {
+            ResetUiOrder();
+            _capactityOrder = true;
+            _troupeManager = troupeManager;
+            _capacityController = capacity;
+            Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
+        }
     }
 
     public void DoPatrouille()
