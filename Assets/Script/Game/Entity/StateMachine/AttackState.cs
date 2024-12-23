@@ -79,7 +79,7 @@ public class AttackState : StateClassEntity
 
                 if (_animator.IsInTransition(0) && _animator.GetInteger(EntityController.Attacking) ==  _animator.GetCurrentAnimatorStateInfo(0).length) { _attacking = true; }
             }
-            else { end(); }
+            else { End(); }
         }
         else 
         { 
@@ -87,10 +87,10 @@ public class AttackState : StateClassEntity
             {
                 controller.GetComponent<FogWarManager>().ActualiseFog(controller,true);
             }
-            end(); 
+            End(); 
         }
     }
-    public override void end()
+    public override void End()
     {
         controller.RemoveFirstOrder();
         controller._animator.SetInteger(EntityController.Attacking, 0);

@@ -4,7 +4,6 @@ using UnityEngine.Events;
 
 public class GroupManager
 {
-
     private List<EntityController> _selectedObject;
 
     private Vector3 _CenterOfGroup;
@@ -12,7 +11,6 @@ public class GroupManager
     private bool _addingMoreThanOne;
 
     private string _ennemieTag;
-
     private string _alliTag;
 
     public bool IsPlayer;

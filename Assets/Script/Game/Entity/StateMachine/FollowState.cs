@@ -29,10 +29,10 @@ public class FollowState : StateClassEntity
                 }
             }
         }
-        else { end(); }
+        else { End(); }
     }
 
-    public override void end()
+    public override void End()
     {
         if (navMeshController)
         {

@@ -24,14 +24,14 @@ public class MoveState : StateClassEntity
             {
                 navMeshController.GetNewPath(destination);
                 controller.moving = true;
-                if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + 0.5) { end(); }
+                if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + 0.5) { End(); }
             }
         }
-        else { end(); }
+        else { End(); }
 
     }
 
-    public override void end()
+    public override void End()
     {
         controller.moving = false;
         controller._animator.SetBool(EntityController.Moving, false);

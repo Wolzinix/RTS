@@ -36,7 +36,7 @@ public class BuildState : StateClassEntity
                     gm.ActualiseSprite();
 
                     builder.PayCostOfBuilding(defenseManager);
-                    end();
+                    End();
                 }
                 else
                 {
@@ -44,7 +44,7 @@ public class BuildState : StateClassEntity
                     {
                         if (i.GetComponent<EntityController>() != null)
                         {
-                            if (i.GetComponent<DefenseManager>() != null) { end(); }
+                            if (i.GetComponent<DefenseManager>() != null) { End(); }
                             else
                             {
                                 Vector3 iPosition = i.GetComponent<EntityController>().transform.localPosition;
@@ -56,7 +56,7 @@ public class BuildState : StateClassEntity
             }
             else
             {
-                end();
+                End();
             }
         }
         else
@@ -65,7 +65,7 @@ public class BuildState : StateClassEntity
         }
     }
 
-    public override void end()
+    public override void End()
     {
         builder.RemoveFirstOrder();
     }

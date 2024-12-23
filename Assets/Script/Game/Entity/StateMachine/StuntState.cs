@@ -30,7 +30,7 @@ public class StuntState : StateClassEntity
         }
     }
 
-    public override void end()
+    public override void End()
     {
         controller.RemoveFirstOrder();
     }

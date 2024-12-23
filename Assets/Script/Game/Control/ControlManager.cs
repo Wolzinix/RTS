@@ -201,10 +201,12 @@ public class ControlManager : MonoBehaviour
         else if (_capactityOrder)
         {
             IsMultipathActive();
-            if (hit.transform)
+            if (hit.transform && _capacityController.ready)
             {
-                if (!hit.transform.gameObject.GetComponent<RessourceManager>()) { 
-                    _capacityController.AddTarget(hit.transform.GetComponent<SelectableManager>()); }
+                if (!hit.transform.gameObject.GetComponent<RessourceManager>())
+                { 
+                    _capacityController.AddTarget(hit.transform.GetComponent<SelectableManager>()); 
+                }
             }
         }
         else if (_travelAttack)

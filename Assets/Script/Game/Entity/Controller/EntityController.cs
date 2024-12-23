@@ -11,10 +11,8 @@ public class EntityController : BuildingController
     [SerializeField] private ProjectilManager _projectile;
     [SerializeField] public Transform pointOfSpawn;
 
-
     [HideInInspector] public UnityEvent EntityIsArrive = new UnityEvent();
     [HideInInspector] public UnityEvent resetEvent = new UnityEvent();
-
 
     [HideInInspector] public bool moving = false;
     protected bool _attacking;

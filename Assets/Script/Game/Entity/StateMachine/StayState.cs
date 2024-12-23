@@ -23,7 +23,7 @@ public class StayState : StateClassEntity
     public override void Update()
     {}
 
-    public override void end()
+    public override void End()
     {
         controller.RemoveFirstOrder();
     }

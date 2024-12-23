@@ -1,12 +1,10 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using UnityEngine.InputSystem.XR;
 
 public abstract class CapacityController : MonoBehaviour
 {
     public string Name;
     public Sprite sprite;
-    StateEffect effect;
+    protected StateEffect effect;
     protected SelectableManager entityAffected;
     [SerializeField] float cooldown;
     public float actualTime = 0;
@@ -44,7 +42,12 @@ public abstract class CapacityController : MonoBehaviour
 
     protected virtual void DoEffect()
     {
-
         effect.AddEffectToTarget(entityAffected);
+    }
+
+    public void ReverseReady()
+    {
+        ready = !ready;
+        Apply();
     }
 }
