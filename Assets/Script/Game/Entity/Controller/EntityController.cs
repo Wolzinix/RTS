@@ -109,6 +109,26 @@ public class EntityController : BuildingController
         }
     }
 
+    public void AddPathWithRange(Vector3 newPath)
+    {
+        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
+        {
+            _ListOfstate.Add(new MoveToDistanceState(_navMesh, newPath, this));
+            StartFirstOrder();
+        }
+
+    }
+
+    public void AddPathWithRange(Vector3 newPath, float range)
+    {
+        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5 + range)
+        {
+            _ListOfstate.Add(new MoveToDistanceState(_navMesh, newPath, this, range));
+            StartFirstOrder();
+        }
+
+    }
+
     public void AddPathInFirst(Vector3 newPath)
     {
         if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))

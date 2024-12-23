@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public abstract class CapacityController : MonoBehaviour
@@ -26,12 +27,30 @@ public abstract class CapacityController : MonoBehaviour
     {
         if (ready)
         {
-            if (Vector3.Distance(transform.position, entityAffected.transform.position) <= range)
+            if(entityAffected)
             {
-                DoEffect();
-                ready = false;
-                actualTime = 0;
+                if (Vector3.Distance(transform.position, entityAffected.transform.position) <=  GetComponentInParent<NavMeshController>().HaveStoppingDistance() + 0.5 + range)
+                {
+                    DoEffect();
+                    ready = false;
+                    actualTime = 0;
+                }
+                else
+                {
+                    if (GetComponentInParent<TroupeManager>())
+                    {
+                        EntityController entityC = GetComponentInParent<EntityController>();
+                        entityC.AddPathWithRange(entityAffected.transform.position, range);
+                        StateClassEntity state = entityC._ListOfstate.First();
+                        if (state.GetType() == typeof(MoveToDistanceState))
+                        {
+                            MoveToDistanceState MState = (MoveToDistanceState)state;
+                            MState.Arrived.AddListener(Apply);
+                        }
+                    }
+                }
             }
+           
         }
     }
     public void AddTarget(SelectableManager target)
