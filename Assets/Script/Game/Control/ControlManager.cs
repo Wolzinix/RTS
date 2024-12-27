@@ -387,10 +387,19 @@ public class ControlManager : MonoBehaviour
         if(capacity.ready)
         {
             ResetUiOrder();
-            _capactityOrder = true;
-            _troupeManager = troupeManager;
-            _capacityController = capacity;
-            Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
+            if (capacity.GetType() == typeof(PassifAddEffectCapacity))
+            {
+                PassifAddEffectCapacity capa = (PassifAddEffectCapacity) capacity;
+                capa.ChangeActif();
+            }
+            else
+            {
+                _capactityOrder = true;
+                _troupeManager = troupeManager;
+                _capacityController = capacity;
+                Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
+            }
+            
         }
     }
 

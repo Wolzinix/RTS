@@ -7,7 +7,7 @@ public abstract class CapacityController : MonoBehaviour
     public Sprite sprite;
     protected StateEffect effect;
     protected SelectableManager entityAffected;
-    [SerializeField] float cooldown;
+    [SerializeField] protected float cooldown;
     public float actualTime = 0;
     public bool ready = true;
     public float range = 0;
@@ -62,11 +62,5 @@ public abstract class CapacityController : MonoBehaviour
     protected virtual void DoEffect()
     {
         effect.AddEffectToTarget(entityAffected);
-    }
-
-    public void ReverseReady()
-    {
-        ready = !ready;
-        Apply();
     }
 }
