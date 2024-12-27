@@ -32,9 +32,10 @@ public class OrderUiScript : MonoBehaviour
                 if (_ListOfButton.IndexOf(button) < listOfCapacaity.Count)
                 {
                     CapacityController capacity = listOfCapacaity[_ListOfButton.IndexOf(button)];
+
                     button.gameObject.SetActive(true);
                     button.GetComponentInChildren<TMP_Text>().text = capacity.Name;
-                    button.GetComponentInChildren<Image>().sprite = capacity.sprite;
+                    button.GetComponentsInChildren<Image>()[1].sprite = capacity.sprite;
                     if (capacity.GetType() == typeof(PassifCapacity))
                     {
                         button.GetComponent<Button>().enabled = false;
