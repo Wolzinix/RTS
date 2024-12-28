@@ -27,18 +27,43 @@ public class FogWarController : MonoBehaviour
     private void RemoveFromFog(EntityController entity)
     {
         List<MeshRenderer> list = entity.GetComponentsInChildren<MeshRenderer>().ToList();
-        foreach(MeshRenderer renderer in list)
-        {
-            renderer.enabled = true;
+
+        
+
+        if (list.Count == 0)
+        { 
+            List < SkinnedMeshRenderer> render = entity.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+            foreach (SkinnedMeshRenderer ren in render)
+            {
+                ren.enabled = true;
+            }
         }
+        else
+        {
+            foreach (MeshRenderer renderer in list)
+            {
+                renderer.enabled = true;
+            }
+        }    
     }
 
     private void AddFromFog(EntityController entity)
     {
         List<MeshRenderer> list = entity.GetComponentsInChildren<MeshRenderer>().ToList();
-        foreach (MeshRenderer renderer in list)
+        if (list.Count == 0)
         {
-            renderer.enabled = false;
+            List<SkinnedMeshRenderer> render = entity.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+            foreach (SkinnedMeshRenderer ren in render)
+            {
+                ren.enabled = false;
+            }
+        }
+        else
+        {
+            foreach (MeshRenderer renderer in list)
+            {
+                renderer.enabled = false;
+            }
         }
     }
 }

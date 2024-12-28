@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class BuildingUiManager : MonoBehaviour
 {
-
     private ProductBuildingController _building;
 
     [SerializeField] private List<Button> _ListOfButton;
@@ -58,7 +57,6 @@ public class BuildingUiManager : MonoBehaviour
 
                 button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(delegate { _building.AllySpawnEntity(entity, FindAnyObjectByType<ControlManager>().GetComponent<RessourceController>()); });
-
             }
             else
             {

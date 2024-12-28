@@ -11,10 +11,8 @@ public class EntityController : BuildingController
     [SerializeField] private ProjectilManager _projectile;
     [SerializeField] public Transform pointOfSpawn;
 
-
     [HideInInspector] public UnityEvent EntityIsArrive = new UnityEvent();
     [HideInInspector] public UnityEvent resetEvent = new UnityEvent();
-
 
     [HideInInspector] public bool moving = false;
     protected bool _attacking;
@@ -109,6 +107,26 @@ public class EntityController : BuildingController
             _ListOfstate.Add(new MoveState(_navMesh, newPath, this));
             StartFirstOrder();
         }
+    }
+
+    public void AddPathWithRange(Vector3 newPath)
+    {
+        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
+        {
+            _ListOfstate.Add(new MoveToDistanceState(_navMesh, newPath, this));
+            StartFirstOrder();
+        }
+
+    }
+
+    public void AddPathWithRange(Vector3 newPath, float range)
+    {
+        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5 + range)
+        {
+            _ListOfstate.Add(new MoveToDistanceState(_navMesh, newPath, this, range));
+            StartFirstOrder();
+        }
+
     }
 
     public void AddPathInFirst(Vector3 newPath)

@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class MoveState : StateClassEntity
 {
     protected NavMeshController navMeshController;
     protected Vector3 destination;
     protected EntityController controller;
+    public UnityEvent Arrived = new UnityEvent();
     public MoveState(NavMeshController navmesh, Vector3 des, EntityController entity)
     {
         navMeshController = navmesh;
@@ -24,14 +26,14 @@ public class MoveState : StateClassEntity
             {
                 navMeshController.GetNewPath(destination);
                 controller.moving = true;
-                if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + 0.5) { end(); }
             }
+            if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + 0.5) { End(); }
         }
-        else { end(); }
+        else { End(); }
 
     }
 
-    public override void end()
+    public override void End()
     {
         controller.moving = false;
         controller._animator.SetBool(EntityController.Moving, false);
@@ -40,6 +42,7 @@ public class MoveState : StateClassEntity
 
         controller.RemoveFirstOrder();
         controller.EntityIsArrive.Invoke();
+        Arrived.Invoke();
 
 
     }

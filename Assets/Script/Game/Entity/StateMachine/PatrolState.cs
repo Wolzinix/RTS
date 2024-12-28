@@ -39,7 +39,7 @@ public class PatrolState : StateClassEntity
     {
         _ListOfDestination.Add(destination);
     }
-    public override void end()
+    public override void End()
     {
         controller.moving = false;
         controller.RemoveFirstOrder();

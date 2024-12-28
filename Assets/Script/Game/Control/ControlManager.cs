@@ -30,6 +30,10 @@ public class ControlManager : MonoBehaviour
 
     private bool _patrolOrder;
 
+    CapacityController _capacityController;
+    TroupeManager _troupeManager;
+    private bool _capactityOrder;
+
 
     private Vector3 _dragCoord;
     [SerializeField] private RectTransform dragBox;
@@ -117,7 +121,6 @@ public class ControlManager : MonoBehaviour
         selectEntityInput.action.started -= TeleporteOnMap;
         _UiGestioneur.gameObject.SetActive(true);
         ActiveAllInput();
-
     }
 
     public void SetPause(InputAction.CallbackContext obj) { ActivePause(); }
@@ -194,6 +197,17 @@ public class ControlManager : MonoBehaviour
         {
             IsMultipathActive();
             _selectManager.ActionGroup(hit);
+        }
+        else if (_capactityOrder)
+        {
+            IsMultipathActive();
+            if (hit.transform && _capacityController.ready)
+            {
+                if (!hit.transform.gameObject.GetComponent<RessourceManager>())
+                { 
+                    _capacityController.AddTarget(hit.transform.GetComponent<SelectableManager>()); 
+                }
+            }
         }
         else if (_travelAttack)
         {
@@ -288,6 +302,7 @@ public class ControlManager : MonoBehaviour
         _patrolOrder = false;
         _buildingOrder = false;
         _travelAttack = false;
+        _capactityOrder = false;
 
         Cursor.SetCursor(null, hotSpot, cursorMode);
     }
@@ -363,10 +378,29 @@ public class ControlManager : MonoBehaviour
 
     public void MoveOrder()
     {
-
         ResetUiOrder();
         _order = true;
         Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
+    }
+    public void CapacityOrder(TroupeManager troupeManager, CapacityController capacity)
+    {
+        if(capacity.ready)
+        {
+            ResetUiOrder();
+            if (capacity.GetType() == typeof(PassifAddEffectCapacity))
+            {
+                PassifAddEffectCapacity capa = (PassifAddEffectCapacity) capacity;
+                capa.ChangeActif();
+            }
+            else
+            {
+                _capactityOrder = true;
+                _troupeManager = troupeManager;
+                _capacityController = capacity;
+                Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
+            }
+            
+        }
     }
 
     public void DoPatrouille()

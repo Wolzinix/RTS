@@ -55,7 +55,7 @@ public class HarvestState : StateClassEntity
         }
         else
         {
-            end();
+            End();
         }
 
     }
@@ -65,7 +65,7 @@ public class HarvestState : StateClassEntity
         builder._entityManager.DoAttack(target);
     }
 
-    public override void end()
+    public override void End()
     {
         builder.RemoveFirstOrder();
         builder._animator.SetInteger(EntityController.Attacking, 0);

@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class MapMod
 {
     public bool _isMapMod;
@@ -36,7 +35,7 @@ public class MapMod
         }
         else { cameraControl.ActiveZoom(); }
     }
-
+    
     private void SelectGestionMapMod()
     {
         foreach (SelectableManager i in GameObject.FindObjectsOfType<SelectableManager>())

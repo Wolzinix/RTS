@@ -32,10 +32,10 @@ public class TargetState : StateClassEntity
                 if (navMeshController) { navMeshController.GetNewPath(target.transform.position); controller.moving = true; }
             }
         }
-        else { end(); }
+        else { End(); }
     }
 
-    public override void end()
+    public override void End()
     {
         controller.moving = false;
         Stop();

@@ -36,7 +36,7 @@ public abstract class StateEffect: MonoBehaviour
                 ApplyEffect();
                 nextTime += 1;
             }
-            if (nextTime >= duration) 
+            if (nextTime > duration) 
             { 
                 end(); 
             }

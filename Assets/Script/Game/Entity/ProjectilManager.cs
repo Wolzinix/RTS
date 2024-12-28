@@ -7,7 +7,8 @@ public class ProjectilManager : MonoBehaviour
 
     [SerializeField] private Sprite _sprite;
 
-    private float _damage;
+    [SerializeField] private float _damage = 0;
+    public bool fixeDamage;
 
     private Rigidbody _rb;
 
@@ -37,7 +38,11 @@ public class ProjectilManager : MonoBehaviour
 
         transform.LookAt(_target.gameObject.transform);
     }
-    public void SetInvoker(AggressifEntityManager invoker) { _invoker = invoker; SetDamage(invoker.Attack); }
+    public void SetInvoker(AggressifEntityManager invoker) 
+    { 
+        _invoker = invoker; 
+        if (!fixeDamage) { SetDamage(invoker.Attack); } 
+    }
 
 
     private void OnTriggerEnter(Collider other)
