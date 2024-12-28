@@ -1,6 +1,4 @@
-﻿
-using System.Linq;
-using Unity.VisualScripting;
+﻿using Unity.VisualScripting;
 using UnityEngine;
 
 public class PassifAddEffectCapacity : ActiveCapacity
