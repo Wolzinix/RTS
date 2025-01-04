@@ -20,11 +20,11 @@ public class NavMeshController : MonoBehaviour
         if (meshrender == null)
         {
             SkinnedMeshRenderer render = GetComponentInChildren<SkinnedMeshRenderer>();
-            _navMesh.stoppingDistance = render.bounds.size.x + render.bounds.size.z;
+            _navMesh.stoppingDistance = (render.bounds.size.x + render.bounds.size.z)/2;
         }
         else
         {
-            _navMesh.stoppingDistance = meshrender.bounds.size.x + meshrender.bounds.size.z;
+            _navMesh.stoppingDistance = (meshrender.bounds.size.x + meshrender.bounds.size.z)/2;
 
         }
 
