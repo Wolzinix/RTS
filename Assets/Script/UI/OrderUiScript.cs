@@ -45,6 +45,17 @@ public class OrderUiScript : MonoBehaviour
                         button.GetComponent<Button>().enabled = true;
                         button.onClick.RemoveAllListeners();
                         button.onClick.AddListener(delegate { FindAnyObjectByType<ControlManager>().CapacityOrder(_entity.GetComponent<TroupeManager>(), capacity); });
+                        if(capacity.GetType() == typeof(ActivableCapacity))
+                        {
+                            button.onClick.AddListener(
+                                delegate { 
+                                    if (Input.GetMouseButtonDown(1)) 
+                                    {
+                                        ActivableCapacity activable = (ActivableCapacity) capacity;
+                                        FindAnyObjectByType<ControlManager>().ChangeCapacityActif(activable); } 
+                                }
+                            );
+                        }
                     }
                 }
                 else
