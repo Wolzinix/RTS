@@ -1,3 +1,3 @@
-﻿public abstract class ActiveCapacity : CapacityController
+﻿public class ActiveCapacity : CapacityController
 {
 }
