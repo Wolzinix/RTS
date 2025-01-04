@@ -1,7 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
-
-public class PassifCapacity : CapacityController
+﻿public class PassifCapacity : CapacityController
 {
     protected override void Start()
     {
@@ -13,6 +10,6 @@ public class PassifCapacity : CapacityController
     {
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {}
 }

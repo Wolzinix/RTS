@@ -387,9 +387,9 @@ public class ControlManager : MonoBehaviour
         if(capacity.ready)
         {
             ResetUiOrder();
-            if (capacity.GetType() == typeof(PassifAddEffectCapacity))
+            if (capacity.GetType() == typeof(ActivableCapacity))
             {
-                PassifAddEffectCapacity capa = (PassifAddEffectCapacity) capacity;
+                ActivableCapacity capa = (ActivableCapacity) capacity;
                 capa.ChangeActif();
             }
             else

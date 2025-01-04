@@ -1,4 +1,4 @@
-﻿public class AttackEffectCapacity : ActiveCapacity
+﻿public class AttackEffectActiveCapacity : ActiveCapacity
 {
     public bool IsActive;
     override protected void DoEffect()
