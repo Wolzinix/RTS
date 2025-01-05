@@ -227,7 +227,7 @@ public class EntityController : BuildingController
     }
     override public void ClearAllOrder()
     {
-        _ListOfstate.Clear();
+        while (_ListOfstate.Count > 0 ){ _ListOfstate[0].End(); }
         base.ClearAllOrder();
 
         StopALlAnimation();

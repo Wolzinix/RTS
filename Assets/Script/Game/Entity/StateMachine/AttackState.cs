@@ -46,6 +46,7 @@ public class AttackState : StateClassEntity
                 controller.GetComponent<AggressifEntityManager>().effect.AddEffectToTarget(target);
             }
         }
+        controller._entityManager.DoAnAttack.Invoke();
     }
 
     public override void Update()

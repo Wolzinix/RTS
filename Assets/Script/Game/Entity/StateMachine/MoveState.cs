@@ -30,7 +30,6 @@ public class MoveState : StateClassEntity
             if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + 0.5) { End(); }
         }
         else { End(); }
-
     }
 
     public override void End()
@@ -43,7 +42,5 @@ public class MoveState : StateClassEntity
         controller.RemoveFirstOrder();
         controller.EntityIsArrive.Invoke();
         Arrived.Invoke();
-
-
     }
 }

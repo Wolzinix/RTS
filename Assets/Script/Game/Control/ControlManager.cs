@@ -204,7 +204,12 @@ public class ControlManager : MonoBehaviour
             if (hit.transform && _capacityController.ready)
             {
                 if (!hit.transform.gameObject.GetComponent<RessourceManager>())
-                { 
+                {
+                    if (_capacityController.GetType().IsSubclassOf(typeof(ActivableCapacity)))
+                    {
+                        ActivableCapacity capa = (ActivableCapacity)_capacityController;
+                        capa.DoOnce();
+                    }
                     _capacityController.AddTarget(hit.transform.GetComponent<SelectableManager>()); 
                 }
             }
@@ -387,20 +392,18 @@ public class ControlManager : MonoBehaviour
         if(capacity.ready)
         {
             ResetUiOrder();
-            if (capacity.GetType() == typeof(PassifAddEffectCapacity))
-            {
-                PassifAddEffectCapacity capa = (PassifAddEffectCapacity) capacity;
-                capa.ChangeActif();
-            }
-            else
-            {
-                _capactityOrder = true;
-                _troupeManager = troupeManager;
-                _capacityController = capacity;
-                Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
-            }
+            
+            _capactityOrder = true;
+            _troupeManager = troupeManager;
+            _capacityController = capacity;
+            Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
             
         }
+    }
+
+    public void ChangeCapacityActif(ActivableCapacity capacity)
+    {
+        capacity.ChangeActif();
     }
 
     public void DoPatrouille()

@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RightClickUI",
+                    "type": "Button",
+                    "id": "6bf4cf66-12fd-4b3a-ac48-618928dd1954",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -365,6 +374,45 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "46d49ba5-4b02-4aba-9fe6-1f1e213ce238",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightClickUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "ef948492-d58a-4e03-8318-84b78e9938d2",
+            "actions": [
+                {
+                    "name": "RightClickUI",
+                    "type": "Button",
+                    "id": "82ea6234-25b8-4a92-bd64-daf1e9475f24",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2381898d-d794-487a-be6a-0183b08a6271",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightClickUI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class AggressifEntityManager : SelectableManager
 {
@@ -10,6 +11,8 @@ public class AggressifEntityManager : SelectableManager
 
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
     [SerializeField] public StateEffect effect;
+
+    public UnityEvent DoAnAttack;
     protected override void Awake()
     {
         base.Awake();
@@ -87,6 +90,7 @@ public class AggressifEntityManager : SelectableManager
         {
             SelectableManager entityToAttack2 = (SelectableManager)entityToAttack;
             entityToAttack2.TakingDamageFromEntity.Invoke(this);
+            
         }
     }
 }
