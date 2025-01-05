@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.Port;
 
 public class ControlManager : MonoBehaviour
 {
@@ -206,7 +205,7 @@ public class ControlManager : MonoBehaviour
             {
                 if (!hit.transform.gameObject.GetComponent<RessourceManager>())
                 {
-                    if (_capacityController.GetType() == typeof(ActivableCapacity))
+                    if (_capacityController.GetType().IsSubclassOf(typeof(ActivableCapacity)))
                     {
                         ActivableCapacity capa = (ActivableCapacity)_capacityController;
                         capa.DoOnce();

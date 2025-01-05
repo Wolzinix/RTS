@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityAffected: {fileID: 0}
-  duration: 2
+  duration: 5
   actualTime: 0
   nextTime: 0
   damage: 3

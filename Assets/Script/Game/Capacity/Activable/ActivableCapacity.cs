@@ -1,10 +1,12 @@
 ﻿public abstract class ActivableCapacity : ActiveCapacity
 {
     public bool actif;
-    private bool onlyOnce;
+    protected bool onlyOnce;
+
 
     public void ChangeActif()
     {
+        Apply();
         actif = !actif;
         Apply();
     }
@@ -13,13 +15,22 @@
     {
         if (actif || onlyOnce)
         {
-            base.Apply();
+            if (ready)
+            {
+                if (entityAffected)
+                {
+                    DoEffect();
+                    ready = false;
+                    actualTime = 0;
+                }
+            }
         }
+        onlyOnce = false;
+        DoEffect();
     }
 
     protected override void DoEffect()
     {
-        base.DoEffect();
         onlyOnce = false;
     }
 

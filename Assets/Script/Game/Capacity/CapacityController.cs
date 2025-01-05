@@ -53,7 +53,7 @@ public abstract class CapacityController : MonoBehaviour
            
         }
     }
-    public void AddTarget(SelectableManager target)
+    public virtual void AddTarget(SelectableManager target)
     {
         entityAffected = target;
         Apply();
