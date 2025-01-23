@@ -59,7 +59,7 @@ public class AttackState : StateClassEntity
                 _animator.SetBool(EntityController.Moving, false);
 
                 if (_animator.IsInTransition(0) == false &&
-                    _animator.GetInteger(EntityController.Attacking) == 1 &&
+                    _animator.GetInteger(EntityController.Attacking) >= 1 &&
                     _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
                     _attacking)
                 {
@@ -68,7 +68,7 @@ public class AttackState : StateClassEntity
                 }
 
                 if (_animator.IsInTransition(0) == false &&
-                   _animator.GetInteger(EntityController.Attacking) == 1 &&
+                   _animator.GetInteger(EntityController.Attacking) >= 1 &&
                     _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5)
 
                 { _animator.SetInteger(EntityController.Attacking, 0); }
@@ -76,7 +76,11 @@ public class AttackState : StateClassEntity
                 else
                 {
                     controller.gameObject.transform.LookAt(new Vector3(target.transform.localPosition.x, controller.transform.localPosition.y, target.transform.localPosition.z));
-                    _animator.SetInteger(EntityController.Attacking, 1);
+                    if(_animator.GetInteger(EntityController.Attacking) == 0)
+                    {
+
+                        _animator.SetInteger(EntityController.Attacking, Random.Range(1, 3));
+                    }
                 }
 
                 if (_animator.IsInTransition(0) && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.5) { 

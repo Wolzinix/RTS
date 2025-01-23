@@ -17,9 +17,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9491525
+  m_TransitionDuration: 0.55910397
+  m_TransitionOffset: 0.0035820033
+  m_ExitTime: 0.8234153
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -46,7 +46,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1182950671764235017, guid: 72763367fddba954ea8e7d4d4c922b0d, type: 3}
+  m_Motion: {fileID: -6749330122878200610, guid: 2033a367dbedf634e846d7d953a2352f, type: 3}
   m_Tag: 
   m_SpeedParameter: AttackSpeed
   m_MirrorParameter: 
@@ -74,7 +74,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c1307b80cf9502246bde59fea5c13409, type: 2}
+  m_Motion: {fileID: 4699274299699868179, guid: 2033a367dbedf634e846d7d953a2352f, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -126,7 +126,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Tirreur
+  m_Name: Epee
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Mooving
@@ -233,9 +233,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.21719038
-  m_TransitionOffset: 0.003308224
-  m_ExitTime: 0.19492668
+  m_TransitionDuration: 0.21894966
+  m_TransitionOffset: 0
+  m_ExitTime: 0.1931674
   m_HasExitTime: 0
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
@@ -262,7 +262,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -1948810086369966104, guid: 72763367fddba954ea8e7d4d4c922b0d, type: 3}
+  m_Motion: {fileID: -448239265334008587, guid: 2033a367dbedf634e846d7d953a2352f, type: 3}
   m_Tag: 
   m_SpeedParameter: WalkSpeed
   m_MirrorParameter: 
