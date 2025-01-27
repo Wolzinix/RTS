@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Boule de feu
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: bb1366f5530858d4eb6e216af409a161, type: 3}
   cooldown: 6
   actualTime: 0
   ready: 1

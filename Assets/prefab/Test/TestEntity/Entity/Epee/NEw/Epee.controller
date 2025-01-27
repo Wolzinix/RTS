@@ -17,9 +17,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9491525
+  m_TransitionDuration: 0.38585162
+  m_TransitionOffset: 0.008012438
+  m_ExitTime: 0.917935
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -46,7 +46,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1182950671764235017, guid: 72763367fddba954ea8e7d4d4c922b0d, type: 3}
+  m_Motion: {fileID: 7572344613039948371, guid: da9cf74ffb1f841458655f955fe33ea1, type: 3}
   m_Tag: 
   m_SpeedParameter: AttackSpeed
   m_MirrorParameter: 
@@ -74,7 +74,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c1307b80cf9502246bde59fea5c13409, type: 2}
+  m_Motion: {fileID: -8945691123924629249, guid: da9cf74ffb1f841458655f955fe33ea1, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -126,7 +126,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Tirreur
+  m_Name: Epee
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Mooving
@@ -233,9 +233,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.21719038
-  m_TransitionOffset: 0.003308224
-  m_ExitTime: 0.19492668
+  m_TransitionDuration: 0.07773583
+  m_TransitionOffset: 0.08472829
+  m_ExitTime: 0.08472822
   m_HasExitTime: 0
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
@@ -262,7 +262,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -1948810086369966104, guid: 72763367fddba954ea8e7d4d4c922b0d, type: 3}
+  m_Motion: {fileID: 1358262452650834379, guid: da9cf74ffb1f841458655f955fe33ea1, type: 3}
   m_Tag: 
   m_SpeedParameter: WalkSpeed
   m_MirrorParameter: 

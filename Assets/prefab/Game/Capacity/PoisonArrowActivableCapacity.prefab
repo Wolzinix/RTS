@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6392150579860293555}
   - component: {fileID: 4510471371110067013}
   m_Layer: 0
-  m_Name: PoisonAttackActivableCapacity
+  m_Name: PoisonArrowActivableCapacity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,8 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323173a1f0e987e44ae2338866b12acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: PoisonWeapon
-  sprite: {fileID: 21300000, guid: 60d31445a12fb264ba089056e8baa008, type: 3}
+  Name: PoisonArrow
+  sprite: {fileID: 21300000, guid: edac31d56d46eec4ea804ed2722505ec, type: 3}
   cooldown: 0
   actualTime: 0
   ready: 1
