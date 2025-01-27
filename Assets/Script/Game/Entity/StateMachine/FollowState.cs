@@ -42,5 +42,6 @@ public class FollowState : StateClassEntity
 
             controller.EntityIsArrive.Invoke();
         }
+        controller.RemoveFirstOrder();
     }
 }
