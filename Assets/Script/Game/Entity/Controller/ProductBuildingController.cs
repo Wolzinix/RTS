@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class ProductBuildingController : MonoBehaviour
@@ -54,6 +55,19 @@ public class ProductBuildingController : MonoBehaviour
                 MySpawns[i].actualTime = MySpawns[i].statsTime;
                 entityDictionary.Add(prefabToSpawn[i], MySpawns[i]);
             }
+        }
+
+        MeshRenderer meshrender = GetComponentInChildren<MeshRenderer>();
+
+        if (meshrender == null)
+        {
+            SkinnedMeshRenderer render = GetComponentInChildren<SkinnedMeshRenderer>();
+            spawnrayon += (render.bounds.size.x + render.bounds.size.z) / 2;
+        }
+        else
+        {
+            spawnrayon += (meshrender.bounds.size.x + meshrender.bounds.size.z) / 2;
+
         }
         ListOfNearEntity = new List<GameObject>();
     }
@@ -123,6 +137,7 @@ public class ProductBuildingController : MonoBehaviour
                         
 
                     int colliders = DoAOverlap(pos);
+                    Collider[] collid = DoAOverlap(pos, true);
                     if (colliders == 1)
                     {
                         GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
