@@ -143,8 +143,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.8370268, z: 1}
-  m_Center: {x: 0, y: 0.41851342, z: 0}
+  m_Size: {x: 1, y: 0.64546394, z: 1}
+  m_Center: {x: 0, y: -0.17726879, z: 0}
 --- !u!208 &7696095010799487015
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -316,8 +316,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.82575274
+  m_Center: {x: 0, y: -0.17424725, z: 0}
 --- !u!1001 &5278241235541050568
 PrefabInstance:
   m_ObjectHideFlags: 0
