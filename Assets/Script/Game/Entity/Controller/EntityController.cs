@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.XR;
 
 public class EntityController : BuildingController
 {
-    protected NavMeshController _navMesh;
+    public NavMeshController _navMesh;
 
     public List<StateClassEntity> _ListOfstate;
     [SerializeField] private ProjectilManager _projectile;

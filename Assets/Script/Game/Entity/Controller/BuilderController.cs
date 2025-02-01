@@ -61,8 +61,11 @@ public class BuilderController : EntityController
 
     protected override void LateUpdate()
     {
-        base.LateUpdate();
-        if (_ListOfstate.Count < 0) { NoMoreToHarvest.Invoke(this); }
+        if (_ListOfstate.Count > 0)
+        {
+            _ListOfstate[0].Update();
+        }
+        if (_ListOfstate.Count <= 0) { NoMoreToHarvest.Invoke(this); }
     }
 
     public void SearchClosetHarvestTarget()
@@ -137,7 +140,7 @@ public class BuilderController : EntityController
         base.ClearAllOrder();
     }
 
-    public bool BuilderIsAlradyBuilding()
+    public bool BuilderIsAlreadyBuilding()
     {
         foreach (StateClassEntity i in _ListOfstate)
         {

@@ -20,6 +20,10 @@ public class MoveState : StateClassEntity
     }
     public override void Update()
     {
+        if(controller._animator.GetBool(EntityController.Moving) == false) 
+        {
+            controller._animator.SetBool(EntityController.Moving, true);
+        }
         if (navMeshController != null)
         {
             if (navMeshController.notOnTraject())

@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public class HarvestState : StateClassEntity
 {
     RessourceManager target;
     BuilderController builder;
     bool _attacking = false;
+    bool _endHere = false;
+
+    float targetSize = 0;
 
 
     public HarvestState(BuilderController builderController, RessourceManager target)
     {
-        this.builder = builderController;
+        builder = builderController;
         this.target = target;
     }
 
@@ -18,6 +20,11 @@ public class HarvestState : StateClassEntity
     {
         if (target)
         {
+            if(targetSize == 0 )
+            {
+                calculeSizeOfTarget();
+                builder._navMesh._stoppingDistance += targetSize;
+            }
             if (Vector3.Distance(builder.transform.position, target.transform.position) <= builder._entityManager.Range + target.size)
             {
                 Animator _animator = builder.GetComponentInChildren<Animator>();
@@ -55,6 +62,7 @@ public class HarvestState : StateClassEntity
         }
         else
         {
+            _endHere = true;
             End();
         }
 
@@ -67,8 +75,24 @@ public class HarvestState : StateClassEntity
 
     public override void End()
     {
+        builder._navMesh._stoppingDistance -= targetSize;
         builder.RemoveFirstOrder();
         builder._animator.SetInteger(EntityController.Attacking, 0);
-        builder.SearchClosetHarvestTarget();
+        if(_endHere)
+        {
+
+            builder.SearchClosetHarvestTarget();
+        }
+    }
+
+    private void calculeSizeOfTarget()
+    {
+        int i = 0;
+        foreach (MeshRenderer x in target.GetComponentsInChildren<MeshRenderer>())
+        {
+            i += 1;
+            targetSize += (x.bounds.size.x + x.bounds.size.z) / 2;
+        }
+        targetSize /= i;
     }
 }
