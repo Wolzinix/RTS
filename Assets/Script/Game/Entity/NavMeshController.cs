@@ -138,5 +138,10 @@ public class NavMeshController : MonoBehaviour
             _navObstacle.enabled = true;
             _destination = Vector3.zero;
         }
+        if(_navMesh != null)
+        {
+            _navMesh.enabled = false;
+            _navObstacle.enabled = true;
+        }
     }
 }
