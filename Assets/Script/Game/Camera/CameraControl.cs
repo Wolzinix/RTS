@@ -1,3 +1,4 @@
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -67,12 +68,16 @@ public class CameraControl : MonoBehaviour
     public void StopMoving() { _rb.velocity = Vector3.zero; }
     private void SetLimitation()
     {
-        Vector3 sizeOfGround = mainGround.GetComponent<Renderer>().bounds.size;
-        xmax = sizeOfGround.x / 2 + mainGround.transform.position.x;
-        xmin = -sizeOfGround.x / 2 - mainGround.transform.position.x;
 
-        zmax = sizeOfGround.z / 2 + mainGround.transform.position.z;
-        zmin = -sizeOfGround.z / 2 - mainGround.transform.position.z;
+        Vector3 sizeOfGround = mainGround.GetComponent<NavMeshSurface>().size;
+        Vector3 GroundCoord = mainGround.transform.position + mainGround.GetComponent<NavMeshSurface>().center ;
+
+
+        xmax = sizeOfGround.x / 2 + GroundCoord.x;
+        xmin = -sizeOfGround.x / 2 + GroundCoord.x;
+
+        zmax = sizeOfGround.z / 2 + GroundCoord.z;
+        zmin = -sizeOfGround.z / 2 + GroundCoord.z;
     }
     private void Zoom(InputAction.CallbackContext obj)
     {

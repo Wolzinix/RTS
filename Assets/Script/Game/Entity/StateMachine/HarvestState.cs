@@ -88,7 +88,7 @@ public class HarvestState : StateClassEntity
     private void calculeSizeOfTarget()
     {
         int i = 0;
-        foreach (MeshRenderer x in target.GetComponentsInChildren<MeshRenderer>())
+        foreach (BoxCollider x in target.GetComponentsInChildren<BoxCollider>())
         {
             i += 1;
             targetSize += (x.bounds.size.x + x.bounds.size.z) / 2;
