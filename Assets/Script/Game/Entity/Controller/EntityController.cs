@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.XR;
 
 public class EntityController : BuildingController
 {
-    protected NavMeshController _navMesh;
+    public NavMeshController _navMesh;
 
     public List<StateClassEntity> _ListOfstate;
     [SerializeField] private ProjectilManager _projectile;
@@ -30,6 +31,9 @@ public class EntityController : BuildingController
 
         _animator = GetComponentInChildren<Animator>();
         GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
+
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+        GetComponent<NavMeshController>().StopPath();
 
     }
     override protected void LateUpdate()

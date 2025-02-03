@@ -10,8 +10,8 @@ public class MoveState : StateClassEntity
     public MoveState(NavMeshController navmesh, Vector3 des, EntityController entity)
     {
         navMeshController = navmesh;
-        destination = des;
         controller = entity;
+        destination = new Vector3(des.x, controller.gameObject.transform.localPosition.y, des.z);
     }
     public override void Start()
     {
@@ -20,6 +20,10 @@ public class MoveState : StateClassEntity
     }
     public override void Update()
     {
+        if(controller._animator.GetBool(EntityController.Moving) == false) 
+        {
+            controller._animator.SetBool(EntityController.Moving, true);
+        }
         if (navMeshController != null)
         {
             if (navMeshController.notOnTraject())
@@ -27,7 +31,9 @@ public class MoveState : StateClassEntity
                 navMeshController.GetNewPath(destination);
                 controller.moving = true;
             }
-            if (Vector3.Distance(controller.gameObject.transform.localPosition, destination) <= navMeshController.HaveStoppingDistance() + 0.5) { End(); }
+            float a = Vector3.Distance(controller.gameObject.transform.localPosition, destination);
+            double b = navMeshController.HaveStoppingDistance();
+            if (Vector3.Distance(controller.gameObject.transform.localPosition, destination) <= navMeshController.HaveStoppingDistance() ) { End(); }
         }
         else { End(); }
     }

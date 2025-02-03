@@ -137,7 +137,6 @@ public class ProductBuildingController : MonoBehaviour
                         
 
                     int colliders = DoAOverlap(pos);
-                    Collider[] collid = DoAOverlap(pos, true);
                     if (colliders == 1)
                     {
                         GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);

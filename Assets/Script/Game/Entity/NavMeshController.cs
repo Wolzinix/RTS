@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 public class NavMeshController : MonoBehaviour
 {
@@ -19,8 +22,11 @@ public class NavMeshController : MonoBehaviour
         _navPath = new NavMeshPath();
         if (meshrender == null)
         {
-            SkinnedMeshRenderer render = GetComponentInChildren<SkinnedMeshRenderer>();
-            _navMesh.stoppingDistance = (render.bounds.size.x + render.bounds.size.z)/2;
+            List<SkinnedMeshRenderer> render = GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+            foreach(SkinnedMeshRenderer renderer in render)
+            {
+                _navMesh.stoppingDistance = (renderer.bounds.size.x + renderer.bounds.size.z) / 2;
+            }
         }
         else
         {
@@ -73,7 +79,12 @@ public class NavMeshController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (Vector3.Distance(transform.localPosition, _destination) > _stoppingDistance && _destination != Vector3.zero) { SetNextPosition(); }
+        float a = Vector3.Distance(transform.localPosition, _destination);
+        float b = _stoppingDistance;
+        if (Vector3.Distance(transform.localPosition, _destination) > _stoppingDistance && _destination != Vector3.zero) 
+        { 
+            SetNextPosition(); 
+        }
         else { StopPath(); }
     }
 
@@ -126,6 +137,11 @@ public class NavMeshController : MonoBehaviour
             _navMesh.enabled = false;
             _navObstacle.enabled = true;
             _destination = Vector3.zero;
+        }
+        if(_navMesh != null)
+        {
+            _navMesh.enabled = false;
+            _navObstacle.enabled = true;
         }
     }
 }
