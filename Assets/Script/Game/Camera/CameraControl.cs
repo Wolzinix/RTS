@@ -37,7 +37,7 @@ public class CameraControl : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         SetLimitation();
 
-        transform.position = mainGround.GetComponent<NavMeshSurface>().transform.position + mainGround.GetComponent<NavMeshSurface>().center ;
+        //transform.position = mainGround.GetComponent<NavMeshSurface>().transform.position + mainGround.GetComponent<NavMeshSurface>().center ;
 
         transform.position = new Vector3(
             transform.position.x > xmax ? xmax : transform.position.x < xmin ? xmin : transform.position.x
