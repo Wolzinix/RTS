@@ -33,7 +33,11 @@ public class EntityController : BuildingController
         GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
 
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
-        GetComponent<NavMeshController>().StopPath();
+        if(_navMesh)
+        {
+
+            GetComponent<NavMeshController>().StopPath();
+        }
 
     }
     override protected void LateUpdate()
