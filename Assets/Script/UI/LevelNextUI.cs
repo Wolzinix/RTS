@@ -32,10 +32,10 @@ public class LevelNextUI : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void AppearUI(int choice)
+    public void AppearUI(bool IsPlayer)
     {
         Time.timeScale = 0;
-        if (choice != 0)
+        if (IsPlayer)
         {
             RetryMenuUI.SetActive(true);
         }
