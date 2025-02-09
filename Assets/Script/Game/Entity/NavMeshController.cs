@@ -94,6 +94,7 @@ public class NavMeshController : MonoBehaviour
         if (_navPath.corners.Length > 1)
         {
             transform.LookAt(new Vector3(_navPath.corners[1].x, transform.localPosition.y, _navPath.corners[1].z));
+            transform.rotation = new Quaternion(0,transform.rotation.y, 0, transform.rotation.w);
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(_navPath.corners[1].x, transform.localPosition.y, _navPath.corners[1].z), _speed * Time.deltaTime);
             _navMesh.enabled = false;
         }
