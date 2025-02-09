@@ -43,7 +43,11 @@ public class MoveState : StateClassEntity
         controller.moving = false;
         controller._animator.SetBool(EntityController.Moving, false);
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
-        navMeshController.StopPath();
+        if(navMeshController)
+        {
+            navMeshController.StopPath();
+        }
+        
 
         controller.RemoveFirstOrder();
         controller.EntityIsArrive.Invoke();
