@@ -11,7 +11,7 @@ public class MoveState : StateClassEntity
     {
         navMeshController = navmesh;
         controller = entity;
-        destination = new Vector3(des.x, controller.gameObject.transform.localPosition.y, des.z);
+        destination = new Vector3(des.x, controller.transform.localPosition.y, des.z);
     }
     public override void Start()
     {
@@ -31,9 +31,9 @@ public class MoveState : StateClassEntity
                 navMeshController.GetNewPath(destination);
                 controller.moving = true;
             }
-            float a = Vector3.Distance(controller.gameObject.transform.localPosition, destination);
+            float a = Vector3.Distance(controller.transform.localPosition, destination);
             double b = navMeshController.HaveStoppingDistance();
-            if (Vector3.Distance(controller.gameObject.transform.localPosition, destination) <= navMeshController.HaveStoppingDistance() ) { End(); }
+            if (Vector3.Distance(controller.transform.localPosition, destination) <= navMeshController.HaveStoppingDistance() ) { End(); }
         }
         else { End(); }
     }
