@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -134,23 +135,28 @@ public class ProductBuildingController : MonoBehaviour
 
                     if (lineRenderer != null)
                     { lineRenderer.SetPosition(w, pos); }
-                        
 
-                    int colliders = DoAOverlap(pos);
-                    if (colliders == 1)
+                    pos = RaycastForGround(pos);
+
+                    if(pos != transform.position)
                     {
-                        GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
+                        int colliders = DoAOverlap(pos);
+                        if (colliders == 1)
+                        {
+                            GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
 
-                        newEntity.tag = tag;
+                            newEntity.tag = tag;
 
-                        newEntity.GetComponent<AggressifEntityManager>().ActualiseSprite();
+                            newEntity.GetComponent<AggressifEntityManager>().ActualiseSprite();
 
-                        entityDictionary[entityToSpawn].actualStock -= 1;
-                        entitySpawnNow.Invoke();
-                        entityAsBeenBuy.Invoke();
-                        ressource.AddGold(-entityToSpawn.GetComponent<EntityManager>().GoldCost);
-                        break;
+                            entityDictionary[entityToSpawn].actualStock -= 1;
+                            entitySpawnNow.Invoke();
+                            entityAsBeenBuy.Invoke();
+                            ressource.AddGold(-entityToSpawn.GetComponent<EntityManager>().GoldCost);
+                            break;
+                        }
                     }
+                   
                 }
             }
         }
@@ -169,10 +175,26 @@ public class ProductBuildingController : MonoBehaviour
                 if(collider.gameObject.GetComponent<DefenseManager>()) { hasTower = true; }
             }
             if(!hasTower) { ListOfPoint.Add(pos); }
-
         }
         return ListOfPoint;
     }
+
+    private Vector3 RaycastForGround(Vector3 pos)
+    {
+        Ray ray = new Ray(pos, Vector3.down);
+        RaycastHit[] hits = Physics.RaycastAll(ray, spawnrayon);
+        
+        foreach (RaycastHit hit in hits)
+        {
+            Debug.DrawLine(pos, hit.point, Color.red, 10f);
+            if (hit.collider.gameObject.GetComponent<NavMeshSurface>())
+            {
+                return hit.point;
+            }
+        }
+        return transform.position;
+    }
+
     private Vector3 calculPostion(float spawnRadius , int spawnPoint)
     {
         float Theta = 2f * (float)Mathf.PI * ((float)spawnPoint / NbSpawnpoint);
@@ -180,7 +202,7 @@ public class ProductBuildingController : MonoBehaviour
         float x = spawnRadius * Mathf.Cos(Theta);
         float y = spawnRadius * Mathf.Sin(Theta);
 
-        Vector3 pos = new Vector3(x, transform.localPosition.y, y);
+        Vector3 pos = new Vector3(x, transform.position.y, y);
 
         pos.x += transform.position.x;
         pos.z += transform.position.z;
