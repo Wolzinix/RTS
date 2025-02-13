@@ -4,20 +4,23 @@ public class BuildState : StateClassEntity
     BuilderController builder;
     Vector3 position;
     SelectableManager defenseManager;
+    float size;
 
     public BuildState(BuilderController builder, Vector3 position, SelectableManager defenseManager)
     {
         this.builder = builder;
         this.position = position;
         this.defenseManager = defenseManager;
+        size = defenseManager.GetComponentInChildren<Renderer>().bounds.size.x + defenseManager.GetComponentInChildren<Renderer>().bounds.size.y;
     }
     public override void Start() { }
 
     public override void Update()
     {
+        float a = Vector3.Distance(builder.transform.position, position);
         if (Vector3.Distance(builder.transform.position, position)
-            <=
-            builder.GetComponent<NavMeshController>().HaveStoppingDistance() + defenseManager.GetComponentInChildren<Renderer>().bounds.size.x + defenseManager.GetComponentInChildren<Renderer>().bounds.size.y)
+            <= size + builder.GetComponent<NavMeshController>().HaveStoppingDistance()
+           )
         {
             if (defenseManager.GetComponent<EntityManager>().CanDoIt(builder.GetComponent<AggressifEntityManager>().ressources))
             {
@@ -61,7 +64,7 @@ public class BuildState : StateClassEntity
         }
         else
         {
-            builder.AddPathInFirst(position);
+            builder.AddPathWithRange(position, size);
         }
     }
 

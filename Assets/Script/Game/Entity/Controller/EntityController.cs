@@ -132,7 +132,7 @@ public class EntityController : BuildingController
     {
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5 + range)
         {
-            _ListOfstate.Add(new MoveToDistanceState(_navMesh, newPath, this, range));
+            _ListOfstate.Insert(0,new MoveToDistanceState(_navMesh, newPath, this, range));
             StartFirstOrder();
         }
 
