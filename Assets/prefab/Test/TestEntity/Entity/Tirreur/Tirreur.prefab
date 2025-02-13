@@ -256,6 +256,7 @@ MonoBehaviour:
   _EnnemieList: []
   _entityManager: {fileID: 0}
   _collider: {fileID: 3100682295310351837}
+  _navMesh: {fileID: 0}
   _projectile: {fileID: 2599406022807975234, guid: b8e4224182822b54eabc3e74b716e707, type: 3}
   pointOfSpawn: {fileID: 8136092249476331917}
   EntityIsArrive:
@@ -275,7 +276,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4825870592483654779}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 2
+  m_Radius: 1
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 15
@@ -364,6 +365,9 @@ MonoBehaviour:
   attackSpeed: 2
   range: 4
   effect: {fileID: 0}
+  DoAnAttack:
+    m_PersistentCalls:
+      m_Calls: []
   StartSpeed: 2
   xp: 0
   level: 0
@@ -380,7 +384,7 @@ NavMeshObstacle:
   m_Enabled: 0
   serializedVersion: 3
   m_Shape: 0
-  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_Extents: {x: 1, y: 1, z: 1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1

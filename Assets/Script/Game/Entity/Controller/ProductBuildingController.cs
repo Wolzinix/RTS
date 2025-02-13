@@ -180,7 +180,7 @@ public class ProductBuildingController : MonoBehaviour
         float x = spawnRadius * Mathf.Cos(Theta);
         float y = spawnRadius * Mathf.Sin(Theta);
 
-        Vector3 pos = new Vector3(x, 1, y);
+        Vector3 pos = new Vector3(x, transform.localPosition.y, y);
 
         pos.x += transform.position.x;
         pos.z += transform.position.z;
