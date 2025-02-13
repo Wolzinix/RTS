@@ -22,9 +22,12 @@ public class CameraControl : MonoBehaviour
 
     private float xmax, xmin, zmax, zmin;
 
+    public float ymax, ymin;
+
     private Rigidbody _rb;
 
     [SerializeField] private GameObject mainGround;
+    private float _lastY;
 
     void Start()
     {
@@ -43,6 +46,7 @@ public class CameraControl : MonoBehaviour
             transform.position.x > xmax ? xmax : transform.position.x < xmin ? xmin : transform.position.x
             , transform.position.y
             , transform.position.z > zmax ? zmax : transform.position.z < zmin ? zmin : transform.position.z);
+        _lastY = RaycastForGround(transform.position).y;
     }
 
     void Update()
@@ -83,8 +87,8 @@ public class CameraControl : MonoBehaviour
     }
     private void Zoom(InputAction.CallbackContext obj)
     {
-        if (transform.position.y >= 3 && zoomCameraInput.action.ReadValue<Vector2>().y >= 0 ||
-            transform.position.y <= 8 && zoomCameraInput.action.ReadValue<Vector2>().y <= 0)
+        if (transform.position.y >= ymin && zoomCameraInput.action.ReadValue<Vector2>().y >= 0 ||
+            transform.position.y <= ymax && zoomCameraInput.action.ReadValue<Vector2>().y <= 0)
         {
             Vector3 newPosition = new Vector3(zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.x,
                 zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.y,
@@ -111,21 +115,37 @@ public class CameraControl : MonoBehaviour
         }
         newPosition *= 10;
 
-
-
+        
 
         if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
 
         _rb.velocity = newPosition;
 
+        Vector3 distanceGround = RaycastForGround(transform.position);
+        ymin += distanceGround.y - _lastY;
+        ymax += distanceGround.y - _lastY;
+
         transform.position = new Vector3(
             transform.position.x > xmax ? xmax : transform.position.x < xmin ? xmin : transform.position.x
-            , transform.position.y
+            , transform.position.y + distanceGround.y - _lastY
             , transform.position.z > zmax ? zmax : transform.position.z < zmin ? zmin : transform.position.z);
-
+        _lastY = distanceGround.y;
 
     }
+    private Vector3 RaycastForGround(Vector3 pos)
+    {
+        Ray ray = new Ray(pos, Vector3.down);
+        RaycastHit[] hits = Physics.RaycastAll(ray);
 
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.gameObject.GetComponent<NavMeshSurface>())
+            {
+                return hit.point;
+            }
+        }
+        return transform.position;
+    }
     private void RotateCameraY()
     {
         Quaternion rotation = transform.rotation;
