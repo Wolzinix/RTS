@@ -388,6 +388,10 @@ PrefabInstance:
       value: WarFog
       objectReference: {fileID: 0}
     - target: {fileID: 1758764254509474057, guid: 13a5455ca8fe41b4e81e318b706d6721, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1758764254509474057, guid: 13a5455ca8fe41b4e81e318b706d6721, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -10912,7 +10916,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9136834619462183449, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.41
+      value: 2.35
       objectReference: {fileID: 0}
     - target: {fileID: 9136834619462183449, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_LocalPosition.z
