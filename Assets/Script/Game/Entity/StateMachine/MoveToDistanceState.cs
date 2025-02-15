@@ -5,7 +5,9 @@ public class MoveToDistanceState : MoveState
     private float range;
     public MoveToDistanceState(NavMeshController navmesh, Vector3 des, EntityController entity): base(navmesh, des, entity)
     {
-        range = controller.GetComponent<AggressifEntityManager>().Range;
+         range = controller.GetComponent<AggressifEntityManager>().Range - navMeshController.HaveStoppingDistance() > 0
+            ? controller.GetComponent<AggressifEntityManager>().Range - navMeshController.HaveStoppingDistance()
+            : 0;
     }
 
     public MoveToDistanceState(NavMeshController navmesh, Vector3 des, EntityController entity,float range) : base(navmesh, des, entity)

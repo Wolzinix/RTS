@@ -59,7 +59,7 @@ public class HarvestState : StateClassEntity
             }
             else
             {
-                builder.AddPathInFirst(target.transform.localPosition);
+                builder.AddPathWithRange(target.transform.position);
             }
         }
         else

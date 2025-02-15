@@ -8192,6 +8192,14 @@ PrefabInstance:
       value: Main Camera
       objectReference: {fileID: 0}
     - target: {fileID: 8270750192721748710, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
+      propertyPath: ymax
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8270750192721748710, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
+      propertyPath: ymin
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8270750192721748710, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
       propertyPath: mainGround
       value: 
       objectReference: {fileID: 252705145}
@@ -8804,6 +8812,10 @@ PrefabInstance:
     - target: {fileID: 7708114876128369604, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8270750192721748710, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
+      propertyPath: ymax
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8270750192721748710, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
       propertyPath: mainGround
