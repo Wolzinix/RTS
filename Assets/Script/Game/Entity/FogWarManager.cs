@@ -8,7 +8,7 @@ public class FogWarManager : MonoBehaviour
     {
         fogWar = FindAnyObjectByType<FogWarController>();
         _tag = gameObject.tag;
-        if(GetComponent<EntityController>())
+        if(GetComponent<EntityController>() && fogWar)
         {
             fogWar.FogGestion(gameObject.GetComponent<EntityController>(), true);
         }
