@@ -111,6 +111,7 @@ public class EntityController : BuildingController
     }
     public void AddPath(Vector3 newPath)
     {
+        
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
         {
             _ListOfstate.Add(new MoveState(_navMesh, newPath, this));

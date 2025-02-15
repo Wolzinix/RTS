@@ -45,7 +45,7 @@ public class NavMeshController : MonoBehaviour
     }
     public bool notAtLocation()
     {
-        bool isnotarrived = Vector3.Distance(transform.localPosition, _destination) > _stoppingDistance && _destination != Vector3.zero;
+        bool isnotarrived = Vector3.Distance(transform.position, _destination) > _stoppingDistance && _destination != Vector3.zero;
         return isnotarrived;
     }
     private float SetStoppingDistance()
@@ -79,9 +79,7 @@ public class NavMeshController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        float a = Vector3.Distance(transform.localPosition, _destination);
-        float b = _stoppingDistance;
-        if (Vector3.Distance(transform.localPosition, _destination) > _stoppingDistance && _destination != Vector3.zero) 
+        if (Vector3.Distance(transform.position, _destination) > _stoppingDistance && _destination != Vector3.zero) 
         { 
             SetNextPosition(); 
         }
@@ -106,7 +104,7 @@ public class NavMeshController : MonoBehaviour
         {
             _navObstacle.enabled = false;
             _navMesh.enabled = true;
-            _destination = new Vector3(point.x, transform.position.y, point.z);
+            _destination = new Vector3(point.x, transform.localPosition.y, point.z);
 
             if (_navMesh.isOnNavMesh)
             {
