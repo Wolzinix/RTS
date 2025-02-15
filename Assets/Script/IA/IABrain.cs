@@ -28,12 +28,15 @@ public class IABrain : MonoBehaviour
         NeedToSendGroupToBuildingEvent.AddListener(SendRenfortToBuilding);
         ATowerIsDestroyEvent.AddListener(AddTowerToBuilding);
 
+        GetComponent<RessourceController>().ressourcesAdd.AddListener(SpawnEveryEntityOfEveryBuilding);
+
         ActualiseGroup();
         ActualiseBuilding();
     }
 
     private void OnDestroy()
     {
+        GetComponent<RessourceController>().ressourcesAdd.RemoveAllListeners();
         NeedToSendEntityToBuildingEvent.RemoveAllListeners();
         NeedToSendGroupToBuildingEvent.RemoveAllListeners();
         ATowerIsDestroyEvent.RemoveAllListeners();
@@ -217,5 +220,13 @@ public class IABrain : MonoBehaviour
     public void SpawnEntityOfBuilding(ProductBuildingController building, GameObject entity)
     {
         building.SpawnEntity(entity, tag, groupOfEntity.GetComponentInChildren<EntityController>().gameObject, GetComponent<RessourceController>());
+    }
+
+    public void SpawnEveryEntityOfEveryBuilding()
+    {
+        foreach(BuildingIA building in GetAllieBuilding())
+        {
+            SpawnEveryEntityOfABuilding(building.building);
+        }
     }
 }

@@ -128,4 +128,6 @@ public class IAStockBuilding
             _SpawnableBuilding.Remove(building);
         }
     }
+
+   
 }
