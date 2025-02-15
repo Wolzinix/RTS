@@ -244,7 +244,6 @@ public class GroupManager
 
     private void VerifyIfEveryBodyIsAlive()
     {
-
         List<int> indexToRemove = new List<int>();
         foreach (EntityController i in _selectedObject)
         {
