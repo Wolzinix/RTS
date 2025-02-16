@@ -16,7 +16,10 @@ public class FogWarManager : MonoBehaviour
 
     public void ActualiseFog(EntityController controller, bool hide)
     {
-        fogWar.FogGestion(controller, hide);
+        if(fogWar)
+        {
+            fogWar.FogGestion(controller, hide);
+        }
     }
 
     private void OnTriggerEnter(Collider collision)

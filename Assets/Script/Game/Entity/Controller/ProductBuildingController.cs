@@ -5,7 +5,6 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class ProductBuildingController : MonoBehaviour
 {
@@ -193,7 +192,7 @@ public class ProductBuildingController : MonoBehaviour
                 NavMeshHit navHit = new NavMeshHit();
                 if(NavMesh.SamplePosition(hit.point,out navHit,0.1f, NavMesh.AllAreas))
                 {
-                    return hit.point;
+                    return new Vector3(hit.point.x, hit.point.y + 0.5f, hit.point.z);
                 }
             }
         }
