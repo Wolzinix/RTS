@@ -262,7 +262,7 @@ public class EntityController : BuildingController
                     TargetState c = (TargetState)i;
                     if (c.target && nearest != i)
                     {
-                        if (Vector3.Distance(transform.localPosition, nearest.target.gameObject.transform.localPosition) > Vector3.Distance(transform.localPosition, c.target.gameObject.transform.localPosition))
+                        if (Vector3.Distance(transform.position, nearest.target.gameObject.transform.position) > Vector3.Distance(transform.position, c.target.gameObject.transform.position))
                         {
                             nearest = (TargetState)i;
                         }

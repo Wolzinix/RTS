@@ -93,7 +93,7 @@ public class NavMeshController : MonoBehaviour
         {
             transform.LookAt(new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z));
             transform.rotation = new Quaternion(0,transform.rotation.y, 0, transform.rotation.w);
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(_navPath.corners[1].x, transform.localPosition.y, _navPath.corners[1].z), _speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z), _speed * Time.deltaTime);
             _navMesh.enabled = false;
         }
     }
@@ -104,7 +104,7 @@ public class NavMeshController : MonoBehaviour
         {
             _navObstacle.enabled = false;
             _navMesh.enabled = true;
-            _destination = new Vector3(point.x, transform.localPosition.y, point.z);
+            _destination = new Vector3(point.x, transform.position.y, point.z);
 
             if (_navMesh.isOnNavMesh)
             {
@@ -121,7 +121,7 @@ public class NavMeshController : MonoBehaviour
         }
     }
 
-    public void ActualisePath(EntityManager target) { _destination = target.transform.localPosition; }
+    public void ActualisePath(EntityManager target) { _destination = target.transform.position; }
 
     public void StopPath()
     {

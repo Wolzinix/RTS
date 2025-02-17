@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Poison
-  sprite: {fileID: 21300000, guid: 60d31445a12fb264ba089056e8baa008, type: 3}
+  sprite: {fileID: 21300000, guid: edac31d56d46eec4ea804ed2722505ec, type: 3}
   cooldown: 0
   actualTime: 0
   ready: 1
