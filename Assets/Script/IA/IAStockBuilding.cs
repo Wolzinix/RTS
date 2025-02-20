@@ -40,6 +40,7 @@ public class IAStockBuilding
     }
     public void ActualiseBuilding(ProductBuildingController[] buildings)
     {
+        //to do les rangés celon la distance navmesh
         foreach (ProductBuildingController building in buildings)
         {
             BuildingIA stats = DicoOfBuilding.Keys.Contains(building) ? DicoOfBuilding[building] : CreateBuildingForIa(building);
@@ -83,8 +84,9 @@ public class IAStockBuilding
         {
             _NeutralBuilding.Add(building);
             IAbrain.AddObjectif(building.building.gameObject);
-            building.NeedAGroup();
             building.NeedToSendEntity();
+            building.NeedAGroup();
+            
         }
     }
     private void AddEnnemieBuilding(BuildingIA building)

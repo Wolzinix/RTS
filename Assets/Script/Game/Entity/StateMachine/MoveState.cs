@@ -32,8 +32,6 @@ public class MoveState : StateClassEntity
                 controller.moving = true;
             }
             destination.y = controller.transform.position.y;
-            float a = Vector3.Distance(controller.transform.position, destination);
-            double b = navMeshController.HaveStoppingDistance();
             if (Vector3.Distance(controller.transform.position, destination) <= navMeshController.HaveStoppingDistance() ) { End(); }
         }
         else { End(); }

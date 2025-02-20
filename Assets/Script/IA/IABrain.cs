@@ -143,7 +143,6 @@ public class IABrain : MonoBehaviour
             GroupManager group = groupManager.SendEntityToBuilding(building, entity);
             if (group != null)
             {
-
                 building.AddSpawnGroup(group);
             }
         }
