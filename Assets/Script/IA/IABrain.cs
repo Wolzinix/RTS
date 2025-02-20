@@ -18,10 +18,11 @@ public class IABrain : MonoBehaviour
 
     public string ennemieTag;
 
+    public GameObject MainBase;
+
     void Start()
     {
-        stockBuilding = new IAStockBuilding();
-        stockBuilding.IAbrain = this;
+        stockBuilding = new IAStockBuilding(this);
         groupManager.ia = this;
 
         NeedToSendEntityToBuildingEvent.AddListener(SendEntityToBuilding);
@@ -103,7 +104,7 @@ public class IABrain : MonoBehaviour
 
         foreach (EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
         {
-            if(!Thenearset.GetComponent<BuilderController>())
+            if(!Thenearset.GetComponent<BuilderController>() && ! Thenearset.GetComponent<DefenseManager>())
             {
                 if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset.gameObject; }
 
@@ -113,7 +114,6 @@ public class IABrain : MonoBehaviour
                 }
             }
         }
-
         return ThenearsetEntity;
     }
     public RessourceManager GetThenearsetHarvestOfABuilder(BuilderController builder)

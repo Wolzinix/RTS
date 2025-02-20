@@ -314,7 +314,7 @@ public class IAGroupManager
         {
             foreach (GroupManager group in _ListOfGroup)
             {
-                if (_ListOfGroupToSpawnEntity.Keys.Contains(group))
+                if (_ListOfGroupToSpawnEntity.Keys.Contains(group) && _ListOfGroupToSpawnEntity[group].building.tag == ia.tag && building.Tag != ia.tag)
                 {
                     return null;
                 }

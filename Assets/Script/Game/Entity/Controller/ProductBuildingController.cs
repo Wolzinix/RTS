@@ -192,7 +192,7 @@ public class ProductBuildingController : MonoBehaviour
                 NavMeshHit navHit = new NavMeshHit();
                 if(NavMesh.SamplePosition(hit.point,out navHit,0.1f, NavMesh.AllAreas))
                 {
-                    return new Vector3(hit.point.x, pos.y, hit.point.z);
+                    return new Vector3(hit.point.x, hit.point.y + ( pos.y - hit.point.y), hit.point.z);
                 }
             }
         }

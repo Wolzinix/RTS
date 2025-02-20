@@ -112,7 +112,7 @@ public class NavMeshController : MonoBehaviour
                 if (_navPath.corners.Length < 1)
                 {
                     NavMeshHit hit;
-                    if (NavMesh.SamplePosition(point, out hit, 10, NavMesh.AllAreas))
+                    if (NavMesh.SamplePosition(point, out hit, 5, NavMesh.AllAreas))
                     {
                         _navMesh.CalculatePath(hit.position, _navPath);
                     }

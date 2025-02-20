@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class IAStockBuilding
@@ -16,10 +19,14 @@ public class IAStockBuilding
     public UnityEvent<BuildingIA> ABuildingCanNotSpawn = new UnityEvent<BuildingIA>();
     public UnityEvent<BuildingIA> ABuildingCanSpawn = new UnityEvent<BuildingIA>();
 
-    public IAStockBuilding()
+    private GameObject MainBase;
+
+    public IAStockBuilding(IABrain brain)
     {
+        IAbrain = brain;
         ABuildingCanNotSpawn.AddListener(RemoveBuldingToSpawnable);
         ABuildingCanSpawn.AddListener(AddBuldingToSpawnable);
+        MainBase = brain.MainBase;
     }
     public List<BuildingIA> GetAllieBuilding()
     {
@@ -32,6 +39,7 @@ public class IAStockBuilding
         stats.Tag = building.tag;
         stats.building = building;
         stats.IAbrain = IAbrain;
+        stats.distanceFromMainBase = DistanceFromMainBase(building);
 
         building.EntityNextToEvent.AddListener(stats.changeHaveEntity);
 
@@ -40,20 +48,21 @@ public class IAStockBuilding
     }
     public void ActualiseBuilding(ProductBuildingController[] buildings)
     {
-        //to do les rangés celon la distance navmesh
         foreach (ProductBuildingController building in buildings)
         {
             BuildingIA stats = DicoOfBuilding.Keys.Contains(building) ? DicoOfBuilding[building] : CreateBuildingForIa(building);
 
-            if (building.CompareTag(IAbrain.tag)) { AddAllieBuilding(stats); }
-            else if (building.CompareTag(IAbrain.ennemieTag)) { AddEnnemieBuilding(stats); }
+            if (building.CompareTag(IAbrain.tag) && !_AllieBuilding.Contains(stats)) { AddAllieBuilding(stats); }
+            else if (building.CompareTag(IAbrain.ennemieTag) && !_EnnemieBuilding.Contains(stats)) { AddEnnemieBuilding(stats); }
             else
             {
-                if (_AllieBuilding.Contains(stats)) { RemoveAllieBuilding(stats); }
-                if (_EnnemieBuilding.Contains(stats)) { _EnnemieBuilding.Remove(stats); IAbrain.RemoveObjectif(building.gameObject); }
                 if (_NeutralBuilding.Contains(stats)) { _NeutralBuilding.Remove(stats); IAbrain.RemoveObjectif(building.gameObject); }
 
-                if (building.tagOfNerestEntity == IAbrain.tag) { AddAllieBuilding(stats); }
+                if (building.tagOfNerestEntity == IAbrain.tag) 
+                { 
+                    AddAllieBuilding(stats);
+                    stats.NeedToSendEntity();
+                }
                 else if (building.tagOfNerestEntity == "") { AddNeutralBuilding(stats); }
                 else { AddEnnemieBuilding(stats); }
             }
@@ -72,17 +81,17 @@ public class IAStockBuilding
         {
             building.building.entityCanSpawnNow.AddListener(IAbrain.SpawnEntityOfBuilding);
             building.building.entityAsBeenBuy.AddListener(IAbrain.ActualiseGroup);
-            _AllieBuilding.Add(building);
+            SortByDistance(_AllieBuilding, building);
             IAbrain.ActualisePatrol(building);
-            building.NeedAGroup();
             building.NeedToSendEntity();
+            building.NeedAGroup();
         }
     }
     private void AddNeutralBuilding(BuildingIA building)
     {
         if (!_NeutralBuilding.Contains(building))
         {
-            _NeutralBuilding.Add(building);
+            SortByDistance(_NeutralBuilding, building);
             IAbrain.AddObjectif(building.building.gameObject);
             building.NeedToSendEntity();
             
@@ -92,7 +101,7 @@ public class IAStockBuilding
     {
         if (!_EnnemieBuilding.Contains(building))
         {
-            _EnnemieBuilding.Add(building);
+            SortByDistance(_EnnemieBuilding,building);
             IAbrain.AddObjectif(building.building.gameObject);
         }
     }
@@ -130,5 +139,31 @@ public class IAStockBuilding
         }
     }
 
-   
+    private float DistanceFromMainBase(ProductBuildingController building)
+    {
+        NavMeshPath navMeshPath = new NavMeshPath();
+        if(NavMesh.CalculatePath(MainBase.transform.position,building.transform.position,NavMesh.AllAreas, navMeshPath))
+        {
+            float lengthSoFar = 0.0F;
+            for (int i = 1; i < navMeshPath.corners.Length; i++)
+            {
+                lengthSoFar += Vector3.Distance(navMeshPath.corners[i - 1], navMeshPath.corners[i]);
+            }
+            return lengthSoFar;
+        }
+        return -1;
+    }
+
+    private void SortByDistance(List<BuildingIA> listOfBuilding, BuildingIA building)
+    {
+        foreach(BuildingIA i in listOfBuilding)
+        {
+            if(i.distanceFromMainBase > building.distanceFromMainBase)
+            {
+                listOfBuilding.Insert(listOfBuilding.IndexOf(i), building);
+                return;
+            }
+        }
+        listOfBuilding.Add(building);
+    }
 }
