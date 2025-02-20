@@ -141,7 +141,7 @@ public class ProductBuildingController : MonoBehaviour
                     if(pos != transform.position)
                     {
                         int colliders = DoAOverlap(pos);
-                        if (colliders == 1)
+                        if (colliders <= 1)
                         {
                             GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
 
@@ -192,7 +192,7 @@ public class ProductBuildingController : MonoBehaviour
                 NavMeshHit navHit = new NavMeshHit();
                 if(NavMesh.SamplePosition(hit.point,out navHit,0.1f, NavMesh.AllAreas))
                 {
-                    return new Vector3(hit.point.x, hit.point.y + 0.5f, hit.point.z);
+                    return new Vector3(hit.point.x, pos.y, hit.point.z);
                 }
             }
         }

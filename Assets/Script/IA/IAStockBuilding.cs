@@ -85,7 +85,6 @@ public class IAStockBuilding
             _NeutralBuilding.Add(building);
             IAbrain.AddObjectif(building.building.gameObject);
             building.NeedToSendEntity();
-            building.NeedAGroup();
             
         }
     }

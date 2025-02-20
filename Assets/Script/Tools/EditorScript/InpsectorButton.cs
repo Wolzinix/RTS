@@ -14,7 +14,7 @@ public class InspectorButton : Editor
 
         if (GUILayout.Button("Build Object"))
         {
-            myTarget.DoA();
+            myTarget.SpawnObject();
         }
 
         if (GUILayout.Button("Accept Object"))

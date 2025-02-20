@@ -103,11 +103,14 @@ public class IABrain : MonoBehaviour
 
         foreach (EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
         {
-            if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset.gameObject; }
-
-            if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
+            if(!Thenearset.GetComponent<BuilderController>())
             {
-                ThenearsetEntity = Thenearset.gameObject;
+                if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset.gameObject; }
+
+                if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
+                {
+                    ThenearsetEntity = Thenearset.gameObject;
+                }
             }
         }
 
