@@ -19,7 +19,7 @@ public class BuildState : StateClassEntity
     {
         float a = Vector3.Distance(builder.transform.position, position);
         if (Vector3.Distance(builder.transform.position, position)
-            <= size + builder.GetComponent<NavMeshController>().HaveStoppingDistance()
+            <= size + builder.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.2
            )
         {
             if (defenseManager.GetComponent<EntityManager>().CanDoIt(builder.GetComponent<AggressifEntityManager>().ressources))
