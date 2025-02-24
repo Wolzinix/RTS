@@ -18,15 +18,18 @@ public class IABrain : MonoBehaviour
 
     public string ennemieTag;
 
+    public GameObject MainBase;
+
     void Start()
     {
-        stockBuilding = new IAStockBuilding();
-        stockBuilding.IAbrain = this;
+        stockBuilding = new IAStockBuilding(this);
         groupManager.ia = this;
 
         NeedToSendEntityToBuildingEvent.AddListener(SendEntityToBuilding);
         NeedToSendGroupToBuildingEvent.AddListener(SendRenfortToBuilding);
         ATowerIsDestroyEvent.AddListener(AddTowerToBuilding);
+
+        GetComponent<RessourceController>().ressourcesAdd.AddListener(SpawnEveryEntityOfEveryBuilding);
 
         ActualiseGroup();
         ActualiseBuilding();
@@ -34,6 +37,7 @@ public class IABrain : MonoBehaviour
 
     private void OnDestroy()
     {
+        GetComponent<RessourceController>().ressourcesAdd.RemoveAllListeners();
         NeedToSendEntityToBuildingEvent.RemoveAllListeners();
         NeedToSendGroupToBuildingEvent.RemoveAllListeners();
         ATowerIsDestroyEvent.RemoveAllListeners();
@@ -100,14 +104,16 @@ public class IABrain : MonoBehaviour
 
         foreach (EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
         {
-            if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset.gameObject; }
-
-            if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
+            if(!Thenearset.GetComponent<BuilderController>() && ! Thenearset.GetComponent<DefenseManager>())
             {
-                ThenearsetEntity = Thenearset.gameObject;
+                if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset.gameObject; }
+
+                if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
+                {
+                    ThenearsetEntity = Thenearset.gameObject;
+                }
             }
         }
-
         return ThenearsetEntity;
     }
     public RessourceManager GetThenearsetHarvestOfABuilder(BuilderController builder)
@@ -140,7 +146,6 @@ public class IABrain : MonoBehaviour
             GroupManager group = groupManager.SendEntityToBuilding(building, entity);
             if (group != null)
             {
-
                 building.AddSpawnGroup(group);
             }
         }
@@ -217,5 +222,13 @@ public class IABrain : MonoBehaviour
     public void SpawnEntityOfBuilding(ProductBuildingController building, GameObject entity)
     {
         building.SpawnEntity(entity, tag, groupOfEntity.GetComponentInChildren<EntityController>().gameObject, GetComponent<RessourceController>());
+    }
+
+    public void SpawnEveryEntityOfEveryBuilding()
+    {
+        foreach(BuildingIA building in GetAllieBuilding())
+        {
+            SpawnEveryEntityOfABuilding(building.building);
+        }
     }
 }

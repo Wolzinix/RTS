@@ -13,7 +13,7 @@ public class RessourceSpawning : MonoBehaviour
 
     BoxCollider boxCollider;
 
-    public void DoA()
+    public void SpawnObject()
     {
         boxCollider = GetComponent<BoxCollider>();
         DestroyAllGameObject();

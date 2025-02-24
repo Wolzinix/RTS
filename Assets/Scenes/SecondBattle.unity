@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 31445735}
   - component: {fileID: 31445734}
   - component: {fileID: 31445733}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,6 +388,10 @@ PrefabInstance:
       value: WarFog
       objectReference: {fileID: 0}
     - target: {fileID: 1758764254509474057, guid: 13a5455ca8fe41b4e81e318b706d6721, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1758764254509474057, guid: 13a5455ca8fe41b4e81e318b706d6721, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -450,7 +454,7 @@ GameObject:
   - component: {fileID: 103765079}
   - component: {fileID: 103765078}
   - component: {fileID: 103765077}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -493,12 +497,12 @@ NavMeshObstacle:
   m_GameObject: {fileID: 103765076}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 1.6660001, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
 --- !u!65 &103765079
 BoxCollider:
@@ -585,52 +589,6 @@ Transform:
   - {fileID: 1858585282}
   m_Father: {fileID: 1308360926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &136331006
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 136331008}
-  - component: {fileID: 136331007}
-  m_Layer: 0
-  m_Name: WindZone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!182 &136331007
-WindZone:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136331006}
-  m_Enabled: 1
-  m_Mode: 0
-  m_Radius: 20
-  m_WindMain: 1
-  m_WindTurbulence: 1
-  m_WindPulseMagnitude: 0.5
-  m_WindPulseFrequency: 0.01
---- !u!4 &136331008
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136331006}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.1, y: 0, z: -4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &138129387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -695,9 +653,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3495910953657618609, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2033006257395060798, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
       propertyPath: m_Name
       value: lampadaire 3 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5050422055867433376, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -727,7 +701,7 @@ GameObject:
   - component: {fileID: 176618534}
   - component: {fileID: 176618533}
   - component: {fileID: 176618532}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -820,7 +794,7 @@ GameObject:
   m_Component:
   - component: {fileID: 186027476}
   - component: {fileID: 186027475}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -904,7 +878,7 @@ GameObject:
   m_Component:
   - component: {fileID: 189604827}
   - component: {fileID: 189604826}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -992,7 +966,7 @@ GameObject:
   - component: {fileID: 193588284}
   - component: {fileID: 193588283}
   - component: {fileID: 193588282}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -1035,8 +1009,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 193588281}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -1141,7 +1115,7 @@ GameObject:
   - component: {fileID: 213423469}
   - component: {fileID: 213423468}
   - component: {fileID: 213423467}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -1184,8 +1158,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 213423466}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -1288,7 +1262,7 @@ GameObject:
   - component: {fileID: 249902334}
   - component: {fileID: 249902333}
   - component: {fileID: 249902332}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1381,7 +1355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 263683745}
   - component: {fileID: 263683744}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1469,7 +1443,7 @@ GameObject:
   - component: {fileID: 267805943}
   - component: {fileID: 267805942}
   - component: {fileID: 267805941}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -1512,8 +1486,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 267805940}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -1616,7 +1590,7 @@ GameObject:
   - component: {fileID: 270282169}
   - component: {fileID: 270282168}
   - component: {fileID: 270282167}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1811,7 +1785,7 @@ GameObject:
   m_Component:
   - component: {fileID: 284656591}
   - component: {fileID: 284656590}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1895,7 +1869,7 @@ GameObject:
   m_Component:
   - component: {fileID: 300356851}
   - component: {fileID: 300356850}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1983,7 +1957,7 @@ GameObject:
   - component: {fileID: 314984403}
   - component: {fileID: 314984402}
   - component: {fileID: 314984401}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -2026,8 +2000,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 314984400}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -2128,7 +2102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 317998649}
   - component: {fileID: 317998648}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2216,7 +2190,7 @@ GameObject:
   - component: {fileID: 318738554}
   - component: {fileID: 318738553}
   - component: {fileID: 318738552}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -2259,8 +2233,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 318738551}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -2360,6 +2334,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1166239299}
     m_Modifications:
     - target: {fileID: 3103899141600910406, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: spawnrayon
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103899141600910406, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: MySpawns.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -2379,13 +2357,25 @@ PrefabInstance:
       propertyPath: MySpawns.Array.data[0].totalStock
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5008422394800601497, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_Name
-      value: Building
+      value: Building2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_TagString
       value: neutral
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138802333607729758, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9136834619462183449, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2449,7 +2439,7 @@ GameObject:
   - component: {fileID: 330575625}
   - component: {fileID: 330575624}
   - component: {fileID: 330575623}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2506,7 +2496,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -2542,7 +2532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 334103462}
   - component: {fileID: 334103461}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2630,7 +2620,7 @@ GameObject:
   - component: {fileID: 340854184}
   - component: {fileID: 340854183}
   - component: {fileID: 340854182}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -2673,8 +2663,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 340854181}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -2775,7 +2765,7 @@ GameObject:
   m_Component:
   - component: {fileID: 345912415}
   - component: {fileID: 345912414}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2967,7 +2957,7 @@ GameObject:
   - component: {fileID: 382312642}
   - component: {fileID: 382312641}
   - component: {fileID: 382312640}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3050,6 +3040,68 @@ Tree:
   m_GameObject: {fileID: 382312638}
   m_SpeedTreeWindAsset: {fileID: 0}
   m_TreeData: {fileID: 8773550558692458330, guid: c2d7037e3c7ce864c9618684127246a4, type: 3}
+--- !u!1001 &394232689
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1308360926}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 38.72643
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.070759
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.10985
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_Name
+      value: BatimentMaison (4)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+--- !u!4 &394232690 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+  m_PrefabInstance: {fileID: 394232689}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &398316087
 GameObject:
   m_ObjectHideFlags: 0
@@ -3062,7 +3114,7 @@ GameObject:
   - component: {fileID: 398316091}
   - component: {fileID: 398316090}
   - component: {fileID: 398316089}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3170,7 +3222,7 @@ Transform:
   m_GameObject: {fileID: 399951920}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.22115397, y: 1.4136233, z: -0.7093458}
+  m_LocalPosition: {x: 1, y: 1.4136233, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3178,6 +3230,7 @@ Transform:
   - {fileID: 719158065}
   - {fileID: 1412474363}
   - {fileID: 845599047}
+  - {fileID: 443506910}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &430146630
@@ -3192,7 +3245,7 @@ GameObject:
   - component: {fileID: 430146634}
   - component: {fileID: 430146633}
   - component: {fileID: 430146632}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3249,7 +3302,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -3289,7 +3342,7 @@ GameObject:
   - component: {fileID: 438007075}
   - component: {fileID: 438007074}
   - component: {fileID: 438007073}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -3332,8 +3385,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 438007072}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -3424,6 +3477,11 @@ Transform:
   - {fileID: 270282166}
   m_Father: {fileID: 1308360926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &443506910 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+  m_PrefabInstance: {fileID: 1889049427}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &464365574
 GameObject:
   m_ObjectHideFlags: 0
@@ -3436,7 +3494,7 @@ GameObject:
   - component: {fileID: 464365578}
   - component: {fileID: 464365577}
   - component: {fileID: 464365576}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3531,7 +3589,7 @@ GameObject:
   - component: {fileID: 472710669}
   - component: {fileID: 472710668}
   - component: {fileID: 472710667}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3678,9 +3736,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3495910953657618609, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2033006257395060798, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
       propertyPath: m_Name
       value: lampadaire 3 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5050422055867433376, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3702,7 +3776,7 @@ GameObject:
   m_Component:
   - component: {fileID: 496224416}
   - component: {fileID: 496224415}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3788,7 +3862,7 @@ GameObject:
   - component: {fileID: 506515222}
   - component: {fileID: 506515221}
   - component: {fileID: 506515220}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3883,7 +3957,7 @@ GameObject:
   - component: {fileID: 530532541}
   - component: {fileID: 530532540}
   - component: {fileID: 530532543}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3920,11 +3994,11 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: 70c2193dd0adea54297d07d8ddb11b84, type: 2}
-  m_TreeDistance: 5000
+  m_TreeDistance: 50
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
+  m_DetailObjectDistance: 30
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
@@ -3937,10 +4011,10 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 10651, guid: 0000000000000000f000000000000000, type: 0}
+  m_MaterialTemplate: {fileID: 2100000, guid: b215005f8be273042950f23a495b6a5a, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
-  m_DeringLightProbesForTrees: 1
+  m_DeringLightProbesForTrees: 0
   m_ReceiveGI: 1
   m_ScaleInLightmap: 0.0256
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
@@ -3983,7 +4057,7 @@ MonoBehaviour:
   m_Center: {x: 25, y: 2, z: 25}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 63
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -4008,7 +4082,7 @@ GameObject:
   - component: {fileID: 533090151}
   - component: {fileID: 533090150}
   - component: {fileID: 533090149}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4103,7 +4177,7 @@ GameObject:
   - component: {fileID: 540580057}
   - component: {fileID: 540580056}
   - component: {fileID: 540580055}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4200,7 +4274,7 @@ GameObject:
   - component: {fileID: 564112263}
   - component: {fileID: 564112262}
   - component: {fileID: 564112261}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -4243,8 +4317,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 564112260}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -4349,7 +4423,7 @@ GameObject:
   - component: {fileID: 568371964}
   - component: {fileID: 568371963}
   - component: {fileID: 568371962}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -4392,8 +4466,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 568371961}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -4494,7 +4568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 594490404}
   - component: {fileID: 594490403}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4568,6 +4642,161 @@ Transform:
   m_Children: []
   m_Father: {fileID: 176618531}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1001 &599445990
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1308360926}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -34.788094
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.070759
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -32.25057
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_Name
+      value: BatimentMaison (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+--- !u!4 &599445991 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+  m_PrefabInstance: {fileID: 599445990}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &663591041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 663591044}
+  - component: {fileID: 663591043}
+  - component: {fileID: 663591045}
+  m_Layer: 0
+  m_Name: Terrain_(0.00, 0.00, -50.00)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!218 &663591043
+Terrain:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663591041}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_TerrainData: {fileID: 15600000, guid: db2c3cdb6ddd0bb4e959bc46e349fe29, type: 2}
+  m_TreeDistance: 50
+  m_TreeBillboardDistance: 50
+  m_TreeCrossFadeLength: 5
+  m_TreeMaximumFullLODCount: 50
+  m_DetailObjectDistance: 30
+  m_DetailObjectDensity: 1
+  m_HeightmapPixelError: 5
+  m_SplatMapDistance: 1000
+  m_HeightmapMinimumLODSimplification: 0
+  m_HeightmapMaximumLOD: 0
+  m_ShadowCastingMode: 2
+  m_DrawHeightmap: 1
+  m_DrawInstanced: 0
+  m_DrawTreesAndFoliage: 1
+  m_StaticShadowCaster: 0
+  m_IgnoreQualitySettings: 0
+  m_ReflectionProbeUsage: 1
+  m_MaterialTemplate: {fileID: 10650, guid: 0000000000000000f000000000000000, type: 0}
+  m_BakeLightProbesForTrees: 1
+  m_PreserveTreePrototypeLayers: 0
+  m_DeringLightProbesForTrees: 1
+  m_ReceiveGI: 1
+  m_ScaleInLightmap: 0.512
+  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_GroupingID: 0
+  m_RenderingLayerMask: 1
+  m_AllowAutoConnect: 1
+  m_EnableHeightmapRayTracing: 1
+  m_EnableTreesAndDetailsRayTracing: 0
+  m_TreeMotionVectorModeOverride: 3
+--- !u!4 &663591044
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663591041}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -25, y: -0.1, z: -25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!154 &663591045
+TerrainCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663591041}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_TerrainData: {fileID: 15600000, guid: db2c3cdb6ddd0bb4e959bc46e349fe29, type: 2}
+  m_EnableTreeColliders: 1
 --- !u!1 &675021343
 GameObject:
   m_ObjectHideFlags: 0
@@ -4578,7 +4807,7 @@ GameObject:
   m_Component:
   - component: {fileID: 675021345}
   - component: {fileID: 675021344}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4666,7 +4895,7 @@ GameObject:
   - component: {fileID: 683607331}
   - component: {fileID: 683607330}
   - component: {fileID: 683607329}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -4709,8 +4938,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 683607328}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -4919,7 +5148,7 @@ GameObject:
   - component: {fileID: 715303336}
   - component: {fileID: 715303335}
   - component: {fileID: 715303334}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5012,7 +5241,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4825870592483654779, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
       propertyPath: m_Name
-      value: Epeeiste (1)
+      value: Epeeiste
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825870592483654779, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5078,7 +5311,7 @@ GameObject:
   - component: {fileID: 758523595}
   - component: {fileID: 758523594}
   - component: {fileID: 758523593}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -5121,8 +5354,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 758523592}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -5223,7 +5456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 798133251}
   - component: {fileID: 798133250}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5402,6 +5635,68 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b09689fbc4e0e24c8ce45be0db20e20, type: 3}
+--- !u!1001 &840051224
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1308360926}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 27.580532
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0707629
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 40.041542
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_Name
+      value: BatimentMaison (8)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+--- !u!4 &840051225 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+  m_PrefabInstance: {fileID: 840051224}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &845599046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5454,9 +5749,13 @@ PrefabInstance:
       propertyPath: MySpawns.Array.data[2].totalStock
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5008422394800601497, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_Name
-      value: Building
+      value: BuildingA
       objectReference: {fileID: 0}
     - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_TagString
@@ -5549,7 +5848,7 @@ GameObject:
   - component: {fileID: 850566653}
   - component: {fileID: 850566652}
   - component: {fileID: 850566651}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -5592,8 +5891,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 850566650}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -5684,6 +5983,68 @@ Transform:
   - {fileID: 1772283154}
   m_Father: {fileID: 1308360926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &856326347
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1308360926}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -42.668373
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0707629
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.427555
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7072302
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7069834
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_Name
+      value: BatimentMaison (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+--- !u!4 &856326348 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+  m_PrefabInstance: {fileID: 856326347}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &862521047
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5745,6 +6106,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5156644770516148487, guid: ddd9b4c01b3d4314591de5ad15771494, type: 3}
+      propertyPath: MainBase
+      value: 
+      objectReference: {fileID: 1548399387}
+    - target: {fileID: 5156644770516148487, guid: ddd9b4c01b3d4314591de5ad15771494, type: 3}
       propertyPath: groupOfEntity
       value: 
       objectReference: {fileID: 1155137151}
@@ -5769,6 +6134,68 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddd9b4c01b3d4314591de5ad15771494, type: 3}
+--- !u!1001 &882781456
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1308360926}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.003368
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0707552
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 45.02677
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_Name
+      value: BatimentMaison (5)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+--- !u!4 &882781457 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+  m_PrefabInstance: {fileID: 882781456}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &906244698
 GameObject:
   m_ObjectHideFlags: 0
@@ -5779,7 +6206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 906244700}
   - component: {fileID: 906244699}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5917,9 +6344,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3495910953657618609, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2033006257395060798, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
       propertyPath: m_Name
       value: lampadaire 3 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5050422055867433376, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5936,7 +6379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 934436501}
   - component: {fileID: 934436500}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6022,7 +6465,7 @@ GameObject:
   - component: {fileID: 944983132}
   - component: {fileID: 944983131}
   - component: {fileID: 944983130}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6079,7 +6522,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -6115,7 +6558,7 @@ GameObject:
   m_Component:
   - component: {fileID: 945349787}
   - component: {fileID: 945349786}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6189,6 +6632,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 464365575}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1001 &948158176
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1308360926}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 43.45122
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0707629
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 22.786116
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_Name
+      value: BatimentMaison (7)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+--- !u!4 &948158177 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+  m_PrefabInstance: {fileID: 948158176}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963973294
 GameObject:
   m_ObjectHideFlags: 0
@@ -6269,7 +6774,7 @@ GameObject:
   - component: {fileID: 981922323}
   - component: {fileID: 981922322}
   - component: {fileID: 981922321}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6366,7 +6871,7 @@ GameObject:
   - component: {fileID: 995262617}
   - component: {fileID: 995262616}
   - component: {fileID: 995262615}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -6409,8 +6914,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 995262614}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -6515,7 +7020,7 @@ GameObject:
   - component: {fileID: 1015367961}
   - component: {fileID: 1015367960}
   - component: {fileID: 1015367959}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -6558,8 +7063,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1015367958}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -6726,7 +7231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1030071454}
   - component: {fileID: 1030071453}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6810,7 +7315,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1034144426}
   - component: {fileID: 1034144425}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6896,7 +7401,7 @@ GameObject:
   - component: {fileID: 1045869234}
   - component: {fileID: 1045869233}
   - component: {fileID: 1045869232}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6993,7 +7498,7 @@ GameObject:
   - component: {fileID: 1049428682}
   - component: {fileID: 1049428681}
   - component: {fileID: 1049428680}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -7036,8 +7541,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1049428679}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -7140,7 +7645,7 @@ GameObject:
   - component: {fileID: 1062956712}
   - component: {fileID: 1062956711}
   - component: {fileID: 1062956710}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7333,7 +7838,7 @@ GameObject:
   - component: {fileID: 1071434253}
   - component: {fileID: 1071434252}
   - component: {fileID: 1071434251}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -7376,8 +7881,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1071434250}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -7482,7 +7987,7 @@ GameObject:
   - component: {fileID: 1094947862}
   - component: {fileID: 1094947861}
   - component: {fileID: 1094947860}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -7525,8 +8030,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1094947859}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -7737,7 +8242,7 @@ GameObject:
   - component: {fileID: 1101107171}
   - component: {fileID: 1101107170}
   - component: {fileID: 1101107169}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -7780,8 +8285,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1101107168}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -7882,7 +8387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1127064659}
   - component: {fileID: 1127064658}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7968,7 +8473,7 @@ GameObject:
   - component: {fileID: 1129763525}
   - component: {fileID: 1129763524}
   - component: {fileID: 1129763523}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8061,7 +8566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1148712849}
   - component: {fileID: 1148712848}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8145,7 +8650,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1150022775}
   - component: {fileID: 1150022774}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8300,7 +8805,7 @@ GameObject:
   - component: {fileID: 1167061251}
   - component: {fileID: 1167061250}
   - component: {fileID: 1167061249}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8397,7 +8902,7 @@ GameObject:
   - component: {fileID: 1169100392}
   - component: {fileID: 1169100391}
   - component: {fileID: 1169100390}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -8440,8 +8945,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1169100389}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -8557,7 +9062,7 @@ GameObject:
   - component: {fileID: 1194372071}
   - component: {fileID: 1194372070}
   - component: {fileID: 1194372069}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -8600,12 +9105,12 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1194372068}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 1.6660001, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
 --- !u!65 &1194372071
 BoxCollider:
@@ -8706,7 +9211,7 @@ GameObject:
   - component: {fileID: 1227000956}
   - component: {fileID: 1227000955}
   - component: {fileID: 1227000954}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -8749,8 +9254,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1227000953}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -8853,7 +9358,7 @@ GameObject:
   - component: {fileID: 1242274882}
   - component: {fileID: 1242274881}
   - component: {fileID: 1242274880}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8948,7 +9453,7 @@ GameObject:
   - component: {fileID: 1254953782}
   - component: {fileID: 1254953781}
   - component: {fileID: 1254953780}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9031,6 +9536,68 @@ Tree:
   m_GameObject: {fileID: 1254953778}
   m_SpeedTreeWindAsset: {fileID: 0}
   m_TreeData: {fileID: 8773550558692458330, guid: c2d7037e3c7ce864c9618684127246a4, type: 3}
+--- !u!1001 &1265313476
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1308360926}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 44.914837
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0707629
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 48.821655
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_Name
+      value: BatimentMaison (6)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+--- !u!4 &1265313477 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+  m_PrefabInstance: {fileID: 1265313476}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1303252714
 GameObject:
   m_ObjectHideFlags: 0
@@ -9041,7 +9608,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1303252716}
   - component: {fileID: 1303252715}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9125,7 +9692,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1305166762}
   - component: {fileID: 1305166761}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9271,6 +9838,15 @@ Transform:
   - {fileID: 1780836065}
   - {fileID: 1354953311}
   - {fileID: 485674585}
+  - {fileID: 2104149541}
+  - {fileID: 1477748735}
+  - {fileID: 599445991}
+  - {fileID: 856326348}
+  - {fileID: 394232690}
+  - {fileID: 882781457}
+  - {fileID: 1265313477}
+  - {fileID: 948158177}
+  - {fileID: 840051225}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1309855357
@@ -9283,7 +9859,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1309855359}
   - component: {fileID: 1309855358}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9482,9 +10058,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3495910953657618609, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2033006257395060798, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
       propertyPath: m_Name
       value: lampadaire 3 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5050422055867433376, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9560,9 +10152,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3495910953657618609, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2033006257395060798, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
       propertyPath: m_Name
       value: lampadaire 3 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5050422055867433376, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9583,7 +10191,7 @@ GameObject:
   - component: {fileID: 1400367792}
   - component: {fileID: 1400367791}
   - component: {fileID: 1400367790}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -9626,8 +10234,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1400367789}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -9795,6 +10403,14 @@ PrefabInstance:
       value: Main Camera (1)
       objectReference: {fileID: 0}
     - target: {fileID: 8270750192721748710, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
+      propertyPath: ymax
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8270750192721748710, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
+      propertyPath: ymin
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8270750192721748710, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
       propertyPath: mainGround
       value: 
       objectReference: {fileID: 530532539}
@@ -9819,6 +10435,10 @@ PrefabInstance:
     - target: {fileID: 4825870592483654779, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_Name
       value: Tirreur
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825870592483654779, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9880,7 +10500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1449499156}
   - component: {fileID: 1449499155}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9968,7 +10588,7 @@ GameObject:
   - component: {fileID: 1459546428}
   - component: {fileID: 1459546427}
   - component: {fileID: 1459546426}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -10011,8 +10631,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1459546425}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -10117,7 +10737,7 @@ GameObject:
   - component: {fileID: 1472725592}
   - component: {fileID: 1472725591}
   - component: {fileID: 1472725590}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -10160,8 +10780,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1472725589}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -10252,6 +10872,68 @@ Transform:
   - {fileID: 1254953779}
   m_Father: {fileID: 1308360926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1477748734
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1308360926}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -32.96999
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0707629
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.36780357
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_Name
+      value: BatimentMaison (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+--- !u!4 &1477748735 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+  m_PrefabInstance: {fileID: 1477748734}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1483662267
 GameObject:
   m_ObjectHideFlags: 0
@@ -10266,7 +10948,7 @@ GameObject:
   - component: {fileID: 1483662270}
   - component: {fileID: 1483662269}
   - component: {fileID: 1483662268}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -10309,8 +10991,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1483662267}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -10413,7 +11095,7 @@ GameObject:
   - component: {fileID: 1506209598}
   - component: {fileID: 1506209597}
   - component: {fileID: 1506209596}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10506,7 +11188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1513102496}
   - component: {fileID: 1513102495}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10590,7 +11272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1532031628}
   - component: {fileID: 1532031627}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10674,7 +11356,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1540043678}
   - component: {fileID: 1540043677}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10800,13 +11482,37 @@ PrefabInstance:
       propertyPath: MySpawns.Array.data[2].totalStock
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5008422394800601497, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_Name
-      value: Building
+      value: BuildingE
+      objectReference: {fileID: 0}
+    - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_TagString
       value: ennemie
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138802333607729758, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7696095010799487015, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_TimeToStationary
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7696095010799487015, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_CarveOnlyStationary
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9136834619462183449, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10814,7 +11520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9136834619462183449, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.41
+      value: 2.35
       objectReference: {fileID: 0}
     - target: {fileID: 9136834619462183449, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10893,7 +11599,7 @@ GameObject:
   - component: {fileID: 1549993591}
   - component: {fileID: 1549993590}
   - component: {fileID: 1549993589}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11094,7 +11800,7 @@ GameObject:
   - component: {fileID: 1557682396}
   - component: {fileID: 1557682395}
   - component: {fileID: 1557682394}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11189,7 +11895,7 @@ GameObject:
   - component: {fileID: 1568604811}
   - component: {fileID: 1568604810}
   - component: {fileID: 1568604809}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11286,7 +11992,7 @@ GameObject:
   - component: {fileID: 1574325486}
   - component: {fileID: 1574325485}
   - component: {fileID: 1574325484}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -11329,8 +12035,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1574325483}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -11520,9 +12226,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3495910953657618609, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2033006257395060798, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
       propertyPath: m_Name
       value: lampadaire 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5050422055867433376, guid: 23fa8088682c66540a6c0c57fe2d55e4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11548,7 +12270,7 @@ GameObject:
   - component: {fileID: 1626459829}
   - component: {fileID: 1626459828}
   - component: {fileID: 1626459827}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -11591,8 +12313,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1626459826}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -11693,7 +12415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1631376205}
   - component: {fileID: 1631376204}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11779,6 +12501,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Epeeiste
       objectReference: {fileID: 0}
+    - target: {fileID: 4825870592483654779, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.064558
@@ -11843,7 +12569,7 @@ GameObject:
   - component: {fileID: 1647814947}
   - component: {fileID: 1647814946}
   - component: {fileID: 1647814945}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -11886,8 +12612,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1647814944}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -11992,7 +12718,7 @@ GameObject:
   - component: {fileID: 1665451967}
   - component: {fileID: 1665451966}
   - component: {fileID: 1665451965}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -12035,8 +12761,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1665451964}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -12139,7 +12865,7 @@ GameObject:
   - component: {fileID: 1667754111}
   - component: {fileID: 1667754110}
   - component: {fileID: 1667754109}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12294,7 +13020,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1724814019}
   - component: {fileID: 1724814018}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12382,7 +13108,7 @@ GameObject:
   - component: {fileID: 1735995394}
   - component: {fileID: 1735995393}
   - component: {fileID: 1735995392}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -12425,8 +13151,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1735995391}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -12531,7 +13257,7 @@ GameObject:
   - component: {fileID: 1741243994}
   - component: {fileID: 1741243993}
   - component: {fileID: 1741243992}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -12574,8 +13300,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1741243991}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -12675,6 +13401,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1166239299}
     m_Modifications:
     - target: {fileID: 3103899141600910406, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: spawnrayon
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103899141600910406, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: MySpawns.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -12694,13 +13424,25 @@ PrefabInstance:
       propertyPath: MySpawns.Array.data[0].totalStock
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5008422394800601497, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_Name
-      value: Building (1)
+      value: Building1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6084191280811076340, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_TagString
       value: neutral
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138802333607729758, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9136834619462183449, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12764,7 +13506,7 @@ GameObject:
   - component: {fileID: 1772283157}
   - component: {fileID: 1772283156}
   - component: {fileID: 1772283155}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12866,7 +13608,7 @@ GameObject:
   - component: {fileID: 1787604192}
   - component: {fileID: 1787604191}
   - component: {fileID: 1787604190}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -12909,8 +13651,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1787604189}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -13013,7 +13755,7 @@ GameObject:
   - component: {fileID: 1804129187}
   - component: {fileID: 1804129186}
   - component: {fileID: 1804129185}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13212,7 +13954,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1813236780}
   - component: {fileID: 1813236779}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13362,7 +14104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1849354911}
   - component: {fileID: 1849354910}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13448,7 +14190,7 @@ GameObject:
   - component: {fileID: 1858585285}
   - component: {fileID: 1858585284}
   - component: {fileID: 1858585283}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13545,7 +14287,7 @@ GameObject:
   - component: {fileID: 1862039701}
   - component: {fileID: 1862039700}
   - component: {fileID: 1862039699}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -13588,8 +14330,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1862039698}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -13794,7 +14536,7 @@ GameObject:
   - component: {fileID: 1873699538}
   - component: {fileID: 1873699537}
   - component: {fileID: 1873699536}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13877,6 +14619,63 @@ Tree:
   m_GameObject: {fileID: 1873699534}
   m_SpeedTreeWindAsset: {fileID: 0}
   m_TreeData: {fileID: 8773550558692458330, guid: c2d7037e3c7ce864c9618684127246a4, type: 3}
+--- !u!1001 &1889049427
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 399951921}
+    m_Modifications:
+    - target: {fileID: 4825870592483654779, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_Name
+      value: Builder
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.3236233
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
 --- !u!1 &1890856924
 GameObject:
   m_ObjectHideFlags: 0
@@ -13889,7 +14688,7 @@ GameObject:
   - component: {fileID: 1890856928}
   - component: {fileID: 1890856927}
   - component: {fileID: 1890856926}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13984,7 +14783,7 @@ GameObject:
   - component: {fileID: 1895992748}
   - component: {fileID: 1895992747}
   - component: {fileID: 1895992746}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14079,7 +14878,7 @@ GameObject:
   - component: {fileID: 1901836783}
   - component: {fileID: 1901836782}
   - component: {fileID: 1901836781}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14238,7 +15037,7 @@ GameObject:
   - component: {fileID: 1933627421}
   - component: {fileID: 1933627420}
   - component: {fileID: 1933627419}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -14281,8 +15080,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1933627418}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -14383,7 +15182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1967510430}
   - component: {fileID: 1967510429}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14467,7 +15266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1970980251}
   - component: {fileID: 1970980250}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14553,7 +15352,7 @@ GameObject:
   - component: {fileID: 1977327934}
   - component: {fileID: 1977327933}
   - component: {fileID: 1977327932}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14610,7 +15409,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -14648,7 +15447,7 @@ GameObject:
   - component: {fileID: 1979582260}
   - component: {fileID: 1979582259}
   - component: {fileID: 1979582258}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14741,7 +15540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1990915653}
   - component: {fileID: 1990915652}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14843,20 +15642,20 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.041160528, g: 0.1613057, b: 0.4641509, a: 1}
-  m_Intensity: 3
+  m_Color: {r: 0.029782817, g: 0.1176351, b: 0.335849, a: 1}
+  m_Intensity: 1
   m_Range: 50
   m_SpotAngle: 179
   m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_Bias: 0
+    m_NormalBias: 0
+    m_NearPlane: 0.1
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -14903,7 +15702,7 @@ Transform:
   m_GameObject: {fileID: 1993435272}
   serializedVersion: 2
   m_LocalRotation: {x: -0.23986778, y: -0.2974317, z: 0.077475145, w: -0.92086667}
-  m_LocalPosition: {x: 11.1, y: 15.804, z: -1.8}
+  m_LocalPosition: {x: -0.94, y: 20.66, z: -3.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14919,7 +15718,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2013645017}
   - component: {fileID: 2013645016}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15007,7 +15806,7 @@ GameObject:
   - component: {fileID: 2039874305}
   - component: {fileID: 2039874304}
   - component: {fileID: 2039874303}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -15050,8 +15849,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 2039874302}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -15152,7 +15951,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2082533755}
   - component: {fileID: 2082533754}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15236,7 +16035,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2082828525}
   - component: {fileID: 2082828524}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15322,7 +16121,7 @@ GameObject:
   - component: {fileID: 2087728389}
   - component: {fileID: 2087728388}
   - component: {fileID: 2087728387}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15405,6 +16204,68 @@ Tree:
   m_GameObject: {fileID: 2087728385}
   m_SpeedTreeWindAsset: {fileID: 0}
   m_TreeData: {fileID: 8773550558692458330, guid: c2d7037e3c7ce864c9618684127246a4, type: 3}
+--- !u!1001 &2104149540
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1308360926}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -16.90341
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0707629
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -36.279472
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.50008726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.49991274
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_Name
+      value: BatimentMaison
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+--- !u!4 &2104149541 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+  m_PrefabInstance: {fileID: 2104149540}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2124628508
 GameObject:
   m_ObjectHideFlags: 0
@@ -15419,7 +16280,7 @@ GameObject:
   - component: {fileID: 2124628511}
   - component: {fileID: 2124628510}
   - component: {fileID: 2124628509}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: NewTree(Clone)
   m_TagString: neutral
   m_Icon: {fileID: 0}
@@ -15462,8 +16323,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 2124628508}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1.6660001, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 0.1, y: 1, z: 0.1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -15575,5 +16436,5 @@ SceneRoots:
   - {fileID: 1308360926}
   - {fileID: 399951921}
   - {fileID: 1166239299}
-  - {fileID: 136331008}
   - {fileID: 1575469401}
+  - {fileID: 663591044}

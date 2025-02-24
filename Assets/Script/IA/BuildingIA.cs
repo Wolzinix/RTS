@@ -18,6 +18,8 @@ public class BuildingIA
     public int NbOfTower = 0;
     public List<DefenseManager> _ListOfTower = new List<DefenseManager>();
 
+    public float distanceFromMainBase;
+
     public void SetAProtectionGroup(GroupManager group)
     {
         _ListOfProtector.Add(group);

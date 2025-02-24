@@ -21,12 +21,12 @@ public class MapMod
     {
         _camera.enabled = !_camera.enabled;
         CameraControl cameraControl = _camera.GetComponent<CameraControl>();
-        cameraControl.enabled = _camera.enabled;
         cameraControl.StopMoving();
+        cameraControl.gameObject.SetActive(_camera.enabled);
 
         _mapCamera.enabled = !_mapCamera.enabled;
-        _mapCamera.GetComponent<CameraControl>().enabled = _mapCamera.enabled;
         _mapCamera.GetComponent<CameraControl>().StopMoving();
+        _mapCamera.gameObject.SetActive(_mapCamera.enabled);
 
         if (_isMapMod)
         {

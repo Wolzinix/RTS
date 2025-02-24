@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 2140429094921462342}
   - component: {fileID: 3885713406343502723}
   - component: {fileID: 7695264714245882759}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,8 +154,8 @@ NavMeshObstacle:
   m_GameObject: {fileID: 6084191280811076340}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 3, y: 1, z: 3}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -275,7 +275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8062590435023843360}
   - component: {fileID: 7325234436965486857}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,6 +385,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
       propertyPath: m_Name
       value: BatimentMaison
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
       propertyPath: m_StaticEditorFlags

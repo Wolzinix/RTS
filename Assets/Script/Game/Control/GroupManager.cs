@@ -235,8 +235,8 @@ public class GroupManager
             foreach (EntityController i in _selectedObject)
             {
                 Vector3 _PointToReach = _CenterOfGroup - i.transform.position;
-                if (dontGoOnPoint) { i.GetComponent<EntityController>().AddPathInFirst(point - _PointToReach); }
-                else { i.GetComponent<EntityController>().AddPathInFirst(point); }
+                if (dontGoOnPoint) { i.GetComponent<EntityController>().AddPath(point - _PointToReach); }
+                else { i.GetComponent<EntityController>().AddPath(point); }
 
             }
         }
@@ -244,7 +244,6 @@ public class GroupManager
 
     private void VerifyIfEveryBodyIsAlive()
     {
-
         List<int> indexToRemove = new List<int>();
         foreach (EntityController i in _selectedObject)
         {

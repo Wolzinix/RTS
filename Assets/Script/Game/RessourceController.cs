@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Events;
+
 public class RessourceController : MonoBehaviour
 {
 
@@ -6,6 +8,7 @@ public class RessourceController : MonoBehaviour
     [SerializeField] private int _wood;
 
     RessourceUi _ui;
+    public UnityEvent ressourcesAdd = new UnityEvent();
 
 
     // Start is called before the first frame update
@@ -27,6 +30,7 @@ public class RessourceController : MonoBehaviour
         {
             _ui.AddGold(gold);
         }
+        else { ressourcesAdd.Invoke();}
     }
 
     public void AddWood(int wood)
@@ -35,7 +39,9 @@ public class RessourceController : MonoBehaviour
         if (GetComponent<ControlManager>())
         {
             _ui.AddWood(wood);
+           
         }
+        else{  ressourcesAdd.Invoke();}
     }
 
     public bool CompareWood(int wood)

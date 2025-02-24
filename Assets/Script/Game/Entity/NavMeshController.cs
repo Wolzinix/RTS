@@ -45,7 +45,7 @@ public class NavMeshController : MonoBehaviour
     }
     public bool notAtLocation()
     {
-        bool isnotarrived = Vector3.Distance(transform.localPosition, _destination) > _stoppingDistance && _destination != Vector3.zero;
+        bool isnotarrived = Vector3.Distance(transform.position, _destination) > _stoppingDistance && _destination != Vector3.zero;
         return isnotarrived;
     }
     private float SetStoppingDistance()
@@ -79,9 +79,7 @@ public class NavMeshController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        float a = Vector3.Distance(transform.localPosition, _destination);
-        float b = _stoppingDistance;
-        if (Vector3.Distance(transform.localPosition, _destination) > _stoppingDistance && _destination != Vector3.zero) 
+        if (Vector3.Distance(transform.position, _destination) > _stoppingDistance && _destination != Vector3.zero) 
         { 
             SetNextPosition(); 
         }
@@ -95,7 +93,7 @@ public class NavMeshController : MonoBehaviour
         {
             transform.LookAt(new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z));
             transform.rotation = new Quaternion(0,transform.rotation.y, 0, transform.rotation.w);
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(_navPath.corners[1].x, transform.localPosition.y, _navPath.corners[1].z), _speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z), _speed * Time.deltaTime);
             _navMesh.enabled = false;
         }
     }
@@ -114,7 +112,7 @@ public class NavMeshController : MonoBehaviour
                 if (_navPath.corners.Length < 1)
                 {
                     NavMeshHit hit;
-                    if (NavMesh.SamplePosition(point, out hit, 10, NavMesh.AllAreas))
+                    if (NavMesh.SamplePosition(point, out hit, 5, NavMesh.AllAreas))
                     {
                         _navMesh.CalculatePath(hit.position, _navPath);
                     }
@@ -123,7 +121,7 @@ public class NavMeshController : MonoBehaviour
         }
     }
 
-    public void ActualisePath(EntityManager target) { _destination = target.transform.localPosition; }
+    public void ActualisePath(EntityManager target) { _destination = target.transform.position; }
 
     public void StopPath()
     {

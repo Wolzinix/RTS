@@ -17,19 +17,20 @@ public class LevelNextUI : MonoBehaviour
 
     public void NextScene()
     {
-        SceneManager.LoadScene(SceneToload);
         Time.timeScale = 1;
+        SceneManager.LoadScene(SceneToload);
     }
     public void MainMenuScene()
     {
-        SceneManager.LoadScene(MainMenu);
         Time.timeScale = 1;
+        SceneManager.LoadScene(MainMenu);
     }
     public void CurrentScene()
     {
+        Time.timeScale = 1;
         Scene scene = SceneManager.GetActiveScene(); 
         SceneManager.LoadScene(scene.name);
-        Time.timeScale = 1;
+        
     }
 
     public void AppearUI(bool IsPlayer)

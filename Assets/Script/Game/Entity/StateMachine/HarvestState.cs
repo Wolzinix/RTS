@@ -51,7 +51,7 @@ public class HarvestState : StateClassEntity
 
                 else
                 {
-                    builder.transform.LookAt(new Vector3(target.transform.localPosition.x, builder.transform.localPosition.y, target.transform.localPosition.z));
+                    builder.transform.LookAt(new Vector3(target.transform.position.x, builder.transform.position.y, target.transform.position.z));
                     
                     _animator.SetInteger(EntityController.Attacking, 1);
                 }
@@ -59,7 +59,7 @@ public class HarvestState : StateClassEntity
             }
             else
             {
-                builder.AddPathInFirst(target.transform.localPosition);
+                builder.AddPathWithRange(target.transform.position);
             }
         }
         else

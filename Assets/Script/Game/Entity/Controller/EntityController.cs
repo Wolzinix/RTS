@@ -111,6 +111,7 @@ public class EntityController : BuildingController
     }
     public void AddPath(Vector3 newPath)
     {
+        
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
         {
             _ListOfstate.Add(new MoveState(_navMesh, newPath, this));
@@ -122,7 +123,7 @@ public class EntityController : BuildingController
     {
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
         {
-            _ListOfstate.Add(new MoveToDistanceState(_navMesh, newPath, this));
+            _ListOfstate.Insert(0,new MoveToDistanceState(_navMesh, newPath, this));
             StartFirstOrder();
         }
 
@@ -132,7 +133,7 @@ public class EntityController : BuildingController
     {
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5 + range)
         {
-            _ListOfstate.Add(new MoveToDistanceState(_navMesh, newPath, this, range));
+            _ListOfstate.Insert(0,new MoveToDistanceState(_navMesh, newPath, this, range));
             StartFirstOrder();
         }
 
@@ -261,7 +262,7 @@ public class EntityController : BuildingController
                     TargetState c = (TargetState)i;
                     if (c.target && nearest != i)
                     {
-                        if (Vector3.Distance(transform.localPosition, nearest.target.gameObject.transform.localPosition) > Vector3.Distance(transform.localPosition, c.target.gameObject.transform.localPosition))
+                        if (Vector3.Distance(transform.position, nearest.target.gameObject.transform.position) > Vector3.Distance(transform.position, c.target.gameObject.transform.position))
                         {
                             nearest = (TargetState)i;
                         }
