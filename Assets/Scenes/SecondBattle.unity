@@ -1730,6 +1730,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1807726912}
     - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: _listOfEntity
+      value: 
+      objectReference: {fileID: 399951920}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: selectEntityInput
       value: 
       objectReference: {fileID: -244919997710551446, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}

@@ -31,9 +31,9 @@ public class ControlManager : MonoBehaviour
     private bool _patrolOrder;
 
     CapacityController _capacityController;
-    TroupeManager _troupeManager;
     private bool _capactityOrder;
 
+    [SerializeField] GameObject _listOfEntity;
 
     private Vector3 _dragCoord;
     [SerializeField] private RectTransform dragBox;
@@ -367,14 +367,19 @@ public class ControlManager : MonoBehaviour
         dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
         Bounds bounds = new Bounds(dragBox.anchoredPosition, dragBox.sizeDelta);
 
-        foreach (EntityController i in FindObjectsOfType<EntityController>())
+        foreach (EntityController i in _listOfEntity.GetComponentsInChildren<EntityController>())
         {
             Vector3 point = _camera.WorldToScreenPoint(i.transform.position);
 
             if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag))
             {
                 _selectManager.AddSelect(i.gameObject.GetComponent<SelectableManager>());
-                _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());
+                if(_selectManager._groupManager.getNumberOnGroup() == 1)
+                {
+                    _UiGestioneur.ActualiseUi(i.gameObject.GetComponent<SelectableManager>());
+                }
+                else  {   _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());           }
+  
             }
         }
     }
@@ -401,7 +406,6 @@ public class ControlManager : MonoBehaviour
             ResetUiOrder();
             
             _capactityOrder = true;
-            _troupeManager = troupeManager;
             _capacityController = capacity;
             Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
             
