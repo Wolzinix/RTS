@@ -1,10 +1,14 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-public class MapMod
+
+public class MapMod : MonoBehaviour
 {
     public bool _isMapMod;
 
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera _mapCamera;
+    [SerializeField] private List<GameObject> _mapObjects;
 
     public void MapModActive()
     {
@@ -17,6 +21,7 @@ public class MapMod
 
     public void SetMainCamera(Camera camera) { _camera = camera; }
     public void SetMapCamera(Camera camera) { _mapCamera = camera; }
+    public void SetMapObject(List<GameObject> list) { _mapObjects = list; }
     private void CameraGestion()
     {
         _camera.enabled = !_camera.enabled;
@@ -35,23 +40,40 @@ public class MapMod
         }
         else { cameraControl.ActiveZoom(); }
     }
-    
+
     private void SelectGestionMapMod()
     {
-        foreach (SelectableManager i in GameObject.FindObjectsOfType<SelectableManager>())
+        foreach (GameObject w in _mapObjects)
         {
-            if (_isMapMod) { i.OnSelected(); }
-            else { i.OnDeselected(); }
+            foreach (SelectableManager i in w.GetComponentsInChildren<SelectableManager>())
+            {
+                ActualiseOneUnit(i);
+            }
         }
+    }
 
+    public void ActualiseOneUnit(SelectableManager entity)
+    {
+        if (_isMapMod)
+        {
+            if (entity.transform.GetComponentInChildren<SkinnedMeshRenderer>() && entity.transform.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
+               entity.transform.GetComponentInChildren<MeshRenderer>() && entity.transform.GetComponentInChildren<MeshRenderer>().enabled)
+            {
+                entity.OnSelected();
+            }
+        }
+        else { entity.OnDeselected(); }
     }
 
     private void ConnectToEventNewEtentity()
     {
-        foreach (ProductBuildingController i in GameObject.FindObjectsOfType<ProductBuildingController>())
+        foreach (GameObject w in _mapObjects)
         {
-            if (_isMapMod) { i.entitySpawnNow.AddListener(SelectGestionMapMod); }
-            else { i.entitySpawnNow.RemoveListener(SelectGestionMapMod); }
+            foreach (ProductBuildingController i in w.GetComponentsInChildren<ProductBuildingController>())
+            {
+                if (_isMapMod) { i.entitySpawnNow.AddListener(SelectGestionMapMod); }
+                else { i.entitySpawnNow.RemoveListener(SelectGestionMapMod); }
+            }
         }
     }
 

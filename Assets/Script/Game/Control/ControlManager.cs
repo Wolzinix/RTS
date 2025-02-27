@@ -42,6 +42,8 @@ public class ControlManager : MonoBehaviour
 
     private SelectManager _selectManager;
 
+
+
     private bool _order;
     private bool _travelAttack;
 
@@ -54,7 +56,7 @@ public class ControlManager : MonoBehaviour
 
     [SerializeField] Canvas _pauseCanvas;
 
-    private MapMod _mapMod;
+    [SerializeField] private MapMod _mapMod;
 
     void Start()
     {
@@ -71,9 +73,7 @@ public class ControlManager : MonoBehaviour
         _selectManager.SetEnnemieTag(_ennemieTag);
         _selectManager.SetAllieTag(gameObject.tag);
 
-        _mapMod = new MapMod();
-        _mapMod.SetMainCamera(_camera);
-        _mapMod.SetMapCamera(_mapCamera);
+        
 
     }
 
