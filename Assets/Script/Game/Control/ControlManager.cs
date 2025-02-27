@@ -72,9 +72,6 @@ public class ControlManager : MonoBehaviour
 
         _selectManager.SetEnnemieTag(_ennemieTag);
         _selectManager.SetAllieTag(gameObject.tag);
-
-        
-
     }
 
     private void ActiveMultiSelection(InputAction.CallbackContext obj)

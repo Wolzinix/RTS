@@ -33,11 +33,7 @@ public class MapMod : MonoBehaviour
         _mapCamera.GetComponent<CameraControl>().StopMoving();
         _mapCamera.gameObject.SetActive(_mapCamera.enabled);
 
-        if (_isMapMod)
-        {
-            cameraControl.DesactiveZoom();
-
-        }
+        if (_isMapMod) { cameraControl.DesactiveZoom();}
         else { cameraControl.ActiveZoom(); }
     }
 
@@ -45,10 +41,7 @@ public class MapMod : MonoBehaviour
     {
         foreach (GameObject w in _mapObjects)
         {
-            foreach (SelectableManager i in w.GetComponentsInChildren<SelectableManager>())
-            {
-                ActualiseOneUnit(i);
-            }
+            foreach (SelectableManager i in w.GetComponentsInChildren<SelectableManager>()){ ActualiseOneUnit(i);}
         }
     }
 
@@ -60,13 +53,10 @@ public class MapMod : MonoBehaviour
                entity.transform.GetComponentInChildren<MeshRenderer>() && entity.transform.GetComponentInChildren<MeshRenderer>().enabled)
             {
                 entity.OnSelected();
-            }
-            else
-            {
-                entity.OnDeselected();
+                return;
             }
         }
-        else { entity.OnDeselected(); }
+        entity.OnDeselected();
     }
 
     private void ConnectToEventNewEtentity()

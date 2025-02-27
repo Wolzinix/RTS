@@ -9,48 +9,25 @@ public class FogWarController : MonoBehaviour
     {
         foreach (EntityController i in FindObjectsOfType<EntityController>())
         {
-            if (i.gameObject.tag != gameObject.tag)
+            if (i.gameObject.CompareTag(tag))
             {
-                AddFromFog(i);
+                ActualiseFog(i, false);
             }
         }
     }
 
     public void FogGestion(EntityController entity, bool hide)
     {
-        if (entity.gameObject.tag != gameObject.tag)
+        if (entity.gameObject.CompareTag(tag))
         {
-            if (hide && entity.GetComponent<EntityController>()._EnnemieList.Count <= 0 ) { AddFromFog(entity); }
-            else { RemoveFromFog(entity); }
+            if (hide && entity.GetComponent<EntityController>()._EnnemieList.Count <= 0 ) { ActualiseFog(entity,false); }
+            else { ActualiseFog(entity,true); }
 
             mod.ActualiseOneUnit(entity.GetComponent<SelectableManager>());
         }
     }
 
-    private void RemoveFromFog(EntityController entity)
-    {
-        List<MeshRenderer> list = entity.GetComponentsInChildren<MeshRenderer>().ToList();
-
-        
-
-        if (list.Count == 0)
-        { 
-            List < SkinnedMeshRenderer> render = entity.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
-            foreach (SkinnedMeshRenderer ren in render)
-            {
-                ren.enabled = true;
-            }
-        }
-        else
-        {
-            foreach (MeshRenderer renderer in list)
-            {
-                renderer.enabled = true;
-            }
-        }
-    }
-
-    private void AddFromFog(EntityController entity)
+    private void ActualiseFog(EntityController entity, bool visible)
     {
         List<MeshRenderer> list = entity.GetComponentsInChildren<MeshRenderer>().ToList();
         if (list.Count == 0)
@@ -58,14 +35,14 @@ public class FogWarController : MonoBehaviour
             List<SkinnedMeshRenderer> render = entity.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
             foreach (SkinnedMeshRenderer ren in render)
             {
-                ren.enabled = false;
+                ren.enabled = visible;
             }
         }
         else
         {
             foreach (MeshRenderer renderer in list)
             {
-                renderer.enabled = false;
+                renderer.enabled = visible;
             }
         }
     }

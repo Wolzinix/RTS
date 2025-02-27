@@ -52,15 +52,11 @@ public class EntityUiManager : MonoBehaviour
                 attack.text = "Attack:" + _entity2.Attack;
                 if (typeof(TroupeManager) == _entity.GetType())
                 {
-
                     TroupeManager _entity3 = (TroupeManager)_entity;
                     level.enabled = true;
                     level.text = "Level:" + _entity3.level;
                 }
-                else
-                {
-                    level.enabled = false;
-                }
+                else{ level.enabled = false; }
             }
             else
             {

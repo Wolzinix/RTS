@@ -48,8 +48,6 @@ public class GroupManager
     public void SetEnnemieTag(string tag) { _ennemieTag = tag; }
 
     public void SetAllieTag(string tag) { _alliTag = tag; }
-
-
     public string GetAllieTag() { return _alliTag; }
     public Vector3 getCenterofGroup()
     {
@@ -101,36 +99,22 @@ public class GroupManager
         {
             if (entity.GetStartSpeed() > 0)
             {
-                if (entity.GetStartSpeed() > _selectedObject[0].GetSpeed() && _selectedObject[0].GetSpeed() > 0)
-                {
-                    entity.ChangeSpeed(_selectedObject[0].GetSpeed());
-                }
+                if (entity.GetStartSpeed() > _selectedObject[0].GetSpeed() && _selectedObject[0].GetSpeed() > 0)  { entity.ChangeSpeed(_selectedObject[0].GetSpeed()); }
                 else
                 {
                     _selectedObject.Reverse();
-                    foreach (EntityController i in _selectedObject)
-                    {
-                        i.ChangeSpeed(entity.GetStartSpeed());
-                    }
+                    foreach (EntityController i in _selectedObject) {  i.ChangeSpeed(entity.GetStartSpeed()); }
                 }
             }
         }
-        else
-        {
-            entity.ChangeSpeed(entity.GetStartSpeed());
-        }
-
-
+        else {  entity.ChangeSpeed(entity.GetStartSpeed()); }
     }
 
     public void AddSelect(SelectableManager toAdd)
     {
         if (toAdd.gameObject.CompareTag(_alliTag) && toAdd.gameObject.GetComponent<EntityController>())
         {
-            if (_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()) > -1)
-            {
-                RemoveSelect(toAdd);
-            }
+            if (_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()) > -1)  { RemoveSelect(toAdd); }
             else
             {
                 _selectedObject.Add(toAdd.gameObject.GetComponent<EntityController>());
@@ -165,16 +149,12 @@ public class GroupManager
                 float newSpeed = _selectedObject[0].GetStartSpeed();
                 foreach (EntityController i in _selectedObject)
                 {
-                    if (newSpeed > i.GetStartSpeed())
-                    {
-                        newSpeed = i.GetStartSpeed();
-                    }
+                    if (newSpeed > i.GetStartSpeed()){ newSpeed = i.GetStartSpeed(); }
                 }
                 foreach (EntityController i in _selectedObject)
                 {
                     i.ChangeSpeed(newSpeed);
                 }
-
             }
         }
     }
@@ -237,7 +217,6 @@ public class GroupManager
                 Vector3 _PointToReach = _CenterOfGroup - i.transform.position;
                 if (dontGoOnPoint) { i.GetComponent<EntityController>().AddPath(point - _PointToReach); }
                 else { i.GetComponent<EntityController>().AddPath(point); }
-
             }
         }
     }
@@ -247,17 +226,11 @@ public class GroupManager
         List<int> indexToRemove = new List<int>();
         foreach (EntityController i in _selectedObject)
         {
-            if (!i)
-            {
-                indexToRemove.Add(_selectedObject.IndexOf(i));
-            }
+            if (!i) {  indexToRemove.Add(_selectedObject.IndexOf(i)); }
         }
 
         indexToRemove.Reverse();
-        foreach (int i in indexToRemove)
-        {
-            _selectedObject.RemoveAt(i);
-        }
+        foreach (int i in indexToRemove) { _selectedObject.RemoveAt(i); }
         SelectedObjectIsEmpty();
     }
 
@@ -384,10 +357,7 @@ public class GroupManager
         {
             VerifyIfEveryBodyIsAlive();
             ResetOrder();
-            foreach (var i in _selectedObject)
-            {
-                i.AddStayOrder();
-            }
+            foreach (var i in _selectedObject) { i.AddStayOrder(); }
         }
     }
 
