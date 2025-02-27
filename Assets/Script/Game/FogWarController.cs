@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FogWarController : MonoBehaviour
 {
+    [SerializeField] MapMod mod;
     void Start()
     {
         foreach (EntityController i in FindObjectsOfType<EntityController>())
@@ -21,6 +22,8 @@ public class FogWarController : MonoBehaviour
         {
             if (hide && entity.GetComponent<EntityController>()._EnnemieList.Count <= 0 ) { AddFromFog(entity); }
             else { RemoveFromFog(entity); }
+
+            mod.ActualiseOneUnit(entity.GetComponent<SelectableManager>());
         }
     }
 
@@ -44,7 +47,7 @@ public class FogWarController : MonoBehaviour
             {
                 renderer.enabled = true;
             }
-        }    
+        }
     }
 
     private void AddFromFog(EntityController entity)

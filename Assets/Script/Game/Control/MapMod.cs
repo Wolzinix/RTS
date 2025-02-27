@@ -61,6 +61,10 @@ public class MapMod : MonoBehaviour
             {
                 entity.OnSelected();
             }
+            else
+            {
+                entity.OnDeselected();
+            }
         }
         else { entity.OnDeselected(); }
     }

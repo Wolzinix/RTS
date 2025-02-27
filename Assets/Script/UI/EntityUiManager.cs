@@ -30,9 +30,13 @@ public class EntityUiManager : MonoBehaviour
     public void SetEntity(SelectableManager em)
     {
         _entity = em;
-        _entity.changeStats.AddListener(UpdateUI);
-        _entity.deathEvent.AddListener(DisableUI);
-        UpdateUI();
+        if(em != null) 
+        {
+            _entity.changeStats.AddListener(UpdateUI);
+            _entity.deathEvent.AddListener(DisableUI);
+            UpdateUI();
+        }
+        
     }
 
     public void UpdateUI()

@@ -423,6 +423,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5304120567132445918, guid: 13a5455ca8fe41b4e81e318b706d6721, type: 3}
+      propertyPath: mod
+      value: 
+      objectReference: {fileID: 1832745547}
     - target: {fileID: 7072960387548259141, guid: 13a5455ca8fe41b4e81e318b706d6721, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
