@@ -28,9 +28,9 @@ public class RessourceUi : MonoBehaviour
 
     private void ActualsieText()
     {
-        _gold.text = goldNB + " PO";
+        _gold.text = goldNB + "";
 
-        _wood.text = woodNB + " W";
+        _wood.text = woodNB + "";
     }
 
 }
