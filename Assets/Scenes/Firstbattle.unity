@@ -11602,6 +11602,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1372857281}
     - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: _mapMod
+      value: 
+      objectReference: {fileID: 1249935003}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: dragBox
       value: 
       objectReference: {fileID: 2107082072}
@@ -11613,6 +11617,10 @@ PrefabInstance:
       propertyPath: _pauseCanvas
       value: 
       objectReference: {fileID: 7425194147886088701}
+    - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+      propertyPath: _listOfEntity
+      value: 
+      objectReference: {fileID: 950016816}
     - target: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
       propertyPath: _travelAttack
       value: 0

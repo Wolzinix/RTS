@@ -240,8 +240,8 @@ public class ControlManager : MonoBehaviour
             {
                 Debug.DrawLine(_camera.transform.position, hit.point, color: Color.blue, 10f);
                 if (hit.transform.GetComponent<SelectableManager>() &&
-                    hit.transform.GetComponentInChildren<SkinnedMeshRenderer>() && hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
-                    hit.transform.GetComponentInChildren<MeshRenderer>() && hit.transform.GetComponentInChildren<MeshRenderer>().enabled)
+                    (hit.transform.GetComponentInChildren<SkinnedMeshRenderer>() && hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
+                    hit.transform.GetComponentInChildren<MeshRenderer>() && hit.transform.GetComponentInChildren<MeshRenderer>().enabled))
                 {
                     _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<SelectableManager>());
                     _selectManager.AddSelect(hit.transform.gameObject.GetComponent<SelectableManager>());
@@ -273,7 +273,9 @@ public class ControlManager : MonoBehaviour
                     ResetUiOrder();
                     _selectManager.ClearList();
                     CadreController groupUI = raycastResult.gameObject.GetComponent<CadreController>();
-                    _UiGestioneur.ActualiseUi(groupUI.GetEntity());
+
+                     _UiGestioneur.ActualiseUi(groupUI.GetEntity());
+                    
                     _selectManager.AddSelect(groupUI.GetEntity().GetComponent<SelectableManager>());
                 }
             }
