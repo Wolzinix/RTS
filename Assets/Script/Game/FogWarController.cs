@@ -9,7 +9,7 @@ public class FogWarController : MonoBehaviour
     {
         foreach (EntityController i in FindObjectsOfType<EntityController>())
         {
-            if (i.gameObject.CompareTag(tag))
+            if (!i.gameObject.CompareTag(tag))
             {
                 ActualiseFog(i, false);
             }
@@ -18,7 +18,7 @@ public class FogWarController : MonoBehaviour
 
     public void FogGestion(EntityController entity, bool hide)
     {
-        if (entity.gameObject.CompareTag(tag))
+        if (!entity.gameObject.CompareTag(tag))
         {
             if (hide && entity.GetComponent<EntityController>()._EnnemieList.Count <= 0 ) { ActualiseFog(entity,false); }
             else { ActualiseFog(entity,true); }
