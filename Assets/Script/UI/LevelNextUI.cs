@@ -3,8 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelNextUI : MonoBehaviour
 {
-    [SerializeField] string MainMenu;
-    [SerializeField] string SceneToload;
+    [SerializeField] int SceneToload;
 
     [SerializeField] GameObject MainMenuUI;
     [SerializeField] GameObject RetryMenuUI;
@@ -18,12 +17,12 @@ public class LevelNextUI : MonoBehaviour
     public void NextScene()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneToload);
+        SceneManager.LoadScene(SceneIndex.GetIndexOfScene(SceneToload));
     }
     public void MainMenuScene()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(MainMenu);
+        SceneManager.LoadScene(SceneIndex.GetIndexOfScene(0));
     }
     public void CurrentScene()
     {
@@ -40,7 +39,7 @@ public class LevelNextUI : MonoBehaviour
         {
             RetryMenuUI.SetActive(true);
         }
-        else if (SceneToload == "")
+        else if (SceneToload == 0)
         {
             MainMenuUI.SetActive(true);
         }
