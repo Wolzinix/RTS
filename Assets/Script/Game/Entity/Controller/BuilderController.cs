@@ -154,12 +154,12 @@ public class BuilderController : EntityController
 
     public void PayCostOfBuilding(SelectableManager defense)
     {
-        ressourceController.AddGold(-GetGoldCostOfBuilding(defense));
-        ressourceController.AddWood(-GetWoodCostOfBuilding(defense));
+        ressourceController.AddGold(-defense.GetComponent<EntityManager>().GoldCost);
+        ressourceController.AddWood(-defense.GetComponent<EntityManager>().WoodCost);
     }
 
     public void SetRessourceController(RessourceController ressourceController)
-    {
+        {
         this.ressourceController = ressourceController;
     }
 }

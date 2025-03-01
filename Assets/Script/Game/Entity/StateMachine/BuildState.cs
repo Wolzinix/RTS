@@ -29,8 +29,7 @@ public class BuildState : StateClassEntity
                 if (colliders.Length == 0 || colliders.Length == 1 && colliders[0].gameObject.GetComponent<EntityManager>() == null || (colliders.Length == 2 && (colliders[1] == builder || colliders[0] == builder)))
                 {
                     SelectableManager gm = BuilderController.Instantiate(defenseManager, new Vector3(position.x, builder.transform.position.y, position.z), builder.transform.rotation, builder.transform.parent).GetComponent<SelectableManager>();
-                    builder.GetComponent<AggressifEntityManager>().ressources.AddGold(-defenseManager.GetComponent<EntityManager>().GoldAmount);
-                    builder.GetComponent<AggressifEntityManager>().ressources.AddWood(-defenseManager.GetComponent<EntityManager>().WoodAmount);
+                
                     gm.gameObject.tag = builder.tag;
                     if(gm.GetComponent<DefenseManager>())
                     {
@@ -38,7 +37,7 @@ public class BuildState : StateClassEntity
                     }
                     gm.ActualiseSprite();
 
-                    builder.PayCostOfBuilding(defenseManager);
+                    builder.PayCostOfBuilding(gm);
                     End();
                 }
                 else
@@ -57,15 +56,9 @@ public class BuildState : StateClassEntity
                     }
                 }
             }
-            else
-            {
-                End();
-            }
+            else  { End(); }
         }
-        else
-        {
-            builder.AddPathWithRange(position, size);
-        }
+        else  { builder.AddPathWithRange(position, size); }
     }
 
     public override void End()
