@@ -101,5 +101,10 @@ public class SelectManager : MonoBehaviour
     {
         return _groupManager.getSelectList();
     }
+
+    public void MooveOnFormation()
+    {
+        _groupManager.ReverseFormation();
+    }
 }
 

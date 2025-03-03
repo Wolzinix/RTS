@@ -98,14 +98,8 @@ public class NavMeshController : MonoBehaviour
             transform.rotation = new Quaternion(0,transform.rotation.y, 0, transform.rotation.w);
             // ancien systeme
             //transform.position = Vector3.MoveTowards(transform.position, new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z), _speed * Time.deltaTime);
-            if (_rb.velocity.magnitude <= _speed)
-            {
-                _rb.AddRelativeForce(Vector3.forward * _speed,ForceMode.VelocityChange);
-            }
-            else
-            {
-                _rb.velocity /= 4;
-            }
+            if (_rb.velocity.magnitude <= _speed) { _rb.AddRelativeForce(Vector3.forward * _speed,ForceMode.VelocityChange); }
+            else  { _rb.velocity /= 4; }
             _navMesh.enabled = false;
         }
     }

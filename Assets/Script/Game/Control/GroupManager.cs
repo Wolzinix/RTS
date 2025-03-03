@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class GroupManager
 {
@@ -21,6 +22,7 @@ public class GroupManager
 
     private SelectableManager _OneSelected;
 
+    private bool IsOnFormation = true;
     public GroupManager()
     {
         _selectedObject = new List<EntityController>();
@@ -95,7 +97,7 @@ public class GroupManager
 
     private void ChangeSpeedWhenAdd(EntityController entity)
     {
-        if (_selectedObject.Count > 1)
+        if (_selectedObject.Count > 1 && IsOnFormation)
         {
             if (entity.GetStartSpeed() > 0)
             {
@@ -108,6 +110,14 @@ public class GroupManager
             }
         }
         else {  entity.ChangeSpeed(entity.GetStartSpeed()); }
+    }
+
+    public void RestoreSpeedOfAllEntity()
+    {
+        foreach (EntityController entity in _selectedObject)
+        {
+            entity.ChangeSpeed(entity.GetStartSpeed());
+        }
     }
 
     public void AddSelect(SelectableManager toAdd)
@@ -212,6 +222,7 @@ public class GroupManager
         {
             VerifyIfEveryBodyIsAlive();
             getCenterofGroup();
+            dontGoOnPoint = IsOnFormation;
             foreach (EntityController i in _selectedObject)
             {
                 Vector3 _PointToReach = _CenterOfGroup - i.transform.position;
@@ -384,5 +395,12 @@ public class GroupManager
             if (i.moving) moving = true;
         }
         return moving;
+    }
+
+    public void ReverseFormation()
+    {
+        IsOnFormation = !IsOnFormation;
+        if (!IsOnFormation) { RestoreSpeedOfAllEntity(); }
+        
     }
 }
