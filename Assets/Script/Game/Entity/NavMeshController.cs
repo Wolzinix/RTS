@@ -10,6 +10,8 @@ public class NavMeshController : MonoBehaviour
     private NavMeshPath _navPath;
     private NavMeshObstacle _navObstacle;
 
+    Rigidbody _rb;
+
     public Vector3 _destination;
     [HideInInspector] public float _stoppingDistance;
     public float _speed;
@@ -17,6 +19,7 @@ public class NavMeshController : MonoBehaviour
     {
         _navMesh = GetComponent<NavMeshAgent>();
         _navObstacle = GetComponent<NavMeshObstacle>();
+        _rb = GetComponent<Rigidbody>();
         MeshRenderer meshrender = GetComponentInChildren<MeshRenderer>();
 
         _navPath = new NavMeshPath();
@@ -93,7 +96,16 @@ public class NavMeshController : MonoBehaviour
         {
             transform.LookAt(new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z));
             transform.rotation = new Quaternion(0,transform.rotation.y, 0, transform.rotation.w);
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z), _speed * Time.deltaTime);
+            // ancien systeme
+            //transform.position = Vector3.MoveTowards(transform.position, new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z), _speed * Time.deltaTime);
+            if (_rb.velocity.magnitude <= _speed)
+            {
+                _rb.AddRelativeForce(Vector3.forward * _speed * 100);
+            }
+            else
+            {
+                _rb.velocity /= 4;
+            }
             _navMesh.enabled = false;
         }
     }
@@ -136,6 +148,7 @@ public class NavMeshController : MonoBehaviour
             _navMesh.enabled = false;
             _navObstacle.enabled = true;
             _destination = Vector3.zero;
+            _rb.velocity = Vector3.zero;
         }
         if(_navMesh != null)
         {

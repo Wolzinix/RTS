@@ -331,13 +331,13 @@ MonoBehaviour:
   xpToGive: 100
   ressources: {fileID: 0}
   attack: 3
-  attackSpeed: 1
+  attackSpeed: 2
   range: 2
   effect: {fileID: 0}
   DoAnAttack:
     m_PersistentCalls:
       m_Calls: []
-  StartSpeed: 2
+  StartSpeed: 1
   xp: 0
   level: 0
   HpToAdd: 1
