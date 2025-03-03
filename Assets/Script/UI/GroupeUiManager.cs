@@ -17,7 +17,7 @@ public class GroupeUiManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    private void OnDisable()
     {
         ClearList();
     }

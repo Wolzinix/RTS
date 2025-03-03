@@ -100,7 +100,7 @@ public class NavMeshController : MonoBehaviour
             //transform.position = Vector3.MoveTowards(transform.position, new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z), _speed * Time.deltaTime);
             if (_rb.velocity.magnitude <= _speed)
             {
-                _rb.AddRelativeForce(Vector3.forward * _speed * 100);
+                _rb.AddRelativeForce(Vector3.forward * _speed,ForceMode.VelocityChange);
             }
             else
             {

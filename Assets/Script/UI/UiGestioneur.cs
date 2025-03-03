@@ -125,8 +125,8 @@ public class UiGestioneur : MonoBehaviour
         NoUi.gameObject.SetActive(false);
         groupUi.gameObject.SetActive(true);
         orderUi.gameObject.SetActive(true);
-        orderUi.SetEntity(entity.gameObject);
         groupUi.AddEntity(entity);
+        orderUi.SetEntity(entity.gameObject);
     }
 
     public void DesactiveUi()

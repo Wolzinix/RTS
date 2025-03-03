@@ -373,13 +373,13 @@ public class ControlManager : MonoBehaviour
             if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag))
             {
                 _selectManager.AddSelect(i.gameObject.GetComponent<SelectableManager>());
-                if(_selectManager._groupManager.getNumberOnGroup() == 1)
-                {
-                    _UiGestioneur.ActualiseUi(i.gameObject.GetComponent<SelectableManager>());
-                }
-                else  {   _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());           }
-  
+                _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());
             }
+        }
+
+        if (_selectManager._groupManager.getNumberOnGroup() == 1)
+        {
+            _UiGestioneur.ActualiseUi(_selectManager._groupManager.getSelectList()[0].gameObject.GetComponent<SelectableManager>());
         }
     }
 
