@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
-    [SerializeField] string SceneToload;
+    [SerializeField] int SceneToload;
 
     public void QuitGame()
     {
@@ -13,6 +13,6 @@ public class MainMenu : MonoBehaviour
 
     public void NextScene()
     {
-        SceneManager.LoadScene(SceneToload);
+        SceneManager.LoadScene(SceneIndex.GetIndexOfScene(SceneToload));
     }
 }

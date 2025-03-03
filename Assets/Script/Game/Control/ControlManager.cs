@@ -31,9 +31,9 @@ public class ControlManager : MonoBehaviour
     private bool _patrolOrder;
 
     CapacityController _capacityController;
-    TroupeManager _troupeManager;
     private bool _capactityOrder;
 
+    [SerializeField] GameObject _listOfEntity;
 
     private Vector3 _dragCoord;
     [SerializeField] private RectTransform dragBox;
@@ -41,6 +41,8 @@ public class ControlManager : MonoBehaviour
     private float _timeOfDragging;
 
     private SelectManager _selectManager;
+
+
 
     private bool _order;
     private bool _travelAttack;
@@ -54,7 +56,7 @@ public class ControlManager : MonoBehaviour
 
     [SerializeField] Canvas _pauseCanvas;
 
-    private MapMod _mapMod;
+    [SerializeField] private MapMod _mapMod;
 
     void Start()
     {
@@ -70,11 +72,6 @@ public class ControlManager : MonoBehaviour
 
         _selectManager.SetEnnemieTag(_ennemieTag);
         _selectManager.SetAllieTag(gameObject.tag);
-
-        _mapMod = new MapMod();
-        _mapMod.SetMainCamera(_camera);
-        _mapMod.SetMapCamera(_mapCamera);
-
     }
 
     private void ActiveMultiSelection(InputAction.CallbackContext obj)
@@ -141,8 +138,8 @@ public class ControlManager : MonoBehaviour
 
     private void ActiveAllInput()
     {
-        selectEntityInput.action.started += DoASelection;
-        moveEntityInput.action.started += MooveSelected;
+        selectEntityInput.action.started += LeftClickGestion;
+        moveEntityInput.action.started += RightClickGestion;
         multiSelectionInput.action.performed += ActiveMultiSelection;
         multiSelectionInput.action.canceled += DesactiveMultiSelection;
         multiPathInput.action.performed += ActiveMultiPath;
@@ -153,8 +150,8 @@ public class ControlManager : MonoBehaviour
 
     private void DesactiveAllInput()
     {
-        selectEntityInput.action.started -= DoASelection;
-        moveEntityInput.action.started -= MooveSelected;
+        selectEntityInput.action.started -= LeftClickGestion;
+        moveEntityInput.action.started -= RightClickGestion;
         multiSelectionInput.action.performed -= ActiveMultiSelection;
         multiSelectionInput.action.canceled -= ActiveMultiSelection;
         multiPathInput.action.performed -= ActiveMultiPath;
@@ -183,7 +180,7 @@ public class ControlManager : MonoBehaviour
             dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
         }
     }
-    private void DoASelection(InputAction.CallbackContext context)
+    private void LeftClickGestion(InputAction.CallbackContext context)
     {
         Physics.SyncTransforms();
         RaycastHit hit = DoARayCast(_camera);
@@ -229,26 +226,25 @@ public class ControlManager : MonoBehaviour
         }
         else
         {
-            List<RaycastResult> listOfUIRay = DoUiRayCast();
-            if (listOfUIRay.Count == 0)
+            DoASelection(hit);
+        }
+    }
+
+    private void DoASelection(RaycastHit hit)
+    {
+        List<RaycastResult> listOfUIRay = DoUiRayCast();
+        if (listOfUIRay.Count == 0)
+        {
+            if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
+            if (hit.collider)
             {
-                if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
-                if (hit.collider)
+                Debug.DrawLine(_camera.transform.position, hit.point, color: Color.blue, 10f);
+                if (hit.transform.GetComponent<SelectableManager>() &&
+                    (hit.transform.GetComponentInChildren<SkinnedMeshRenderer>() && hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
+                    hit.transform.GetComponentInChildren<MeshRenderer>() && hit.transform.GetComponentInChildren<MeshRenderer>().enabled))
                 {
-                    Debug.DrawLine(_camera.transform.position, hit.point, color: Color.blue, 10f);
-                    if (hit.transform.GetComponent<SelectableManager>())
-                    {
-                        _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<SelectableManager>());
-                        _selectManager.AddSelect(hit.transform.gameObject.GetComponent<SelectableManager>());
-                    }
-                    else
-                    {
-                        if (!_multiSelectionIsActive)
-                        {
-                            _selectManager.ClearList();
-                            _UiGestioneur.DesactiveUi();
-                        }
-                    }
+                    _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<SelectableManager>());
+                    _selectManager.AddSelect(hit.transform.gameObject.GetComponent<SelectableManager>());
                 }
                 else
                 {
@@ -261,22 +257,32 @@ public class ControlManager : MonoBehaviour
             }
             else
             {
-                foreach (RaycastResult raycastResult in listOfUIRay)
+                if (!_multiSelectionIsActive)
                 {
-                    if (raycastResult.gameObject.GetComponent<CadreController>())
-                    {
-                        ResetUiOrder();
-                        _selectManager.ClearList();
-                        CadreController groupUI = raycastResult.gameObject.GetComponent<CadreController>();
-                        _UiGestioneur.ActualiseUi(groupUI.GetEntity());
-                        _selectManager.AddSelect(groupUI.GetEntity().GetComponent<SelectableManager>());
-                    }
+                    _selectManager.ClearList();
+                    _UiGestioneur.DesactiveUi();
+                }
+            }
+        }
+        else
+        {
+            foreach (RaycastResult raycastResult in listOfUIRay)
+            {
+                if (raycastResult.gameObject.GetComponent<CadreController>())
+                {
+                    ResetUiOrder();
+                    _selectManager.ClearList();
+                    CadreController groupUI = raycastResult.gameObject.GetComponent<CadreController>();
+
+                     _UiGestioneur.ActualiseUi(groupUI.GetEntity());
+                    
+                    _selectManager.AddSelect(groupUI.GetEntity().GetComponent<SelectableManager>());
                 }
             }
         }
     }
 
-    private void MooveSelected(InputAction.CallbackContext context)
+    private void RightClickGestion(InputAction.CallbackContext context)
     {
         List<RaycastResult> listOfUIRay = DoUiRayCast();
         if (listOfUIRay.Count == 0)
@@ -360,14 +366,19 @@ public class ControlManager : MonoBehaviour
         dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
         Bounds bounds = new Bounds(dragBox.anchoredPosition, dragBox.sizeDelta);
 
-        foreach (EntityController i in FindObjectsOfType<EntityController>())
+        foreach (EntityController i in _listOfEntity.GetComponentsInChildren<EntityController>())
         {
             Vector3 point = _camera.WorldToScreenPoint(i.transform.position);
 
             if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag))
             {
                 _selectManager.AddSelect(i.gameObject.GetComponent<SelectableManager>());
-                _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());
+                if(_selectManager._groupManager.getNumberOnGroup() == 1)
+                {
+                    _UiGestioneur.ActualiseUi(i.gameObject.GetComponent<SelectableManager>());
+                }
+                else  {   _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());           }
+  
             }
         }
     }
@@ -394,7 +405,6 @@ public class ControlManager : MonoBehaviour
             ResetUiOrder();
             
             _capactityOrder = true;
-            _troupeManager = troupeManager;
             _capacityController = capacity;
             Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
             

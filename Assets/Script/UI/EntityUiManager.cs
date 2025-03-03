@@ -30,9 +30,13 @@ public class EntityUiManager : MonoBehaviour
     public void SetEntity(SelectableManager em)
     {
         _entity = em;
-        _entity.changeStats.AddListener(UpdateUI);
-        _entity.deathEvent.AddListener(DisableUI);
-        UpdateUI();
+        if(em != null) 
+        {
+            _entity.changeStats.AddListener(UpdateUI);
+            _entity.deathEvent.AddListener(DisableUI);
+            UpdateUI();
+        }
+        
     }
 
     public void UpdateUI()
@@ -48,15 +52,11 @@ public class EntityUiManager : MonoBehaviour
                 attack.text = "Attack:" + _entity2.Attack;
                 if (typeof(TroupeManager) == _entity.GetType())
                 {
-
                     TroupeManager _entity3 = (TroupeManager)_entity;
                     level.enabled = true;
                     level.text = "Level:" + _entity3.level;
                 }
-                else
-                {
-                    level.enabled = false;
-                }
+                else{ level.enabled = false; }
             }
             else
             {

@@ -13,9 +13,13 @@ public class CadreController : MonoBehaviour
     public void SetEntity(SelectableManager entity)
     {
         _entity = entity;
-        _entity.changeStats.AddListener(ActualiseHp);
-        _entity.deathEvent.AddListener(DestroyHimSelf);
-        SetCadre();
+        if(_entity != null )
+        {
+            _entity.changeStats.AddListener(ActualiseHp);
+            _entity.deathEvent.AddListener(DestroyHimSelf);
+            SetCadre();
+        }
+        
     }
     public void SetCadre()
     {

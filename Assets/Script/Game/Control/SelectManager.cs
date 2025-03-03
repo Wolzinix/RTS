@@ -52,7 +52,8 @@ public class SelectManager : MonoBehaviour
     {
         if (toAdd.gameObject.CompareTag(_groupManager.GetAllieTag()))
         {
-            if (toAdd.GetComponent<BuilderController>()) { toAdd.GetComponent<BuilderController>().SetRessourceController(GetComponent<RessourceController>()); }
+            gameObject.GetComponentInParent<RessourceController>();
+            if (toAdd.GetComponent<BuilderController>()) { toAdd.GetComponent<BuilderController>().SetRessourceController(GetComponentInParent<RessourceController>()); }
             _groupManager.AddSelect(toAdd);
         }
         else
