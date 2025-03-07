@@ -2385,6 +2385,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2225450062071702623, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1547322195}
+    - target: {fileID: 2225450062071702623, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MooveOnFormation
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225450062071702623, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SelectManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2657328506366978631, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -11515,6 +11527,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+--- !u!114 &1547322195 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6199049926203090015, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+  m_PrefabInstance: {fileID: 1547322194}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0036ae9fdfeb74995f1b3a1715c28c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1565134139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5592201362407160647, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
