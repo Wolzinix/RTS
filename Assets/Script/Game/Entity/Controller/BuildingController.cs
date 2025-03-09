@@ -55,7 +55,10 @@ public class BuildingController : MonoBehaviour
 
         foreach (GameObject hit in _ListOfCollision)
         {
-            hitGestion(hit, listOfAlly, listOfennemie);
+            if(hit)
+            {
+                hitGestion(hit, listOfAlly, listOfennemie);
+            }
         }
         ClearListOfEnnemi(listOfennemie);
         ClearListOfAlly(listOfAlly);

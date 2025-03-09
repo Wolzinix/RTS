@@ -15894,7 +15894,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1835630373064345868, guid: 5b09689fbc4e0e24c8ce45be0db20e20, type: 3}
       propertyPath: SceneToload
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2693609067146085600, guid: 5b09689fbc4e0e24c8ce45be0db20e20, type: 3}
       propertyPath: m_Pivot.x

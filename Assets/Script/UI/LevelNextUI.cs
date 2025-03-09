@@ -35,19 +35,9 @@ public class LevelNextUI : MonoBehaviour
     public void AppearUI(bool IsPlayer)
     {
         Time.timeScale = 0;
-        if (IsPlayer)
-        {
-            RetryMenuUI.SetActive(true);
-        }
-        else if (SceneToload == 0)
-        {
-            MainMenuUI.SetActive(true);
-        }
-        else
-        {
-            NextMenuUI.SetActive(true);
-        }
-        
+        if (IsPlayer) { RetryMenuUI.SetActive(true);  }
+        else if (SceneToload == 0) { MainMenuUI.SetActive(true);  }
+        else { NextMenuUI.SetActive(true); }
     }
 
 }
