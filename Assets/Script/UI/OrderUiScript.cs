@@ -97,6 +97,7 @@ public class OrderUiScript : MonoBehaviour
         {
             if (raycastResult.gameObject.GetComponent<Button>())
             {
+                // don't right click on ui TO DO 
                 List<CapacityController> listOfCapacaity = _entity.GetComponentsInChildren<CapacityController>().ToList();
                 Button _button = raycastResult.gameObject.GetComponent<Button>();
                 CapacityController capacity = listOfCapacaity[_ListOfButton.IndexOf(_button)];
