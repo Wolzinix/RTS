@@ -6,15 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/Menu/MainMenu.unity
     guid: 1f6b884727513064b9c8d51b66e54e8b
   - enabled: 1
-    path: Assets/Scenes/Firstbattle.unity
+    path: Assets/Scenes/Level/Firstbattle.unity
     guid: d7f271c26ad7ad34f96f2e87773e740d
   - enabled: 1
-    path: Assets/Scenes/SecondBattle.unity
+    path: Assets/Scenes/Level/SecondBattle.unity
     guid: 3de9f617f88bb4d499599e6ff720fcb7
   - enabled: 0
     path: Assets/Scenes/TestEntity.unity
     guid: 42138c17a113c654a9a842efeec0d892
+  - enabled: 1
+    path: Assets/Scenes/LoadScreen/ScreenLoadFirstSecond.unity
+    guid: 55af0ff00a5045f468ce743d7562b7f5
+  - enabled: 1
+    path: Assets/Scenes/LoadScreen/ScreenLoadMainFirst.unity
+    guid: 3848a6adb9df6d04881c215bbcae49d1
   m_configObjects: {}

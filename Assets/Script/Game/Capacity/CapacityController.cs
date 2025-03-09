@@ -25,7 +25,7 @@ public abstract class CapacityController : MonoBehaviour
     }
     protected virtual void Apply()
     {
-        if (ready)
+        if (ready && gameObject)
         {
             if(entityAffected)
             {

@@ -7,6 +7,8 @@ public static class SceneIndex
         { 0,"MainMenu" },
         { 1,"Firstbattle" },
         { 2,"SecondBattle" },
+        { 3, "ScreenLoadFirstSecond" },
+        { 4,"ScreenLoadMainFirst" }
     };
     
 
