@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Lief 1
-  m_Shader: {fileID: -6465566751694194690, guid: 91515b6a18087f748bb44d2037968855, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: d2ca91b64546928448a32a8630b8ee0a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -117,12 +117,17 @@ Material:
     - _SrcBlend: 1
     - _TranslucencyViewDependency: 0.7
     - _UVSec: 0
+    - _Wind: 0.2
     - _WindDirection: 1
+    - _WindDistortion: 0.2
     - _WindPower: 1
     - _WindQuality: 0
+    - _WindRotation: 0
+    - _WindSpeed: 1
+    - _WindStrenght: 0.2
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.11489794, g: 0.3056603, b: 0, a: 1}
+    - _Color: {r: 0.08277695, g: 0.22264141, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
     - _TranslucencyColor: {r: 0.73, g: 0.85, b: 0.41, a: 1}
