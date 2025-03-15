@@ -10,6 +10,7 @@ public class RessourceSpawning : MonoBehaviour
     public float MeterBetween2Object;
 
     public List<GameObject> spawningItems;
+    [SerializeField] int NumberOfTentative;
 
     private float size;
     [SerializeField,MinMaxRange(0f, 1f)] Vector2 sizeMultiplicator;
@@ -34,6 +35,15 @@ public class RessourceSpawning : MonoBehaviour
             float z = currentPosition.z + Random.Range(-boxSize.z, boxSize.z);
             Vector3 position = new Vector3(x, currentPosition.y, z);
             position = RayToTuchGround(position);
+            int w = 0;
+            while(DoAOverlap(position) > 2 || position == transform.position || w < NumberOfTentative)
+            {
+                x = currentPosition.x + Random.Range(-boxSize.x, boxSize.x);
+                z = currentPosition.z + Random.Range(-boxSize.z, boxSize.z);
+                position = new Vector3(x, currentPosition.y, z);
+                position = RayToTuchGround(position);
+                w += 1;
+            }
             if (DoAOverlap(position) <= 2 && position != transform.position)
             {
                 if(ObjectStorage)
@@ -47,7 +57,6 @@ public class RessourceSpawning : MonoBehaviour
                 float multiple = Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
                 spawningItems[spawningItems.Count - 1].transform.localScale *= multiple;
             }
-            
         }
     }
 
