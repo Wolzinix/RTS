@@ -1,4 +1,6 @@
+using LazySquirrelLabs.MinMaxRangeAttribute;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RessourceSpawning : MonoBehaviour
@@ -10,7 +12,9 @@ public class RessourceSpawning : MonoBehaviour
     public List<GameObject> spawningItems;
 
     private float size;
-
+    [SerializeField,MinMaxRange(0f, 1f)] Vector2 sizeMultiplicator;
+    [SerializeField] GameObject ObjectStorage;
+    
     BoxCollider boxCollider;
 
     public void SpawnObject()
@@ -29,11 +33,21 @@ public class RessourceSpawning : MonoBehaviour
             float x = currentPosition.x + Random.Range(-boxSize.x, boxSize.x);
             float z = currentPosition.z + Random.Range(-boxSize.z, boxSize.z);
             Vector3 position = new Vector3(x, currentPosition.y, z);
-
-            if (DoAOverlap(position) <= 2)
+            position = RayToTuchGround(position);
+            if (DoAOverlap(position) <= 2 && position != transform.position)
             {
-                spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation));
+                if(ObjectStorage)
+                {
+                    spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation,ObjectStorage.transform));
+                }
+                else
+                {
+                    spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation));
+                }
+                float multiple = Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
+                spawningItems[spawningItems.Count - 1].transform.localScale *= multiple;
             }
+            
         }
     }
 
@@ -59,6 +73,21 @@ public class RessourceSpawning : MonoBehaviour
             }
         }
         spawningItems.Clear();
+    }
+    public Vector3 RayToTuchGround(Vector3 pos)
+    {
+        Ray ray = new Ray(pos, Vector3.down);
+        RaycastHit[] hits = Physics.RaycastAll(ray, boxCollider.size.y);
+
+        foreach (RaycastHit hit in hits)
+        {
+            Debug.DrawLine(pos, hit.point, Color.red, 10f);
+            if (hit.collider.gameObject.GetComponent<Terrain>())
+            {
+                return new Vector3(pos.x, hit.point.y, pos.z);
+            }
+        }
+        return transform.position;
     }
 
     public void ClearList()
