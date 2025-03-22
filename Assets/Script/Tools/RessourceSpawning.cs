@@ -1,5 +1,6 @@
 using LazySquirrelLabs.MinMaxRangeAttribute;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -33,14 +34,14 @@ public class RessourceSpawning : MonoBehaviour
         {
             float x = currentPosition.x + Random.Range(-boxSize.x, boxSize.x);
             float z = currentPosition.z + Random.Range(-boxSize.z, boxSize.z);
-            Vector3 position = new Vector3(x, currentPosition.y, z);
+            Vector3 position = new Vector3(x, currentPosition.y + boxSize.y/2, z);
             position = RayToTuchGround(position);
             int w = 0;
-            while(DoAOverlap(position) > 2 || position == transform.position || w < NumberOfTentative)
+            while(DoAOverlap(position) > 2 || position == transform.position || w <= NumberOfTentative)
             {
                 x = currentPosition.x + Random.Range(-boxSize.x, boxSize.x);
                 z = currentPosition.z + Random.Range(-boxSize.z, boxSize.z);
-                position = new Vector3(x, currentPosition.y, z);
+                position = new Vector3(x, currentPosition.y + boxSize.y / 2, z);
                 position = RayToTuchGround(position);
                 w += 1;
             }
@@ -91,7 +92,7 @@ public class RessourceSpawning : MonoBehaviour
         foreach (RaycastHit hit in hits)
         {
             Debug.DrawLine(pos, hit.point, Color.red, 10f);
-            if (hit.collider.gameObject.GetComponent<Terrain>())
+            if (hit.collider.gameObject.GetComponent<Terrain>() || hit.collider.gameObject.GetComponent<NavMeshSurface>())
             {
                 return new Vector3(pos.x, hit.point.y, pos.z);
             }
