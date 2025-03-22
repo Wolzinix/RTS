@@ -2,6 +2,7 @@ using LazySquirrelLabs.MinMaxRangeAttribute;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class RessourceSpawning : MonoBehaviour
@@ -19,35 +20,37 @@ public class RessourceSpawning : MonoBehaviour
     
     BoxCollider boxCollider;
 
+    private void Start()
+    {
+        SpawnObject();
+    }
     public void SpawnObject()
     {
         boxCollider = GetComponent<BoxCollider>();
         DestroyAllGameObject();
-        Vector3 currentPosition = gameObject.transform.position;
 
         size = getSize();
 
-        Vector3 boxSize = boxCollider.size / 2;
-
-
         for (int i = 0; i < nbOfSpawningItem; i++)
         {
-            float x = currentPosition.x + Random.Range(-boxSize.x, boxSize.x);
-            float z = currentPosition.z + Random.Range(-boxSize.z, boxSize.z);
-            Vector3 position = new Vector3(x, currentPosition.y + boxSize.y/2, z);
+
+            float multiple = Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
+            float x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
+            float z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
+            Vector3 position = new Vector3(x, boxCollider.bounds.max.y, z);
             position = RayToTuchGround(position);
             int w = 0;
-            while(DoAOverlap(position) > 2 || position == transform.position || w <= NumberOfTentative)
+            while((DoAOverlap(position, multiple) > 3 || position == Vector3.zero) && w <= NumberOfTentative)
             {
-                x = currentPosition.x + Random.Range(-boxSize.x, boxSize.x);
-                z = currentPosition.z + Random.Range(-boxSize.z, boxSize.z);
-                position = new Vector3(x, currentPosition.y + boxSize.y / 2, z);
+                x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
+                z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
+                position = new Vector3(x, boxCollider.bounds.max.y, z);
                 position = RayToTuchGround(position);
                 w += 1;
             }
-            if (DoAOverlap(position) <= 2 && position != transform.position)
+            if (DoAOverlap(position, multiple) <= 3 && position != Vector3.zero)
             {
-                if(ObjectStorage)
+                if (ObjectStorage)
                 {
                     spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation,ObjectStorage.transform));
                 }
@@ -55,7 +58,7 @@ public class RessourceSpawning : MonoBehaviour
                 {
                     spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation));
                 }
-                float multiple = Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
+                
                 spawningItems[spawningItems.Count - 1].transform.localScale *= multiple;
             }
         }
@@ -97,7 +100,7 @@ public class RessourceSpawning : MonoBehaviour
                 return new Vector3(pos.x, hit.point.y, pos.z);
             }
         }
-        return transform.position;
+        return Vector3.zero;
     }
 
     public void ClearList()
@@ -105,8 +108,8 @@ public class RessourceSpawning : MonoBehaviour
         spawningItems.Clear();
     }
 
-    private int DoAOverlap(Vector3 spawnPosition)
+    private int DoAOverlap(Vector3 spawnPosition, float multiple =1)
     {
-        return Physics.OverlapSphere(spawnPosition, MeterBetween2Object + size).Length;
+        return Physics.OverlapSphere(spawnPosition, MeterBetween2Object + size * multiple).Length;
     }
 }
