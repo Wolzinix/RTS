@@ -1328,6 +1328,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RessourceSpawning (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1747004689739893607, guid: 200ac89151d0e324997f360f278b613e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5294458358874154004, guid: 200ac89151d0e324997f360f278b613e, type: 3}
       propertyPath: ObjectStorage
       value: 
@@ -4083,6 +4087,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RessourceSpawning (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1747004689739893607, guid: 200ac89151d0e324997f360f278b613e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5294458358874154004, guid: 200ac89151d0e324997f360f278b613e, type: 3}
       propertyPath: ObjectStorage
       value: 
@@ -4779,11 +4787,11 @@ PrefabInstance:
       objectReference: {fileID: 1717021416464058663, guid: a766aa0eca16533478051b27fa534b5a, type: 3}
     - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: sizeMultiplicator.x
-      value: 0.1757919
+      value: 0.20959032
       objectReference: {fileID: 0}
     - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: sizeMultiplicator.y
-      value: 0.38088256
+      value: 0.414681
       objectReference: {fileID: 0}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.x

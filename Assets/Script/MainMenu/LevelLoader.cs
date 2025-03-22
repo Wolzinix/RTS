@@ -35,6 +35,7 @@ public class LevelLoader : MonoBehaviour
         Time.timeScale = 0;
         uiGestionneur = FindAnyObjectByType<UiGestioneur>().gameObject;
         uiGestionneur.SetActive(false);
+        LoadingBar.fillAmount = 1;
         button.gameObject.SetActive(true);
         yield return null;
     }
