@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class UiGestioneur : MonoBehaviour
 {
     [SerializeField] private EntityUiManager entityUi;
-    [SerializeField] private GroupeUiManager groupUi;
+    [SerializeField] public GroupeUiManager groupUi;
     [SerializeField] private OrderUiScript orderUi;
 
     [SerializeField] private BuildingUiManager buildingUi;
