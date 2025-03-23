@@ -146,7 +146,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592201362407160647}
-  - component: {fileID: 3648613589935070831}
   - component: {fileID: 2033893907195975481}
   - component: {fileID: 2798183401605432793}
   - component: {fileID: 4867765004653779462}
@@ -177,33 +176,6 @@ Transform:
   - {fileID: 1979841089478328462}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &3648613589935070831
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4825870592483654779}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 122
-  m_CollisionDetection: 1
 --- !u!114 &2033893907195975481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +191,7 @@ MonoBehaviour:
   _EnnemieList: []
   _entityManager: {fileID: 0}
   _collider: {fileID: 4743134403626252810}
+  _navMesh: {fileID: 0}
   _projectile: {fileID: 6611384894665667933, guid: 064a87588d0069342aa228859eb93adc, type: 3}
   pointOfSpawn: {fileID: 0}
   EntityIsArrive:

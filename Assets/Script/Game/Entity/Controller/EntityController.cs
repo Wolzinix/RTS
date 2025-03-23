@@ -32,10 +32,12 @@ public class EntityController : BuildingController
         _animator = GetComponentInChildren<Animator>();
         GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
 
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
-        if(_navMesh)
+        if(GetComponent<Rigidbody>())
         {
-
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+        }
+        if (_navMesh)
+        {
             GetComponent<NavMeshController>().StopPath();
         }
 

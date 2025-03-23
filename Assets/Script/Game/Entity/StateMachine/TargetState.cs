@@ -15,7 +15,10 @@ public class TargetState : StateClassEntity
     public override void Start()
     {
         controller._animator.SetBool(EntityController.Moving, true);
-        controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+        if(controller.GetComponent<Rigidbody>())
+        {
+            controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+        }
     }
     public override void Update()
     {
