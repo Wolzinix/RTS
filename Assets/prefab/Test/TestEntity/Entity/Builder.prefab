@@ -414,7 +414,7 @@ MonoBehaviour:
   DoAnAttack:
     m_PersistentCalls:
       m_Calls: []
-  StartSpeed: 0.5
+  StartSpeed: 1
   xp: 0
   level: 0
   HpToAdd: 1
