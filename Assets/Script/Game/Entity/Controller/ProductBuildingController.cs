@@ -144,6 +144,7 @@ public class ProductBuildingController : MonoBehaviour
                         {
                             GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
 
+                            newEntity.name = NameIndex.GetAName();
                             newEntity.tag = tag;
 
                             newEntity.GetComponent<AggressifEntityManager>().ActualiseSprite();

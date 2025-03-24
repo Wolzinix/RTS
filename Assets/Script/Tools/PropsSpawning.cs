@@ -36,9 +36,17 @@ public class PropsSpawning : MonoBehaviour
             matrice[i] = Matrix4x4.TRS(position, quaternion, sizeVector);
         }
 
-        spawningGameObject.GetComponentInChildren<ProBuilderMesh>().ToMesh();
-        spawningGameObject.GetComponentInChildren<ProBuilderMesh>().Refresh();
-        mesh = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh;
+        if(spawningGameObject.GetComponentInChildren<ProBuilderMesh>())
+        {
+            spawningGameObject.GetComponentInChildren<ProBuilderMesh>().ToMesh();
+            spawningGameObject.GetComponentInChildren<ProBuilderMesh>().Refresh();
+            mesh = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh;
+        }
+        else
+        {
+            mesh = spawningGameObject.GetComponentInChildren <MeshFilter>().sharedMesh;
+        }
+        
 
         spawningGameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial.enableInstancing = true;
         rp = new RenderParams(spawningGameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
