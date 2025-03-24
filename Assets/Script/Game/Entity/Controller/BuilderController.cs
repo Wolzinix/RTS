@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,9 +10,10 @@ public class BuilderController : EntityController
     [HideInInspector] public UnityEvent<BuilderController> NoMoreToHarvest = new UnityEvent<BuilderController>();
     [HideInInspector] public UnityEvent<BuilderController, DefenseManager> TowerIsBuild = new UnityEvent<BuilderController, DefenseManager>();
 
-
+    [SerializeField] LayerMask _IncludeLayer;
     private RessourceController ressourceController;
 
+    [SerializeField] LayerMask _IncludeLayerToSpawn;
     protected override void Awake()
     {
         base.Awake();
@@ -116,7 +118,7 @@ public class BuilderController : EntityController
     }
     public Collider[] DoAOverlap(Vector3 spawnPosition)
     {
-        return Physics.OverlapSphere(spawnPosition, 1, ~0, QueryTriggerInteraction.Ignore);
+        return Physics.OverlapSphere(spawnPosition, 1, _IncludeLayer, QueryTriggerInteraction.Ignore);
     }
 
     public void AddHarvestTarget(GameObject hit)
@@ -161,5 +163,17 @@ public class BuilderController : EntityController
     public void SetRessourceController(RessourceController ressourceController)
         {
         this.ressourceController = ressourceController;
+    }
+
+    public Vector3 RayToTuchGround(Vector3 pos)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, _IncludeLayerToSpawn))
+        {
+            Debug.DrawLine(pos, hit.point, Color.red, 10f);
+            return new Vector3(pos.x, hit.point.y, pos.z);
+        }
+
+        return Vector3.zero;
     }
 }

@@ -28,12 +28,12 @@ public class PropsSpawning : MonoBehaviour
             spawningGameObject.GetComponentInChildren<ProBuilderMesh>().ToMesh();
             spawningGameObject.GetComponentInChildren<ProBuilderMesh>().Refresh();
             mesh = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh;
-            size = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh.bounds.size.y/2;
+            size = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh.bounds.size.y/4;
         }
         else
         {
             mesh = spawningGameObject.GetComponentInChildren<MeshFilter>().sharedMesh;
-            size = spawningGameObject.GetComponentInChildren<MeshFilter>().sharedMesh.bounds.size.y / 2;
+            size = spawningGameObject.GetComponentInChildren<MeshFilter>().sharedMesh.bounds.size.y / 4;
         }
         
         matrice = new Matrix4x4[nbOfSpawningItem];

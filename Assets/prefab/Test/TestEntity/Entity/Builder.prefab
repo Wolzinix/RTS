@@ -455,6 +455,12 @@ MonoBehaviour:
   TowerIsBuild:
     m_PersistentCalls:
       m_Calls: []
+  _IncludeLayer:
+    serializedVersion: 2
+    m_Bits: 72
+  _IncludeLayerToSpawn:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!208 &3254557315493281956
 NavMeshObstacle:
   m_ObjectHideFlags: 0
