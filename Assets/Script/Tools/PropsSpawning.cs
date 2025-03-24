@@ -17,10 +17,25 @@ public class PropsSpawning : MonoBehaviour
     BoxCollider boxCollider;
     Mesh mesh;
     RenderParams rp;
+    float size;
+    [SerializeField] LayerMask layer;
     public void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
 
+        if (spawningGameObject.GetComponentInChildren<ProBuilderMesh>())
+        {
+            spawningGameObject.GetComponentInChildren<ProBuilderMesh>().ToMesh();
+            spawningGameObject.GetComponentInChildren<ProBuilderMesh>().Refresh();
+            mesh = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh;
+            size = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh.bounds.size.y/2;
+        }
+        else
+        {
+            mesh = spawningGameObject.GetComponentInChildren<MeshFilter>().sharedMesh;
+            size = spawningGameObject.GetComponentInChildren<MeshFilter>().sharedMesh.bounds.size.y / 2;
+        }
+        
         matrice = new Matrix4x4[nbOfSpawningItem];
         for (int i = 0; i < nbOfSpawningItem; i++)
         {
@@ -36,16 +51,7 @@ public class PropsSpawning : MonoBehaviour
             matrice[i] = Matrix4x4.TRS(position, quaternion, sizeVector);
         }
 
-        if(spawningGameObject.GetComponentInChildren<ProBuilderMesh>())
-        {
-            spawningGameObject.GetComponentInChildren<ProBuilderMesh>().ToMesh();
-            spawningGameObject.GetComponentInChildren<ProBuilderMesh>().Refresh();
-            mesh = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh;
-        }
-        else
-        {
-            mesh = spawningGameObject.GetComponentInChildren <MeshFilter>().sharedMesh;
-        }
+        
         
 
         spawningGameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial.enableInstancing = true;
@@ -63,10 +69,9 @@ public class PropsSpawning : MonoBehaviour
 
     public Vector3 RayToTuchGround(Vector3 pos)
     {
-        Ray ray = new Ray(pos, Vector3.down);
-        RaycastHit[] hits = Physics.RaycastAll(ray, boxCollider.size.y);
+        RaycastHit hit;
 
-        foreach (RaycastHit hit in hits)
+        if (Physics.Raycast(pos, Vector3.down, out hit, boxCollider.size.y, layer))
         {
             if (hit.collider.gameObject.GetComponent<Terrain>() || hit.collider.gameObject.GetComponent<NavMeshSurface>())
             {
@@ -90,9 +95,9 @@ public class PropsSpawning : MonoBehaviour
                         }
                     }
 
-                    if (terrain.terrainData.terrainLayers[texindex].name == "NewLayer") {  return new Vector3(pos.x, hit.point.y, pos.z);  }
+                    if (terrain.terrainData.terrainLayers[texindex].name == "NewLayer") {  return new Vector3(pos.x, hit.point.y + size, pos.z);  }
                 }
-                else { return new Vector3(pos.x, hit.point.y, pos.z); }
+                else { return new Vector3(pos.x, hit.point.y + size, pos.z); }
             }
         }
         return new Vector3();

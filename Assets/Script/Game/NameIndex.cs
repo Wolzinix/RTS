@@ -12,7 +12,11 @@ public static class NameIndex
         { 3,"Nezelithe" },
         { 4,"FireWolf_xy" },
         { 5,"Pokyton" },
-        { 6,"GloK__" }
+        { 6,"GloK__" },
+        { 7,"MyouuMahjong" },
+        { 8,"lilicornette" },
+        { 9,"Subbarath" },
+        { 10,"Provencal" }
     };
 
 
