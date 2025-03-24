@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.AI.Navigation;
+using UnityEngine;
 public class BuildState : StateClassEntity
 {
     BuilderController builder;
@@ -17,7 +18,6 @@ public class BuildState : StateClassEntity
 
     public override void Update()
     {
-        float a = Vector3.Distance(builder.transform.position, position);
         if (Vector3.Distance(builder.transform.position, position)
             <= size + builder.GetComponent<NavMeshController>().HaveStoppingDistance() + 0.2
            )
@@ -28,8 +28,9 @@ public class BuildState : StateClassEntity
 
                 if (colliders.Length == 0 || colliders.Length == 1 && colliders[0].gameObject.GetComponent<EntityManager>() == null || (colliders.Length == 2 && (colliders[1] == builder || colliders[0] == builder)))
                 {
-                    SelectableManager gm = BuilderController.Instantiate(defenseManager, new Vector3(position.x, builder.transform.position.y, position.z), builder.transform.rotation, builder.transform.parent).GetComponent<SelectableManager>();
-                
+
+                    SelectableManager gm = BuilderController.Instantiate(defenseManager, builder.RayToTuchGround(new Vector3(position.x,builder.transform.position.y,position.z)), builder.transform.rotation, builder.transform.parent).GetComponent<SelectableManager>();
+                    
                     gm.gameObject.tag = builder.tag;
                     if(gm.GetComponent<DefenseManager>())
                     {
@@ -65,4 +66,6 @@ public class BuildState : StateClassEntity
     {
         builder.RemoveFirstOrder();
     }
+
+    
 }

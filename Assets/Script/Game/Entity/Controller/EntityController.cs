@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.XR;
 
 public class EntityController : BuildingController
 {
@@ -32,10 +31,12 @@ public class EntityController : BuildingController
         _animator = GetComponentInChildren<Animator>();
         GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
 
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
-        if(_navMesh)
+        if(GetComponent<Rigidbody>())
         {
-
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+        }
+        if (_navMesh)
+        {
             GetComponent<NavMeshController>().StopPath();
         }
 

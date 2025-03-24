@@ -42,6 +42,8 @@ public class ControlManager : MonoBehaviour
 
     private SelectManager _selectManager;
 
+    private List<EntityController> _entitiesBackUp = new List<EntityController>();
+
 
 
     private bool _order;
@@ -144,7 +146,7 @@ public class ControlManager : MonoBehaviour
         multiSelectionInput.action.canceled += DesactiveMultiSelection;
         multiPathInput.action.performed += ActiveMultiPath;
         multiPathInput.action.canceled += DesactiveMultiPath;
-        dragSelect.action.performed += StartDragSelect;
+        dragSelect.action.started += StartDragSelect;
         dragSelect.action.canceled += EndDragSelect;
     }
 
@@ -156,7 +158,7 @@ public class ControlManager : MonoBehaviour
         multiSelectionInput.action.canceled -= ActiveMultiSelection;
         multiPathInput.action.performed -= ActiveMultiPath;
         multiPathInput.action.canceled -= ActiveMultiPath;
-        dragSelect.action.performed -= StartDragSelect;
+        dragSelect.action.started -= StartDragSelect;
         dragSelect.action.canceled -= EndDragSelect;
     }
 
@@ -239,11 +241,23 @@ public class ControlManager : MonoBehaviour
             if (hit.collider)
             {
                 Debug.DrawLine(_camera.transform.position, hit.point, color: Color.blue, 10f);
+
                 if (hit.transform.GetComponent<SelectableManager>() &&
                     (hit.transform.GetComponentInChildren<SkinnedMeshRenderer>() && hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
                     hit.transform.GetComponentInChildren<MeshRenderer>() && hit.transform.GetComponentInChildren<MeshRenderer>().enabled))
                 {
-                    _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<SelectableManager>());
+                    if(_multiSelectionIsActive && _selectManager.getSelectList().Count > 0)
+                    {
+                        if(_selectManager.getSelectList().Count < 2)
+                        {
+                            _UiGestioneur.AddOnGroupUi(_selectManager.getSelectList()[0].GetComponent<SelectableManager>());
+                        }
+                        _UiGestioneur.AddOnGroupUi(hit.transform.GetComponent<SelectableManager>());
+                    }
+                    else
+                    {
+                        _UiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<SelectableManager>());
+                    }
                     _selectManager.AddSelect(hit.transform.gameObject.GetComponent<SelectableManager>());
                 }
                 else
@@ -337,6 +351,7 @@ public class ControlManager : MonoBehaviour
     }
     private void StartDragSelect(InputAction.CallbackContext obj)
     {
+        _entitiesBackUp = _selectManager.getSelectList();
         _dragCoord = Input.mousePosition;
         dragBox.GameObject().SetActive(true);
         _dragging = true;
@@ -345,8 +360,28 @@ public class ControlManager : MonoBehaviour
 
     private void EndDragSelect(InputAction.CallbackContext obj)
     {
-
-        if (_timeOfDragging > 0.1) { StartCoroutine(IsOnDragBox()); }
+        
+        if (_timeOfDragging > 0.15) 
+        {
+            StartCoroutine(IsOnDragBox());
+            if (_entitiesBackUp.Count > 0)
+            {
+                int w = 0;
+                while (w < _entitiesBackUp.Count)
+                {
+                    EntityController i = _entitiesBackUp[w];
+                    if (i && !_selectManager.getSelectList().Contains(i))
+                    {
+                        _selectManager.AddSelect(i.gameObject.GetComponent<SelectableManager>());
+                    }
+                    if(!_UiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) 
+                    {
+                        _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());
+                    }
+                    w++;
+                }
+            }
+        }
         dragBox.anchoredPosition = new Vector2(0, 0);
         dragBox.sizeDelta = new Vector2(0, 0);
 
@@ -370,10 +405,16 @@ public class ControlManager : MonoBehaviour
         {
             Vector3 point = _camera.WorldToScreenPoint(i.transform.position);
 
-            if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag))
+            if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag) )
             {
-                _selectManager.AddSelect(i.gameObject.GetComponent<SelectableManager>());
-                _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());
+                if(!_selectManager.getSelectList().Contains(i))
+                {
+                    _selectManager.AddSelect(i.gameObject.GetComponent<SelectableManager>());
+                }
+                if (!_UiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>()))
+                {
+                    _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());
+                }
             }
         }
 

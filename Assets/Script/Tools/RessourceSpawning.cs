@@ -20,6 +20,8 @@ public class RessourceSpawning : MonoBehaviour
     
     BoxCollider boxCollider;
 
+    [SerializeField] LayerMask LayerMask;
+
     private void Start()
     {
         SpawnObject();
@@ -40,7 +42,7 @@ public class RessourceSpawning : MonoBehaviour
             Vector3 position = new Vector3(x, boxCollider.bounds.max.y, z);
             position = RayToTuchGround(position);
             int w = 0;
-            while((DoAOverlap(position, multiple) > 3 || position == Vector3.zero) && w <= NumberOfTentative)
+            while((DoAOverlap(position, multiple) > 2 || position == Vector3.zero) && w <= NumberOfTentative)
             {
                 x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
                 z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
@@ -48,7 +50,7 @@ public class RessourceSpawning : MonoBehaviour
                 position = RayToTuchGround(position);
                 w += 1;
             }
-            if (DoAOverlap(position, multiple) <= 3 && position != Vector3.zero)
+            if (DoAOverlap(position, multiple) <= 2 && position != Vector3.zero)
             {
                 if (ObjectStorage)
                 {
@@ -89,17 +91,13 @@ public class RessourceSpawning : MonoBehaviour
     }
     public Vector3 RayToTuchGround(Vector3 pos)
     {
-        Ray ray = new Ray(pos, Vector3.down);
-        RaycastHit[] hits = Physics.RaycastAll(ray, boxCollider.size.y);
-
-        foreach (RaycastHit hit in hits)
+        RaycastHit hit;
+        if (Physics.Raycast(pos, Vector3.down, out hit, boxCollider.size.y, LayerMask))
         {
             Debug.DrawLine(pos, hit.point, Color.red, 10f);
-            if (hit.collider.gameObject.GetComponent<Terrain>() || hit.collider.gameObject.GetComponent<NavMeshSurface>())
-            {
-                return new Vector3(pos.x, hit.point.y, pos.z);
-            }
+            return new Vector3(pos.x, hit.point.y, pos.z);
         }
+        
         return Vector3.zero;
     }
 
@@ -110,6 +108,6 @@ public class RessourceSpawning : MonoBehaviour
 
     private int DoAOverlap(Vector3 spawnPosition, float multiple =1)
     {
-        return Physics.OverlapSphere(spawnPosition, MeterBetween2Object + size * multiple).Length;
+        return Physics.OverlapSphere(spawnPosition, MeterBetween2Object + size * multiple, LayerMask).Length;
     }
 }
