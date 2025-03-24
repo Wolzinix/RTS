@@ -8,11 +8,9 @@ public class EntityManager : MonoBehaviour
     protected float _maxHp;
 
     public int GoldAmount = 1;
-
     public int WoodAmount = 1;
 
     public int GoldCost = 1;
-
     public int WoodCost = 1;
 
     [HideInInspector] public float size;

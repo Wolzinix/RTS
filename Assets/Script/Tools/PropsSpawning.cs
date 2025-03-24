@@ -1,9 +1,5 @@
 using LazySquirrelLabs.MinMaxRangeAttribute;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Unity.AI.Navigation;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 
@@ -28,12 +24,12 @@ public class PropsSpawning : MonoBehaviour
             spawningGameObject.GetComponentInChildren<ProBuilderMesh>().ToMesh();
             spawningGameObject.GetComponentInChildren<ProBuilderMesh>().Refresh();
             mesh = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh;
-            size = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh.bounds.size.y/4;
+            size = mesh.bounds.size.y/4;
         }
         else
         {
             mesh = spawningGameObject.GetComponentInChildren<MeshFilter>().sharedMesh;
-            size = spawningGameObject.GetComponentInChildren<MeshFilter>().sharedMesh.bounds.size.y / 4;
+            size = mesh.bounds.size.y / 4;
         }
         
         matrice = new Matrix4x4[nbOfSpawningItem];
@@ -41,18 +37,16 @@ public class PropsSpawning : MonoBehaviour
         {
 
             float x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
-
             float z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
+
             Vector3 position = new Vector3(x, boxCollider.bounds.max.y, z);
             position = RayToTuchGround(position);
             if (position == Vector3.zero) { continue; }
+
             Quaternion quaternion = Quaternion.Euler(0, Random.Range(0, 180), 0);
             Vector3 sizeVector = spawningGameObject.transform.localScale * Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
             matrice[i] = Matrix4x4.TRS(position, quaternion, sizeVector);
         }
-
-        
-        
 
         spawningGameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial.enableInstancing = true;
         rp = new RenderParams(spawningGameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
