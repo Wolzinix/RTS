@@ -20,7 +20,7 @@ public class FogWarController : MonoBehaviour
     {
         if (!entity.gameObject.CompareTag(tag))
         {
-            if (hide && entity.GetComponent<EntityController>()._EnnemieList.Count <= 0 ) { ActualiseFog(entity,false); }
+            if (hide && entity._EnnemieList.Count <= 0 ) { ActualiseFog(entity,false); }
             else { ActualiseFog(entity,true); }
 
             mod.ActualiseOneUnit(entity.GetComponent<SelectableManager>());

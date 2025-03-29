@@ -12,9 +12,12 @@ public class BuildingUiManager : MonoBehaviour
 
     private int _numberOfbutton;
 
+    private RessourceController _controlManagerRessourceController;
+
     void Start()
     {
         gameObject.SetActive(false);
+        _controlManagerRessourceController = FindAnyObjectByType<ControlManager>().GetComponent<RessourceController>();
     }
 
     public void SetBuilding(ProductBuildingController building)
@@ -56,7 +59,7 @@ public class BuildingUiManager : MonoBehaviour
                 button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<TroupeManager>().GetSprit();
 
                 button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(delegate { _building.AllySpawnEntity(entity, FindAnyObjectByType<ControlManager>().GetComponent<RessourceController>()); });
+                button.onClick.AddListener(delegate { _building.AllySpawnEntity(entity, _controlManagerRessourceController); });
             }
             else
             {

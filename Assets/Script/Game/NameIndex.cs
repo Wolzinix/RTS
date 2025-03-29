@@ -16,17 +16,10 @@ public static class NameIndex
         { 7,"MyouuMahjong" },
         { 8,"lilicornette" },
         { 9,"Subbarath" },
-        { 10,"Provencal" }
+        { 10,"Provencal" },
+        { 11,"Zebra" },
+        { 12,"Iduvelo" },
     };
-
-
-    public static string GetAName()
-    {
-        return DicoOfName[Random.Range(0,DicoOfName.Count)];
-    }
-
-    public static string GetAName(int indexName)
-    {
-        return DicoOfName[indexName];
-    }
+    public static string GetAName(){ return DicoOfName[Random.Range(0,DicoOfName.Count)]; }
+    public static string GetAName(int indexName) { return DicoOfName[indexName]; }
 }

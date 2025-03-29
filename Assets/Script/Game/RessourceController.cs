@@ -10,11 +10,12 @@ public class RessourceController : MonoBehaviour
     RessourceUi _ui;
     public UnityEvent ressourcesAdd = new UnityEvent();
 
+    private ControlManager _controlManager;
 
-    // Start is called before the first frame update
     void Start()
     {
-        if (GetComponent<ControlManager>())
+        _controlManager = GetComponent<ControlManager>();
+        if (_controlManager)
         {
             _ui = FindAnyObjectByType<RessourceUi>();
             _ui.AddWood(_wood);
@@ -26,7 +27,7 @@ public class RessourceController : MonoBehaviour
     public void AddGold(int gold)
     {
         _gold += gold;
-        if (GetComponent<ControlManager>())
+        if (_controlManager)
         {
             _ui.AddGold(gold);
         }
@@ -36,7 +37,7 @@ public class RessourceController : MonoBehaviour
     public void AddWood(int wood)
     {
         _wood += wood;
-        if (GetComponent<ControlManager>())
+        if (_controlManager)
         {
             _ui.AddWood(wood);
            
