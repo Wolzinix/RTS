@@ -1,3 +1,4 @@
+using Assets.Script.Tools;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -40,13 +41,11 @@ public class CameraControl : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         SetLimitation();
 
-        //transform.position = mainGround.GetComponent<NavMeshSurface>().transform.position + mainGround.GetComponent<NavMeshSurface>().center ;
-
         transform.position = new Vector3(
             transform.position.x > xmax ? xmax : transform.position.x < xmin ? xmin : transform.position.x
             , transform.position.y
             , transform.position.z > zmax ? zmax : transform.position.z < zmin ? zmin : transform.position.z);
-        _lastY = RaycastForGround(transform.position).y;
+        _lastY = RayCast.RaycastForGround(gameObject,transform.position).y;
     }
 
     void Update()
@@ -115,13 +114,11 @@ public class CameraControl : MonoBehaviour
         }
         newPosition *= 10;
 
-        
-
         if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
 
         _rb.velocity = newPosition;
 
-        Vector3 distanceGround = RaycastForGround(transform.position);
+        Vector3 distanceGround = RayCast.RaycastForGround(gameObject, transform.position);
         ymin += distanceGround.y - _lastY;
         ymax += distanceGround.y - _lastY;
 
@@ -132,20 +129,7 @@ public class CameraControl : MonoBehaviour
         _lastY = distanceGround.y;
 
     }
-    private Vector3 RaycastForGround(Vector3 pos)
-    {
-        Ray ray = new Ray(pos, Vector3.down);
-        RaycastHit[] hits = Physics.RaycastAll(ray);
-
-        foreach (RaycastHit hit in hits)
-        {
-            if (hit.collider.gameObject.GetComponent<NavMeshSurface>())
-            {
-                return hit.point;
-            }
-        }
-        return transform.position;
-    }
+   
     private void RotateCameraY()
     {
         Quaternion rotation = transform.rotation;

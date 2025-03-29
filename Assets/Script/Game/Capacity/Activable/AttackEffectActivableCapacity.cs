@@ -1,7 +1,8 @@
 ﻿public class AttackEffectActivableCapacity : ActivableCapacity
 {
 
-    private SelectableManager target;
+    private SelectableManager _target;
+    
     protected override void Start()
     {
         base.Start();
@@ -10,46 +11,36 @@
 
     protected override void DoEffect()
     {
-        
-        if (target)
+        if (_target)
         {
             if(onlyOnce)
             {
-                GetComponentInParent<TroupeManager>().effect = effect;
-                GetComponentInParent<EntityController>().AddTarget(target);
-                GetComponentInParent<TroupeManager>().DoAnAttack.AddListener(DesactiveOnce);
-                GetComponentInParent<EntityController>().resetEvent.AddListener(DesactiveOnce);
+                _troupeManager.effect = effect;
+                _controller.AddTarget(_target);
+                _troupeManager.DoAnAttack.AddListener(DesactiveOnce);
+                _controller.resetEvent.AddListener(DesactiveOnce);
             }
-            else
-            {
-                target = null;
-            }
+            else{ _target = null; }
         }
         else
         {
-            if (GetComponentInParent<TroupeManager>().effect)
-            {
-                GetComponentInParent<TroupeManager>().effect = null;
-            }
-            else
-            {
-                GetComponentInParent<TroupeManager>().effect = effect;
-            }
+            if (_troupeManager.effect) { _troupeManager.effect = null; }
+            else { _troupeManager.effect = effect; }
         }
         base.DoEffect();
     }
 
     public override void AddTarget(SelectableManager target)
     {
-        this.target = target;
+        _target = target;
         Apply();
     }
 
     public void DesactiveOnce()
     {
         onlyOnce = false;
-        GetComponentInParent<TroupeManager>().DoAnAttack.RemoveListener(DesactiveOnce);
-        GetComponentInParent<EntityController>().resetEvent.RemoveListener(DesactiveOnce);
+        _troupeManager.DoAnAttack.RemoveListener(DesactiveOnce);
+        _controller.resetEvent.RemoveListener(DesactiveOnce);
         Apply();
     }
 }

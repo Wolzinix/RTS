@@ -20,5 +20,20 @@ namespace Assets.Script.Tools
             }
             return Vector3.zero;
         }
+
+        public static Vector3 RaycastForGround(GameObject transformReturn,Vector3 pos)
+        {
+            Ray ray = new Ray(pos, Vector3.down);
+            RaycastHit[] hits = Physics.RaycastAll(ray);
+
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.collider.gameObject.GetComponent<NavMeshSurface>())
+                {
+                    return hit.point;
+                }
+            }
+            return transformReturn.transform.position;
+        }
     }
 }

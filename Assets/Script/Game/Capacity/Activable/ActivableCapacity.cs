@@ -3,7 +3,6 @@
     public bool actif;
     protected bool onlyOnce;
 
-
     public void ChangeActif()
     {
         Apply();
