@@ -969,10 +969,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1042316676245624670}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1426863872735500808
 CanvasRenderer:
@@ -1482,8 +1482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1dacd3eed04964184831345e4384cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenu: MainMenu
-  SceneToload: 
+  SceneToload: 0
   MainMenuUI: {fileID: 7356997705011548722}
   RetryMenuUI: {fileID: 5251673618074765463}
   NextMenuUI: {fileID: 3886155714721521264}
@@ -1786,10 +1785,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2561692173380007083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2233406410884814453
 CanvasRenderer:
