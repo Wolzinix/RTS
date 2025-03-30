@@ -1,3 +1,4 @@
+using Assets.Script.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -43,8 +44,6 @@ public class ControlManager : MonoBehaviour
     private SelectManager _selectManager;
 
     private List<EntityController> _entitiesBackUp = new List<EntityController>();
-
-
 
     private bool _order;
     private bool _travelAttack;
@@ -116,7 +115,7 @@ public class ControlManager : MonoBehaviour
 
     private void TeleporteOnMap(InputAction.CallbackContext obj)
     {
-        _mapMod.TeleporteMainCamera(DoARayCast(_mapCamera).point);
+        _mapMod.TeleporteMainCamera(RayCast.DoARayCastFromMouse(_mapCamera).point);
         selectEntityInput.action.started -= TeleporteOnMap;
         _UiGestioneur.gameObject.SetActive(true);
         ActiveAllInput();
@@ -185,7 +184,7 @@ public class ControlManager : MonoBehaviour
     private void LeftClickGestion(InputAction.CallbackContext context)
     {
         Physics.SyncTransforms();
-        RaycastHit hit = DoARayCast(_camera);
+        RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
 
         if (_buildingOrder)
         {
@@ -234,7 +233,7 @@ public class ControlManager : MonoBehaviour
 
     private void DoASelection(RaycastHit hit)
     {
-        List<RaycastResult> listOfUIRay = DoUiRayCast();
+        List<RaycastResult> listOfUIRay = RayCast.DoUiRayCastFromMouse();
         if (listOfUIRay.Count == 0)
         {
             if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
@@ -282,15 +281,14 @@ public class ControlManager : MonoBehaviour
         {
             foreach (RaycastResult raycastResult in listOfUIRay)
             {
-                if (raycastResult.gameObject.GetComponent<CadreController>())
+                CadreController cadre = raycastResult.gameObject.GetComponent<CadreController>();
+                if (cadre)
                 {
                     ResetUiOrder();
                     _selectManager.ClearList();
-                    CadreController groupUI = raycastResult.gameObject.GetComponent<CadreController>();
 
-                     _UiGestioneur.ActualiseUi(groupUI.GetEntity());
-                    
-                    _selectManager.AddSelect(groupUI.GetEntity().GetComponent<SelectableManager>());
+                    _UiGestioneur.ActualiseUi(cadre.GetEntity());
+                    _selectManager.AddSelect(cadre.GetEntity().GetComponent<SelectableManager>());
                 }
             }
         }
@@ -298,13 +296,13 @@ public class ControlManager : MonoBehaviour
 
     private void RightClickGestion(InputAction.CallbackContext context)
     {
-        List<RaycastResult> listOfUIRay = DoUiRayCast();
+        List<RaycastResult> listOfUIRay = RayCast.DoUiRayCastFromMouse();
         if (listOfUIRay.Count == 0)
         {
             if (!_order && !_patrolOrder && !_travelAttack)
             {
                 IsMultipathActive();
-                RaycastHit hit = DoARayCast(_camera);
+                RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
 
                 _selectManager.ActionGroup(hit);
             }
@@ -331,24 +329,6 @@ public class ControlManager : MonoBehaviour
 
         Cursor.SetCursor(null, hotSpot, cursorMode);
     }
-
-    private RaycastHit DoARayCast(Camera camera)
-    {
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
-        return hit;
-    }
-
-    private List<RaycastResult> DoUiRayCast()
-    {
-        PointerEventData eventData = new PointerEventData(EventSystem.current);
-        List<RaycastResult> results = new List<RaycastResult>();
-        eventData.position = Input.mousePosition;
-        EventSystem.current.RaycastAll(eventData, results);
-
-        return results;
-    }
     private void StartDragSelect(InputAction.CallbackContext obj)
     {
         _entitiesBackUp = _selectManager.getSelectList();
@@ -360,7 +340,6 @@ public class ControlManager : MonoBehaviour
 
     private void EndDragSelect(InputAction.CallbackContext obj)
     {
-        
         if (_timeOfDragging > 0.15) 
         {
             StartCoroutine(IsOnDragBox());
@@ -370,14 +349,11 @@ public class ControlManager : MonoBehaviour
                 while (w < _entitiesBackUp.Count)
                 {
                     EntityController i = _entitiesBackUp[w];
-                    if (i && !_selectManager.getSelectList().Contains(i))
-                    {
-                        _selectManager.AddSelect(i.gameObject.GetComponent<SelectableManager>());
-                    }
-                    if(!_UiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) 
-                    {
-                        _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());
-                    }
+                    SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
+
+                    if (i && !_selectManager.getSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
+                    if(!_UiGestioneur.groupUi._listOfEntity.Contains(selectableI)) { _UiGestioneur.AddOnGroupUi(selectableI); }
+
                     w++;
                 }
             }
@@ -407,14 +383,9 @@ public class ControlManager : MonoBehaviour
 
             if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag) )
             {
-                if(!_selectManager.getSelectList().Contains(i))
-                {
-                    _selectManager.AddSelect(i.gameObject.GetComponent<SelectableManager>());
-                }
-                if (!_UiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>()))
-                {
-                    _UiGestioneur.AddOnGroupUi(i.gameObject.GetComponent<SelectableManager>());
-                }
+                SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
+                if (!_selectManager.getSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
+                if (!_UiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) {  _UiGestioneur.AddOnGroupUi(selectableI); }
             }
         }
 
@@ -423,23 +394,19 @@ public class ControlManager : MonoBehaviour
             _UiGestioneur.ActualiseUi(_selectManager._groupManager.getSelectList()[0].gameObject.GetComponent<SelectableManager>());
         }
     }
-
     private bool UnitInDragBox(Vector2 coords, Bounds bounds)
     {
         return coords.x >= bounds.min.x && coords.x <= bounds.max.x && coords.y >= bounds.min.y && coords.y <= bounds.max.y;
     }
-
     public void ResetOrder() { _selectManager.ResetOrder(); }
-
     public void TenirPosition() { _selectManager.TenirPositionOrder(); }
-
     public void MoveOrder()
     {
         ResetUiOrder();
         _order = true;
         Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
     }
-    public void CapacityOrder(TroupeManager troupeManager, CapacityController capacity)
+    public void CapacityOrder(CapacityController capacity)
     {
         if(capacity.ready)
         {

@@ -33,17 +33,11 @@ public class FogWarController : MonoBehaviour
         if (list.Count == 0)
         {
             List<SkinnedMeshRenderer> render = entity.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
-            foreach (SkinnedMeshRenderer ren in render)
-            {
-                ren.enabled = visible;
-            }
+            foreach (SkinnedMeshRenderer ren in render) { ren.enabled = visible; }
         }
         else
         {
-            foreach (MeshRenderer renderer in list)
-            {
-                renderer.enabled = visible;
-            }
+            foreach (MeshRenderer renderer in list) { renderer.enabled = visible; }
         }
     }
 }

@@ -51,7 +51,7 @@ public class OrderUiScript : MonoBehaviour
                     {
                         button.GetComponent<Button>().enabled = true;
                         button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(delegate { FindAnyObjectByType<ControlManager>().CapacityOrder(_entity.GetComponent<TroupeManager>(), capacity); });
+                        button.onClick.AddListener(delegate { FindAnyObjectByType<ControlManager>().CapacityOrder(capacity); });
                     }
                 }
                 else
