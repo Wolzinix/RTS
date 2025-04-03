@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using System.Collections;
 using UnityEditor;
-using UnityEngine;
 
 #if UNITY_EDITOR
 [InitializeOnLoad]

@@ -7,7 +7,6 @@ public class StuntEffect : StateEffect
         base.InitEffect(duration);
         nextTime = 0;
     }
-
     override public void InitEffect(SelectableManager entity, float duration) 
     {
         StuntEffect effect = null;
@@ -30,17 +29,17 @@ public class StuntEffect : StateEffect
 
     public override void ApplyEffect()
     {
-        if(entityAffected.GetComponent<EntityController>() != null)
+        if(entityControllerAffected)
         {
-            entityAffected.GetComponent<EntityController>().AddStuntOrder();
+            entityControllerAffected.AddStuntOrder();
         }
     }
 
     override public void end()
     {
-        if (entityAffected != null && entityAffected.GetComponent<EntityController>() != null)
+        if (entityAffected && entityControllerAffected)
         {
-            entityAffected.GetComponent<EntityController>().RemoveFirstOrder();
+            entityControllerAffected.RemoveFirstOrder();
         }
         base.end();
     }

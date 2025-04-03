@@ -7,8 +7,9 @@ public class CadreController : MonoBehaviour
     private SelectableManager _entity;
 
     [SerializeField] private Image image;
-
     [SerializeField] private TMP_Text text;
+
+    private GroupeUiManager _groupeUiManager;
 
     public void SetEntity(SelectableManager entity)
     {
@@ -20,6 +21,10 @@ public class CadreController : MonoBehaviour
             SetCadre();
         }
         
+    }
+    public void SetGroupUiManager(GroupeUiManager groupUi)
+    {
+        _groupeUiManager = groupUi;
     }
     public void SetCadre()
     {
@@ -34,9 +39,9 @@ public class CadreController : MonoBehaviour
 
     private void DestroyHimSelf(SelectableManager entity)
     {
-        if (FindObjectOfType<GroupeUiManager>())
+        if (_groupeUiManager)
         {
-            FindObjectOfType<GroupeUiManager>().RemoveCadre(transform.gameObject);
+            _groupeUiManager.RemoveCadre(transform.gameObject);
         }
         if (_entity)
         {

@@ -12,10 +12,12 @@ public class BuildUi : MonoBehaviour
     [SerializeField] private List<Button> _ListOfButton;
 
     private int _numberOfbutton;
+    private ControlManager _controlManager;
 
     void Start()
     {
         gameObject.SetActive(false);
+        _controlManager = FindAnyObjectByType<ControlManager>();
     }
 
     public void SetBuilder(BuilderController builder)
@@ -50,7 +52,8 @@ public class BuildUi : MonoBehaviour
             {
                 button.gameObject.SetActive(true);
                 button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<SelectableManager>().GetSprit();
-                button.onClick.AddListener(delegate { FindAnyObjectByType<ControlManager>().DoABuilding(_ListOfButton.IndexOf(button) + _numberOfbutton); });
+                button.onClick.RemoveAllListeners();
+                button.onClick.AddListener(delegate { _controlManager.DoABuilding(_ListOfButton.IndexOf(button) + _numberOfbutton); });
             }
             else
             {

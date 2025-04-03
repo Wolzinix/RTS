@@ -10,10 +10,5 @@ public static class SceneIndex
         { 3, "ScreenLoadFirstSecond" },
         { 4,"ScreenLoadMainFirst" }
     };
-    
-
-    public static string GetIndexOfScene(int numOfScene)
-    {
-        return DicoOfScene[numOfScene];
-    }
+    public static string GetIndexOfScene(int numOfScene) { return DicoOfScene[numOfScene]; }
 }

@@ -1,4 +1,5 @@
-﻿using Unity.AI.Navigation;
+﻿using Assets.Script.Tools;
+using Unity.AI.Navigation;
 using UnityEngine;
 public class BuildState : StateClassEntity
 {
@@ -29,7 +30,7 @@ public class BuildState : StateClassEntity
                 if (colliders.Length == 0 || colliders.Length == 1 && colliders[0].gameObject.GetComponent<EntityManager>() == null || (colliders.Length == 2 && (colliders[1] == builder || colliders[0] == builder)))
                 {
 
-                    SelectableManager gm = BuilderController.Instantiate(defenseManager, builder.RayToTuchGround(new Vector3(position.x,builder.transform.position.y,position.z)), builder.transform.rotation, builder.transform.parent).GetComponent<SelectableManager>();
+                    SelectableManager gm = BuilderController.Instantiate(defenseManager, RayCast.RaycastForGround(new Vector3(position.x,builder.transform.position.y,position.z)), builder.transform.rotation, builder.transform.parent).GetComponent<SelectableManager>();
                     
                     gm.gameObject.tag = builder.tag;
                     if(gm.GetComponent<DefenseManager>())

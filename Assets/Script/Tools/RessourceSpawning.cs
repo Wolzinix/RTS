@@ -1,8 +1,6 @@
+using Assets.Script.Tools;
 using LazySquirrelLabs.MinMaxRangeAttribute;
 using System.Collections.Generic;
-using Unity.AI.Navigation;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class RessourceSpawning : MonoBehaviour
@@ -40,32 +38,24 @@ public class RessourceSpawning : MonoBehaviour
             float x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
             float z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
             Vector3 position = new Vector3(x, boxCollider.bounds.max.y, z);
-            position = RayToTuchGround(position);
+            position = RayCast.RaycastForGround(position, LayerMask, boxCollider.size.y);
             int w = 0;
             while((DoAOverlap(position, multiple) > 2 || position == Vector3.zero) && w <= NumberOfTentative)
             {
                 x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
                 z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
                 position = new Vector3(x, boxCollider.bounds.max.y, z);
-                position = RayToTuchGround(position);
+                position = RayCast.RaycastForGround(position, LayerMask, boxCollider.size.y);
                 w += 1;
             }
             if (DoAOverlap(position, multiple) <= 2 && position != Vector3.zero)
             {
-                if (ObjectStorage)
-                {
-                    spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation,ObjectStorage.transform));
-                }
-                else
-                {
-                    spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation));
-                }
-                
+                if (ObjectStorage){ spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation,ObjectStorage.transform)); }
+                else { spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation)); }
                 spawningItems[spawningItems.Count - 1].transform.localScale *= multiple;
             }
         }
     }
-
     private float getSize()
     {
         float size = 0;
@@ -89,18 +79,6 @@ public class RessourceSpawning : MonoBehaviour
         }
         spawningItems.Clear();
     }
-    public Vector3 RayToTuchGround(Vector3 pos)
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(pos, Vector3.down, out hit, boxCollider.size.y, LayerMask))
-        {
-            Debug.DrawLine(pos, hit.point, Color.red, 10f);
-            return new Vector3(pos.x, hit.point.y, pos.z);
-        }
-        
-        return Vector3.zero;
-    }
-
     public void ClearList()
     {
         spawningItems.Clear();

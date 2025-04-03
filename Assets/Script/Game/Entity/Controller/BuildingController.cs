@@ -23,19 +23,20 @@ public class BuildingController : MonoBehaviour
 
         _EnnemieList = new List<SelectableManager>();
         _ListOfCollision = new List<GameObject>();
-        fog= GetComponent<FogWarManager>();
+        fog = GetComponent<FogWarManager>();
     }
 
     virtual protected void LateUpdate()
     {
         SearchTarget();
-        if(fog)
+        if (fog)
         {
             foreach (SelectableManager go in _EnnemieList)
             {
-                if (go.GetComponent<EntityController>())
+                EntityController goController = go.GetComponent<EntityController>();
+                if (goController)
                 {
-                    fog.ActualiseFog(go.GetComponent<EntityController>(), false);
+                    fog.ActualiseFog(goController, false);
                 }
             }
         }
@@ -55,7 +56,7 @@ public class BuildingController : MonoBehaviour
 
         foreach (GameObject hit in _ListOfCollision)
         {
-            if(hit)
+            if (hit)
             {
                 hitGestion(hit, listOfAlly, listOfennemie);
             }
@@ -74,28 +75,22 @@ public class BuildingController : MonoBehaviour
         if (hit.transform && !hit.CompareTag("neutral") && hit.GetComponent<SelectableManager>())
         {
             Debug.DrawLine(transform.position, hit.transform.localPosition, Color.green, 1f);
-            GameObject target = hit.transform.gameObject;
+            SelectableManager target = hit.transform.gameObject.GetComponent<SelectableManager>();
 
-            if (target != gameObject && !target.CompareTag(gameObject.tag))
+            if (target.gameObject != gameObject && !target.CompareTag(gameObject.tag))
             {
-                if (!_EnnemieList.Contains(target.GetComponent<SelectableManager>()))
-                {
-                    AddEnnemi(target.GetComponent<SelectableManager>());
-                }
+                if (!_EnnemieList.Contains(target)) { AddEnnemi(target); }
 
-                if (!listOfennemie.Contains(target.GetComponent<SelectableManager>()))
-                {
-                    listOfennemie.Add(target.GetComponent<SelectableManager>());
-                }
+                if (!listOfennemie.Contains(target)){ listOfennemie.Add(target); }
             }
 
-            if (target != gameObject && target.CompareTag(gameObject.tag))
+            if (target.gameObject != gameObject && target.CompareTag(gameObject.tag))
             {
-                if (!_listOfalliesOnRange.Contains(target))
+                if (!_listOfalliesOnRange.Contains(target.gameObject))
                 {
-                    _listOfalliesOnRange.Add(target);
+                    _listOfalliesOnRange.Add(target.gameObject);
                 }
-                if (!listOfAlly.Contains(target)) { listOfAlly.Add(target); }
+                if (!listOfAlly.Contains(target.gameObject)) { listOfAlly.Add(target.gameObject); }
             }
         }
     }
@@ -114,10 +109,11 @@ public class BuildingController : MonoBehaviour
 
     protected void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.GetComponent<SelectableManager>() != null)
+        SelectableManager collisionSelectable = collision.GetComponent<SelectableManager>();
+        if (collisionSelectable)
         {
             _ListOfCollision.Add(collision.gameObject);
-            collision.gameObject.GetComponent<SelectableManager>().deathEvent.AddListener(RemoveToCollision);
+            collisionSelectable.deathEvent.AddListener(RemoveToCollision);
             SearchTarget();
         }
     }

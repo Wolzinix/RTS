@@ -20,7 +20,7 @@ public class FogWarController : MonoBehaviour
     {
         if (!entity.gameObject.CompareTag(tag))
         {
-            if (hide && entity.GetComponent<EntityController>()._EnnemieList.Count <= 0 ) { ActualiseFog(entity,false); }
+            if (hide && entity._EnnemieList.Count <= 0 ) { ActualiseFog(entity,false); }
             else { ActualiseFog(entity,true); }
 
             mod.ActualiseOneUnit(entity.GetComponent<SelectableManager>());
@@ -33,17 +33,11 @@ public class FogWarController : MonoBehaviour
         if (list.Count == 0)
         {
             List<SkinnedMeshRenderer> render = entity.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
-            foreach (SkinnedMeshRenderer ren in render)
-            {
-                ren.enabled = visible;
-            }
+            foreach (SkinnedMeshRenderer ren in render) { ren.enabled = visible; }
         }
         else
         {
-            foreach (MeshRenderer renderer in list)
-            {
-                renderer.enabled = visible;
-            }
+            foreach (MeshRenderer renderer in list) { renderer.enabled = visible; }
         }
     }
 }

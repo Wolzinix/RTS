@@ -90,7 +90,7 @@ public class AggressifEntityManager : SelectableManager
         {
             SelectableManager entityToAttack2 = (SelectableManager)entityToAttack;
             entityToAttack2.TakingDamageFromEntity.Invoke(this);
-            
+
         }
     }
 }

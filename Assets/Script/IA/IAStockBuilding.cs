@@ -10,7 +10,7 @@ using UnityEngine.Events;
 public class IAStockBuilding
 {
     public IABrain IAbrain;
-    private Dictionary<ProductBuildingController, BuildingIA> DicoOfBuilding = new Dictionary<ProductBuildingController, BuildingIA>();
+    public Dictionary<ProductBuildingController, BuildingIA> DicoOfBuilding = new Dictionary<ProductBuildingController, BuildingIA>();
     public List<BuildingIA> _AllieBuilding = new List<BuildingIA>();
     public List<BuildingIA> _EnnemieBuilding = new List<BuildingIA>();
     public List<BuildingIA> _NeutralBuilding = new List<BuildingIA>();
@@ -46,10 +46,15 @@ public class IAStockBuilding
         DicoOfBuilding[building] = stats;
         return stats;
     }
-    public void ActualiseBuilding(ProductBuildingController[] buildings)
+    public void ActualiseBuilding(List<ProductBuildingController> buildings)
     {
         foreach (ProductBuildingController building in buildings)
         {
+            if(!building)
+            {
+                DicoOfBuilding.Remove(building);
+                continue;
+            }
             BuildingIA stats = DicoOfBuilding.Keys.Contains(building) ? DicoOfBuilding[building] : CreateBuildingForIa(building);
 
             if (building.CompareTag(IAbrain.tag) && !_AllieBuilding.Contains(stats)) { AddAllieBuilding(stats); }
@@ -60,6 +65,34 @@ public class IAStockBuilding
 
                 if (building.tagOfNerestEntity == IAbrain.tag) 
                 { 
+                    AddAllieBuilding(stats);
+                    stats.NeedToSendEntity();
+                }
+                else if (building.tagOfNerestEntity == "") { AddNeutralBuilding(stats); }
+                else { AddEnnemieBuilding(stats); }
+            }
+        }
+    }
+
+    public void ActualiseBuilding()
+    {
+        foreach (ProductBuildingController building in DicoOfBuilding.Keys)
+        {
+            if (!building)
+            {
+                DicoOfBuilding.Remove(building);
+                continue;
+            }
+            BuildingIA stats = DicoOfBuilding.Keys.Contains(building) ? DicoOfBuilding[building] : CreateBuildingForIa(building);
+
+            if (building.CompareTag(IAbrain.tag) && !_AllieBuilding.Contains(stats)) { AddAllieBuilding(stats); }
+            else if (building.CompareTag(IAbrain.ennemieTag) && !_EnnemieBuilding.Contains(stats)) { AddEnnemieBuilding(stats); }
+            else
+            {
+                if (_NeutralBuilding.Contains(stats)) { _NeutralBuilding.Remove(stats); IAbrain.RemoveObjectif(building.gameObject); }
+
+                if (building.tagOfNerestEntity == IAbrain.tag)
+                {
                     AddAllieBuilding(stats);
                     stats.NeedToSendEntity();
                 }

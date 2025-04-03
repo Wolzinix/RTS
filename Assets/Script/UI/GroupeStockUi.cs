@@ -7,10 +7,12 @@ public class GroupeStockUi : MonoBehaviour
     [SerializeField] private GameObject image;
 
     private List<GameObject> _listOfGroup;
+    private RectTransform _rectTransform;
     void Start()
     {
         _listOfGroup = new List<GameObject>();
         AddEntity();
+        _rectTransform = groupUi.GetComponent<RectTransform>();
     }
     public void AddEntity()
     {
@@ -25,11 +27,11 @@ public class GroupeStockUi : MonoBehaviour
 
     private void SortAffichage()
     {
+        if(!_rectTransform) { _rectTransform = groupUi.GetComponent<RectTransform>(); }
         foreach (GameObject i in _listOfGroup)
         {
-            i.GetComponent<RectTransform>().anchoredPosition = new Vector3(groupUi.GetComponent<RectTransform>().sizeDelta[0] * _listOfGroup.IndexOf(i) + (groupUi.GetComponent<RectTransform>().sizeDelta[0]/2), 0, 0);
+            i.GetComponent<RectTransform>().anchoredPosition = new Vector3(_rectTransform.sizeDelta[0] * _listOfGroup.IndexOf(i) + (_rectTransform.sizeDelta[0]/2), 0, 0);
         }
-
     }
     public void RemoveCadre(GameObject cadreToRemove)
     {

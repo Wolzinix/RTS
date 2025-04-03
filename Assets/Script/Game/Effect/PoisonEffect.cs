@@ -10,13 +10,13 @@ public class PoisonEffect : StateEffect
         base.InitEffect(duration);
         this.damage = damage;
     }
-    public void InitEffect(SelectableManager entity, float duration, float damage) 
+    public void InitEffect(SelectableManager entity, float duration, float damage)
     {
         base.InitEffect(entity, duration);
         this.damage = damage;
     }
 
-    private bool verifyIfEffectAlreadyExist(SelectableManager entity)
+    private bool VerifyIfEffectAlreadyExist(SelectableManager entity)
     {
 
         PoisonEffect effect = null;
@@ -60,9 +60,9 @@ public class PoisonEffect : StateEffect
     }
 
 
-    override public void AddEffectToTarget(SelectableManager entityAffected) 
+    override public void AddEffectToTarget(SelectableManager entityAffected)
     {
-        if(verifyIfEffectAlreadyExist(entityAffected))
+        if (VerifyIfEffectAlreadyExist(entityAffected))
         {
             foreach (PoisonEffect i in entityAffected.GetComponents(typeof(PoisonEffect)))
             {

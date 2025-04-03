@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,6 +22,8 @@ public class IABrain : MonoBehaviour
     public string ennemieTag;
 
     public GameObject MainBase;
+    private List<RessourceManager> listOfRessources;
+    private RessourceController ressourceController;
 
     void Start()
     {
@@ -33,6 +38,10 @@ public class IABrain : MonoBehaviour
 
         ActualiseGroup();
         ActualiseBuilding();
+
+        listOfRessources = FindObjectsOfType<RessourceManager>().ToList();
+        ressourceController = GetComponent<RessourceController>();
+        stockBuilding.ActualiseBuilding(FindObjectsOfType<ProductBuildingController>().ToList());
     }
 
     private void OnDestroy()
@@ -104,7 +113,7 @@ public class IABrain : MonoBehaviour
 
         foreach (EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
         {
-            if(!Thenearset.GetComponent<BuilderController>() && ! Thenearset.GetComponent<DefenseManager>())
+            if(!Thenearset.GetComponent<DefenseManager>())
             {
                 if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset.gameObject; }
 
@@ -118,13 +127,20 @@ public class IABrain : MonoBehaviour
     }
     public RessourceManager GetThenearsetHarvestOfABuilder(BuilderController builder)
     {
-        RessourceManager[] listOfRessources = FindObjectsOfType<RessourceManager>();
-        if (listOfRessources.Length > 0)
+        
+        if (listOfRessources.Count > 0)
         {
             RessourceManager ThenearsetToReturn = listOfRessources[0];
 
-            foreach (RessourceManager Thenearset in listOfRessources)
+            int i = 0;
+            while (i <  listOfRessources.Count)
             {
+                RessourceManager Thenearset = listOfRessources[i];
+                if (!Thenearset)
+                {
+                    listOfRessources.Remove(Thenearset);
+                    continue;
+                }
                 if (ThenearsetToReturn != Thenearset && Thenearset)
                 {
                     if (Vector3.Distance(Thenearset.gameObject.transform.position, builder.gameObject.transform.position) < Vector3.Distance(ThenearsetToReturn.gameObject.transform.position, builder.gameObject.transform.position))
@@ -132,8 +148,9 @@ public class IABrain : MonoBehaviour
                         ThenearsetToReturn = Thenearset;
                     }
                 }
+                i++;
             }
-            if (listOfRessources.Length > 0) { return ThenearsetToReturn; }
+            if (listOfRessources.Count > 0) { return ThenearsetToReturn; }
             else { return null; }
         }
         else { return null; }
@@ -149,7 +166,6 @@ public class IABrain : MonoBehaviour
                 building.AddSpawnGroup(group);
             }
         }
-
     }
     public void ActualiseGroup()
     {
@@ -166,7 +182,6 @@ public class IABrain : MonoBehaviour
                 }
             }
         }
-        //DebugGroup();
     }
 
     public void ActualiseTheGroup(GroupManager group)
@@ -184,7 +199,7 @@ public class IABrain : MonoBehaviour
 
     public void ActualiseBuilding()
     {
-        stockBuilding.ActualiseBuilding(FindObjectsOfType<ProductBuildingController>());
+        stockBuilding.ActualiseBuilding();
     }
 
     public void ActualisePatrol()
@@ -216,12 +231,12 @@ public class IABrain : MonoBehaviour
     }
     public void SpawnEveryEntityOfABuilding(ProductBuildingController building)
     {
-        building.SpawnEveryEntity(tag, groupOfEntity, GetComponent<RessourceController>());
+        building.SpawnEveryEntity(tag, groupOfEntity, ressourceController);
     }
 
     public void SpawnEntityOfBuilding(ProductBuildingController building, GameObject entity)
     {
-        building.SpawnEntity(entity, tag, groupOfEntity.GetComponentInChildren<EntityController>().gameObject, GetComponent<RessourceController>());
+        building.SpawnEntity(entity, tag, groupOfEntity.GetComponentInChildren<EntityController>().gameObject, ressourceController);
     }
 
     public void SpawnEveryEntityOfEveryBuilding()

@@ -9,12 +9,13 @@ public class HarvestState : StateClassEntity
     bool _endHere = false;
 
     float targetSize = 0;
-
+    Animator _animator;
 
     public HarvestState(BuilderController builderController, RessourceManager target)
     {
         builder = builderController;
         this.target = target;
+        _animator = builder.GetComponentInChildren<Animator>();
     }
 
     public override void Update()
@@ -28,11 +29,7 @@ public class HarvestState : StateClassEntity
             }
             if (Vector3.Distance(builder.transform.position, target.transform.position) <= builder._entityManager.Range + target.size)
             {
-                Animator _animator = builder.GetComponentInChildren<Animator>();
-
-
                 _animator.SetBool(EntityController.Moving, false);
-
 
                 if (!_animator.IsInTransition(0) &&
                     _animator.GetInteger(EntityController.Attacking) == 1 &&

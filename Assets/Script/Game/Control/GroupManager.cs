@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class GroupManager
 {
@@ -56,21 +55,14 @@ public class GroupManager
         _CenterOfGroup = new Vector3();
         foreach (EntityController controller in _selectedObject)
         {
-            if (controller)
-            {
-                _CenterOfGroup += controller.gameObject.transform.position;
-            }
-
+            if (controller) { _CenterOfGroup += controller.gameObject.transform.position; }
         }
         _CenterOfGroup /= _selectedObject.Count;
 
         return _CenterOfGroup;
     }
 
-    public List<EntityController> GetSelectedObject()
-    {
-        return _selectedObject;
-    }
+    public List<EntityController> GetSelectedObject() { return _selectedObject; }
     public void ClearList()
     {
         if (!SelectedObjectIsEmpty())
@@ -81,7 +73,6 @@ public class GroupManager
                 i.gameObject.GetComponent<AggressifEntityManager>().OnDeselected(); ;
             }
             _selectedObject.Clear();
-
         }
         else if (_OneSelected)
         {
@@ -101,15 +92,15 @@ public class GroupManager
         {
             if (entity.GetStartSpeed() > 0)
             {
-                if (entity.GetStartSpeed() > _selectedObject[0].GetSpeed() && _selectedObject[0].GetSpeed() > 0)  { entity.ChangeSpeed(_selectedObject[0].GetSpeed()); }
+                if (entity.GetStartSpeed() > _selectedObject[0].GetSpeed() && _selectedObject[0].GetSpeed() > 0) { entity.ChangeSpeed(_selectedObject[0].GetSpeed()); }
                 else
                 {
                     _selectedObject.Reverse();
-                    foreach (EntityController i in _selectedObject) {  i.ChangeSpeed(entity.GetStartSpeed()); }
+                    foreach (EntityController i in _selectedObject) { i.ChangeSpeed(entity.GetStartSpeed()); }
                 }
             }
         }
-        else {  entity.ChangeSpeed(entity.GetStartSpeed()); }
+        else { entity.ChangeSpeed(entity.GetStartSpeed()); }
     }
 
     public void RestoreSpeedOfAllEntity()
@@ -122,20 +113,18 @@ public class GroupManager
 
     public void AddSelect(SelectableManager toAdd)
     {
-        if (toAdd.gameObject.CompareTag(_alliTag) && toAdd.gameObject.GetComponent<EntityController>())
+        EntityController entityControllerToAdd = toAdd.gameObject.GetComponent<EntityController>();
+        if (toAdd.gameObject.CompareTag(_alliTag) && entityControllerToAdd)
         {
-            if (_selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>()) > -1)  { RemoveSelect(toAdd); }
+            if (_selectedObject.IndexOf(entityControllerToAdd) > -1) { RemoveSelect(toAdd); }
             else
             {
-                _selectedObject.Add(toAdd.gameObject.GetComponent<EntityController>());
-                ChangeSpeedWhenAdd(toAdd.gameObject.GetComponent<EntityController>());
-                toAdd.gameObject.GetComponent<EntityController>().groupManager = this;
-                toAdd.GetComponent<EntityController>().EntityIsArrive.AddListener(SomeOneIsImmobile);
+                _selectedObject.Add(entityControllerToAdd);
+                ChangeSpeedWhenAdd(entityControllerToAdd);
+                entityControllerToAdd.groupManager = this;
+                entityControllerToAdd.EntityIsArrive.AddListener(SomeOneIsImmobile);
                 toAdd.deathEvent.AddListener(RemoveSelect);
-                if (IsPlayer)
-                {
-                    toAdd.gameObject.GetComponent<AggressifEntityManager>().OnSelected();
-                }
+                if (IsPlayer) { toAdd.gameObject.GetComponent<AggressifEntityManager>().OnSelected(); }
             }
         }
         else
@@ -143,7 +132,6 @@ public class GroupManager
             ClearList();
             if (IsPlayer)
             {
-
                 toAdd.OnSelected();
                 _OneSelected = toAdd;
             }
@@ -159,24 +147,22 @@ public class GroupManager
                 float newSpeed = _selectedObject[0].GetStartSpeed();
                 foreach (EntityController i in _selectedObject)
                 {
-                    if (newSpeed > i.GetStartSpeed()){ newSpeed = i.GetStartSpeed(); }
+                    if (newSpeed > i.GetStartSpeed()) { newSpeed = i.GetStartSpeed(); }
                 }
-                foreach (EntityController i in _selectedObject)
-                {
-                    i.ChangeSpeed(newSpeed);
-                }
+                foreach (EntityController i in _selectedObject) { i.ChangeSpeed(newSpeed); }
             }
         }
     }
     public void RemoveSelect(SelectableManager toAdd)
     {
+        EntityController entityControllerToAdd = toAdd.GetComponent<EntityController>();
         if (toAdd)
         {
-            ChangeSpeedWhenRemove(toAdd.GetComponent<EntityController>());
-            toAdd.gameObject.GetComponent<EntityController>().groupManager = null;
+            ChangeSpeedWhenRemove(entityControllerToAdd);
+            entityControllerToAdd.groupManager = null;
             toAdd.gameObject.GetComponent<AggressifEntityManager>().OnDeselected();
         }
-        int i = _selectedObject.IndexOf(toAdd.gameObject.GetComponent<EntityController>());
+        int i = _selectedObject.IndexOf(entityControllerToAdd);
         if (i < _selectedObject.Count && i >= 0)
         {
             _selectedObject.RemoveAt(i);
@@ -196,21 +182,6 @@ public class GroupManager
             else { MooveSelected(hit.point); }
         }
     }
-
-    public void GoHarvest(GameObject hit)
-    {
-        if (!SelectedObjectIsEmpty())
-        {
-            VerifyIfEveryBodyIsAlive();
-            foreach (EntityController i in _selectedObject)
-            {
-                if (i.GetComponent<BuilderController>())
-                {
-                    i.GetComponent<BuilderController>().AddHarvestTarget(hit);
-                }
-            }
-        }
-    }
     void OnDestroy()
     {
         GroupIsDeadevent.Invoke(this);
@@ -226,8 +197,8 @@ public class GroupManager
             foreach (EntityController i in _selectedObject)
             {
                 Vector3 _PointToReach = _CenterOfGroup - i.transform.position;
-                if (dontGoOnPoint) { i.GetComponent<EntityController>().AddPath(point - _PointToReach); }
-                else { i.GetComponent<EntityController>().AddPath(point); }
+                if (dontGoOnPoint) { i.AddPath(point - _PointToReach); }
+                else { i.AddPath(point); }
             }
         }
     }
@@ -237,7 +208,7 @@ public class GroupManager
         List<int> indexToRemove = new List<int>();
         foreach (EntityController i in _selectedObject)
         {
-            if (!i) {  indexToRemove.Add(_selectedObject.IndexOf(i)); }
+            if (!i) { indexToRemove.Add(_selectedObject.IndexOf(i)); }
         }
 
         indexToRemove.Reverse();
@@ -250,10 +221,7 @@ public class GroupManager
         if (!SelectedObjectIsEmpty())
         {
             VerifyIfEveryBodyIsAlive();
-            foreach (EntityController i in _selectedObject)
-            {
-                i.GetComponent<EntityController>().AddTarget(hit.transform.gameObject.GetComponent<AggressifEntityManager>());
-            }
+            foreach (EntityController i in _selectedObject) { i.AddTarget(hit.transform.gameObject.GetComponent<AggressifEntityManager>()); }
         }
     }
 
@@ -264,10 +232,7 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
-                if (i.gameObject.GetComponent<AggressifEntityManager>() != controller)
-                {
-                    i.GetComponent<EntityController>().AddTarget(controller);
-                }
+                if (i.gameObject.GetComponent<AggressifEntityManager>() != controller) { i.AddTarget(controller); }
             }
         }
     }
@@ -279,23 +244,29 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
-                if (i.gameObject.GetComponent<BuilderController>())
-                {
-                    i.gameObject.GetComponent<BuilderController>().DoAbuildWithRaycast(nb, hit);
-                }
+                BuilderController builderControllerI = i.GetComponent<BuilderController>();
+                if (builderControllerI) { builderControllerI.DoAbuildWithRaycast(nb, hit); }
             }
         }
     }
-
-    public void FollowSelected(RaycastHit hit)
+    public void GoHarvest(GameObject hit)
     {
         if (!SelectedObjectIsEmpty())
         {
             VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
-                i.GetComponent<EntityController>().AddAllie(hit.transform.gameObject.GetComponent<TroupeManager>());
+                BuilderController builderControllerI = i.GetComponent<BuilderController>();
+                if (builderControllerI) { builderControllerI.AddHarvestTarget(hit); }
             }
+        }
+    }
+    public void FollowSelected(RaycastHit hit)
+    {
+        if (!SelectedObjectIsEmpty())
+        {
+            VerifyIfEveryBodyIsAlive();
+            foreach (EntityController i in _selectedObject) { i.AddAllie(hit.transform.gameObject.GetComponent<TroupeManager>()); }
         }
     }
 
@@ -318,11 +289,8 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
-                if (!_addingMoreThanOne)
-                {
-                    i.GetComponent<EntityController>().AddPatrol(i.gameObject.transform.position);
-                }
-                i.GetComponent<EntityController>().AddPatrol(point);
+                if (!_addingMoreThanOne) { i.AddPatrol(i.gameObject.transform.position); }
+                i.AddPatrol(point);
             }
         }
     }
@@ -334,8 +302,8 @@ public class GroupManager
             VerifyIfEveryBodyIsAlive();
             foreach (EntityController i in _selectedObject)
             {
-                i.GetComponent<EntityController>().AddPatrol(start);
-                i.GetComponent<EntityController>().AddPatrol(end);
+                i.AddPatrol(start);
+                i.AddPatrol(end);
             }
         }
     }
@@ -355,10 +323,7 @@ public class GroupManager
         if (!SelectedObjectIsEmpty())
         {
             VerifyIfEveryBodyIsAlive();
-            foreach (EntityController i in _selectedObject)
-            {
-                i.GetComponent<EntityController>().AddAggressivePath(point);
-            }
+            foreach (EntityController i in _selectedObject) { i.AddAggressivePath(point); }
         }
     }
 
@@ -401,6 +366,5 @@ public class GroupManager
     {
         IsOnFormation = !IsOnFormation;
         if (!IsOnFormation) { RestoreSpeedOfAllEntity(); }
-        
     }
 }

@@ -1,4 +1,3 @@
-﻿
-public class DefenseManager : AggressifEntityManager
+﻿public class DefenseManager : AggressifEntityManager
 {
 }

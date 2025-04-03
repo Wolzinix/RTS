@@ -31,7 +31,7 @@ public class EntityController : BuildingController
         _animator = GetComponentInChildren<Animator>();
         GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
 
-        if(GetComponent<Rigidbody>())
+        if (GetComponent<Rigidbody>())
         {
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         }
@@ -49,7 +49,7 @@ public class EntityController : BuildingController
         }
         if (_navMesh && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState) || _ListOfstate[0].GetType() == typeof(FollowState) || _navMesh == null))
         {
-            if(_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+            if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
             {
                 SearchTarget();
             }
@@ -112,7 +112,7 @@ public class EntityController : BuildingController
     }
     public void AddPath(Vector3 newPath)
     {
-        
+
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
         {
             _ListOfstate.Add(new MoveState(_navMesh, newPath, this));
@@ -124,7 +124,7 @@ public class EntityController : BuildingController
     {
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
         {
-            _ListOfstate.Insert(0,new MoveToDistanceState(_navMesh, newPath, this));
+            _ListOfstate.Insert(0, new MoveToDistanceState(_navMesh, newPath, this));
             StartFirstOrder();
         }
 
@@ -134,7 +134,7 @@ public class EntityController : BuildingController
     {
         if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5 + range)
         {
-            _ListOfstate.Insert(0,new MoveToDistanceState(_navMesh, newPath, this, range));
+            _ListOfstate.Insert(0, new MoveToDistanceState(_navMesh, newPath, this, range));
             StartFirstOrder();
         }
 
@@ -238,7 +238,7 @@ public class EntityController : BuildingController
     }
     override public void ClearAllOrder()
     {
-        while (_ListOfstate.Count > 0 ){ _ListOfstate[0].End(); }
+        while (_ListOfstate.Count > 0) { _ListOfstate[0].End(); }
         base.ClearAllOrder();
 
         StopALlAnimation();

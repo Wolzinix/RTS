@@ -9,7 +9,14 @@ public class MapMod : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera _mapCamera;
     [SerializeField] private List<GameObject> _mapObjects;
+    private CameraControl cameraControl;
+    private CameraControl mapCameraControl;
 
+    private void Start()
+    {
+        cameraControl = _camera.GetComponent<CameraControl>();
+        mapCameraControl = _mapCamera.GetComponent<CameraControl>();
+    }
     public void MapModActive()
     {
         _isMapMod = !_isMapMod;
@@ -25,15 +32,14 @@ public class MapMod : MonoBehaviour
     private void CameraGestion()
     {
         _camera.enabled = !_camera.enabled;
-        CameraControl cameraControl = _camera.GetComponent<CameraControl>();
         cameraControl.StopMoving();
         cameraControl.gameObject.SetActive(_camera.enabled);
 
         _mapCamera.enabled = !_mapCamera.enabled;
-        _mapCamera.GetComponent<CameraControl>().StopMoving();
+        mapCameraControl.StopMoving();
         _mapCamera.gameObject.SetActive(_mapCamera.enabled);
 
-        if (_isMapMod) { cameraControl.DesactiveZoom();}
+        if (_isMapMod) { cameraControl.DesactiveZoom(); }
         else { cameraControl.ActiveZoom(); }
     }
 
@@ -41,7 +47,7 @@ public class MapMod : MonoBehaviour
     {
         foreach (GameObject w in _mapObjects)
         {
-            foreach (SelectableManager i in w.GetComponentsInChildren<SelectableManager>()){ ActualiseOneUnit(i);}
+            foreach (SelectableManager i in w.GetComponentsInChildren<SelectableManager>()) { ActualiseOneUnit(i); }
         }
     }
 

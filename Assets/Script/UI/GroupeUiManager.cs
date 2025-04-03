@@ -30,6 +30,7 @@ public class GroupeUiManager : MonoBehaviour
             _listOfEntity.Add(entity);
             GameObject newCadre = Instantiate(cadre, image.transform);
             newCadre.GetComponent<CadreController>().SetEntity(entity);
+            newCadre.GetComponent<CadreController>().SetGroupUiManager(this);
 
             _listOfCadreControllers.Add(newCadre);
         }

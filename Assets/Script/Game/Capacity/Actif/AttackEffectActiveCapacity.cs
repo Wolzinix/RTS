@@ -1,9 +1,15 @@
 ﻿public class AttackEffectActiveCapacity : ActiveCapacity
 {
     public bool IsActive;
+
+    private AggressifEntityManager entity;
+    protected override void Start()
+    {
+        base.Start();
+        entity = GetComponent<AggressifEntityManager>();
+    }
     override protected void DoEffect()
     {
-        AggressifEntityManager entity = GetComponent<AggressifEntityManager>();
         if(entity)
         {
             if(IsActive) { entity.effect = effect; }

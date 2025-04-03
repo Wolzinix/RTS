@@ -12,9 +12,16 @@ public abstract class CapacityController : MonoBehaviour
     public bool ready = true;
     public float range = 0;
 
+    protected EntityController _controller;
+    protected TroupeManager _troupeManager;
+    protected NavMeshController _navMeshController;
+
     protected virtual void Start()
     {
         effect = GetComponentInChildren<StateEffect>();
+        _controller = GetComponentInParent<EntityController>();
+        _troupeManager = GetComponentInParent<TroupeManager>();
+        _navMeshController = GetComponentInParent<NavMeshController>();
     }
 
     protected virtual void Update()
@@ -29,7 +36,7 @@ public abstract class CapacityController : MonoBehaviour
         {
             if(entityAffected)
             {
-                if (Vector3.Distance(transform.position, entityAffected.transform.position) <=  GetComponentInParent<NavMeshController>().HaveStoppingDistance() + 0.5 + range)
+                if (Vector3.Distance(transform.position, entityAffected.transform.position) <= _navMeshController.HaveStoppingDistance() + 0.5 + range)
                 {
                     DoEffect();
                     ready = false;
@@ -37,11 +44,10 @@ public abstract class CapacityController : MonoBehaviour
                 }
                 else
                 {
-                    if (GetComponentInParent<TroupeManager>())
+                    if (_troupeManager)
                     {
-                        EntityController entityC = GetComponentInParent<EntityController>();
-                        entityC.AddPathWithRange(entityAffected.transform.position, range);
-                        StateClassEntity state = entityC._ListOfstate.First();
+                        _controller.AddPathWithRange(entityAffected.transform.position, range);
+                        StateClassEntity state = _controller._ListOfstate.First();
                         if (state.GetType() == typeof(MoveToDistanceState))
                         {
                             MoveToDistanceState MState = (MoveToDistanceState)state;
@@ -50,7 +56,6 @@ public abstract class CapacityController : MonoBehaviour
                     }
                 }
             }
-           
         }
     }
     public virtual void AddTarget(SelectableManager target)
