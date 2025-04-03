@@ -126,8 +126,8 @@ public class CameraControl : MonoBehaviour
             transform.position.x > xmax ? xmax : transform.position.x < xmin ? xmin : transform.position.x
             , !isMapCamera ? transform.position.y + distanceGround.y - _lastY : transform.position.y
             , transform.position.z > zmax ? zmax : transform.position.z < zmin ? zmin : transform.position.z);
-        _lastY = distanceGround.y;
 
+        _lastY = distanceGround.y;
     }
    
     private void RotateCameraY()

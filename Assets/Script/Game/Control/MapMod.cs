@@ -39,7 +39,7 @@ public class MapMod : MonoBehaviour
         mapCameraControl.StopMoving();
         _mapCamera.gameObject.SetActive(_mapCamera.enabled);
 
-        if (_isMapMod) { cameraControl.DesactiveZoom();}
+        if (_isMapMod) { cameraControl.DesactiveZoom(); }
         else { cameraControl.ActiveZoom(); }
     }
 
@@ -47,7 +47,7 @@ public class MapMod : MonoBehaviour
     {
         foreach (GameObject w in _mapObjects)
         {
-            foreach (SelectableManager i in w.GetComponentsInChildren<SelectableManager>()){ ActualiseOneUnit(i);}
+            foreach (SelectableManager i in w.GetComponentsInChildren<SelectableManager>()) { ActualiseOneUnit(i); }
         }
     }
 

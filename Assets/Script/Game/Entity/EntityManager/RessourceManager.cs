@@ -14,12 +14,7 @@ public class RessourceManager : EntityManager
         base.TakeDamage(entity, nb);
 
         changeStats.Invoke();
-        if (_animator)
-        {
-
-            StartCoroutine(DoHarvestAnimation());
-        }
-
+        if (_animator) { StartCoroutine(DoHarvestAnimation());}
 
         if (hp <= 0)
         {

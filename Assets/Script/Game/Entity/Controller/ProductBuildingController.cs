@@ -1,3 +1,4 @@
+using Assets.Script.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ public class ProductBuildingController : MonoBehaviour
     [HideInInspector] public UnityEvent<ProductBuildingController, GameObject> entityCanSpawnNow = new UnityEvent<ProductBuildingController, GameObject>();
     [HideInInspector] public UnityEvent entityAsBeenBuy = new UnityEvent();
 
-    [HideInInspector] public UnityEvent<List<GameObject>,ProductBuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, ProductBuildingController>();
+    [HideInInspector] public UnityEvent<List<GameObject>, ProductBuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, ProductBuildingController>();
 
     private float _rangeDetection;
 
@@ -22,7 +23,7 @@ public class ProductBuildingController : MonoBehaviour
     private bool _ennemie;
     private bool _canSpawn;
 
-     public string tagOfNerestEntity;
+    public string tagOfNerestEntity;
 
     int NbSpawnpoint = 10;
     public float spawnrayon = 2f;
@@ -30,7 +31,9 @@ public class ProductBuildingController : MonoBehaviour
     [HideInInspector] public List<GameObject> ListOfNearEntity;
 
     [SerializeField] private List<GameObject> prefabToSpawn;
-    [Serializable] public class SpawnTime {
+    [Serializable]
+    public class SpawnTime
+    {
         public float actualTime;
         public float statsTime;
         public float actualStock;
@@ -85,7 +88,7 @@ public class ProductBuildingController : MonoBehaviour
                     entityDictionary[i].actualStock += 1;
                     entityDictionary[i].actualTime = entityDictionary[i].statsTime;
                     entitySpawnNow.Invoke();
-                    entityCanSpawnNow.Invoke(this,i);
+                    entityCanSpawnNow.Invoke(this, i);
                 }
             }
         }
@@ -119,7 +122,7 @@ public class ProductBuildingController : MonoBehaviour
     }
     public void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity, RessourceController ressource)
     {
-        if(ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldCost) && _canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
+        if (ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldCost) && _canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
         {
             if (entityDictionary[entityToSpawn].actualStock > 0)
             {
@@ -130,14 +133,14 @@ public class ProductBuildingController : MonoBehaviour
                 for (int w = 0; w < NbSpawnpoint; w++)
                 {
 
-                    Vector3 pos = calculPostion(spawnrayon,w);
+                    Vector3 pos = calculPostion(spawnrayon, w);
 
                     if (lineRenderer != null)
                     { lineRenderer.SetPosition(w, pos); }
 
-                    pos = RaycastForGround(pos);
+                    pos = RayCast.RaycastForGroundNavMesh(pos,spawnrayon);
 
-                    if(pos != transform.position)
+                    if (pos != transform.position)
                     {
                         int colliders = DoAOverlap(pos);
                         if (colliders <= 0)
@@ -156,7 +159,6 @@ public class ProductBuildingController : MonoBehaviour
                             break;
                         }
                     }
-                   
                 }
             }
         }
@@ -169,39 +171,19 @@ public class ProductBuildingController : MonoBehaviour
         {
             bool hasTower = false;
             Vector3 pos = calculPostion(spawnRadius, w);
-            Collider[] colliders = DoAOverlap(pos,true);
-            foreach(Collider collider in colliders)
+            Collider[] colliders = DoAOverlap(pos, true);
+            foreach (Collider collider in colliders)
             {
-                if(collider.gameObject.GetComponent<DefenseManager>()) { hasTower = true; }
+                if (collider.gameObject.GetComponent<DefenseManager>()) { hasTower = true; }
             }
-            if(!hasTower) { ListOfPoint.Add(pos); }
+            if (!hasTower) { ListOfPoint.Add(pos); }
         }
         return ListOfPoint;
     }
 
-    private Vector3 RaycastForGround(Vector3 pos)
+    private Vector3 calculPostion(float spawnRadius, int spawnPoint)
     {
-        Ray ray = new Ray(pos, Vector3.down);
-        RaycastHit[] hits = Physics.RaycastAll(ray, spawnrayon);
-        
-        foreach (RaycastHit hit in hits)
-        {
-            Debug.DrawLine(pos, hit.point, Color.red, 10f);
-            if (hit.collider.gameObject.GetComponent<NavMeshSurface>())
-            {
-                NavMeshHit navHit = new NavMeshHit();
-                if(NavMesh.SamplePosition(hit.point,out navHit,0.2f, NavMesh.AllAreas))
-                {
-                    return new Vector3(hit.point.x, hit.point.y + ( pos.y - hit.point.y), hit.point.z);
-                }
-            }
-        }
-        return transform.position;
-    }
-
-    private Vector3 calculPostion(float spawnRadius , int spawnPoint)
-    {
-        float Theta = 2f * (float)Mathf.PI * ((float)spawnPoint / NbSpawnpoint);
+        float Theta = 2f * Mathf.PI * ((float)spawnPoint / NbSpawnpoint);
 
         float x = spawnRadius * Mathf.Cos(Theta);
         float y = spawnRadius * Mathf.Sin(Theta);
@@ -223,24 +205,7 @@ public class ProductBuildingController : MonoBehaviour
         return Physics.OverlapSphere(spawnPosition, 1f, ~0, QueryTriggerInteraction.Ignore);
     }
 
-    private List<RaycastHit> DoCircleRaycast()
-    {
-        float numberOfRay = 40;
-        float delta = 360 / numberOfRay;
-
-        List<RaycastHit> listOfGameObejct = new List<RaycastHit>();
-
-        for (int i = 0; i < numberOfRay; i++)
-        {
-            Vector3 dir = Quaternion.Euler(0, i * delta, 0) * transform.forward;
-
-            Ray ray = new Ray(transform.position, dir);
-
-            listOfGameObejct.Union(Physics.RaycastAll(ray, _rangeDetection));
-        }
-
-        return listOfGameObejct;
-    }
+    
     private void EntityProximityDeath(SelectableManager entity)
     {
         if (entity.CompareTag("Allie")) { nbAllies -= 1; }
@@ -260,7 +225,8 @@ public class ProductBuildingController : MonoBehaviour
     }
     private void AddCollider(GameObject go)
     {
-        if (go.transform && !go.transform.gameObject.CompareTag("neutral") && go.transform.gameObject.GetComponent<TroupeManager>())
+        TroupeManager goManager = go.transform.gameObject.GetComponent<TroupeManager>();
+        if (go.transform && !go.transform.gameObject.CompareTag("neutral") && goManager)
         {
             Debug.DrawLine(transform.position, go.transform.position, Color.red, 1f);
             if (!ListOfNearEntity.Contains(go))
@@ -272,15 +238,15 @@ public class ProductBuildingController : MonoBehaviour
                 TagGestion();
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
-                go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.AddListener(EntityProximityDeath);
-                
+                goManager.deathEvent.AddListener(EntityProximityDeath);
             }
         }
     }
 
     private void RemoveCollider(GameObject go)
     {
-        if (go.transform && !go.transform.gameObject.CompareTag("neutral") && go.transform.gameObject.GetComponent<TroupeManager>())
+        TroupeManager goManager = go.transform.gameObject.GetComponent<TroupeManager>();
+        if (go.transform && !go.transform.gameObject.CompareTag("neutral") && goManager)
         {
             if (ListOfNearEntity.Contains(go))
             {
@@ -291,8 +257,8 @@ public class ProductBuildingController : MonoBehaviour
                 TagGestion();
 
                 EntityNextToEvent.Invoke(ListOfNearEntity, this);
-                go.transform.gameObject.GetComponent<TroupeManager>().deathEvent.RemoveListener(EntityProximityDeath);
-               
+                goManager.deathEvent.RemoveListener(EntityProximityDeath);
+
             }
         }
     }

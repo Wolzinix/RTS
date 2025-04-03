@@ -5,19 +5,20 @@ public class TargetState : StateClassEntity
     public SelectableManager target;
     EntityController controller;
     NavMeshController navMeshController;
-
+    Rigidbody rb;
     public TargetState(SelectableManager target, EntityController controller, NavMeshController navMeshController)
     {
         this.target = target;
         this.controller = controller;
         this.navMeshController = navMeshController;
+        rb = controller.GetComponent<Rigidbody>();
     }
     public override void Start()
     {
         controller._animator.SetBool(EntityController.Moving, true);
-        if(controller.GetComponent<Rigidbody>())
+        if(rb)
         {
-            controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+            rb.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         }
     }
     public override void Update()
@@ -50,7 +51,7 @@ public class TargetState : StateClassEntity
         if (navMeshController != null)
         {
             controller._animator.SetBool(EntityController.Moving, false);
-            controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+            rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             navMeshController.StopPath();
         }
     }

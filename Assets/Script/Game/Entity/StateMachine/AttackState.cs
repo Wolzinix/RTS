@@ -8,16 +8,20 @@ public class AttackState : StateClassEntity
     ProjectilManager _projectile;
     bool _attacking = false;
 
+    AggressifEntityManager controlelrAggressifManager;
+
     public AttackState(EntityController controller, ProjectilManager projectile, SelectableManager target)
     {
         this.controller = controller;
         _projectile = projectile;
         this.target = target;
+        controlelrAggressifManager = controller.GetComponent<AggressifEntityManager>();
     }
     public AttackState(EntityController controller, SelectableManager target)
     {
         this.controller = controller;
         this.target = target;
+        controlelrAggressifManager = controller.GetComponent<AggressifEntityManager>();
     }
 
     public override void Start() { }
@@ -28,7 +32,7 @@ public class AttackState : StateClassEntity
         {
             ProjectilManager pj = EntityController.Instantiate(_projectile);
             pj.SetTarget(target.gameObject);
-            pj.SetInvoker(controller.GetComponent<AggressifEntityManager>());
+            pj.SetInvoker(controlelrAggressifManager);
 
             Vector3 spawnPosition = new Vector3 (controller.transform.position.x,controller.transform.position.y + 1 , controller.transform.position.z);
 
@@ -36,17 +40,17 @@ public class AttackState : StateClassEntity
 
             pj.gameObject.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, spawnPosition.z);
 
-            if(controller.GetComponent<AggressifEntityManager>().effect)
+            if(controlelrAggressifManager.effect)
             {
-                _projectile._effect = controller.GetComponent<AggressifEntityManager>().effect;
+                _projectile._effect = controlelrAggressifManager.effect;
             }
         }
         else 
         { 
             controller._entityManager.DoAttack(target);
-            if (controller.GetComponent<AggressifEntityManager>().effect)
+            if (controlelrAggressifManager.effect)
             {
-                controller.GetComponent<AggressifEntityManager>().effect.AddEffectToTarget(target);
+                controlelrAggressifManager.effect.AddEffectToTarget(target);
             }
         }
         controller._entityManager.DoAnAttack.Invoke();

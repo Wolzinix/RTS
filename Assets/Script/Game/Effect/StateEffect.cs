@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public abstract class StateEffect: MonoBehaviour
+public abstract class StateEffect : MonoBehaviour
 {
     public SelectableManager entityAffected;
     [SerializeField] protected float duration;
     public float actualTime;
     public float nextTime;
+
+    protected EntityController entityControllerAffected;
 
     virtual public void InitEffect(float duration)
     {
@@ -19,14 +21,16 @@ public abstract class StateEffect: MonoBehaviour
         this.duration = duration;
         actualTime = 0;
         nextTime = 1;
+        entityControllerAffected = entityAffected.GetComponent<EntityController>();
     }
     virtual public void SetEntity(SelectableManager entity)
     {
         entityAffected = entity;
+        entityControllerAffected = entityAffected.GetComponent<EntityController>();
     }
     virtual public void Start() { }
 
-    virtual public void Update() 
+    virtual public void Update()
     {
         if (entityAffected)
         {
@@ -36,14 +40,11 @@ public abstract class StateEffect: MonoBehaviour
                 ApplyEffect();
                 nextTime += 1;
             }
-            if (nextTime >= duration) 
-            { 
-                end(); 
-            }
+            if (nextTime >= duration) { end(); }
         }
     }
 
-    virtual public void end() 
+    virtual public void end()
     {
         Destroy(this);
     }

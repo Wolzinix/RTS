@@ -92,15 +92,15 @@ public class GroupManager
         {
             if (entity.GetStartSpeed() > 0)
             {
-                if (entity.GetStartSpeed() > _selectedObject[0].GetSpeed() && _selectedObject[0].GetSpeed() > 0)  { entity.ChangeSpeed(_selectedObject[0].GetSpeed()); }
+                if (entity.GetStartSpeed() > _selectedObject[0].GetSpeed() && _selectedObject[0].GetSpeed() > 0) { entity.ChangeSpeed(_selectedObject[0].GetSpeed()); }
                 else
                 {
                     _selectedObject.Reverse();
-                    foreach (EntityController i in _selectedObject) {  i.ChangeSpeed(entity.GetStartSpeed()); }
+                    foreach (EntityController i in _selectedObject) { i.ChangeSpeed(entity.GetStartSpeed()); }
                 }
             }
         }
-        else {  entity.ChangeSpeed(entity.GetStartSpeed()); }
+        else { entity.ChangeSpeed(entity.GetStartSpeed()); }
     }
 
     public void RestoreSpeedOfAllEntity()
@@ -116,7 +116,7 @@ public class GroupManager
         EntityController entityControllerToAdd = toAdd.gameObject.GetComponent<EntityController>();
         if (toAdd.gameObject.CompareTag(_alliTag) && entityControllerToAdd)
         {
-            if (_selectedObject.IndexOf(entityControllerToAdd) > -1)  { RemoveSelect(toAdd); }
+            if (_selectedObject.IndexOf(entityControllerToAdd) > -1) { RemoveSelect(toAdd); }
             else
             {
                 _selectedObject.Add(entityControllerToAdd);
@@ -147,7 +147,7 @@ public class GroupManager
                 float newSpeed = _selectedObject[0].GetStartSpeed();
                 foreach (EntityController i in _selectedObject)
                 {
-                    if (newSpeed > i.GetStartSpeed()){ newSpeed = i.GetStartSpeed(); }
+                    if (newSpeed > i.GetStartSpeed()) { newSpeed = i.GetStartSpeed(); }
                 }
                 foreach (EntityController i in _selectedObject) { i.ChangeSpeed(newSpeed); }
             }
@@ -208,7 +208,7 @@ public class GroupManager
         List<int> indexToRemove = new List<int>();
         foreach (EntityController i in _selectedObject)
         {
-            if (!i) {  indexToRemove.Add(_selectedObject.IndexOf(i)); }
+            if (!i) { indexToRemove.Add(_selectedObject.IndexOf(i)); }
         }
 
         indexToRemove.Reverse();

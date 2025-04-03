@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProjectilManager : MonoBehaviour
 {
-    private GameObject _target;
+    private SelectableManager _target;
     private AggressifEntityManager _invoker;
 
     [SerializeField] private Sprite _sprite;
@@ -21,7 +21,7 @@ public class ProjectilManager : MonoBehaviour
     void Update()
     {
         if (!_target) { Destroy(gameObject); return; }
-        transform.LookAt(_target.gameObject.transform);
+        transform.LookAt(_target.transform);
 
 
         _rb.AddForce(new Vector3(
@@ -34,9 +34,9 @@ public class ProjectilManager : MonoBehaviour
 
     public void SetTarget(GameObject target)
     {
-        _target = target;
+        _target = target.GetComponent<SelectableManager>();
 
-        transform.LookAt(_target.gameObject.transform);
+        transform.LookAt(_target.transform);
     }
     public void SetInvoker(AggressifEntityManager invoker) 
     { 
@@ -47,18 +47,17 @@ public class ProjectilManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other != null && other.gameObject == _target)
+        if (other != null && other.gameObject == _target.gameObject)
         {
-            _target.GetComponent<SelectableManager>().TakeDamage(_invoker, _damage);
+            _target.TakeDamage(_invoker, _damage);
             if (_invoker) 
             {
-                _target.GetComponent<SelectableManager>().TakingDamageFromEntity.Invoke(_invoker.GetComponent<AggressifEntityManager>());
+                _target.TakingDamageFromEntity.Invoke(_invoker.GetComponent<AggressifEntityManager>());
                 if(_effect)
                 {
-                    _effect.AddEffectToTarget(_target.GetComponent<SelectableManager>());
+                    _effect.AddEffectToTarget(_target);
                 }
             }
-
             Destroy(gameObject);
         }
     }

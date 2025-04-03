@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 namespace Assets.Script.Tools
 {
@@ -67,6 +70,43 @@ namespace Assets.Script.Tools
             EventSystem.current.RaycastAll(eventData, results);
 
             return results;
+        }
+
+        public static Vector3 RaycastForGroundNavMesh(Vector3 pos, float sizeY = Mathf.Infinity)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(pos, Vector3.down, out hit, sizeY, 1 << 3))
+            {
+                Debug.DrawLine(pos, hit.point, Color.red, 10f);
+                if (hit.collider.gameObject.GetComponent<NavMeshSurface>())
+                {
+                    NavMeshHit navHit = new NavMeshHit();
+                    if (NavMesh.SamplePosition(hit.point, out navHit, 0.2f, NavMesh.AllAreas))
+                    {
+                        return new Vector3(hit.point.x, hit.point.y + (pos.y - hit.point.y), hit.point.z);
+                    }
+                }
+            }
+            return Vector3.zero;
+        }
+
+        public static List<RaycastHit> DoCircleRaycast(GameObject go, float range, float numberOfRay = 40)
+        {
+            ;
+            float delta = 360 / numberOfRay;
+
+            List<RaycastHit> listOfGameObejct = new List<RaycastHit>();
+
+            for (int i = 0; i < numberOfRay; i++)
+            {
+                Vector3 dir = Quaternion.Euler(0, i * delta, 0) * go.transform.forward;
+
+                Ray ray = new Ray(go.transform.position, dir);
+
+                listOfGameObejct.Union(Physics.RaycastAll(ray, range));
+            }
+
+            return listOfGameObejct;
         }
     }
 }

@@ -3,39 +3,31 @@
 public class FogWarManager : MonoBehaviour
 {
     FogWarController fogWar;
+    EntityController entityController;
     void Start()
     {
         fogWar = FindAnyObjectByType<FogWarController>();
-        if(GetComponent<EntityController>() && fogWar)
-        {
-            fogWar.FogGestion(gameObject.GetComponent<EntityController>(), true);
-        }
+        entityController = GetComponent<EntityController>();
+        if (entityController && fogWar) { fogWar.FogGestion(entityController, true); }
     }
 
     public void ActualiseFog(EntityController controller, bool hide)
     {
-        if(fogWar)
-        {
-            fogWar.FogGestion(controller, hide);
-        }
+        if(fogWar){ fogWar.FogGestion(controller, hide); }
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         if(tag != "" && tag != "neutral")
         {
-            if (collision.gameObject.GetComponent<EntityController>() && !collision.CompareTag(tag))
-            {
-                ActualiseFog(collision.gameObject.GetComponent<EntityController>(), false);
-            }
+            EntityController collisionController = collision.GetComponent<EntityController>();
+            if (collisionController && !collision.CompareTag(tag)) { ActualiseFog(collisionController, false); }
         }
     }
 
     private void OnTriggerExit(Collider collision)
     {
-        if (collision.gameObject.GetComponent<EntityController>() && !collision.CompareTag(tag))
-        {
-            ActualiseFog(collision.gameObject.GetComponent<EntityController>(), true);
-        }
+        EntityController collisionController = collision.GetComponent<EntityController>();
+        if (collisionController && !collision.CompareTag(tag)){ ActualiseFog(collisionController, true); }
     }
 }

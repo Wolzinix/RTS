@@ -208,7 +208,7 @@ public class ControlManager : MonoBehaviour
                         ActivableCapacity capa = (ActivableCapacity)_capacityController;
                         capa.DoOnce();
                     }
-                    _capacityController.AddTarget(hit.transform.GetComponent<SelectableManager>()); 
+                    _capacityController.AddTarget(hit.transform.GetComponent<SelectableManager>());
                 }
             }
         }
@@ -245,9 +245,9 @@ public class ControlManager : MonoBehaviour
                     (hit.transform.GetComponentInChildren<SkinnedMeshRenderer>() && hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
                     hit.transform.GetComponentInChildren<MeshRenderer>() && hit.transform.GetComponentInChildren<MeshRenderer>().enabled))
                 {
-                    if(_multiSelectionIsActive && _selectManager.getSelectList().Count > 0)
+                    if (_multiSelectionIsActive && _selectManager.getSelectList().Count > 0)
                     {
-                        if(_selectManager.getSelectList().Count < 2)
+                        if (_selectManager.getSelectList().Count < 2)
                         {
                             _UiGestioneur.AddOnGroupUi(_selectManager.getSelectList()[0].GetComponent<SelectableManager>());
                         }
@@ -340,7 +340,7 @@ public class ControlManager : MonoBehaviour
 
     private void EndDragSelect(InputAction.CallbackContext obj)
     {
-        if (_timeOfDragging > 0.15) 
+        if (_timeOfDragging > 0.15)
         {
             StartCoroutine(IsOnDragBox());
             if (_entitiesBackUp.Count > 0)
@@ -352,7 +352,7 @@ public class ControlManager : MonoBehaviour
                     SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
 
                     if (i && !_selectManager.getSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
-                    if(!_UiGestioneur.groupUi._listOfEntity.Contains(selectableI)) { _UiGestioneur.AddOnGroupUi(selectableI); }
+                    if (!_UiGestioneur.groupUi._listOfEntity.Contains(selectableI)) { _UiGestioneur.AddOnGroupUi(selectableI); }
 
                     w++;
                 }
@@ -381,11 +381,11 @@ public class ControlManager : MonoBehaviour
         {
             Vector3 point = _camera.WorldToScreenPoint(i.transform.position);
 
-            if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag) )
+            if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag))
             {
                 SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
                 if (!_selectManager.getSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
-                if (!_UiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) {  _UiGestioneur.AddOnGroupUi(selectableI); }
+                if (!_UiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) { _UiGestioneur.AddOnGroupUi(selectableI); }
             }
         }
 
@@ -408,14 +408,14 @@ public class ControlManager : MonoBehaviour
     }
     public void CapacityOrder(CapacityController capacity)
     {
-        if(capacity.ready)
+        if (capacity.ready)
         {
             ResetUiOrder();
-            
+
             _capactityOrder = true;
             _capacityController = capacity;
             Cursor.SetCursor(DeplacementCursor, hotSpot, cursorMode);
-            
+
         }
     }
 

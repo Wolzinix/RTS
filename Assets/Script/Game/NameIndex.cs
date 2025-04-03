@@ -19,6 +19,9 @@ public static class NameIndex
         { 10,"Provencal" },
         { 11,"Zebra" },
         { 12,"Iduvelo" },
+        { 13,"NuWeb" },
+        { 14,"Powerm1nt" },
+
     };
     public static string GetAName(){ return DicoOfName[Random.Range(0,DicoOfName.Count)]; }
     public static string GetAName(int indexName) { return DicoOfName[indexName]; }

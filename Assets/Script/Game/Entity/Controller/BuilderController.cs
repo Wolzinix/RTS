@@ -63,10 +63,7 @@ public class BuilderController : EntityController
 
     protected override void LateUpdate()
     {
-        if (_ListOfstate.Count > 0)
-        {
-            _ListOfstate[0].Update();
-        }
+        if (_ListOfstate.Count > 0) { _ListOfstate[0].Update(); }
         if (_ListOfstate.Count <= 0) { NoMoreToHarvest.Invoke(this); }
     }
 
@@ -161,19 +158,7 @@ public class BuilderController : EntityController
     }
 
     public void SetRessourceController(RessourceController ressourceController)
-        {
-        this.ressourceController = ressourceController;
-    }
-
-    public Vector3 RayToTuchGround(Vector3 pos)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, _IncludeLayerToSpawn))
-        {
-            Debug.DrawLine(pos, hit.point, Color.red, 10f);
-            return new Vector3(pos.x, hit.point.y, pos.z);
-        }
-
-        return Vector3.zero;
+        this.ressourceController = ressourceController;
     }
 }
