@@ -59,6 +59,8 @@ public class ControlManager : MonoBehaviour
 
     [SerializeField] private MapMod _mapMod;
 
+    [SerializeField] private BuildingPreWatching _buildingPreWatching;
+
     void Start()
     {
         _selectManager = FindObjectOfType<SelectManager>();
@@ -190,6 +192,7 @@ public class ControlManager : MonoBehaviour
         {
             IsMultipathActive();
             _selectManager.DoABuild(_nbOfBuilding, hit);
+            _buildingPreWatching.BuildingIsCancel();
         }
         else if (_order)
         {
@@ -418,7 +421,6 @@ public class ControlManager : MonoBehaviour
 
         }
     }
-
     public void ChangeCapacityActif(ActivableCapacity capacity)
     {
         capacity.ChangeActif();
@@ -426,7 +428,6 @@ public class ControlManager : MonoBehaviour
 
     public void DoPatrouille()
     {
-
         ResetUiOrder();
         _patrolOrder = true;
         _selectManager.setAddingMoreThanOne(false);
@@ -434,18 +435,22 @@ public class ControlManager : MonoBehaviour
 
     public void DoTravelAttack()
     {
-
         ResetUiOrder();
         _travelAttack = true;
 
         Cursor.SetCursor(AttackCursor, hotSpot, cursorMode);
     }
 
-    public void DoABuilding(int nb)
+    public void DoABuilding(int nb, GameObject building)
     {
         _buildingOrder = true;
         _nbOfBuilding = nb;
 
         Cursor.SetCursor(buildingCursor, hotSpot, cursorMode);
+        SelectableManager buildingSelectable = building.GetComponent<SelectableManager>();
+        if (buildingSelectable.CurrentShape)
+        {
+            _buildingPreWatching.SetBuilding(buildingSelectable.CurrentShape, buildingSelectable.CurrentShapeTransform);
+        }
     }
 }

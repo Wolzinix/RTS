@@ -54,11 +54,37 @@ namespace Assets.Script.Tools
             return Vector3.zero;
         }
 
-        public static RaycastHit DoARayCastFromMouse(Camera camera)
+        public static RaycastHit DoARayCastFromMouse(Camera camera )
         {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
+            return hit;
+        }
+
+        public static RaycastHit DoARayCastFromMouse()
+        {
+            Camera camera = Camera.main;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
+            return hit;
+        }
+
+        public static RaycastHit DoARayCastToGroundFromMouse(Camera camera)
+        {
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 3, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
+            return hit;
+        }
+
+        public static RaycastHit DoARayCastToGroundFromMouse()
+        {
+            Camera camera = Camera.main;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 3, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
             return hit;
         }
 

@@ -127,7 +127,6 @@ public class IABrain : MonoBehaviour
     }
     public RessourceManager GetThenearsetHarvestOfABuilder(BuilderController builder)
     {
-        
         if (listOfRessources.Count > 0)
         {
             RessourceManager ThenearsetToReturn = listOfRessources[0];

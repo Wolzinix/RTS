@@ -346,6 +346,8 @@ MonoBehaviour:
   changeStats:
     m_PersistentCalls:
       m_Calls: []
+  CurrentShape: {fileID: 4554085821723888230}
+  CurrentShapeTransform: {fileID: 3763644759705615025}
   seeRange: 18.04
   deathEvent:
     m_PersistentCalls:
