@@ -69,7 +69,7 @@ public class BuildUi : MonoBehaviour
         _numberOfbutton -= _ListOfButton.Count();
         if (_numberOfbutton < 0)
         {
-            if (_builder.getBuildings().Count >= _ListOfButton.Count())
+            if (_builder.getBuildings().Count > _ListOfButton.Count())
             {
                 _numberOfbutton = _ListOfButton.Count() * (_builder.getBuildings().Count / _ListOfButton.Count());
             }
