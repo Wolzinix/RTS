@@ -260,7 +260,7 @@
                     "name": "",
                     "id": "df8a2729-46ee-4d8c-aba1-e1b1cb4e2864",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "MultiTap,Tap,Hold",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "selectOne",
