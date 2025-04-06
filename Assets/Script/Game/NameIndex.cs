@@ -21,6 +21,7 @@ public static class NameIndex
         { 12,"Iduvelo" },
         { 13,"NuWeb" },
         { 14,"Powerm1nt" },
+        { 15,"MrSinaf" },
 
     };
     public static string GetAName(){ return DicoOfName[Random.Range(0,DicoOfName.Count)]; }

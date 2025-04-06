@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class SelectableManager : EntityManager
 {
+    [SerializeField] public GameObject CurrentShape;
+    [SerializeField] public Transform CurrentShapeTransform;
     [SerializeField] private float seeRange = 3;
 
     [HideInInspector] public UnityEvent<SelectableManager> deathEvent = new UnityEvent<SelectableManager>();

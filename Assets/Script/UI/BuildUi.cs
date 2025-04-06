@@ -53,7 +53,7 @@ public class BuildUi : MonoBehaviour
                 button.gameObject.SetActive(true);
                 button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<SelectableManager>().GetSprit();
                 button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(delegate { _controlManager.DoABuilding(_ListOfButton.IndexOf(button) + _numberOfbutton); });
+                button.onClick.AddListener(delegate { _controlManager.DoABuilding(_ListOfButton.IndexOf(button) + _numberOfbutton, _builder.getBuildings()[_ListOfButton.IndexOf(button) + _numberOfbutton]); });
             }
             else
             {

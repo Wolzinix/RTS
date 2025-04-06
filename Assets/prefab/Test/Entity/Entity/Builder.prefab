@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1697323730958955927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2070144390279261972}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2070144390279261972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697323730958955927}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3763644759705615025}
+  m_Father: {fileID: 5592201362407160647}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3521267180626295269
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,12 +143,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4554085821723888230}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5592201362407160647}
+  m_Father: {fileID: 2070144390279261972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5076267101342751066
 MeshFilter:
@@ -281,7 +313,7 @@ Transform:
   m_Children:
   - {fileID: 5788987540822238126}
   - {fileID: 6174072497533667599}
-  - {fileID: 3763644759705615025}
+  - {fileID: 2070144390279261972}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3648613589935070831
@@ -368,8 +400,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
+  _destination: {x: 0, y: 0, z: 0}
   _speed: 0
 --- !u!114 &8557832744255095151
 MonoBehaviour:
@@ -398,6 +430,8 @@ MonoBehaviour:
   changeStats:
     m_PersistentCalls:
       m_Calls: []
+  CurrentShape: {fileID: 1697323730958955927}
+  CurrentShapeTransform: {fileID: 2070144390279261972}
   seeRange: 6
   deathEvent:
     m_PersistentCalls:

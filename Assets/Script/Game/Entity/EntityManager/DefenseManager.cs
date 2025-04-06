@@ -1,3 +1,5 @@
-﻿public class DefenseManager : AggressifEntityManager
+﻿using UnityEngine;
+
+public class DefenseManager : AggressifEntityManager
 {
 }

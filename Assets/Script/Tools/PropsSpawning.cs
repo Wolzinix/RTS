@@ -8,7 +8,7 @@ public class PropsSpawning : MonoBehaviour
     [SerializeField] private GameObject spawningGameObject;
     public int nbOfSpawningItem;
 
-    [SerializeField, MinMaxRange(0f, 1f)] Vector2 sizeMultiplicator;
+    [SerializeField, MinMaxRange(0f, 10f)] Vector2 sizeMultiplicator;
     Matrix4x4[] matrice;
     BoxCollider boxCollider;
     Mesh mesh;

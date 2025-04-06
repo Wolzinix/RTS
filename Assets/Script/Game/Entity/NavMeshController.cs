@@ -2,18 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
 
 public class NavMeshController : MonoBehaviour
 {
     private NavMeshAgent _navMesh;
     private NavMeshPath _navPath;
     private NavMeshObstacle _navObstacle;
+    private Rigidbody _rb;
 
-    Rigidbody _rb;
-
-    public Vector3 _destination;
     [HideInInspector] public float _stoppingDistance;
+    public Vector3 _destination;
     public float _speed;
     void Start()
     {
@@ -34,7 +32,6 @@ public class NavMeshController : MonoBehaviour
         else
         {
             _navMesh.stoppingDistance = (meshrender.bounds.size.x + meshrender.bounds.size.z)/2;
-
         }
 
         _navMesh.updatePosition = false;
