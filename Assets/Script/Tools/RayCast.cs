@@ -4,7 +4,6 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 namespace Assets.Script.Tools
 {

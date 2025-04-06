@@ -322,8 +322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
+  _destination: {x: 0, y: 0, z: 0}
   _speed: 0
 --- !u!114 &2875708092518566237
 MonoBehaviour:
@@ -352,6 +352,8 @@ MonoBehaviour:
   changeStats:
     m_PersistentCalls:
       m_Calls: []
+  CurrentShape: {fileID: 1533702062880780770}
+  CurrentShapeTransform: {fileID: 2162604453557611352}
   seeRange: 6
   deathEvent:
     m_PersistentCalls:

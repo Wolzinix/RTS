@@ -13,41 +13,47 @@ public class BuildingPreWatching : MonoBehaviour
     {
         return Physics.OverlapSphere(spawnPosition, 1, ~_ExcludeLayer, QueryTriggerInteraction.Ignore);
     }
-    void Update()
+    void LateUpdate()
     {
         if(currentBuilding) 
         { 
             Vector3 position = RayCast.DoARayCastToGroundFromMouse().point;
             if(position != Vector3.zero ) 
             {
-                foreach (MeshRenderer meshRender in currentBuilding.GetComponents<MeshRenderer>())
-                {
-                    if (DoAOverlap(position).Count() <= 1) {  meshRender.material.shader = shaderToApply; }
-                    else { meshRender.material.shader = shaderToNotApply; }
-                }
                 currentBuilding.SetActive(true);
-                currentBuilding.transform.position = position; 
+                currentBuilding.transform.position = position;
+                if (DoAOverlap(position).Count() <= 1) { ApplyShader(shaderToApply); }
+                else { ApplyShader(shaderToNotApply); }
             }
-            else 
-            {
-                currentBuilding.SetActive(false); 
-            }
-            
+            else { currentBuilding.SetActive(false); }
         }
     }
-
+    
+    private void ApplyShader(Shader shader)
+    {
+        MeshRenderer[] meshRenderers = currentBuilding.GetComponentsInChildren<MeshRenderer>();
+        if (meshRenderers.Length > 0)
+        {
+            foreach (MeshRenderer meshRender in meshRenderers) { meshRender.material.shader = shader; }
+        }
+        else
+        {
+            SkinnedMeshRenderer[] SkinnedMeshRenderer = currentBuilding.GetComponentsInChildren<SkinnedMeshRenderer>();
+            foreach (SkinnedMeshRenderer meshRender in SkinnedMeshRenderer)
+            {
+                foreach (Material material in meshRender.materials) { material.shader = shader; }
+            }
+        }
+    }
     public void SetBuilding(GameObject ghostBuilding, Transform ghostTransform)
     {
         currentBuilding = Instantiate(ghostBuilding);
         currentBuilding.transform.localScale = ghostTransform.localScale;
-        foreach (MeshRenderer meshRender in currentBuilding.GetComponents<MeshRenderer>() )
-        {
-            meshRender.material.shader = shaderToApply;
-        }
+        ApplyShader(shaderToApply);
     }
 
     public void BuildingIsCancel()
     {
-        Destroy(currentBuilding);
+        if(currentBuilding) { Destroy(currentBuilding); }
     }
 }

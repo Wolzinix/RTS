@@ -5,20 +5,18 @@ using UnityEngine;
 
 public class RessourceSpawning : MonoBehaviour
 {
-    [SerializeField] private GameObject spawningGameObject;
     public int nbOfSpawningItem;
     public float MeterBetween2Object;
-
     public List<GameObject> spawningItems;
+
     [SerializeField] int NumberOfTentative;
+    [SerializeField, MinMaxRange(0f, 10f)] Vector2 sizeMultiplicator;
+    [SerializeField] GameObject ObjectStorage;
+    [SerializeField] private GameObject spawningGameObject;
+    [SerializeField] LayerMask LayerMask;
 
     private float size;
-    [SerializeField,MinMaxRange(0f, 1f)] Vector2 sizeMultiplicator;
-    [SerializeField] GameObject ObjectStorage;
-    
-    BoxCollider boxCollider;
-
-    [SerializeField] LayerMask LayerMask;
+    private BoxCollider boxCollider;
 
     private void Start()
     {
