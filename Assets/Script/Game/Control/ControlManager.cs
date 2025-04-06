@@ -289,7 +289,7 @@ public class ControlManager : MonoBehaviour
         List<RaycastResult> listOfUIRay = RayCast.DoUiRayCastFromMouse();
         if (listOfUIRay.Count == 0)
         {
-            if (!_order && !_patrolOrder && !_travelAttack)
+            if (!_order && !_patrolOrder && !_travelAttack && !_buildingOrder)
             {
                 IsMultipathActive();
                 RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
