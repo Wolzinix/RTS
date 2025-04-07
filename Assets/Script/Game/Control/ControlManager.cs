@@ -241,7 +241,7 @@ public class ControlManager : MonoBehaviour
         {
             RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
             SelectableManager selectableTarget = hit.transform.gameObject.GetComponent<SelectableManager>();
-            if (selectableTarget)
+            if (selectableTarget && CompareTag(selectableTarget.tag))
             {
                 DoubleClick(selectableTarget);
             }

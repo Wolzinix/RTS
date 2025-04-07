@@ -1389,8 +1389,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ControlManager, Assembly-CSharp
-        m_MethodName: TenirPosition
+        m_TargetAssemblyTypeName: SelectManager, Assembly-CSharp
+        m_MethodName: MooveOnFormation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2419,8 +2419,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: BuildingUiManager, Assembly-CSharp
+      - m_Target: {fileID: 1171197594411671434}
+        m_TargetAssemblyTypeName: BuildUi, Assembly-CSharp
         m_MethodName: goToLeft
         m_Mode: 1
         m_Arguments:
@@ -5510,7 +5510,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5921160185312445703}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: ControlManager, Assembly-CSharp
+        m_MethodName: ActivePause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6421640822762414576
 GameObject:
   m_ObjectHideFlags: 0
@@ -6357,8 +6369,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: BuildingUiManager, Assembly-CSharp
+      - m_Target: {fileID: 1171197594411671434}
+        m_TargetAssemblyTypeName: BuildUi, Assembly-CSharp
         m_MethodName: goToRight
         m_Mode: 1
         m_Arguments:
@@ -7604,8 +7616,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 451.5, y: -377}
-  m_SizeDelta: {x: 903, y: 50}
+  m_AnchoredPosition: {x: 451.5, y: -345}
+  m_SizeDelta: {x: 903, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6813808060249883796
 CanvasRenderer:
@@ -7827,7 +7839,7 @@ MonoBehaviour:
   - {fileID: 8845253736949133996}
   - {fileID: 2927703321908465945}
   - {fileID: 7161474631434178145}
-  RightClick: {fileID: 0}
+  RightClick: {fileID: 3125741844388951163, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
 --- !u!1 &8183208477398929848
 GameObject:
   m_ObjectHideFlags: 0
@@ -7864,7 +7876,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -50, y: -30}
+  m_AnchoredPosition: {x: -80.70557, y: -30}
   m_SizeDelta: {x: 100, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8905807219444731744

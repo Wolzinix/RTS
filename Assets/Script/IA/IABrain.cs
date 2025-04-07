@@ -17,12 +17,12 @@ public class IABrain : MonoBehaviour
 
     [SerializeField] private List<GameObject> Objectif;
 
-    private IAGroupManager groupManager = new IAGroupManager();
+    private IAGroupManager groupManager = new();
 
     public string ennemieTag;
 
     public GameObject MainBase;
-    private List<RessourceManager> listOfRessources;
+    private List<RessourceManager> listOfRessources = new();
     private RessourceController ressourceController;
 
     void Start()

@@ -3,16 +3,15 @@ using UnityEngine;
 
 public class BuildingController : MonoBehaviour
 {
-    protected List<GameObject> _listOfalliesOnRange;
     public List<SelectableManager> _EnnemieList;
-
     [HideInInspector] public AggressifEntityManager _entityManager;
     [HideInInspector] public GroupManager groupManager;
+
     [SerializeField] private SphereCollider _collider;
     private List<GameObject> _ListOfCollision;
 
     protected FogWarManager fog;
-
+    protected List<GameObject> _listOfalliesOnRange;
     protected virtual void Awake()
     {
         _collider.radius = gameObject.GetComponent<SelectableManager>().SeeRange;
@@ -74,7 +73,10 @@ public class BuildingController : MonoBehaviour
     {
         foreach(SelectableManager entityController in _EnnemieList)
         {
-            fog.AddToFog(entityController.GetComponent<EntityController>());
+            if(entityController)
+            {
+                fog.AddToFog(entityController.GetComponent<EntityController>());
+            }
         }
     }
 
