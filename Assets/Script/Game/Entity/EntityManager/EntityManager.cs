@@ -1,3 +1,4 @@
+using Assets.Script.Game;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,6 +13,8 @@ public class EntityManager : MonoBehaviour
 
     public int GoldCost = 1;
     public int WoodCost = 1;
+
+    public EntityType entityType;
 
     [HideInInspector] public float size;
 

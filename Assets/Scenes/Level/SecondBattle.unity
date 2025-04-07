@@ -1715,10 +1715,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 399951921}
     m_Modifications:
-    - target: {fileID: 2294858842063284346, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4825870592483654779, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
       propertyPath: m_Name
       value: Epeeiste
@@ -3658,10 +3654,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tirreur
       objectReference: {fileID: 0}
-    - target: {fileID: 4825870592483654779, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5592201362407160647, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.86
@@ -4280,10 +4272,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 399951921}
     m_Modifications:
-    - target: {fileID: 1314613499554875902, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
-      propertyPath: StartSpeed
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4825870592483654779, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
       propertyPath: m_Name
       value: Epeeiste
@@ -5141,30 +5129,6 @@ PrefabInstance:
     - target: {fileID: 5592201362407160647, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7918695989419762903, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
-      propertyPath: _buildings.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7918695989419762903, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
-      propertyPath: _buildings.Array.data[2]
-      value: 
-      objectReference: {fileID: 4825870592483654779, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
-    - target: {fileID: 7918695989419762903, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
-      propertyPath: _buildings.Array.data[3]
-      value: 
-      objectReference: {fileID: 4825870592483654779, guid: 007cb064c83d5ab44ab82164c54c24bf, type: 3}
-    - target: {fileID: 7918695989419762903, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
-      propertyPath: _buildings.Array.data[4]
-      value: 
-      objectReference: {fileID: 4825870592483654779, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
-    - target: {fileID: 8557832744255095151, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
-      propertyPath: range
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8557832744255095151, guid: d7fcc355074eb6f489ec0a0d253d7450, type: 3}
-      propertyPath: StartSpeed
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

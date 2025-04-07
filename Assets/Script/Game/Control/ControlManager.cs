@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class ControlManager : MonoBehaviour
 {
@@ -38,6 +39,9 @@ public class ControlManager : MonoBehaviour
     private Vector3 _dragCoord;
     private bool _dragging;
     private float _timeOfDragging;
+    private float _timeToClick;
+    private int _nbOfClick;
+    private bool _doubleClick;
     private SelectManager _selectManager;
     private List<EntityController> _entitiesBackUp = new List<EntityController>();
     private bool _order;
@@ -47,6 +51,7 @@ public class ControlManager : MonoBehaviour
     private UiGestioneur _uiGestioneur;
     private CursorMode _cursorMode = CursorMode.Auto;
     private Vector2 _hotSpot = Vector2.zero;
+    private float _delayToClick = 0.2f;
 
     void Start()
     {
@@ -62,6 +67,30 @@ public class ControlManager : MonoBehaviour
 
         _selectManager.SetEnnemieTag(_ennemieTag);
         _selectManager.SetAllieTag(gameObject.tag);
+    }
+
+    private void ActiveAllInput()
+    {
+        _selectEntityInput.action.performed += LeftClickGestion;
+        _moveEntityInput.action.started += RightClickGestion;
+        _multiSelectionInput.action.performed += ActiveMultiSelection;
+        _multiSelectionInput.action.canceled += DesactiveMultiSelection;
+        _multiPathInput.action.performed += ActiveMultiPath;
+        _multiPathInput.action.canceled += DesactiveMultiPath;
+        _dragSelect.action.started += StartDragSelect;
+        _dragSelect.action.canceled += EndDragSelect;
+    }
+
+    private void DesactiveAllInput()
+    {
+        _selectEntityInput.action.performed -= LeftClickGestion;
+        _moveEntityInput.action.started -= RightClickGestion;
+        _multiSelectionInput.action.performed -= ActiveMultiSelection;
+        _multiSelectionInput.action.canceled -= ActiveMultiSelection;
+        _multiPathInput.action.performed -= ActiveMultiPath;
+        _multiPathInput.action.canceled -= ActiveMultiPath;
+        _dragSelect.action.started -= StartDragSelect;
+        _dragSelect.action.canceled -= EndDragSelect;
     }
 
     private void ActiveMultiSelection(InputAction.CallbackContext obj)
@@ -125,31 +154,6 @@ public class ControlManager : MonoBehaviour
             Time.timeScale = 0;
         }
     }
-
-    private void ActiveAllInput()
-    {
-        _selectEntityInput.action.started += LeftClickGestion;
-        _moveEntityInput.action.started += RightClickGestion;
-        _multiSelectionInput.action.performed += ActiveMultiSelection;
-        _multiSelectionInput.action.canceled += DesactiveMultiSelection;
-        _multiPathInput.action.performed += ActiveMultiPath;
-        _multiPathInput.action.canceled += DesactiveMultiPath;
-        _dragSelect.action.started += StartDragSelect;
-        _dragSelect.action.canceled += EndDragSelect;
-    }
-
-    private void DesactiveAllInput()
-    {
-        _selectEntityInput.action.started -= LeftClickGestion;
-        _moveEntityInput.action.started -= RightClickGestion;
-        _multiSelectionInput.action.performed -= ActiveMultiSelection;
-        _multiSelectionInput.action.canceled -= ActiveMultiSelection;
-        _multiPathInput.action.performed -= ActiveMultiPath;
-        _multiPathInput.action.canceled -= ActiveMultiPath;
-        _dragSelect.action.started -= StartDragSelect;
-        _dragSelect.action.canceled -= EndDragSelect;
-    }
-
     private void ActiveMultiPath(InputAction.CallbackContext obj) { _multiPathIsActive = true; }
     private void OnDestroy()
     {
@@ -159,6 +163,16 @@ public class ControlManager : MonoBehaviour
     }
     private void Update()
     {
+        if(_doubleClick)
+        {
+            _timeToClick += Time.deltaTime;
+            if (_timeToClick >= _delayToClick)
+            {
+                _timeToClick = 0;
+                _doubleClick = false;
+                _nbOfClick = 0;
+            }
+        }
         if (_dragging)
         {
             _timeOfDragging += Time.deltaTime;
@@ -166,58 +180,72 @@ public class ControlManager : MonoBehaviour
             float longueur = Input.mousePosition.x - _dragCoord.x;
             float largeur = Input.mousePosition.y - _dragCoord.y;
 
-            _dragBox.anchoredPosition = new Vector2(_dragCoord.x, _dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
+            _dragBox.anchoredPosition = new Vector2(_dragCoord.x + longueur / 2, _dragCoord.y + largeur / 2);
             _dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
         }
     }
     private void LeftClickGestion(InputAction.CallbackContext context)
     {
-        Physics.SyncTransforms();
-        RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
+        _nbOfClick += 1;
+        if(_nbOfClick == 1){ _doubleClick = true; }
 
-        if (_buildingOrder)
+        if(_nbOfClick == 1 )
         {
-            IsMultipathActive();
-            _selectManager.DoABuild(_nbOfBuilding, hit);
-            _buildingPreWatching.BuildingIsCancel();
-        }
-        else if (_order)
-        {
-            IsMultipathActive();
-            _selectManager.ActionGroup(hit);
-        }
-        else if (_capactityOrder)
-        {
-            IsMultipathActive();
-            if (hit.transform && _capacityController && _capacityController.ready)
+            Physics.SyncTransforms();
+            RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
+
+            if (_buildingOrder)
             {
-                if (!hit.transform.gameObject.GetComponent<RessourceManager>())
+                IsMultipathActive();
+                _selectManager.DoABuild(_nbOfBuilding, hit);
+                _buildingPreWatching.BuildingIsCancel();
+            }
+            else if (_order)
+            {
+                IsMultipathActive();
+                _selectManager.ActionGroup(hit);
+            }
+            else if (_capactityOrder)
+            {
+                IsMultipathActive();
+                if (hit.transform && _capacityController && _capacityController.ready)
                 {
-                    if (_capacityController.GetType().IsSubclassOf(typeof(ActivableCapacity)))
+                    if (!hit.transform.gameObject.GetComponent<RessourceManager>())
                     {
-                        ActivableCapacity capa = (ActivableCapacity)_capacityController;
-                        capa.DoOnce();
+                        if (_capacityController.GetType().IsSubclassOf(typeof(ActivableCapacity)))
+                        {
+                            ActivableCapacity capa = (ActivableCapacity)_capacityController;
+                            capa.DoOnce();
+                        }
+                        _capacityController.AddTarget(hit.transform.GetComponent<SelectableManager>());
                     }
-                    _capacityController.AddTarget(hit.transform.GetComponent<SelectableManager>());
                 }
             }
-        }
-        else if (_travelAttack)
-        {
-            IsMultipathActive();
-            if (hit.transform && hit.transform.GetComponent<SelectableManager>()) { _selectManager.AddTarget(hit.transform.GetComponent<SelectableManager>()); }
-            else { _selectManager.AttackingOnTravel(hit.point); }
-        }
+            else if (_travelAttack)
+            {
+                IsMultipathActive();
+                if (hit.transform && hit.transform.GetComponent<SelectableManager>()) { _selectManager.AddTarget(hit.transform.GetComponent<SelectableManager>()); }
+                else { _selectManager.AttackingOnTravel(hit.point); }
+            }
 
-        else if (_patrolOrder)
-        {
-            IsMultipathActive();
-            _selectManager.PatrouilleOrder(hit.point);
-            if (!_selectManager.getAddingMoreThanOne()) { _selectManager.setAddingMoreThanOne(true); }
+            else if (_patrolOrder)
+            {
+                IsMultipathActive();
+                _selectManager.PatrouilleOrder(hit.point);
+                if (!_selectManager.getAddingMoreThanOne()) { _selectManager.setAddingMoreThanOne(true); }
+            }
+            else { DoASelection(hit); }
         }
-        else
+        
+        if(_nbOfClick == 2)
         {
-            DoASelection(hit);
+            Debug.Log(_timeToClick);
+            RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
+            SelectableManager selectableTarget = hit.transform.gameObject.GetComponent<SelectableManager>();
+            if (selectableTarget)
+            {
+                DoubleClick(selectableTarget);
+            }
         }
     }
 
@@ -329,6 +357,11 @@ public class ControlManager : MonoBehaviour
         _timeOfDragging = 0;
     }
 
+    private void DoubleClick(SelectableManager selectableManager)
+    {
+        StartCoroutine(IsOnScreen(selectableManager));
+
+    }
     private void EndDragSelect(InputAction.CallbackContext obj)
     {
         if (_timeOfDragging > 0.15)
@@ -357,6 +390,32 @@ public class ControlManager : MonoBehaviour
 
     }
 
+    IEnumerator IsOnScreen(SelectableManager selectableObject)
+    {
+        yield return new WaitForEndOfFrame();
+        float longueur = Screen.width;
+        float largeur = Screen.height;
+
+        Bounds bounds = new Bounds(new Vector2(0, 0), new Vector2(longueur*2, largeur*2));
+
+        foreach (EntityController i in _listOfEntity.GetComponentsInChildren<EntityController>())
+        {
+            Vector3 point = _camera.WorldToScreenPoint(i.transform.position);
+
+            SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
+            if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag) && selectableI.entityType == selectableObject.entityType)
+            {
+                
+                if (!_selectManager.getSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
+                if (!_uiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) { _uiGestioneur.AddOnGroupUi(selectableI); }
+            }
+        }
+
+        if (_selectManager._groupManager.getNumberOnGroup() == 1)
+        {
+            _uiGestioneur.ActualiseUi(_selectManager._groupManager.getSelectList()[0].gameObject.GetComponent<SelectableManager>());
+        }
+    }
     IEnumerator IsOnDragBox()
     {
         yield return new WaitForEndOfFrame();
@@ -406,7 +465,6 @@ public class ControlManager : MonoBehaviour
             _capactityOrder = true;
             _capacityController = capacity;
             Cursor.SetCursor(_deplacementCursor, _hotSpot, _cursorMode);
-
         }
     }
     public void ChangeCapacityActif(ActivableCapacity capacity)
@@ -425,7 +483,6 @@ public class ControlManager : MonoBehaviour
     {
         ResetUiOrder();
         _travelAttack = true;
-
         Cursor.SetCursor(_attackCursor, _hotSpot, _cursorMode);
     }
 
