@@ -292,8 +292,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
+  _destination: {x: 0, y: 0, z: 0}
   _speed: 0
 --- !u!114 &1314613499554875902
 MonoBehaviour:
@@ -312,6 +312,7 @@ MonoBehaviour:
   WoodAmount: 0
   GoldCost: 1
   WoodCost: 1
+  entityType: 3
   size: 0
   sprite: {fileID: 7706548414058156727}
   spriteImage: {fileID: 21300000, guid: 05b75523bdb93dc459379f2b7b3a5eee, type: 3}
@@ -322,6 +323,8 @@ MonoBehaviour:
   changeStats:
     m_PersistentCalls:
       m_Calls: []
+  CurrentShape: {fileID: 0}
+  CurrentShapeTransform: {fileID: 0}
   seeRange: 4
   deathEvent:
     m_PersistentCalls:

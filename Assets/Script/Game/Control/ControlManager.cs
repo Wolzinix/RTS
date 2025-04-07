@@ -39,6 +39,9 @@ public class ControlManager : MonoBehaviour
     private Vector3 _dragCoord;
     private bool _dragging;
     private float _timeOfDragging;
+    private float _timeToClick;
+    private int _nbOfClick;
+    private bool _doubleClick;
     private SelectManager _selectManager;
     private List<EntityController> _entitiesBackUp = new List<EntityController>();
     private bool _order;
@@ -48,6 +51,7 @@ public class ControlManager : MonoBehaviour
     private UiGestioneur _uiGestioneur;
     private CursorMode _cursorMode = CursorMode.Auto;
     private Vector2 _hotSpot = Vector2.zero;
+    private float _delayToClick = 0.2f;
 
     void Start()
     {
@@ -159,6 +163,16 @@ public class ControlManager : MonoBehaviour
     }
     private void Update()
     {
+        if(_doubleClick)
+        {
+            _timeToClick += Time.deltaTime;
+            if (_timeToClick >= _delayToClick)
+            {
+                _timeToClick = 0;
+                _doubleClick = false;
+                _nbOfClick = 0;
+            }
+        }
         if (_dragging)
         {
             _timeOfDragging += Time.deltaTime;
@@ -166,15 +180,17 @@ public class ControlManager : MonoBehaviour
             float longueur = Input.mousePosition.x - _dragCoord.x;
             float largeur = Input.mousePosition.y - _dragCoord.y;
 
-            _dragBox.anchoredPosition = new Vector2(_dragCoord.x, _dragCoord.y) + new Vector2(longueur / 2, largeur / 2);
+            _dragBox.anchoredPosition = new Vector2(_dragCoord.x + longueur / 2, _dragCoord.y + largeur / 2);
             _dragBox.sizeDelta = new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur));
         }
     }
     private void LeftClickGestion(InputAction.CallbackContext context)
     {
-        if (context.interaction is TapInteraction)
+        _nbOfClick += 1;
+        if(_nbOfClick == 1){ _doubleClick = true; }
+
+        if(_nbOfClick == 1 )
         {
-            Debug.Log(context.interaction);
             Physics.SyncTransforms();
             RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
 
@@ -220,9 +236,16 @@ public class ControlManager : MonoBehaviour
             }
             else { DoASelection(hit); }
         }
-        else if(context.interaction is MultiTapInteraction)
+        
+        if(_nbOfClick == 2)
         {
-            Debug.Log(context.interaction);
+            Debug.Log(_timeToClick);
+            RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
+            SelectableManager selectableTarget = hit.transform.gameObject.GetComponent<SelectableManager>();
+            if (selectableTarget)
+            {
+                DoubleClick(selectableTarget);
+            }
         }
     }
 
@@ -334,6 +357,11 @@ public class ControlManager : MonoBehaviour
         _timeOfDragging = 0;
     }
 
+    private void DoubleClick(SelectableManager selectableManager)
+    {
+        StartCoroutine(IsOnScreen(selectableManager));
+
+    }
     private void EndDragSelect(InputAction.CallbackContext obj)
     {
         if (_timeOfDragging > 0.15)
@@ -362,21 +390,22 @@ public class ControlManager : MonoBehaviour
 
     }
 
-    IEnumerator IsOnScreen()
+    IEnumerator IsOnScreen(SelectableManager selectableObject)
     {
         yield return new WaitForEndOfFrame();
         float longueur = Screen.width;
         float largeur = Screen.height;
 
-        Bounds bounds = new Bounds(new Vector2(0, 0), new Vector2(Mathf.Abs(longueur), Mathf.Abs(largeur)));
+        Bounds bounds = new Bounds(new Vector2(0, 0), new Vector2(longueur*2, largeur*2));
 
         foreach (EntityController i in _listOfEntity.GetComponentsInChildren<EntityController>())
         {
             Vector3 point = _camera.WorldToScreenPoint(i.transform.position);
 
-            if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag))
+            SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
+            if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag) && selectableI.entityType == selectableObject.entityType)
             {
-                SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
+                
                 if (!_selectManager.getSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
                 if (!_uiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) { _uiGestioneur.AddOnGroupUi(selectableI); }
             }
