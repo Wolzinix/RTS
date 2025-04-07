@@ -64,10 +64,18 @@ public class BuildingController : MonoBehaviour
         ClearListOfEnnemi(listOfennemie);
         ClearListOfAlly(listOfAlly);
     }
-
+    
     private void ClearListOfEnnemi(List<SelectableManager> list)
     {
         if (list.Count != _EnnemieList.Count) { _EnnemieList.RemoveAll(i => !list.Contains(i)); }
+    }
+
+    private void OnDestroy()
+    {
+        foreach(SelectableManager entityController in _EnnemieList)
+        {
+            fog.AddToFog(entityController.GetComponent<EntityController>());
+        }
     }
 
     private void hitGestion(GameObject hit, List<GameObject> listOfAlly, List<SelectableManager> listOfennemie)

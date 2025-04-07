@@ -30,4 +30,9 @@ public class FogWarManager : MonoBehaviour
         EntityController collisionController = collision.GetComponent<EntityController>();
         if (collisionController && !collision.CompareTag(tag)){ ActualiseFog(collisionController, true); }
     }
+
+    public void AddToFog(EntityController collisionController)
+    {
+        ActualiseFog(collisionController, true);
+    }
 }
