@@ -239,7 +239,6 @@ public class ControlManager : MonoBehaviour
         
         if(_nbOfClick == 2)
         {
-            Debug.Log(_timeToClick);
             RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
             SelectableManager selectableTarget = hit.transform.gameObject.GetComponent<SelectableManager>();
             if (selectableTarget)

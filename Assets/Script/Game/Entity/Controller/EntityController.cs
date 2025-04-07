@@ -82,7 +82,7 @@ public class EntityController : BuildingController
             {
                 if (!list.Contains(i))
                 {
-                    if (i) { i.GetComponent<SelectableManager>().TakingDamageFromEntity.RemoveListener(InsertTarget); }
+                    if (i) { i.GetComponent<SelectableManager>().TakingDamageFromEntity.RemoveListener(AddAggresseurTarget); }
                 }
             }
 
@@ -234,7 +234,10 @@ public class EntityController : BuildingController
     }
     private void AddAggresseurTarget(AggressifEntityManager entityToAggresse)
     {
-        if (_navMesh && _navMesh.notOnTraject() && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState)) || _navMesh == null) { InsertTarget(entityToAggresse); }
+        if (_navMesh && _navMesh.notOnTraject() && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState)) || _navMesh == null) 
+        {
+            AddTarget(entityToAggresse); 
+        }
     }
     override public void ClearAllOrder()
     {
