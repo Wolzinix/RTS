@@ -18,12 +18,15 @@ public class FogWarController : MonoBehaviour
 
     public void FogGestion(EntityController entity, bool hide)
     {
-        if (!entity.gameObject.CompareTag(tag))
+        if(entity)
         {
-            if (hide && entity._EnnemieList.Count <= 0 ) { ActualiseFog(entity,false); }
-            else { ActualiseFog(entity,true); }
+            if (!entity.gameObject.CompareTag(tag))
+            {
+                if (hide && entity._EnnemieList.Count <= 0) { ActualiseFog(entity, false); }
+                else { ActualiseFog(entity, true); }
 
-            mod.ActualiseOneUnit(entity.GetComponent<SelectableManager>());
+                mod.ActualiseOneUnit(entity.GetComponent<SelectableManager>());
+            }
         }
     }
 

@@ -7,8 +7,6 @@ public class RessourceManager : EntityManager
     {
         base.Awake();
     }
-
-
     override public void TakeDamage(AggressifEntityManager entity, float nb)
     {
         base.TakeDamage(entity, nb);
@@ -61,7 +59,4 @@ public class RessourceManager : EntityManager
         }
         Destroy(gameObject);
     }
-
-
-
 }
