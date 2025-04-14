@@ -1,64 +1,38 @@
 using LazySquirrelLabs.MinMaxRangeAttribute;
+using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
-public class PropsSpawning : MonoBehaviour
+public class PropsSpawningCPU : MonoBehaviour
 {
-    [SerializeField] private GameObject spawningGameObject;
-    public int nbOfSpawningItem;
+    [SerializeField] private List<GameObject> spawningGameObjects;
+    [SerializeField] private int nbOfSpawningItem;
 
-    [SerializeField, MinMaxRange(0f, 10f)] Vector2 sizeMultiplicator;
-    Matrix4x4[] matrice;
-    BoxCollider boxCollider;
-    Mesh mesh;
-    RenderParams rp;
-    float size;
-    [SerializeField] LayerMask layer;
+    [SerializeField, MinMaxRange(0f, 10f)] private Vector2 sizeMultiplicator;
+    private BoxCollider boxCollider;
+    [SerializeField] private LayerMask layer;
+    public int nbOfObject;
     public void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
 
-        if (spawningGameObject.GetComponentInChildren<ProBuilderMesh>())
-        {
-            spawningGameObject.GetComponentInChildren<ProBuilderMesh>().ToMesh();
-            spawningGameObject.GetComponentInChildren<ProBuilderMesh>().Refresh();
-            mesh = spawningGameObject.GetComponentInChildren<ProBuilderMesh>().GetComponent<MeshFilter>().sharedMesh;
-            size = mesh.bounds.size.y / 4;
-        }
-        else
-        {
-            mesh = spawningGameObject.GetComponentInChildren<MeshFilter>().sharedMesh;
-            size = mesh.bounds.size.y / 4;
-        }
-
-        matrice = new Matrix4x4[nbOfSpawningItem];
         for (int i = 0; i < nbOfSpawningItem; i++)
         {
-
             float x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
             float z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
+            float size = Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
+            Quaternion quaternion = Quaternion.Euler(0, Random.Range(0, 180), 0);
 
             Vector3 position = new Vector3(x, boxCollider.bounds.max.y, z);
             position = RayToTuchGround(position);
             if (position == Vector3.zero) { continue; }
+            if (Physics.CheckSphere(position, size, ~(layer + gameObject.layer)) == false) {  continue; }
 
-            Quaternion quaternion = Quaternion.Euler(0, Random.Range(0, 180), 0);
-            Vector3 sizeVector = spawningGameObject.transform.localScale * Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
-            matrice[i] = Matrix4x4.TRS(position, quaternion, sizeVector);
+            GameObject go = Instantiate(spawningGameObjects[Random.Range(0, spawningGameObjects.Count)], position,quaternion, gameObject.transform);
+            go.transform.localScale *= size;
+            go.layer = gameObject.layer;
+            nbOfObject += 1;
         }
-
-        spawningGameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial.enableInstancing = true;
-        rp = new RenderParams(spawningGameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
-
-    }
-    private void Update()
-    {
-        SpawnObject();
-    }
-    public void SpawnObject()
-    {
-        Graphics.RenderMeshInstanced(rp, mesh, 0, matrice);
     }
 
     public Vector3 RayToTuchGround(Vector3 pos)
@@ -89,9 +63,9 @@ public class PropsSpawning : MonoBehaviour
                         }
                     }
 
-                    if (terrain.terrainData.terrainLayers[texindex].name == "NewLayer") { return new Vector3(pos.x, hit.point.y + size, pos.z); }
+                    if (terrain.terrainData.terrainLayers[texindex].name == "NewLayer") { return new Vector3(pos.x, hit.point.y, pos.z); }
                 }
-                else { return new Vector3(pos.x, hit.point.y + size, pos.z); }
+                else { return new Vector3(pos.x, hit.point.y, pos.z); }
             }
         }
         return new Vector3();

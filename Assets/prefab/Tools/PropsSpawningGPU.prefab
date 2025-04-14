@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3080001072516043166}
   - component: {fileID: 3940564774981103291}
   m_Layer: 0
-  m_Name: PropsSpawning
+  m_Name: PropsSpawningGPU
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
