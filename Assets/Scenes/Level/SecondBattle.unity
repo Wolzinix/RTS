@@ -5524,7 +5524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: nbOfSpawningItem
-      value: 1000
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: spawningGameObject
