@@ -31,15 +31,14 @@ public class AttackState : StateClassEntity
 
     private void PrepareAttack()
     {
-        _animator.SetBool(EntityController.Moving, false);
-        _animator.SetBool(EntityController.Idle, false);
+        controller.CancelAnimation();
         _animator.Play(AnimationController.GetAttackAnimRandom());
         _attacking = true;
     }
 
     private void EndAttack()
     {
-        _animator.SetBool(EntityController.Idle, true);
+        controller.CancelAnimation();
         _attacking = false;
     }
 

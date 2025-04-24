@@ -15,14 +15,14 @@ public class MoveState : StateClassEntity
     }
     public override void Start()
     {
-        controller._animator.SetBool(EntityController.Moving, true);
+        controller._animator.SetBool(AnimationController.Moving, true);
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
     }
     public override void Update()
     {
-        if(controller._animator.GetBool(EntityController.Moving) == false) 
+        if(controller._animator.GetBool(AnimationController.Moving) == false) 
         {
-            controller._animator.SetBool(EntityController.Moving, true);
+            controller._animator.SetBool(AnimationController.Moving, true);
         }
         if (navMeshController != null)
         {
@@ -40,9 +40,7 @@ public class MoveState : StateClassEntity
     public override void End()
     {
         controller.moving = false;
-        controller._animator.SetBool(EntityController.Moving, false);
-
-        controller._animator.SetBool(EntityController.Idle, true);
+        controller.CancelAnimation();
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         if(navMeshController)
         {

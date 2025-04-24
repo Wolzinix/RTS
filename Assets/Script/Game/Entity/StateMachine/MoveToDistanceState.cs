@@ -16,9 +16,9 @@ public class MoveToDistanceState : MoveState
     }
     public override void Update()
     {
-        if (controller._animator.GetBool(EntityController.Moving) == false)
+        if (controller._animator.GetBool(AnimationController.Moving) == false)
         {
-            controller._animator.SetBool(EntityController.Moving, true);
+            controller._animator.SetBool(AnimationController.Moving, true);
         }
         if (navMeshController != null)
         {

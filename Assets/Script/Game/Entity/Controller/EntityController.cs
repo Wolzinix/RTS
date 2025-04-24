@@ -18,11 +18,6 @@ public class EntityController : BuildingController
     protected bool _attacking;
 
     [HideInInspector] public Animator _animator;
-    public static readonly int Moving = Animator.StringToHash("Mooving");
-    public static readonly int Attacking = Animator.StringToHash("Attacking");
-    public static readonly int Idle = Animator.StringToHash("IdleBool");
-
-    public static readonly int AttackingState = Animator.StringToHash("AttackState");
 
     override protected void Awake()
     {
@@ -247,15 +242,14 @@ public class EntityController : BuildingController
         while (_ListOfstate.Count > 0) { _ListOfstate[0].End(); }
         base.ClearAllOrder();
 
-        StopALlAnimation();
+        CancelAnimation();
         if (_navMesh) { _navMesh.StopPath(); }
         resetEvent.Invoke();
     }
 
-    public void StopALlAnimation()
+    public void CancelAnimation()
     {
-        _animator.SetBool(Moving, false);
-        _animator.SetInteger(Attacking, 0);
+        AnimationController.CancelAnimation(_animator);
     }
     public void SortTarget()
     {

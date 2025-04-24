@@ -4,7 +4,7 @@ public class StuntState : StateClassEntity
 {
     protected NavMeshController navMeshController;
     protected EntityController controller;
-    Rigidbody rb;
+    private readonly Rigidbody rb;
     public StuntState(NavMeshController navmesh, EntityController entity)
     {
         navMeshController = navmesh;
@@ -15,8 +15,7 @@ public class StuntState : StateClassEntity
     {
         if (navMeshController)
         {
-            controller._animator.SetBool(EntityController.Moving, false);
-            controller._animator.SetInteger(EntityController.Attacking, 0);
+            controller.CancelAnimation();
             rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             navMeshController.StopPath();
         }
@@ -25,8 +24,7 @@ public class StuntState : StateClassEntity
     {
         if (navMeshController)
         {
-            controller._animator.SetBool(EntityController.Moving, false);
-            controller._animator.SetInteger(EntityController.Attacking, 0);
+            controller.CancelAnimation();
             rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             navMeshController.StopPath();
         }
