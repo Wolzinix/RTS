@@ -5,58 +5,67 @@ public class HarvestState : StateClassEntity
 {
     RessourceManager target;
     BuilderController builder;
-    bool _attacking = false;
+    private bool _attacking = false;
+    private bool _attackCheckOnce = false;
     bool _endHere = false;
 
     float targetSize = 0;
-    Animator _animator;
+    private readonly Animator _animator;
 
     public HarvestState(BuilderController builderController, RessourceManager target)
     {
         builder = builderController;
         this.target = target;
         _animator = builder.GetComponentInChildren<Animator>();
+        
+        CalculeSizeOfTarget();
+        builder._navMesh._stoppingDistance += targetSize;
+    }
+    private void PrepareAttack()
+    {
+        _animator.SetBool(EntityController.Moving, false);
+        _animator.SetBool(EntityController.Idle, false);
+        _animator.Play(AnimationController.GetAttackAnimRandom());
+        _attacking = true;
     }
 
+    private void EndAttack()
+    {
+        _animator.SetBool(EntityController.Idle, true);
+        _attacking = false;
+    }
     public override void Update()
     {
         if (target)
         {
-            if(targetSize == 0 )
-            {
-                calculeSizeOfTarget();
-                builder._navMesh._stoppingDistance += targetSize;
-            }
             if (Vector3.Distance(builder.transform.position, target.transform.position) <= builder._entityManager.Range + target.size)
             {
-                _animator.SetBool(EntityController.Moving, false);
+                if (!_attacking) { PrepareAttack(); };
+                float AnimatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-                if (!_animator.IsInTransition(0) &&
-                    _animator.GetInteger(EntityController.Attacking) == 1 &&
-                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
+                if (AnimatorStateInfo >= 0.5 &&
+                    !_attackCheckOnce &&
                     _attacking)
                 {
                     DoAnAttackOnRessource(target);
-                    _attacking = false;
+                    _attackCheckOnce = true;
                 }
 
-                if (!_animator.IsInTransition(0) &&
-                    _animator.GetInteger(EntityController.Attacking) == 1 &&
-                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-
-                { _animator.SetInteger(EntityController.Attacking, 0); }
+                if (AnimatorStateInfo > 1) 
+                { 
+                    _attacking = false;
+                    _attackCheckOnce = false;
+                }
 
                 else
                 {
                     builder.transform.LookAt(new Vector3(target.transform.position.x, builder.transform.position.y, target.transform.position.z));
-                    
-                    _animator.SetInteger(EntityController.Attacking, 1);
                 }
-                if (_animator.IsInTransition(0) && _animator.GetInteger(EntityController.Attacking) == 1) { _attacking = true; }
             }
             else
             {
                 builder.AddPathWithRange(target.transform.position);
+                _attacking = false;
             }
         }
         else
@@ -64,27 +73,26 @@ public class HarvestState : StateClassEntity
             _endHere = true;
             End();
         }
-
     }
 
-    void DoAnAttackOnRessource(RessourceManager target)
-    {
-        builder._entityManager.DoAttack(target);
-    }
+    
 
     public override void End()
     {
         builder._navMesh._stoppingDistance -= targetSize;
         builder.RemoveFirstOrder();
-        builder._animator.SetInteger(EntityController.Attacking, 0);
-        if(_endHere)
-        {
 
+        EndAttack();
+        if (_endHere)
+        {   
             builder.SearchClosetHarvestTarget();
         }
     }
-
-    private void calculeSizeOfTarget()
+    void DoAnAttackOnRessource(RessourceManager target)
+    {
+        builder._entityManager.DoAttack(target);
+    }
+    private void CalculeSizeOfTarget()
     {
         int i = 0;
         foreach (BoxCollider x in target.GetComponentsInChildren<BoxCollider>())
@@ -94,4 +102,5 @@ public class HarvestState : StateClassEntity
         }
         targetSize /= i;
     }
+
 }

@@ -224,6 +224,7 @@ MonoBehaviour:
   _EnnemieList: []
   _entityManager: {fileID: 0}
   _collider: {fileID: 1182971380286798215}
+  _navMesh: {fileID: 0}
   _projectile: {fileID: 0}
   pointOfSpawn: {fileID: 0}
   EntityIsArrive:
@@ -291,8 +292,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc04d968316c3344a1dc32cb4bdefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destination: {x: 0, y: 0, z: 0}
   _stoppingDistance: 0
+  _destination: {x: 0, y: 0, z: 0}
   _speed: 0
 --- !u!114 &1314613499554875902
 MonoBehaviour:
@@ -311,6 +312,7 @@ MonoBehaviour:
   WoodAmount: 0
   GoldCost: 1
   WoodCost: 1
+  entityType: 0
   size: 0
   sprite: {fileID: 7706548414058156727}
   spriteImage: {fileID: 21300000, guid: 05b75523bdb93dc459379f2b7b3a5eee, type: 3}
@@ -321,6 +323,8 @@ MonoBehaviour:
   changeStats:
     m_PersistentCalls:
       m_Calls: []
+  CurrentShape: {fileID: 0}
+  CurrentShapeTransform: {fileID: 0}
   seeRange: 4
   deathEvent:
     m_PersistentCalls:
@@ -334,6 +338,9 @@ MonoBehaviour:
   attackSpeed: 1
   range: 2
   effect: {fileID: 1477256233637486386}
+  DoAnAttack:
+    m_PersistentCalls:
+      m_Calls: []
   StartSpeed: 2
   xp: 0
   level: 0
@@ -600,7 +607,7 @@ Animator:
   m_GameObject: {fileID: 8358775615556140638}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 39a4738bf6d87334ab061f7bb28dab4a, type: 2}
+  m_Controller: {fileID: 22100000, guid: db57c5badc733054daed785a1a01e0b3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

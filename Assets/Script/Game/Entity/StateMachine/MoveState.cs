@@ -41,6 +41,8 @@ public class MoveState : StateClassEntity
     {
         controller.moving = false;
         controller._animator.SetBool(EntityController.Moving, false);
+
+        controller._animator.SetBool(EntityController.Idle, true);
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         if(navMeshController)
         {

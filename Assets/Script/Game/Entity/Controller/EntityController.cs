@@ -20,6 +20,9 @@ public class EntityController : BuildingController
     [HideInInspector] public Animator _animator;
     public static readonly int Moving = Animator.StringToHash("Mooving");
     public static readonly int Attacking = Animator.StringToHash("Attacking");
+    public static readonly int Idle = Animator.StringToHash("IdleBool");
+
+    public static readonly int AttackingState = Animator.StringToHash("AttackState");
 
     override protected void Awake()
     {
