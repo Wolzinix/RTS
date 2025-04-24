@@ -54,12 +54,20 @@ public class BuildingUiManager : MonoBehaviour
         {
             if (_ListOfButton.IndexOf(button) + _numberOfbutton < listOfGameobject.Count())
             {
-                button.gameObject.SetActive(true);
-                GameObject entity = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton];
-                button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<TroupeManager>().GetSprit();
+                if(listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton])
+                {
+                    button.gameObject.SetActive(true);
+                    GameObject entity = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton];
+                    button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<TroupeManager>().GetSprit();
 
-                button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(delegate { _building.AllySpawnEntity(entity, _controlManagerRessourceController); });
+                    button.onClick.RemoveAllListeners();
+                    button.onClick.AddListener(delegate { _building.AllySpawnEntity(entity, _controlManagerRessourceController); });
+                }
+                else
+                {
+                    button.gameObject.SetActive(false);
+                }
+                
             }
             else
             {

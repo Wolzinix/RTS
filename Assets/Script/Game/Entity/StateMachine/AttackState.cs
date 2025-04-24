@@ -7,7 +7,8 @@ public class AttackState : StateClassEntity
     SelectableManager target;
     ProjectilManager _projectile;
     bool _attacking = false;
-
+    Animator _animator;
+    private bool _attackCheckOnce = false;
     AggressifEntityManager controlelrAggressifManager;
 
     public AttackState(EntityController controller, ProjectilManager projectile, SelectableManager target)
@@ -16,15 +17,31 @@ public class AttackState : StateClassEntity
         _projectile = projectile;
         this.target = target;
         controlelrAggressifManager = controller.GetComponent<AggressifEntityManager>();
+        _animator = controller._animator;
     }
     public AttackState(EntityController controller, SelectableManager target)
     {
         this.controller = controller;
         this.target = target;
         controlelrAggressifManager = controller.GetComponent<AggressifEntityManager>();
+        _animator = controller._animator;
     }
 
     public override void Start() { }
+
+    private void PrepareAttack()
+    {
+        _animator.SetBool(EntityController.Moving, false);
+        _animator.SetBool(EntityController.Idle, false);
+        _animator.Play(AnimationController.GetAttackAnimRandom());
+        _attacking = true;
+    }
+
+    private void EndAttack()
+    {
+        _animator.SetBool(EntityController.Idle, true);
+        _attacking = false;
+    }
 
     void DoAttack()
     {
@@ -62,38 +79,29 @@ public class AttackState : StateClassEntity
         {
             if (Vector3.Distance(controller.gameObject.transform.position, target.transform.position) <= controller._entityManager.Range + target.size)
             {
-                Animator _animator = controller._animator;
-                _animator.SetBool(EntityController.Moving, false);
+                if (!_attacking) { PrepareAttack(); };
+                float AnimatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-                if (_animator.IsInTransition(0) == false &&
-                    _animator.GetInteger(EntityController.Attacking) >= 1 &&
-                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5 &&
-                    _attacking)
+                if (AnimatorStateInfo >= 0.5 &&
+                    AnimatorStateInfo <= 1 && 
+                    _attacking &&
+                    !_attackCheckOnce)
                 {
                     DoAttack();
-                    _attacking = false;
+                    _attackCheckOnce = true;
                 }
 
-                if (_animator.IsInTransition(0) == false &&
-                   _animator.GetInteger(EntityController.Attacking) >= 1 &&
-                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9)
-
-                { _animator.SetInteger(EntityController.Attacking, 0); }
+                if ( AnimatorStateInfo > 1 && (_attacking || _attackCheckOnce))
+                { 
+                    _attacking = false;
+                    _attackCheckOnce = false;
+                }
 
                 else
                 {
                     controller.gameObject.transform.LookAt(new Vector3(target.transform.position.x, controller.transform.localPosition.y, target.transform.position.z));
                     controller.gameObject.transform.rotation = new Quaternion(0, controller.gameObject.transform.rotation.y, 0, controller.gameObject.transform.rotation.w);
-
-                    if (_animator.GetInteger(EntityController.Attacking) == 0)
-                    {
-
-                        _animator.SetInteger(EntityController.Attacking, Random.Range(1, 3));
-                    }
                 }
-
-                if (_animator.IsInTransition(0) && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.5) { 
-                    _attacking = true; }
             }
             else { End(); }
         }
@@ -109,6 +117,6 @@ public class AttackState : StateClassEntity
     public override void End()
     {
         controller.RemoveFirstOrder();
-        controller._animator.SetInteger(EntityController.Attacking, 0);
+        EndAttack();
     }
 }

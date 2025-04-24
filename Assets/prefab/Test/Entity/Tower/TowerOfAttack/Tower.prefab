@@ -257,7 +257,7 @@ MonoBehaviour:
   GoldAmount: 1
   WoodAmount: 1
   GoldCost: 0
-  WoodCost: 1
+  WoodCost: 3
   entityType: 1
   size: 0
   sprite: {fileID: 7706548414058156727}
