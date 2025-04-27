@@ -5,11 +5,15 @@ public class AggressifEntityManager : SelectableManager
 {
     [HideInInspector] public RessourceController ressources;
 
+    [Header("Attribute")]
     [SerializeField] private float attack = 1;
     [SerializeField] private float attackSpeed = 1;
     [SerializeField] private float range = 1;
 
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
+
+
+    [Space]
     [SerializeField] public StateEffect effect;
 
     public UnityEvent DoAnAttack;

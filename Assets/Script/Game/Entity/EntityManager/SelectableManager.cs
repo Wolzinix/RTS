@@ -5,13 +5,16 @@ using UnityEngine.Events;
 
 public class SelectableManager : EntityManager
 {
+    [Header("Shape")]
     [SerializeField] public GameObject CurrentShape;
     [SerializeField] public Transform CurrentShapeTransform;
-    [SerializeField] private float seeRange = 3;
 
     [HideInInspector] public UnityEvent<SelectableManager> deathEvent = new UnityEvent<SelectableManager>();
     [HideInInspector] public UnityEvent<AggressifEntityManager> TakingDamageFromEntity = new UnityEvent<AggressifEntityManager>();
 
+    [Header("Attribute")]
+    [SerializeField] private float seeRange = 3;
+    [Header("Drop")]
     [SerializeField] protected float xpToGive = 0.5f;
 
 

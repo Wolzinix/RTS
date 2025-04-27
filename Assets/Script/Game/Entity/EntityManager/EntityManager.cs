@@ -5,31 +5,33 @@ using UnityEngine.Events;
 public class EntityManager : MonoBehaviour
 {
 
+    [Header("Attribute")]
     [SerializeField] protected float hp = 10;
+    [SerializeField] protected float defense = 0;
     protected float _maxHp;
+    public EntityType entityType;
+    [HideInInspector] public float size;
 
+    [Header("Cost")]
     public int GoldAmount = 1;
     public int WoodAmount = 1;
 
+    [Header("Drop")]
     public int GoldCost = 1;
     public int WoodCost = 1;
 
-    public EntityType entityType;
 
-    [HideInInspector] public float size;
-
+    [Header("Sprite")]
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Sprite spriteImage;
-
     [SerializeField] public Sprite Allisprite;
     [SerializeField] public Sprite Ennemisprite;
     [SerializeField] public Sprite Neutralprite;
+    protected Animator _animator;
 
-    [SerializeField] protected float defense = 0;
 
     [HideInInspector] public UnityEvent changeStats = new UnityEvent();
 
-    protected Animator _animator;
     public Sprite GetSprit()
     {
         return spriteImage;
