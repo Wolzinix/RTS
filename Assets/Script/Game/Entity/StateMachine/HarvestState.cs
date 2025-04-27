@@ -23,15 +23,14 @@ public class HarvestState : StateClassEntity
     }
     private void PrepareAttack()
     {
-        _animator.SetBool(EntityController.Moving, false);
-        _animator.SetBool(EntityController.Idle, false);
+        builder.CancelAnimation();
         _animator.Play(AnimationController.GetAttackAnimRandom());
         _attacking = true;
     }
 
     private void EndAttack()
     {
-        _animator.SetBool(EntityController.Idle, true);
+        builder.CancelAnimation();
         _attacking = false;
     }
     public override void Update()

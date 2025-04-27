@@ -77,21 +77,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066c1495622456c4d861f92b2f982140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiSelectionInput: {fileID: 4865166933374716320, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  multiPathInput: {fileID: -8770079392862207241, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  dragSelect: {fileID: 6812050830421308770, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  selectEntityInput: {fileID: -244919997710551446, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  moveEntityInput: {fileID: 8433083119221864085, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  mapModInput: {fileID: 4023398279261331368, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  PauseInput: {fileID: 4958215242506485333, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  buildingCursor: {fileID: 2800000, guid: 3566ec53904aa7d498b9bf18bd276b43, type: 3}
-  DeplacementCursor: {fileID: 2800000, guid: 8ea93deb2f313804dbc6bb87f88843be, type: 3}
-  AttackCursor: {fileID: 2800000, guid: 2eef412916138f3429832c7ac0e9789e, type: 3}
+  _multiSelectionInput: {fileID: 4865166933374716320, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  _multiPathInput: {fileID: -8770079392862207241, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  _dragSelect: {fileID: 6812050830421308770, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  _selectEntityInput: {fileID: -244919997710551446, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  _moveEntityInput: {fileID: 8433083119221864085, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  _mapModInput: {fileID: 4023398279261331368, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  _pauseInput: {fileID: 4958215242506485333, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+  _buildingCursor: {fileID: 2800000, guid: 8ee3219b868e7594dbb5f715bc84f907, type: 3}
+  _deplacementCursor: {fileID: 2800000, guid: 8ea93deb2f313804dbc6bb87f88843be, type: 3}
+  _attackCursor: {fileID: 2800000, guid: 2eef412916138f3429832c7ac0e9789e, type: 3}
   _camera: {fileID: 0}
   _mapCamera: {fileID: 0}
-  dragBox: {fileID: 0}
+  _mapMod: {fileID: 0}
   _ennemieTag: ennemie
   _pauseCanvas: {fileID: 0}
+  _buildingPreWatching: {fileID: 0}
+  _dragBox: {fileID: 0}
+  _listOfEntity: {fileID: 0}
 --- !u!114 &8505928063185157786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +109,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gold: 2
   _wood: 2
+  ressourcesAdd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6199049926203090015
 MonoBehaviour:
   m_ObjectHideFlags: 0

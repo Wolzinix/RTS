@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public static class AnimationController 
 {
@@ -7,8 +8,11 @@ public static class AnimationController
     {
         { 0,"Attack1" },
         { 1,"Attack2" },
-        { 2,"Attack3" },
     };
+
+
+    public static readonly int Moving = Animator.StringToHash("Mooving");
+    public static readonly int Idle = Animator.StringToHash("IdleBool");
 
     public static string GetAttackAnimRandom()
     {
@@ -17,5 +21,12 @@ public static class AnimationController
     public static string GetAttackAnimSpecific(int attackIndice)
     {
         return DicoOfAttackAnim[attackIndice];
+    }
+
+    public static void CancelAnimation(Animator animator)
+    {
+        animator.SetBool(Idle, true);
+        animator.SetBool(Moving, false);
+        animator.Play("Nothing");
     }
 }

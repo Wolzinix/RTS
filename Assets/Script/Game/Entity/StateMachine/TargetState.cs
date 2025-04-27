@@ -15,7 +15,7 @@ public class TargetState : StateClassEntity
     }
     public override void Start()
     {
-        controller._animator.SetBool(EntityController.Moving, true);
+        controller._animator.SetBool(AnimationController.Moving, true);
         if(rb)
         {
             rb.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
@@ -50,7 +50,7 @@ public class TargetState : StateClassEntity
     {
         if (navMeshController != null)
         {
-            controller._animator.SetBool(EntityController.Moving, false);
+            controller._animator.SetBool(AnimationController.Moving, false);
             rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             navMeshController.StopPath();
         }

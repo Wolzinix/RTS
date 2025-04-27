@@ -13,7 +13,7 @@ public class FollowState : StateClassEntity
     }
     public override void Start()
     {
-        controller._animator.SetBool(EntityController.Moving, true);
+        controller._animator.SetBool(AnimationController.Moving, true);
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
     }
     public override void Update()
@@ -36,7 +36,7 @@ public class FollowState : StateClassEntity
     {
         if (navMeshController)
         {
-            controller._animator.SetBool(EntityController.Moving, false);
+            controller._animator.SetBool(AnimationController.Moving, false);
             controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             navMeshController.StopPath();
 
