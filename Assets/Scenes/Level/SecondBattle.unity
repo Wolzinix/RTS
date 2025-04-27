@@ -913,6 +913,7 @@ Transform:
   - {fileID: 1412474363}
   - {fileID: 845599047}
   - {fileID: 618407870}
+  - {fileID: 1733850645}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &485674584
@@ -4765,6 +4766,88 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5592201362407160647, guid: a65b938add593874782dc2957ec066e7, type: 3}
   m_PrefabInstance: {fileID: 1687690020}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1733850644
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 399951921}
+    m_Modifications:
+    - target: {fileID: -5563469412611911171, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5563469412611911171, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5563469412611911171, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_SpriteSortPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_Name
+      value: EntitySpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.5178857
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.4136233
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 14.024242
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: _nameOfEntity
+      value: Gilbert
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: _entityToSpawn
+      value: 
+      objectReference: {fileID: 1513522753}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+--- !u!4 &1733850645 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+  m_PrefabInstance: {fileID: 1733850644}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1770925849
 PrefabInstance:
