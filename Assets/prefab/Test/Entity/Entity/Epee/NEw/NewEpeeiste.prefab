@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 2294858842063284346}
   - component: {fileID: -8206696815783975533}
   m_Layer: 6
-  m_Name: Epeeiste
+  m_Name: NewEpeeiste
   m_TagString: Allie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

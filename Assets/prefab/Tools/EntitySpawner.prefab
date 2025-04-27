@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5397942525743404464}
   - component: {fileID: 7353627335647898174}
   - component: {fileID: -5563469412611911171}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EntitySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ad911449d5b4b4e9c0f2a363a75f63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nameOfEntity: 
   _entityToSpawn: {fileID: 0}
 --- !u!212 &-5563469412611911171
 SpriteRenderer:

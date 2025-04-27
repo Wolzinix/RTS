@@ -75,7 +75,10 @@ public class BuildingIA
     {
         if (!CanSpawn)
         {
-            IAbrain.NeedToSendEntityToBuildingEvent.Invoke(this, building.gameObject.transform.position);
+            if(building.gameObject)
+            {
+                IAbrain.NeedToSendEntityToBuildingEvent.Invoke(this, building.gameObject.transform.position);
+            }
         }
     }
     public void AddTower(DefenseManager tower)
