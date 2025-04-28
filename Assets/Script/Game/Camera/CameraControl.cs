@@ -3,28 +3,27 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
 public class CameraControl : MonoBehaviour
 {
-
+    [Header("Input")]
     [SerializeField] private InputActionReference moveCameraInput;
     [SerializeField] private InputActionReference rotateCameraInput;
     [SerializeField] private InputActionReference activeRotateCameraInput;
     [SerializeField] private InputActionReference zoomCameraInput;
     [SerializeField] private InputActionReference accelerateInput;
 
+    [Header("Stats")]
     [SerializeField] private float speedOfDeplacement = 1;
     [SerializeField] private float speedOfZoom = 10;
+    private const float IncrementSpeed = 2;
+    public float ymax, ymin;
 
     private bool _accelerateIsActive;
-    private const float IncrementSpeed = 2;
     private bool _rotationActivated;
 
     public bool isMapCamera;
-
     private float xmax, xmin, zmax, zmin;
-
-    public float ymax, ymin;
-
     private Rigidbody _rb;
 
     [SerializeField] private GameObject mainGround;
@@ -64,7 +63,6 @@ public class CameraControl : MonoBehaviour
     }
 
     public void DesactiveZoom() { zoomCameraInput.action.performed -= Zoom; }
-
     public void ActiveZoom() { zoomCameraInput.action.performed += Zoom; }
     private void AccelerateInputPressed(InputAction.CallbackContext obj) { _accelerateIsActive = true; }
     private void AccelerateInputCanceled(InputAction.CallbackContext obj) { _accelerateIsActive = false; }
