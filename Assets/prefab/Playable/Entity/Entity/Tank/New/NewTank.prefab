@@ -323,8 +323,8 @@ MonoBehaviour:
   changeStats:
     m_PersistentCalls:
       m_Calls: []
-  CurrentShape: {fileID: 0}
-  CurrentShapeTransform: {fileID: 0}
+  CurrentShape: {fileID: 8088282700634436765}
+  CurrentShapeTransform: {fileID: 8895887925832642087}
   deathEvent:
     m_PersistentCalls:
       m_Calls: []

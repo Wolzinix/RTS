@@ -25,8 +25,11 @@ public static class AnimationController
 
     public static void CancelAnimation(Animator animator)
     {
-        animator.SetBool(Idle, true);
-        animator.SetBool(Moving, false);
-        animator.Play("Nothing");
+        if(animator.isActiveAndEnabled)
+        {
+            animator.SetBool(Idle, true);
+            animator.SetBool(Moving, false);
+            animator.Play("Nothing");
+        }
     }
 }

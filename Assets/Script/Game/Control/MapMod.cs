@@ -50,7 +50,6 @@ public class MapMod : MonoBehaviour
         {
             StartCoroutine(ActualiseEntity(i));
         }
-        
     }
     IEnumerator ActualiseEntity (SelectableManager entity)
     {
@@ -67,8 +66,10 @@ public class MapMod : MonoBehaviour
     {
         if (_isMapMod)
         {
-            if (entity.transform.GetComponentInChildren<SkinnedMeshRenderer>() && entity.transform.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
-               entity.transform.GetComponentInChildren<MeshRenderer>() && entity.transform.GetComponentInChildren<MeshRenderer>().enabled)
+            SkinnedMeshRenderer skinned = entity.CurrentShape.GetComponentInChildren<SkinnedMeshRenderer>();
+            MeshRenderer renderer = entity.CurrentShape.GetComponentInChildren<MeshRenderer>();
+            if (skinned && skinned.enabled ||
+                renderer && renderer.enabled)
             {
                 entity.OnSelected();
                 return;

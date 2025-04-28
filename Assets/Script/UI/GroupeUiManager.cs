@@ -1,3 +1,4 @@
+using Assets.Script.Game;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,9 +37,10 @@ public class GroupeUiManager : MonoBehaviour
         }
         else { RemoveCadre(_listOfCadreControllers[index]); }
         SortAffichage();
+        CleanAffichage();
     }
 
-    private void SortAffichage()
+    private void CleanAffichage()
     {
         if (_listOfCadreControllers.Count == 0) { gameObject.SetActive(false); }
         else
@@ -54,6 +56,25 @@ public class GroupeUiManager : MonoBehaviour
                     rect.height * (0.5f + (int)((150 * index + rect.width) / rectParent.width)),
                     0);
             }
+        }
+    }
+
+    private void SortAffichage()
+    {
+        int i = 0;
+        EntityType actualEntity = _listOfEntity[_listOfEntity.Count-1].entityType;
+        while (i < _listOfEntity.Count -1)
+        {   
+            if (_listOfEntity[i].entityType == actualEntity)
+            {
+                _listOfEntity.Insert(i+1, _listOfEntity[_listOfEntity.Count - 1]);
+                _listOfEntity.RemoveAt(_listOfEntity.Count - 1);
+
+                _listOfCadreControllers.Insert(i + 1, _listOfCadreControllers[_listOfEntity.Count - 1]);
+                _listOfCadreControllers.RemoveAt(_listOfCadreControllers.Count - 1);
+                break;
+            }
+            i++;
         }
     }
 
@@ -83,6 +104,6 @@ public class GroupeUiManager : MonoBehaviour
         Destroy(cadreToRemove);
         _listOfCadreControllers.RemoveAt(index);
         _listOfEntity.RemoveAt(index);
-        SortAffichage();
+        CleanAffichage();
     }
 }
