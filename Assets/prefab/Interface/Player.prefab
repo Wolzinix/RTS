@@ -84,7 +84,7 @@ MonoBehaviour:
   _moveEntityInput: {fileID: 8433083119221864085, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   _mapModInput: {fileID: 4023398279261331368, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   _pauseInput: {fileID: 4958215242506485333, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  _buildingCursor: {fileID: 2800000, guid: 8ee3219b868e7594dbb5f715bc84f907, type: 3}
+  _buildingCursor: {fileID: 2800000, guid: 3b52d8f21b67d9f4b93d813f2f428b67, type: 3}
   _deplacementCursor: {fileID: 2800000, guid: 8ea93deb2f313804dbc6bb87f88843be, type: 3}
   _attackCursor: {fileID: 2800000, guid: 2eef412916138f3429832c7ac0e9789e, type: 3}
   _camera: {fileID: 0}

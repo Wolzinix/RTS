@@ -3,6 +3,7 @@ using UnityEngine;
 public class TroupeManager : AggressifEntityManager
 {
 
+    [Header("Attribute")]
     [SerializeField] public float StartSpeed = 2;
     private float speed = 2;
     private static readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");

@@ -574,9 +574,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "La faut trouver un truc interessant \xE0 dire mais je saurais pas quoi
-    ducoup on va marquer des choses aux pifs !!\nBon va te battre au lieu de lire
-    \xE7a."
+  m_text: "Objectif premier : D\xE9truire le batiment adverse de l'autre c\xF4t\xE9
+    de la plaine"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

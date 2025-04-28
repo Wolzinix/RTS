@@ -27,8 +27,8 @@ public class IABrain : MonoBehaviour
 
     void Start()
     {
-        stockBuilding = new IAStockBuilding(this);
         groupManager.ia = this;
+        stockBuilding = new IAStockBuilding(this);
 
         NeedToSendEntityToBuildingEvent.AddListener(SendEntityToBuilding);
         NeedToSendGroupToBuildingEvent.AddListener(SendRenfortToBuilding);
@@ -107,19 +107,19 @@ public class IABrain : MonoBehaviour
     {
         return stockBuilding.GetAllieBuilding();
     }
-    private GameObject GetThenearsetEntityOfAPoint(Vector3 point)
+    private EntityController GetThenearsetEntityOfAPoint(Vector3 point)
     {
-        GameObject ThenearsetEntity = null;
+        EntityController ThenearsetEntity = null;
 
         foreach (EntityController Thenearset in groupOfEntity.GetComponentsInChildren<EntityController>())
         {
             if(!Thenearset.GetComponent<DefenseManager>())
             {
-                if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset.gameObject; }
+                if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
 
                 if (Vector3.Distance(point, ThenearsetEntity.transform.position) > Vector3.Distance(point, Thenearset.transform.position))
                 {
-                    ThenearsetEntity = Thenearset.gameObject;
+                    ThenearsetEntity = Thenearset;
                 }
             }
         }
@@ -158,12 +158,16 @@ public class IABrain : MonoBehaviour
     {
         if (gameObject.CompareTag(building.Tag) || building.Tag == "neutral")
         {
-            EntityController entity = GetThenearsetEntityOfAPoint(point).GetComponent<EntityController>();
-            GroupManager group = groupManager.SendEntityToBuilding(building, entity);
-            if (group != null)
+            EntityController entity = GetThenearsetEntityOfAPoint(point);
+            if(entity)
             {
-                building.AddSpawnGroup(group);
+                GroupManager group = groupManager.SendEntityToBuilding(building, entity);
+                if (group != null)
+                {
+                    building.AddSpawnGroup(group);
+                }
             }
+           
         }
     }
     public void ActualiseGroup()

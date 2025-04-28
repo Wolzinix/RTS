@@ -87,7 +87,7 @@ public class IAGroupManager
 
     private void ClearUselessGroup()
     {
-        List<GroupManager> groupList = new List<GroupManager>();
+        List<GroupManager> groupList = new();
 
         foreach (GroupManager group in _ListOfGroup)
         {
@@ -101,7 +101,7 @@ public class IAGroupManager
 
     public void ClearListOfPatrol()
     {
-        List<GroupManager> groupPatrol = new List<GroupManager>();
+        List<GroupManager> groupPatrol = new();
 
         foreach (GroupManager i in _ListOfGroupPatrol.Keys)
         {
@@ -334,8 +334,6 @@ public class IAGroupManager
 
             return building._GroupOfSpawn;
         }
-
-        //DebugGroup();
     }
 
     public bool EntityIsInAGroup(EntityController entity)
