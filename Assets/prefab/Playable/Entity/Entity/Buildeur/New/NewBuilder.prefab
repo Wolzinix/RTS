@@ -219,7 +219,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4825870592483654779}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 15
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -311,30 +311,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
+  defense: 0
+  entityType: 5
+  size: 0
   GoldAmount: 1
   WoodAmount: 0
   GoldCost: 1
   WoodCost: 0
-  entityType: 5
-  size: 0
   sprite: {fileID: 7706548414058156727}
   spriteImage: {fileID: 21300000, guid: 8ee3219b868e7594dbb5f715bc84f907, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
-  defense: 0
   changeStats:
     m_PersistentCalls:
       m_Calls: []
   CurrentShape: {fileID: 1697323730958955927}
   CurrentShapeTransform: {fileID: 2070144390279261972}
-  seeRange: 6
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
+  seeRange: 6
   xpToGive: 1
   ressources: {fileID: 0}
   attack: 1
