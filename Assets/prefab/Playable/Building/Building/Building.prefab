@@ -204,30 +204,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
+  defense: 1
+  entityType: 0
+  size: 0
   GoldAmount: 1
   WoodAmount: 1
   GoldCost: 1
   WoodCost: 1
-  entityType: 0
-  size: 0
   sprite: {fileID: 2491522434153671467}
   spriteImage: {fileID: 7482667652216324306, guid: 233ca442b7ce8dd4a953c88b6d64f2e8, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
-  defense: 1
   changeStats:
     m_PersistentCalls:
       m_Calls: []
-  CurrentShape: {fileID: 0}
+  CurrentShape: {fileID: 5008422394800601497}
   CurrentShapeTransform: {fileID: 0}
-  seeRange: 6
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
+  seeRange: 6
   xpToGive: 0.5
 --- !u!114 &7695264714245882759
 MonoBehaviour:
@@ -402,6 +402,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+--- !u!1 &5008422394800601497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}
+  m_PrefabInstance: {fileID: 5278241235541050568}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5677540552766333731 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bedf07c7b232f2b4cac29db2e2d58568, type: 3}

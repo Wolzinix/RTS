@@ -13,11 +13,9 @@ public class EntitySpawner : MonoBehaviour
         {
             GameObject go = Instantiate(_entityToSpawn,transform.parent);
             go.tag = gameObject.tag;
-            if(_nameOfEntity =="")
-            {
-                _nameOfEntity = NameIndex.GetAName();
-            }
+            if(_nameOfEntity =="") { _nameOfEntity = NameIndex.GetAName(); }
             go.name = _nameOfEntity;
+            go.GetComponent<AggressifEntityManager>().ActualiseSprite();
             go.transform.position = RayCast.RaycastForGround(go, gameObject.transform.position);
             go.transform.rotation = transform.rotation;
         }

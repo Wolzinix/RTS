@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class FogWarController : MonoBehaviour
@@ -32,15 +30,14 @@ public class FogWarController : MonoBehaviour
 
     private void ActualiseFog(EntityController entity, bool visible)
     {
-        List<MeshRenderer> list = entity.GetComponentsInChildren<MeshRenderer>().ToList();
-        if (list.Count == 0)
+        foreach(SkinnedMeshRenderer i in entity.GetComponent<SelectableManager>().CurrentShape.GetComponentsInChildren<SkinnedMeshRenderer>())
         {
-            List<SkinnedMeshRenderer> render = entity.GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
-            foreach (SkinnedMeshRenderer ren in render) { ren.enabled = visible; }
+            i.enabled = visible;
         }
-        else
+
+        foreach (MeshRenderer i in entity.GetComponent<SelectableManager>().CurrentShape.GetComponentsInChildren<MeshRenderer>())
         {
-            foreach (MeshRenderer renderer in list) { renderer.enabled = visible; }
+            i.enabled = visible;
         }
     }
 }

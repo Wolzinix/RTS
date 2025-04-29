@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner
+      value: EntitySpawnerPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -855,7 +855,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (6)
+      value: EntitySpawnerIAEnnemie
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -902,6 +902,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: _ia
+      value: 
+      objectReference: {fileID: 861551939}
+    - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _nameOfEntity
       value: 
       objectReference: {fileID: 0}
@@ -929,7 +933,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (1)
+      value: EntitySpawnerIAEnnemie
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -975,6 +979,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: _ia
+      value: 
+      objectReference: {fileID: 861551939}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _nameOfEntity
       value: 
@@ -1077,7 +1085,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (3)
+      value: EntitySpawnerIAEnnemie
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -1123,6 +1131,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: _ia
+      value: 
+      objectReference: {fileID: 861551939}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _nameOfEntity
       value: 
@@ -1560,6 +1572,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a65b938add593874782dc2957ec066e7, type: 3}
+--- !u!114 &861551939 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5156644770516148487, guid: ddd9b4c01b3d4314591de5ad15771494, type: 3}
+  m_PrefabInstance: {fileID: 4667835880722876703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad3b29359b62124d8a551ef1591927c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &934190530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1806,7 +1829,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (2)
+      value: EntitySpawnerPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -1880,7 +1903,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (4)
+      value: EntitySpawnerPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -1949,7 +1972,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6423049623415498311, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
   m_PrefabInstance: {fileID: 1547322194}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547322196}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 066c1495622456c4d861f92b2f982140, type: 3}
@@ -2618,7 +2641,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (2)
+      value: EntitySpawnerIAEnnemie
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -2665,6 +2688,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: _ia
+      value: 
+      objectReference: {fileID: 861551939}
+    - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _nameOfEntity
       value: 
       objectReference: {fileID: 0}
@@ -2692,7 +2719,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (5)
+      value: EntitySpawnerPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -2850,7 +2877,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (4)
+      value: EntitySpawnerIAEnnemie
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -2896,6 +2923,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: _ia
+      value: 
+      objectReference: {fileID: 861551939}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _nameOfEntity
       value: 
@@ -3061,44 +3092,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7641045594078516449, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1547322197}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
 --- !u!114 &1547322195 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6199049926203090015, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
   m_PrefabInstance: {fileID: 1547322194}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547322196}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e0036ae9fdfeb74995f1b3a1715c28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1547322196 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7641045594078516449, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
+--- !u!114 &1547322197 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7634086340804949982, guid: fc311d0b3b8a8bd4e939ffd136241fd1, type: 3}
   m_PrefabInstance: {fileID: 1547322194}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1547322197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547322196}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72da81d0fe53ce14ba1539dec70c1c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shaderToApply: {fileID: -6465566751694194690, guid: 96d0aede741c7974083cf48494a65b17, type: 3}
-  shaderToNotApply: {fileID: -6465566751694194690, guid: 1afc93220245268439d5d6ce2e9285c3, type: 3}
-  _ExcludeLayer:
-    serializedVersion: 2
-    m_Bits: 384
 --- !u!1 &1661905983
 GameObject:
   m_ObjectHideFlags: 0
@@ -3355,7 +3372,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (1)
+      value: EntitySpawnerPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -3434,7 +3451,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (5)
+      value: EntitySpawnerIAEnnemie
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
@@ -3481,6 +3498,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: _ia
+      value: 
+      objectReference: {fileID: 861551939}
+    - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _nameOfEntity
       value: 
       objectReference: {fileID: 0}
@@ -3519,7 +3540,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner (3)
+      value: EntitySpawnerPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString

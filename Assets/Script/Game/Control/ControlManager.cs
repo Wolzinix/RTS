@@ -5,10 +5,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 
 public class ControlManager : MonoBehaviour
 {
+    [Header("Input")]
     [SerializeField] private InputActionReference _multiSelectionInput;
     [SerializeField] private InputActionReference _multiPathInput;
     [SerializeField] private InputActionReference _dragSelect;
@@ -17,14 +17,17 @@ public class ControlManager : MonoBehaviour
     [SerializeField] private InputActionReference _mapModInput;
     [SerializeField] private InputActionReference _pauseInput;
 
+    [Header("Cursor")]
     [SerializeField] private Texture2D _buildingCursor;
     [SerializeField] private Texture2D _deplacementCursor;
     [SerializeField] private Texture2D _attackCursor;
 
+    [Header("Camera")]
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera _mapCamera;
     [SerializeField] private MapMod _mapMod;
 
+    [Space]
     [SerializeField] string _ennemieTag;
     [SerializeField] Canvas _pauseCanvas;
     [SerializeField] private BuildingPreWatching _buildingPreWatching;

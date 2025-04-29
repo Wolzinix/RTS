@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ public class MapMod : MonoBehaviour
 
         _mapCamera.enabled = !_mapCamera.enabled;
         mapCameraControl.StopMoving();
-        _mapCamera.gameObject.SetActive(_mapCamera.enabled);
+        _mapCamera.GetComponent<CameraControl>().enabled  = _mapCamera.enabled;
 
         if (_isMapMod) { cameraControl.DesactiveZoom(); }
         else { cameraControl.ActiveZoom(); }
@@ -45,18 +46,30 @@ public class MapMod : MonoBehaviour
 
     private void SelectGestionMapMod()
     {
-        foreach (GameObject w in _mapObjects)
+        foreach(SelectableManager i in FindObjectsByType<SelectableManager>(FindObjectsSortMode.None))
         {
-            foreach (SelectableManager i in w.GetComponentsInChildren<SelectableManager>()) { ActualiseOneUnit(i); }
+            StartCoroutine(ActualiseEntity(i));
         }
     }
+    IEnumerator ActualiseEntity (SelectableManager entity)
+    {
+        if (entity == null)
+        {
+            throw new ArgumentNullException(nameof(entity));
+        }
 
+        yield return null;
+
+        ActualiseOneUnit(entity);
+    }
     public void ActualiseOneUnit(SelectableManager entity)
     {
         if (_isMapMod)
         {
-            if (entity.transform.GetComponentInChildren<SkinnedMeshRenderer>() && entity.transform.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
-               entity.transform.GetComponentInChildren<MeshRenderer>() && entity.transform.GetComponentInChildren<MeshRenderer>().enabled)
+            SkinnedMeshRenderer skinned = entity.CurrentShape.GetComponentInChildren<SkinnedMeshRenderer>();
+            MeshRenderer renderer = entity.CurrentShape.GetComponentInChildren<MeshRenderer>();
+            if (skinned && skinned.enabled ||
+                renderer && renderer.enabled)
             {
                 entity.OnSelected();
                 return;
