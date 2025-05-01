@@ -2,16 +2,22 @@ using Assets.Script.Tools;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(RessourceController))]
 public class BuildingPreWatching : MonoBehaviour
 {
     private GameObject currentBuilding;
     [SerializeField] private Shader shaderToApply;
     [SerializeField] private Shader shaderToNotApply;
     [SerializeField] private LayerMask _ExcludeLayer;
-
+    private RessourceController _ressourcecontroller;
+    private int _gold, _wood;
     public Collider[] DoAOverlap(Vector3 spawnPosition)
     {
         return Physics.OverlapSphere(spawnPosition, 1, ~_ExcludeLayer, QueryTriggerInteraction.Ignore);
+    }
+    private void Start()
+    {
+        _ressourcecontroller = GetComponent<RessourceController>();
     }
     void LateUpdate()
     {
@@ -22,7 +28,8 @@ public class BuildingPreWatching : MonoBehaviour
             {
                 currentBuilding.SetActive(true);
                 currentBuilding.transform.position = position;
-                if (DoAOverlap(position).Count() <= 1) { ApplyShader(shaderToApply); }
+                if (DoAOverlap(position).Count() <= 1 && _ressourcecontroller.CompareWood(_wood) && _ressourcecontroller.CompareGold(_gold)) 
+                { ApplyShader(shaderToApply); }
                 else { ApplyShader(shaderToNotApply); }
             }
             else { currentBuilding.SetActive(false); }
@@ -45,11 +52,13 @@ public class BuildingPreWatching : MonoBehaviour
             }
         }
     }
-    public void SetBuilding(GameObject ghostBuilding, Transform ghostTransform)
+    public void SetBuilding(GameObject ghostBuilding, Transform ghostTransform,int gold , int wood)
     {
         currentBuilding = Instantiate(ghostBuilding);
         currentBuilding.transform.localScale = ghostTransform.localScale;
         ApplyShader(shaderToApply);
+        _gold = gold;
+        _wood = wood;
     }
 
     public void BuildingIsCancel()
