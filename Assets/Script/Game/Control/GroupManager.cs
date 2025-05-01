@@ -15,9 +15,8 @@ public class GroupManager
 
     public bool IsPlayer;
 
-    public UnityEvent<GroupManager> GroupIsDeadevent = new UnityEvent<GroupManager>();
-
-    public UnityEvent<GroupManager> SomeoneIsImmobile = new UnityEvent<GroupManager>();
+    public UnityEvent<GroupManager> GroupIsDeadevent = new();
+    public UnityEvent<GroupManager> SomeoneIsImmobile = new();
 
     private SelectableManager _OneSelected;
 
@@ -74,7 +73,7 @@ public class GroupManager
             }
             _selectedObject.Clear();
         }
-        else if (_OneSelected)
+        if (_OneSelected)
         {
             _OneSelected.OnDeselected();
             _OneSelected = null;
@@ -102,7 +101,6 @@ public class GroupManager
         }
         else { entity.ChangeSpeed(entity.GetStartSpeed()); }
     }
-
     public void RestoreSpeedOfAllEntity()
     {
         foreach (EntityController entity in _selectedObject)
@@ -110,7 +108,6 @@ public class GroupManager
             entity.ChangeSpeed(entity.GetStartSpeed());
         }
     }
-
     public void AddSelect(SelectableManager toAdd)
     {
         EntityController entityControllerToAdd = toAdd.gameObject.GetComponent<EntityController>();
@@ -137,7 +134,6 @@ public class GroupManager
             }
         }
     }
-
     private void ChangeSpeedWhenRemove(EntityController entity)
     {
         if (!SelectedObjectIsEmpty())
@@ -170,7 +166,6 @@ public class GroupManager
         toAdd.deathEvent.RemoveListener(RemoveSelect);
         SelectedObjectIsEmpty();
     }
-
     public void ActionGroup(RaycastHit hit)
     {
         if (hit.transform)
@@ -186,7 +181,6 @@ public class GroupManager
     {
         GroupIsDeadevent.Invoke(this);
     }
-
     public void MooveSelected(Vector3 point, bool dontGoOnPoint = true)
     {
         if (!SelectedObjectIsEmpty())
@@ -202,7 +196,6 @@ public class GroupManager
             }
         }
     }
-
     private void VerifyIfEveryBodyIsAlive()
     {
         List<int> indexToRemove = new List<int>();
@@ -215,7 +208,6 @@ public class GroupManager
         foreach (int i in indexToRemove) { _selectedObject.RemoveAt(i); }
         SelectedObjectIsEmpty();
     }
-
     public void AttackSelected(RaycastHit hit)
     {
         if (!SelectedObjectIsEmpty())
@@ -224,7 +216,6 @@ public class GroupManager
             foreach (EntityController i in _selectedObject) { i.AddTarget(hit.transform.gameObject.GetComponent<AggressifEntityManager>()); }
         }
     }
-
     public void AddTarget(SelectableManager controller)
     {
         if (!SelectedObjectIsEmpty())
@@ -236,7 +227,6 @@ public class GroupManager
             }
         }
     }
-
     public void DoABuild(int nb, RaycastHit hit)
     {
         if (!SelectedObjectIsEmpty())
@@ -269,7 +259,6 @@ public class GroupManager
             foreach (EntityController i in _selectedObject) { i.AddAllie(hit.transform.gameObject.GetComponent<TroupeManager>()); }
         }
     }
-
     public void ResetOrder()
     {
         if (!SelectedObjectIsEmpty())
@@ -281,7 +270,6 @@ public class GroupManager
             }
         }
     }
-
     public void PatrouilleOrder(Vector3 point)
     {
         if (!SelectedObjectIsEmpty())
@@ -294,7 +282,6 @@ public class GroupManager
             }
         }
     }
-
     public void SpecificPatrouilleOrder(Vector3 start, Vector3 end)
     {
         if (!SelectedObjectIsEmpty())
@@ -307,7 +294,6 @@ public class GroupManager
             }
         }
     }
-
     private bool SelectedObjectIsEmpty()
     {
         if (_selectedObject.Count <= 0)
@@ -317,7 +303,6 @@ public class GroupManager
         }
         else { return false; }
     }
-
     public void AttackingOnTravel(Vector3 point)
     {
         if (!SelectedObjectIsEmpty())
@@ -326,7 +311,6 @@ public class GroupManager
             foreach (EntityController i in _selectedObject) { i.AddAggressivePath(point); }
         }
     }
-
     public void TenirPositionOrder()
     {
         if (!SelectedObjectIsEmpty())
@@ -336,22 +320,18 @@ public class GroupManager
             foreach (var i in _selectedObject) { i.AddStayOrder(); }
         }
     }
-
     public List<EntityController> getSelectList()
     {
         return _selectedObject;
     }
-
     public bool GroupContainUnity(EntityController entity)
     {
         return _selectedObject.Contains(entity);
     }
-
     public bool EntityIsInGroup(EntityController entity)
     {
         return _selectedObject.Contains(entity);
     }
-
     public bool EveryOneIsStop()
     {
         bool moving = false;
@@ -361,7 +341,6 @@ public class GroupManager
         }
         return moving;
     }
-
     public void ReverseFormation()
     {
         IsOnFormation = !IsOnFormation;

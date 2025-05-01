@@ -12,7 +12,6 @@ public class AggressifEntityManager : SelectableManager
 
     private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
 
-
     [Space]
     [SerializeField] public StateEffect effect;
 

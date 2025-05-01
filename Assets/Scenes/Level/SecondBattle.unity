@@ -2865,7 +2865,7 @@ PrefabInstance:
     - target: {fileID: 3103899141600910406, guid: c701cd0af9c614b4a878da780f23d7d2, type: 3}
       propertyPath: prefabToSpawn.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4825870592483654779, guid: f8b0c1ef082a3a84abaabf0fec3df1e7, type: 3}
     - target: {fileID: 3103899141600910406, guid: c701cd0af9c614b4a878da780f23d7d2, type: 3}
       propertyPath: MySpawns.Array.data[0].statsTime
       value: 15
