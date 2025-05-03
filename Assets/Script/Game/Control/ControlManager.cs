@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(SelectManager))]
 public class ControlManager : MonoBehaviour
 {
     [Header("Input")]
@@ -30,7 +31,6 @@ public class ControlManager : MonoBehaviour
     [Space]
     [SerializeField] string _ennemieTag;
     [SerializeField] Canvas _pauseCanvas;
-    [SerializeField] private BuildingPreWatching _buildingPreWatching;
     [SerializeField] private RectTransform _dragBox;
     [SerializeField] GameObject _listOfEntity;
 
@@ -38,6 +38,7 @@ public class ControlManager : MonoBehaviour
     private bool _multiPathIsActive;
     private bool _patrolOrder;
     private CapacityController _capacityController;
+    private BuildingPreWatching _buildingPreWatching;
     private bool _capactityOrder;
     private Vector3 _dragCoord;
     private bool _dragging;
@@ -46,27 +47,26 @@ public class ControlManager : MonoBehaviour
     private int _nbOfClick;
     private bool _doubleClick;
     private SelectManager _selectManager;
-    private List<EntityController> _entitiesBackUp = new List<EntityController>();
+    private List<EntityController> _entitiesBackUp = new();
     private bool _order;
     private bool _travelAttack;
     private bool _buildingOrder;
     private int _nbOfBuilding;
     private UiGestioneur _uiGestioneur;
-    private CursorMode _cursorMode = CursorMode.Auto;
+    private readonly CursorMode _cursorMode = CursorMode.Auto;
     private Vector2 _hotSpot = Vector2.zero;
-    private float _delayToClick = 0.2f;
+    private readonly float _delayToClick = 0.2f;
 
     void Start()
     {
         _selectManager = GetComponent<SelectManager>();
-
+        _buildingPreWatching = GetComponent<BuildingPreWatching>();
+        _uiGestioneur = FindObjectOfType<UiGestioneur>();
         _mapCamera.GetComponent<CameraControl>().DesactiveZoom();
 
         ActiveAllInput();
         _mapModInput.action.started += MapModActive;
         _pauseInput.action.started += SetPause;
-
-        _uiGestioneur = FindObjectOfType<UiGestioneur>();
 
         _selectManager.SetEnnemieTag(_ennemieTag);
         _selectManager.SetAllieTag(gameObject.tag);
@@ -235,7 +235,7 @@ public class ControlManager : MonoBehaviour
             {
                 IsMultipathActive();
                 _selectManager.PatrouilleOrder(hit.point);
-                if (!_selectManager.getAddingMoreThanOne()) { _selectManager.setAddingMoreThanOne(true); }
+                if (!_selectManager.GetAddingMoreThanOne()) { _selectManager.SetAddingMoreThanOne(true); }
             }
             else { DoASelection(hit); }
         }
@@ -261,23 +261,28 @@ public class ControlManager : MonoBehaviour
             {
                 Debug.DrawLine(_camera.transform.position, hit.point, color: Color.blue, 10f);
 
-                if (hit.transform.GetComponent<SelectableManager>() &&
-                    (hit.transform.GetComponentInChildren<SkinnedMeshRenderer>() && hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
-                    hit.transform.GetComponentInChildren<MeshRenderer>() && hit.transform.GetComponentInChildren<MeshRenderer>().enabled))
+                SelectableManager hitSelectable = hit.transform.GetComponent<SelectableManager>();
+                SkinnedMeshRenderer hitSkinned = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>();
+                MeshRenderer hitMesh = hit.transform.GetComponentInChildren<MeshRenderer>();
+
+                if (hitSelectable &&
+                    (hitSkinned && hitSkinned.enabled ||
+                     hitMesh && hitMesh.enabled))
                 {
-                    if (_multiSelectionIsActive && _selectManager.getSelectList().Count > 0)
+                    if (_multiSelectionIsActive && _selectManager.GetSelectList().Count > 0 && !hit.transform.GetComponent<BuildingManager>())
                     {
-                        if (_selectManager.getSelectList().Count < 2)
+                        if (_selectManager.GetSelectList().Count < 2)
                         {
-                            _uiGestioneur.AddOnGroupUi(_selectManager.getSelectList()[0].GetComponent<SelectableManager>());
+                            _uiGestioneur.AddOnGroupUi(_selectManager.GetSelectList()[0].GetComponent<SelectableManager>());
                         }
-                        _uiGestioneur.AddOnGroupUi(hit.transform.GetComponent<SelectableManager>());
+                        _uiGestioneur.AddOnGroupUi(hitSelectable);
                     }
                     else
-                    {
-                        _uiGestioneur.ActualiseUi(hit.transform.gameObject.GetComponent<SelectableManager>());
+                    { 
+                        _uiGestioneur.ActualiseUi(hitSelectable);
+                        _selectManager.ClearList();
                     }
-                    _selectManager.AddSelect(hit.transform.gameObject.GetComponent<SelectableManager>());
+                    _selectManager.AddSelect(hitSelectable);
                 }
                 else
                 {
@@ -352,7 +357,7 @@ public class ControlManager : MonoBehaviour
     }
     private void StartDragSelect(InputAction.CallbackContext obj)
     {
-        _entitiesBackUp = _selectManager.getSelectList();
+        _entitiesBackUp = _selectManager.GetSelectList();
         _dragCoord = Input.mousePosition;
         _dragBox.GameObject().SetActive(true);
         _dragging = true;
@@ -377,7 +382,7 @@ public class ControlManager : MonoBehaviour
                     EntityController i = _entitiesBackUp[w];
                     SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
 
-                    if (i && !_selectManager.getSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
+                    if (i && !_selectManager.GetSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
                     if (!_uiGestioneur.groupUi._listOfEntity.Contains(selectableI)) { _uiGestioneur.AddOnGroupUi(selectableI); }
 
                     w++;
@@ -408,7 +413,7 @@ public class ControlManager : MonoBehaviour
             if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag) && selectableI.entityType == selectableObject.entityType)
             {
                 
-                if (!_selectManager.getSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
+                if (!_selectManager.GetSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
                 if (!_uiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) { _uiGestioneur.AddOnGroupUi(selectableI); }
             }
         }
@@ -436,7 +441,7 @@ public class ControlManager : MonoBehaviour
             if (UnitInDragBox(point, bounds) && i.CompareTag(gameObject.tag))
             {
                 SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
-                if (!_selectManager.getSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
+                if (!_selectManager.GetSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
                 if (!_uiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) { _uiGestioneur.AddOnGroupUi(selectableI); }
             }
         }
@@ -478,7 +483,7 @@ public class ControlManager : MonoBehaviour
     {
         ResetUiOrder();
         _patrolOrder = true;
-        _selectManager.setAddingMoreThanOne(false);
+        _selectManager.SetAddingMoreThanOne(false);
     }
 
     public void DoTravelAttack()
@@ -497,7 +502,7 @@ public class ControlManager : MonoBehaviour
         SelectableManager buildingSelectable = building.GetComponent<SelectableManager>();
         if (buildingSelectable.CurrentShape)
         {
-            _buildingPreWatching.SetBuilding(buildingSelectable.CurrentShape, buildingSelectable.CurrentShapeTransform);
+            _buildingPreWatching.SetBuilding(buildingSelectable.CurrentShape, buildingSelectable.CurrentShapeTransform,buildingSelectable.GoldCost,buildingSelectable.WoodCost);
         }
     }
 }

@@ -254,30 +254,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
+  defense: 2
+  entityType: 1
+  size: 0
   GoldAmount: 1
   WoodAmount: 1
   GoldCost: 0
   WoodCost: 3
-  entityType: 1
-  size: 0
   sprite: {fileID: 7706548414058156727}
   spriteImage: {fileID: 21300000, guid: ca14ac5524c5d2947955b0c092da7e04, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
-  defense: 2
   changeStats:
     m_PersistentCalls:
       m_Calls: []
   CurrentShape: {fileID: 919132149155446097, guid: 0e4ef30c7955ef147b089b0312730b2d, type: 3}
   CurrentShapeTransform: {fileID: 1979841089478328462}
-  seeRange: 6
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
+  seeRange: 6
   xpToGive: 50
   ressources: {fileID: 0}
   attack: 3
@@ -419,6 +419,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0e4ef30c7955ef147b089b0312730b2d, type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 0e4ef30c7955ef147b089b0312730b2d, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0e4ef30c7955ef147b089b0312730b2d, type: 3}

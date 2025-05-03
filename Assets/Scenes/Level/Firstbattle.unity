@@ -631,6 +631,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PropsSpawningCPU
       objectReference: {fileID: 0}
+    - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2053497312396262413, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Size.x
       value: 17.49351
@@ -1199,6 +1203,10 @@ PrefabInstance:
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Name
       value: PropsSpawningCPU (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2053497312396262413, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Size.x
@@ -3918,6 +3926,10 @@ PrefabInstance:
     - target: {fileID: 1758764254509474057, guid: 13a5455ca8fe41b4e81e318b706d6721, type: 3}
       propertyPath: m_Name
       value: WarFog
+      objectReference: {fileID: 0}
+    - target: {fileID: 1758764254509474057, guid: 13a5455ca8fe41b4e81e318b706d6721, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5304120567132445918, guid: 13a5455ca8fe41b4e81e318b706d6721, type: 3}
       propertyPath: mod

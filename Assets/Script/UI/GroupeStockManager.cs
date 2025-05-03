@@ -76,7 +76,7 @@ public class GroupeStockManager : MonoBehaviour
 
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            List<EntityController> list = _selectManager.getSelectList();
+            List<EntityController> list = _selectManager.GetSelectList();
             if (list.Count > 0)
             {
                 if (AddMore) { AddToList(list); }

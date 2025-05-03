@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class SelectManager : MonoBehaviour
 {
-    public GroupManager _groupManager = new GroupManager();
-    public GroupManager _selected = new GroupManager();
+    public GroupManager _groupManager = new ();
+    public GroupManager _selected = new ();
     private RessourceController ressourceController;
 
     void Start()
@@ -44,10 +44,10 @@ public class SelectManager : MonoBehaviour
             _selected.AddSelect(toAdd);
         }
     }
-    public void setAddingMoreThanOne(bool val) { _groupManager.setAddingMoreThanOne(val); }
-    public bool getAddingMoreThanOne() { return _groupManager.getAddingMoreThanOne(); }
+    public void SetAddingMoreThanOne(bool val) { _groupManager.setAddingMoreThanOne(val); }
+    public bool GetAddingMoreThanOne() { return _groupManager.getAddingMoreThanOne(); }
     public List<EntityController> GetSelectedObject() { return _groupManager.GetSelectedObject(); }
-    public int getNumberOnGroup() { return _groupManager.getNumberOnGroup(); }
+    public int GetNumberOnGroup() { return _groupManager.getNumberOnGroup(); }
     public void ActionGroup(RaycastHit hit) { _groupManager.ActionGroup(hit); }
     public void AddTarget(SelectableManager controller) { _groupManager.AddTarget(controller); }
     public void DoABuild(int nb, RaycastHit hit) { _groupManager.DoABuild(nb, hit); }
@@ -55,7 +55,7 @@ public class SelectManager : MonoBehaviour
     public void PatrouilleOrder(Vector3 point) { _groupManager.PatrouilleOrder(point); }
     public void AttackingOnTravel(Vector3 point) { _groupManager.AttackingOnTravel(point); }
     public void TenirPositionOrder() { _groupManager.TenirPositionOrder(); }
-    public List<EntityController> getSelectList() { return _groupManager.getSelectList(); }
+    public List<EntityController> GetSelectList() { return _groupManager.getSelectList(); }
     public void MooveOnFormation() { _groupManager.ReverseFormation(); }
 }
 

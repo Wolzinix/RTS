@@ -61,23 +61,24 @@ public class UiGestioneur : MonoBehaviour
 
     private void ActualiseColorUi(SelectableManager entity)
     {
-        if (entity.gameObject.GetComponent<SelectableManager>())
+        if (entity.gameObject.GetComponent<ProductBuildingController>())
+        {
+            if (entity.CompareTag("Allie")) { entityUi.GetComponentInChildren<Image>().color = Color.blue; }
+            else if (entity.CompareTag("ennemie")) { entityUi.GetComponentInChildren<Image>().color = Color.black; }
+            else { entityUi.GetComponentInChildren<Image>().color = Color.gray; }
+        }
+        else if(entity.gameObject.GetComponent<SelectableManager>())
         {
             if (entity.CompareTag("Allie")) { entityUi.GetComponentInChildren<Image>().color = Color.green; }
             else if (entity.CompareTag("ennemie")) { entityUi.GetComponentInChildren<Image>().color = Color.red; }
             else { entityUi.GetComponentInChildren<Image>().color = Color.grey; }
         }
-        else if (entity.gameObject.GetComponent<ProductBuildingController>())
-        {
-            if (entity.CompareTag("Allie")) { entityUi.GetComponentInChildren<Image>().color = Color.blue; }
-            else if (entity.CompareTag("ennemie")) { entityUi.GetComponentInChildren<Image>().color = Color.black; }
-            else { entityUi.GetComponentInChildren<Image>().color = Color.grey; }
-        }
+        
     }
 
     public void ActualiseUi(SelectableManager entity)
     {
-        NoUi.gameObject.SetActive(false);
+        NoUi.SetActive(false);
         ActualiseEntityUI(entity);
 
         if (entity.gameObject.GetComponent<AggressifEntityManager>())
@@ -122,11 +123,19 @@ public class UiGestioneur : MonoBehaviour
 
     public void AddOnGroupUi(SelectableManager entity)
     {
-        NoUi.gameObject.SetActive(false);
-        groupUi.gameObject.SetActive(true);
-        orderUi.gameObject.SetActive(true);
-        groupUi.AddEntity(entity);
-        orderUi.SetEntity(entity.gameObject);
+        if(!entity.GetComponent<ProductBuildingController>())
+        {
+            NoUi.SetActive(false);
+            groupUi.gameObject.SetActive(true);
+            orderUi.gameObject.SetActive(true);
+            groupUi.AddEntity(entity);
+            orderUi.SetEntity(entity.gameObject);
+        }
+        else
+        {
+            DesactiveUi();
+            ActualiseUi(entity);
+        }
     }
 
     public void DesactiveUi()
@@ -134,7 +143,7 @@ public class UiGestioneur : MonoBehaviour
         entityUi.gameObject.SetActive(false);
         groupUi.gameObject.SetActive(false);
         orderUi.gameObject.SetActive(false);
-        NoUi.gameObject.SetActive(true);
+        NoUi.SetActive(true);
         buildingUi.gameObject.SetActive(false);
         buildUI.gameObject.SetActive(false);
     }
