@@ -2223,9 +2223,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d0ddf664e3c394c85eec8ca5d41ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UI: {fileID: 1066391288}
-  _FinalScreen: {fileID: 176229974}
-  IsPlayer: 1
+  succes:
+    m_PersistentCalls:
+      m_Calls: []
+  failled:
+    m_PersistentCalls:
+      m_Calls: []
+  NeedToBeProtect: 0
 --- !u!1001 &856326347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2948,6 +2952,73 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9136834619462183449, guid: c701cd0af9c614b4a878da780f23d7d2, type: 3}
   m_PrefabInstance: {fileID: 970288462}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &972425143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 972425144}
+  - component: {fileID: 972425145}
+  - component: {fileID: 972425146}
+  m_Layer: 0
+  m_Name: Quest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &972425144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972425143}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 109.31166, y: 33.176846, z: 69.5737}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &972425145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972425143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf0d40b393c0d1498cf02ef7298c020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objects:
+  - {fileID: 1548399388}
+  _UI: {fileID: 1066391288}
+  _FinalScreen: {fileID: 176229974}
+  IsPlayer: 0
+--- !u!114 &972425146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972425143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf0d40b393c0d1498cf02ef7298c020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objects:
+  - {fileID: 845599055}
+  _UI: {fileID: 1066391288}
+  _FinalScreen: {fileID: 176229974}
+  IsPlayer: 1
 --- !u!1001 &1026639827
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4263,9 +4334,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d0ddf664e3c394c85eec8ca5d41ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UI: {fileID: 1066391288}
-  _FinalScreen: {fileID: 176229974}
-  IsPlayer: 0
+  succes:
+    m_PersistentCalls:
+      m_Calls: []
+  failled:
+    m_PersistentCalls:
+      m_Calls: []
+  NeedToBeProtect: 1
 --- !u!1 &1550357593
 GameObject:
   m_ObjectHideFlags: 0
@@ -6109,3 +6184,4 @@ SceneRoots:
   - {fileID: 6259177874338565377}
   - {fileID: 664311616}
   - {fileID: 1789134385}
+  - {fileID: 972425144}
