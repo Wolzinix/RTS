@@ -9,7 +9,7 @@ public class PropsSpawningCPU : MonoBehaviour
     [SerializeField] protected int nbOfSpawningItem;
     [SerializeField] protected LayerMask layer;
     [SerializeField, MinMaxRange(0f, 10f)] protected Vector2 sizeMultiplicator;
-    [SerializeField] TerrainLayer terrainLayer;
+    [SerializeField] List<TerrainLayer> terrainLayer;
 
     protected BoxCollider boxCollider;
 
@@ -25,7 +25,7 @@ public class PropsSpawningCPU : MonoBehaviour
             float size = Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
             Quaternion quaternion = Quaternion.Euler(0, Random.Range(0, 180), 0);
 
-            Vector3 position = new Vector3(x, boxCollider.bounds.max.y, z);
+            Vector3 position = new (x, boxCollider.bounds.max.y, z);
             position = RayToTuchGroundWithMapLayer(position);
             if (position == Vector3.zero) { continue; }
             if (Physics.CheckSphere(position, size, ~(layer + gameObject.layer)) == false) {  continue; }
@@ -63,7 +63,7 @@ public class PropsSpawningCPU : MonoBehaviour
                         }
                     }
 
-                    if (terrain.terrainData.terrainLayers[texindex] == terrainLayer) { return new Vector3(pos.x, hit.point.y, pos.z); }
+                    if (terrainLayer.Contains( terrain.terrainData.terrainLayers[texindex] )) { return new Vector3(pos.x, hit.point.y, pos.z); }
                 }
                 else { return new Vector3(pos.x, hit.point.y, pos.z); }
             }

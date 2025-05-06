@@ -216,7 +216,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 506836098649790470, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Name
-      value: PropsSpawning
+      value: PropsSpawningGPUGrass
       objectReference: {fileID: 0}
     - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: layer.m_Bits
@@ -240,7 +240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.x
-      value: 40
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.y
@@ -248,7 +248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.z
-      value: 40
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Center.x
@@ -465,7 +465,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 506836098649790470, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Name
-      value: PropsSpawning (1)
+      value: PropsSpawningGPUBuisson
       objectReference: {fileID: 0}
     - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: layer.m_Bits
@@ -489,7 +489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.x
-      value: 40
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.y
@@ -497,7 +497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.z
-      value: 40
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Center.x
@@ -629,7 +629,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Name
-      value: PropsSpawningCPU
+      value: PropsSpawningCPUTree
       objectReference: {fileID: 0}
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Layer
@@ -657,11 +657,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: sizeMultiplicator.x
-      value: 0.71942437
+      value: 0.60181254
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: sizeMultiplicator.y
-      value: 0.984475
+      value: 0.8668632
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: spawningGameObjects.Array.size
@@ -1202,7 +1202,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Name
-      value: PropsSpawningCPU (1)
+      value: PropsSpawningCPUTree
       objectReference: {fileID: 0}
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Layer
@@ -1230,11 +1230,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: sizeMultiplicator.x
-      value: 0.6815605
+      value: 0.3875293
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: sizeMultiplicator.y
-      value: 1.0602047
+      value: 0.76617354
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: spawningGameObjects.Array.size
@@ -2871,6 +2871,7 @@ Transform:
   m_Children:
   - {fileID: 1085417237}
   - {fileID: 253304495}
+  - {fileID: 1504194583}
   - {fileID: 59571706}
   - {fileID: 696128425}
   m_Father: {fileID: 0}
@@ -2952,6 +2953,112 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5397942525743404464, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
   m_PrefabInstance: {fileID: 1478194677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1504194582
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1469309533}
+    m_Modifications:
+    - target: {fileID: 506836098649790470, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_Name
+      value: PropsSpawningGPUCaillou
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: layer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: nbOfSpawningItem
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObject
+      value: 
+      objectReference: {fileID: 919132149155446097, guid: 38a4b6d95f9815343bc110c4d7632d37, type: 3}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: sizeMultiplicator.x
+      value: 0.13148353
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: sizeMultiplicator.y
+      value: 0.31813702
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_Size.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_Size.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_Size.z
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+--- !u!4 &1504194583 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8583921651904522342, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+  m_PrefabInstance: {fileID: 1504194582}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1547322194
 PrefabInstance:
