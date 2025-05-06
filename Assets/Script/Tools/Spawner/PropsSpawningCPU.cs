@@ -1,6 +1,8 @@
+using Assets.Script.Tools;
 using LazySquirrelLabs.MinMaxRangeAttribute;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PropsSpawningCPU : MonoBehaviour
@@ -8,8 +10,9 @@ public class PropsSpawningCPU : MonoBehaviour
     [SerializeField] protected List<GameObject> spawningGameObjects;
     [SerializeField] protected int nbOfSpawningItem;
     [SerializeField] protected LayerMask layer;
-    [SerializeField, MinMaxRange(0f, 10f)] protected Vector2 sizeMultiplicator;
+    [SerializeField, MinMaxRange(0f, 3f)] protected Vector2 sizeMultiplicator;
     [SerializeField] List<TerrainLayer> terrainLayer;
+    [SerializeField] int NumberOfTentative;
 
     protected BoxCollider boxCollider;
 
@@ -27,6 +30,17 @@ public class PropsSpawningCPU : MonoBehaviour
 
             Vector3 position = new (x, boxCollider.bounds.max.y, z);
             position = RayToTuchGroundWithMapLayer(position);
+
+            int w = 0;
+            while ((Physics.CheckSphere(position, size, ~(layer + gameObject.layer)) == false || position == Vector3.zero) && w <= NumberOfTentative)
+            {
+                x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
+                z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
+                position = new Vector3(x, boxCollider.bounds.max.y, z);
+                position = RayToTuchGroundWithMapLayer(position);
+                w += 1;
+            }
+
             if (position == Vector3.zero) { continue; }
             if (Physics.CheckSphere(position, size, ~(layer + gameObject.layer)) == false) {  continue; }
 
