@@ -912,6 +912,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
       value: ennemie
       objectReference: {fileID: 0}
@@ -1813,6 +1817,14 @@ PrefabInstance:
       value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
+      propertyPath: terrainLayer.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
+      propertyPath: terrainLayer.Array.data[0]
+      value: 
+      objectReference: {fileID: 8574412962073106934, guid: d86ed3a647f18934b9d9ad46668cf2d8, type: 2}
+    - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: spawningGameObjects.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -1900,7 +1912,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1835630373064345868, guid: 5b09689fbc4e0e24c8ce45be0db20e20, type: 3}
       propertyPath: SceneToload
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2693609067146085600, guid: 5b09689fbc4e0e24c8ce45be0db20e20, type: 3}
       propertyPath: m_Pivot.x
@@ -2116,6 +2128,18 @@ PrefabInstance:
     - target: {fileID: 3103899141600910406, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: MySpawns.Array.data[2].totalStock
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103899141600910406, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: MySpawns.Array.data[0].actualStock
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103899141600910406, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: MySpawns.Array.data[1].actualStock
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103899141600910406, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
+      propertyPath: MySpawns.Array.data[2].actualStock
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5008422394800601497, guid: 5c92e2b50b2238a4fb4179a74a195fdb, type: 3}
       propertyPath: m_Layer
@@ -2941,6 +2965,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 274175779233280446, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: m_TagString
       value: ennemie
       objectReference: {fileID: 0}
@@ -3246,6 +3274,14 @@ PrefabInstance:
       propertyPath: sizeMultiplicator.y
       value: 0.3780337
       objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: terrainLayer.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: terrainLayer.Array.data[0]
+      value: 
+      objectReference: {fileID: 8574412962073106934, guid: d86ed3a647f18934b9d9ad46668cf2d8, type: 2}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.x
       value: 60.600395
@@ -4650,6 +4686,14 @@ PrefabInstance:
       value: 0.6436957
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
+      propertyPath: terrainLayer.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
+      propertyPath: terrainLayer.Array.data[0]
+      value: 
+      objectReference: {fileID: 8574412962073106934, guid: d86ed3a647f18934b9d9ad46668cf2d8, type: 2}
+    - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: spawningGameObjects.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -5625,6 +5669,14 @@ PrefabInstance:
       propertyPath: sizeMultiplicator.y
       value: 0.25362527
       objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: terrainLayer.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: terrainLayer.Array.data[0]
+      value: 
+      objectReference: {fileID: 8574412962073106934, guid: d86ed3a647f18934b9d9ad46668cf2d8, type: 2}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.x
       value: 51
@@ -5975,6 +6027,14 @@ PrefabInstance:
       propertyPath: layer.m_Bits
       value: 264
       objectReference: {fileID: 0}
+    - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
+      propertyPath: terrainLayer.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
+      propertyPath: terrainLayer.Array.data[0]
+      value: 
+      objectReference: {fileID: 8574412962073106934, guid: d86ed3a647f18934b9d9ad46668cf2d8, type: 2}
     - target: {fileID: 6950589629519226855, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.3293571

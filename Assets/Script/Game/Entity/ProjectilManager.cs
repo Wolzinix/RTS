@@ -47,7 +47,7 @@ public class ProjectilManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other != null && other.gameObject == _target.gameObject)
+        if (other && _target && other.gameObject == _target.gameObject)
         {
             _target.TakeDamage(_invoker, _damage);
             if (_invoker) 
