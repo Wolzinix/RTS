@@ -8,7 +8,7 @@ public class RessourceController : MonoBehaviour
     [SerializeField] private int _wood;
 
     RessourceUi _ui;
-    public UnityEvent ressourcesAdd = new UnityEvent();
+    [HideInInspector] public UnityEvent ressourcesAdd = new UnityEvent();
 
     private ControlManager _controlManager;
 

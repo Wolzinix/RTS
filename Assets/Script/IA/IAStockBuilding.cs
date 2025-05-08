@@ -76,7 +76,8 @@ public class IAStockBuilding
 
     public void ActualiseBuilding()
     {
-        foreach (ProductBuildingController building in DicoOfBuilding.Keys)
+        List<ProductBuildingController> productBuildingControllers =  DicoOfBuilding.Keys.ToList();
+        foreach (ProductBuildingController building in productBuildingControllers)
         {
             if (!building)
             {

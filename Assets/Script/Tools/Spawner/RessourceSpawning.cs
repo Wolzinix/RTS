@@ -35,7 +35,7 @@ public class RessourceSpawning : MonoBehaviour
             float multiple = Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
             float x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
             float z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
-            Vector3 position = new Vector3(x, boxCollider.bounds.max.y, z);
+            Vector3 position = new(x, boxCollider.bounds.max.y, z);
             position = RayCast.RaycastForGround(position, LayerMask, boxCollider.size.y);
             int w = 0;
             while((DoAOverlap(position, multiple) > 2 || position == Vector3.zero) && w <= NumberOfTentative)
@@ -48,11 +48,21 @@ public class RessourceSpawning : MonoBehaviour
             }
             if (DoAOverlap(position, multiple) <= 2 && position != Vector3.zero)
             {
-                if (ObjectStorage){ spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation,ObjectStorage.transform)); }
-                else { spawningItems.Add(Instantiate(spawningGameObject, position, gameObject.transform.rotation)); }
+                Quaternion rotation = GetNewRotation();
+                if (ObjectStorage){ spawningItems.Add(Instantiate(spawningGameObject, position, rotation, ObjectStorage.transform)); }
+                else { spawningItems.Add(Instantiate(spawningGameObject, position, rotation)); }
                 spawningItems[spawningItems.Count - 1].transform.localScale *= multiple;
             }
         }
+    }
+
+    private Quaternion GetNewRotation()
+    {
+        Vector3 EuleurRotation = new()
+        {
+            y = Random.Range(0, 360)
+        };
+        return Quaternion.Euler(EuleurRotation);
     }
     private float getSize()
     {

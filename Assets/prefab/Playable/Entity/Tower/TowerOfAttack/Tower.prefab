@@ -194,7 +194,7 @@ MonoBehaviour:
   _entityManager: {fileID: 0}
   _collider: {fileID: 4743134403626252810}
   _navMesh: {fileID: 0}
-  _projectile: {fileID: 6611384894665667933, guid: 064a87588d0069342aa228859eb93adc, type: 3}
+  _projectile: {fileID: 2599406022807975234, guid: 15c5b4688984ebc41a21ecd0f3605c55, type: 3}
   pointOfSpawn: {fileID: 1073617999202765320}
   EntityIsArrive:
     m_PersistentCalls:
