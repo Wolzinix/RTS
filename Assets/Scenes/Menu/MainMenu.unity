@@ -2997,7 +2997,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Name
-      value: PropsSpawningCPU (2)
+      value: PropsSpawningCPUTree
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: sizeMultiplicator.x
@@ -3284,7 +3284,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Name
-      value: PropsSpawningCPU (1)
+      value: PropsSpawningCPUGrass
+      objectReference: {fileID: 0}
+    - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
+      propertyPath: nbOfSpawningItem
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
+      propertyPath: NumberOfTentative
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: sizeMultiplicator.x
@@ -3779,6 +3787,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8315720437648799982, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
+      propertyPath: Target
+      value: 
+      objectReference: {fileID: 2007501140}
+    - target: {fileID: -8315720437648799982, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
       propertyPath: NumberOfEntityToBeSpawn
       value: 2
       objectReference: {fileID: 0}
@@ -3799,8 +3811,12 @@ PrefabInstance:
       value: EntitySpawnerNumber (1)
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 274175779233280446, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
       propertyPath: m_TagString
-      value: ennemie
+      value: Allie
       objectReference: {fileID: 0}
     - target: {fileID: 5397942525743404464, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3847,6 +3863,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
+--- !u!4 &1543375148 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5397942525743404464, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
+  m_PrefabInstance: {fileID: 1543375147}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1601039417
 GameObject:
   m_ObjectHideFlags: 0
@@ -5197,6 +5218,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8315720437648799982, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
+      propertyPath: Target
+      value: 
+      objectReference: {fileID: 1543375148}
+    - target: {fileID: -8315720437648799982, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
       propertyPath: NumberOfEntityToBeSpawn
       value: 2
       objectReference: {fileID: 0}
@@ -5212,13 +5237,21 @@ PrefabInstance:
       propertyPath: _entityToSpawn.Array.data[1]
       value: 
       objectReference: {fileID: 4825870592483654779, guid: 74c5169a7319a1b43ac62d28908863f2, type: 3}
+    - target: {fileID: -5563469412611911171, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
     - target: {fileID: 274175779233280446, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
       propertyPath: m_Name
       value: EntitySpawnerNumber
       objectReference: {fileID: 0}
     - target: {fileID: 274175779233280446, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 274175779233280446, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
       propertyPath: m_TagString
-      value: Allie
+      value: ennemie
       objectReference: {fileID: 0}
     - target: {fileID: 5397942525743404464, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5265,6 +5298,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
+--- !u!4 &2007501140 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5397942525743404464, guid: fa63803ed7d40f94f99421cbed19b6dd, type: 3}
+  m_PrefabInstance: {fileID: 2007501139}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2052144628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5275,7 +5313,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Name
-      value: PropsSpawningCPU
+      value: PropsSpawningCPUFlowers
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: sizeMultiplicator.x
