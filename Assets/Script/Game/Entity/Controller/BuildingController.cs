@@ -69,11 +69,11 @@ public class BuildingController : MonoBehaviour
         if (list.Count != _EnnemieList.Count) { _EnnemieList.RemoveAll(i => !list.Contains(i)); }
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         foreach(SelectableManager entityController in _EnnemieList)
         {
-            if(entityController)
+            if(entityController && entityController.GetComponent<EntityController>())
             {
                 fog.AddToFog(entityController.GetComponent<EntityController>());
             }
