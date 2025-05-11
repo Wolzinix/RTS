@@ -138,6 +138,20 @@ public class UiGestioneur : MonoBehaviour
         }
     }
 
+    public void RemoveOnGroupUi(SelectableManager entity)
+    {
+        if (!entity.GetComponent<ProductBuildingController>())
+        {
+            groupUi.gameObject.SetActive(true);
+            orderUi.gameObject.SetActive(true);
+            groupUi.RemoveEntity(entity);
+            if(groupUi._listOfEntity.Count == 0)
+            {
+                DesactiveUi();
+            }
+        }
+    }
+
     public void DesactiveUi()
     {
         entityUi.gameObject.SetActive(false);

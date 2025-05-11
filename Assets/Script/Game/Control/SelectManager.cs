@@ -44,6 +44,12 @@ public class SelectManager : MonoBehaviour
             _selected.AddSelect(toAdd);
         }
     }
+
+    public void RemoveSelect(SelectableManager toRemove)
+    {
+        if(_groupManager.getSelectList().Contains(toRemove.GetComponent<EntityController>())) { _groupManager.RemoveSelect(toRemove); }
+        if(_selected.getSelectList().Contains(toRemove.GetComponent<EntityController>())) { _selected.RemoveSelect(toRemove); }
+    }
     public void SetAddingMoreThanOne(bool val) { _groupManager.setAddingMoreThanOne(val); }
     public bool GetAddingMoreThanOne() { return _groupManager.getAddingMoreThanOne(); }
     public List<EntityController> GetSelectedObject() { return _groupManager.GetSelectedObject(); }

@@ -49,7 +49,7 @@ public class GroupManager
 
     public void SetAllieTag(string tag) { _alliTag = tag; }
     public string GetAllieTag() { return _alliTag; }
-    public Vector3 getCenterofGroup()
+    public Vector3 GetCenterofGroup()
     {
         _CenterOfGroup = new Vector3();
         foreach (EntityController controller in _selectedObject)
@@ -186,7 +186,7 @@ public class GroupManager
         if (!SelectedObjectIsEmpty())
         {
             VerifyIfEveryBodyIsAlive();
-            getCenterofGroup();
+            GetCenterofGroup();
             dontGoOnPoint = IsOnFormation;
             foreach (EntityController i in _selectedObject)
             {

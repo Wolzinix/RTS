@@ -131,7 +131,7 @@ public class IAGroupManager
     public void AddEntityToGroup(GroupManager group, EntityController entity)
     {
         entity.ClearAllOrder();
-        entity.AddAggressivePath(group.getCenterofGroup());
+        entity.AddAggressivePath(group.GetCenterofGroup());
 
         group.AddSelect(entity.gameObject.GetComponent<AggressifEntityManager>());
 
@@ -187,7 +187,7 @@ public class IAGroupManager
         {
             if (ThenearsetEntity == null) { ThenearsetEntity = Thenearset; }
 
-            if (Vector3.Distance(point, ThenearsetEntity.getCenterofGroup()) > Vector3.Distance(point, Thenearset.getCenterofGroup()))
+            if (Vector3.Distance(point, ThenearsetEntity.GetCenterofGroup()) > Vector3.Distance(point, Thenearset.GetCenterofGroup()))
             {
                 ThenearsetEntity = Thenearset;
             }
@@ -268,7 +268,7 @@ public class IAGroupManager
         foreach (EntityController entity in group.getSelectList())
         {
             entity.ClearAllOrder();
-            entity.AddAggressivePath(group.getCenterofGroup());
+            entity.AddAggressivePath(group.GetCenterofGroup());
         }
     }
     public GroupManager SendRenfortToBuilding(BuildingIA building, Vector3 location)
@@ -290,7 +290,7 @@ public class IAGroupManager
 
     private Vector3 GetPosWithSecurity(GroupManager group, Vector3 location)
     {
-        Vector3 centerOfGroup = group.getCenterofGroup();
+        Vector3 centerOfGroup = group.GetCenterofGroup();
 
         float angle = Vector3.Angle(centerOfGroup, location);
         angle = Vector3.Cross(centerOfGroup, location).y > 0 ? angle : 360 - angle;
@@ -355,7 +355,7 @@ public class IAGroupManager
                 if (groupeARejoindre == null) { groupeARejoindre = group; }
                 else
                 {
-                    if (Vector3.Distance(groupeARejoindre.getCenterofGroup(), entity.gameObject.transform.position) > Vector3.Distance(group.getCenterofGroup(), entity.gameObject.transform.position))
+                    if (Vector3.Distance(groupeARejoindre.GetCenterofGroup(), entity.gameObject.transform.position) > Vector3.Distance(group.GetCenterofGroup(), entity.gameObject.transform.position))
                     {
                         groupeARejoindre = group;
                     }
@@ -370,7 +370,7 @@ public class IAGroupManager
         {
             if (group != null)
             {
-                if (Vector3.Distance(group.getCenterofGroup(), entity.gameObject.transform.position) > Vector3.Distance(group2.getCenterofGroup(), entity.gameObject.transform.position))
+                if (Vector3.Distance(group.GetCenterofGroup(), entity.gameObject.transform.position) > Vector3.Distance(group2.GetCenterofGroup(), entity.gameObject.transform.position))
                 {
                     return group2;
                 }
