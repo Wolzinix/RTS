@@ -46,11 +46,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Stunt
-  sprite: {fileID: 21300000, guid: 05b75523bdb93dc459379f2b7b3a5eee, type: 3}
+  sprite: {fileID: 21300000, guid: 279688e1954deca48a9cfb168051613a, type: 3}
   cooldown: 3
   actualTime: 0
   ready: 1
   range: 2
+  ActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2522308757911643850
 MonoBehaviour:
   m_ObjectHideFlags: 0
