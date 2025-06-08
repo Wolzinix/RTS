@@ -310,10 +310,20 @@ public class ControlManager : MonoBehaviour
                 if (cadre)
                 {
                     ResetUiOrder();
-                    _selectManager.ClearList();
+                    if(!_multiSelectionIsActive)
+                    {
+                        _selectManager.ClearList();
 
-                    _uiGestioneur.ActualiseUi(cadre.GetEntity());
-                    _selectManager.AddSelect(cadre.GetEntity().GetComponent<SelectableManager>());
+                        _uiGestioneur.ActualiseUi(cadre.GetEntity());
+                        _selectManager.AddSelect(cadre.GetEntity().GetComponent<SelectableManager>());
+                    }
+                    else
+                    {
+                        _selectManager.RemoveSelect(cadre.GetEntity().GetComponent<SelectableManager>());
+
+                        _uiGestioneur.RemoveOnGroupUi(cadre.GetEntity());
+                    }
+                   
                 }
             }
         }

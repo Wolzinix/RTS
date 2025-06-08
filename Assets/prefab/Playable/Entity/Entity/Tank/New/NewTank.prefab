@@ -336,7 +336,7 @@ MonoBehaviour:
   ressources: {fileID: 0}
   attack: 1
   attackSpeed: 1
-  range: 2
+  range: 1.5
   effect: {fileID: 1477256233637486386}
   DoAnAttack:
     m_PersistentCalls:

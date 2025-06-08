@@ -72,6 +72,8 @@ public class EntityController : BuildingController
         }
     }
 
+    protected override void OnDestroy() { }
+
     protected override void ClearListOfAlly(List<GameObject> list)
     {
         if (list.Count != _listOfalliesOnRange.Count)

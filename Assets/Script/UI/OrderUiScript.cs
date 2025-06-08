@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -15,14 +16,24 @@ public class OrderUiScript : MonoBehaviour
 
     [SerializeField] List<Button> _ListOfButton;
     [SerializeField] private InputActionReference RightClick;
+    private List<CapacityController> listOfCapacity = new();
 
     private void Start()
     {
         RightClick.action.started += DoRightClick;
     }
+    private void RemoveListenerFromCapacity()
+    {
+        foreach(CapacityController capacity in listOfCapacity)
+        {
+            capacity.ActivateEvent.RemoveListener(ActualiseACapacity);
+        }
+    }
     public void SetEntity(GameObject entity)
     {
         _entity = entity;
+        RemoveListenerFromCapacity();
+        listOfCapacity = _entity.GetComponentsInChildren<CapacityController>().ToList();
         ActualiseUi();
     }
 
@@ -33,12 +44,12 @@ public class OrderUiScript : MonoBehaviour
 
         if(_entity.GetComponent<TroupeManager>())
         {
-            List<CapacityController> listOfCapacaity = _entity.GetComponentsInChildren<CapacityController>().ToList();
+            StopAllCoroutines();
             foreach (Button button in _ListOfButton)
             {
-                if (_ListOfButton.IndexOf(button) < listOfCapacaity.Count)
+                if (_ListOfButton.IndexOf(button) < listOfCapacity.Count)
                 {
-                    CapacityController capacity = listOfCapacaity[_ListOfButton.IndexOf(button)];
+                    CapacityController capacity = listOfCapacity[_ListOfButton.IndexOf(button)];
 
                     button.gameObject.SetActive(true);
                     button.GetComponentInChildren<TMP_Text>().text = capacity.Name;
@@ -52,6 +63,8 @@ public class OrderUiScript : MonoBehaviour
                         button.GetComponent<Button>().enabled = true;
                         button.onClick.RemoveAllListeners();
                         button.onClick.AddListener(delegate { FindAnyObjectByType<ControlManager>().CapacityOrder(capacity); });
+                        StartCoroutine(ChargeBarOfAbility(button.GetComponentsInChildren<Image>()[1], capacity));
+                        capacity.ActivateEvent.AddListener(ActualiseACapacity);
                     }
                 }
                 else
@@ -72,6 +85,12 @@ public class OrderUiScript : MonoBehaviour
        
     }
 
+    private void ActualiseACapacity(CapacityController capacity)
+    {
+        Button button = _ListOfButton[listOfCapacity.IndexOf(capacity)];
+        StartCoroutine(ChargeBarOfAbility(button.GetComponentsInChildren<Image>()[1], capacity));
+    }
+
     public void GoToBuildUi()
     {
         _buildUi.gameObject.SetActive(true);
@@ -81,8 +100,8 @@ public class OrderUiScript : MonoBehaviour
 
     private List<RaycastResult> DoUiRayCast()
     {
-        PointerEventData eventData = new PointerEventData(EventSystem.current);
-        List<RaycastResult> results = new List<RaycastResult>();
+        PointerEventData eventData = new (EventSystem.current);
+        List<RaycastResult> results = new ();
         eventData.position = Input.mousePosition;
         EventSystem.current.RaycastAll(eventData, results);
 
@@ -108,5 +127,21 @@ public class OrderUiScript : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator ChargeBarOfAbility(Image Imagebutton, CapacityController capacity)
+    {
+        float progressionValue =  capacity.actualTime / capacity.GetCooldown();
+        yield return new WaitForFixedUpdate();
+
+        while (progressionValue < 1 && capacity.actualTime != 0)
+        {
+            Imagebutton.fillAmount = progressionValue;
+            progressionValue = capacity.actualTime / capacity.GetCooldown();
+            yield return new WaitForEndOfFrame();
+        }
+
+        Imagebutton.fillAmount = 1;
+        yield return null;
     }
 }

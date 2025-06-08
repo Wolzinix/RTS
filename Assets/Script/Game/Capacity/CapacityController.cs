@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class CapacityController : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public abstract class CapacityController : MonoBehaviour
     protected EntityController _controller;
     protected TroupeManager _troupeManager;
     protected NavMeshController _navMeshController;
+    public UnityEvent<CapacityController> ActivateEvent;
 
     protected virtual void Start()
     {
@@ -30,17 +32,20 @@ public abstract class CapacityController : MonoBehaviour
 
         if (actualTime >= cooldown) { ready = true; }
     }
+    public float GetCooldown() { return cooldown; }
     protected virtual void Apply()
     {
         if (gameObject && ready)
         {
             if(entityAffected)
             {
+                ActivateEvent.Invoke(this);
                 if (Vector3.Distance(transform.position, entityAffected.transform.position) <= _navMeshController.HaveStoppingDistance() + 0.5 + range)
                 {
                     DoEffect();
                     ready = false;
                     actualTime = 0;
+
                 }
                 else
                 {

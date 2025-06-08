@@ -36,8 +36,11 @@ public class AggressifEntityManager : SelectableManager
 
     public void AddToRessourcesKilledEntity(int gold, int wood)
     {
-        ressources.AddGold(gold);
-        ressources.AddWood(wood);
+        if(ressources)
+        {
+            ressources.AddGold(gold);
+            ressources.AddWood(wood);
+        }
     }
 
     public float Range

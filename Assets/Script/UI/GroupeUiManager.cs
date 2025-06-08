@@ -40,6 +40,19 @@ public class GroupeUiManager : MonoBehaviour
         CleanAffichage();
     }
 
+    public void RemoveEntity(SelectableManager entity)
+    {
+        int index = _listOfEntity.IndexOf(entity);
+        if (index != -1)
+        {
+            Destroy(_listOfCadreControllers[index]);
+            _listOfCadreControllers.RemoveAt(index);
+            _listOfEntity.Remove(entity);
+        }
+        SortAffichage();
+        CleanAffichage();
+    }
+
     private void CleanAffichage()
     {
         if (_listOfCadreControllers.Count == 0) { gameObject.SetActive(false); }

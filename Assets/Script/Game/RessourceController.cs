@@ -3,7 +3,6 @@ using UnityEngine.Events;
 
 public class RessourceController : MonoBehaviour
 {
-
     [SerializeField] private int _gold;
     [SerializeField] private int _wood;
 
@@ -21,7 +20,6 @@ public class RessourceController : MonoBehaviour
             _ui.AddWood(_wood);
             _ui.AddGold(_gold);
         }
-
     }
 
     public void AddGold(int gold)
