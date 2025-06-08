@@ -14,8 +14,6 @@ public class SelectableManager : EntityManager
 
     [Header("Attribute")]
     [SerializeField] private float seeRange = 3;
-    [Header("Drop")]
-    [SerializeField] protected float xpToGive = 0.5f;
 
 
     public float SeeRange
@@ -36,26 +34,10 @@ public class SelectableManager : EntityManager
     public override void TakeDamage(AggressifEntityManager entity, float nb)
     {
         base.TakeDamage(entity, nb);
-
-        changeStats.Invoke();
-
-        if (hp <= 0)
-        {
-            entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
-            if (entity.GetType() == typeof(TroupeManager)) { TroupeManager c = (TroupeManager)entity; c.AddXp(xpToGive); }
-            Death();
-        }
     }
     public override void TakeDamage(float nb)
     {
         base.TakeDamage(nb);
-
-        changeStats.Invoke();
-
-        if (hp <= 0)
-        {
-            Death();
-        }
     }
 
     public override void AddHp(float hp)
@@ -66,7 +48,6 @@ public class SelectableManager : EntityManager
 
     override protected void Death()
     {
-        base.Death();
         if (hp <= 0)
         {
             deathEvent.Invoke(this);

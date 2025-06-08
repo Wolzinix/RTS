@@ -9,16 +9,8 @@ public class RessourceManager : EntityManager
     }
     override public void TakeDamage(AggressifEntityManager entity, float nb)
     {
+        if (_animator) { StartCoroutine(DoHarvestAnimation()); }
         base.TakeDamage(entity, nb);
-
-        changeStats.Invoke();
-        if (_animator) { StartCoroutine(DoHarvestAnimation());}
-
-        if (hp <= 0)
-        {
-            Death();
-            entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
-        }
     }
     IEnumerator DoHarvestAnimation()
     {
@@ -35,7 +27,6 @@ public class RessourceManager : EntityManager
     }
     override protected void Death()
     {
-        base.Death();
         if (hp <= 0)
         {
             if (_animator)

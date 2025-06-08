@@ -19,7 +19,7 @@ public class EntityManager : MonoBehaviour
     [Header("Drop")]
     public int GoldCost = 1;
     public int WoodCost = 1;
-
+    [SerializeField] protected float xpToGive = 0.0f;
 
     [Header("Sprite")]
     [SerializeField] private SpriteRenderer sprite;
@@ -45,7 +45,7 @@ public class EntityManager : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         _maxHp = hp;
-        size = getSize();
+        size = GetSize();
 
     }
 
@@ -64,6 +64,7 @@ public class EntityManager : MonoBehaviour
     public void SetHp(float nb)
     {
         hp = nb;
+        changeStats.Invoke();
         Death();
     }
 
@@ -77,19 +78,37 @@ public class EntityManager : MonoBehaviour
     virtual public void AddHp(float nb)
     {
         hp += nb;
-        Death();
     }
     virtual public void TakeDamage(AggressifEntityManager entity, float nb)
     {
-        hp -= (nb - defense <= 0) ? 1 : (nb - defense);
+        AddHp(-((nb - defense <= 0) ? 1 : (nb - defense)));
+
+        if (hp <= 0)
+        {
+            entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
+            if (entity.GetType() == typeof(TroupeManager)) { TroupeManager c = (TroupeManager)entity; c.AddXp(xpToGive); }
+        }
+
+        Death();
     }
 
     virtual public void TakeDamage(float nb)
     {
-        hp -= (nb - defense <= 0) ? 1 : (nb - defense);
+        AddHp(-((nb - defense <= 0) ? 1 : (nb - defense)));
+
+        if (hp <= 0)
+        {
+            Death();
+        }
     }
 
-    virtual protected void Death() { }
+    virtual protected void Death() 
+    {
+        if(hp <=0)
+        {
+            Destroy(this);
+        }
+    }
 
     public void OnSelected() { sprite.gameObject.SetActive(true); }
     public void OnDeselected() { sprite.gameObject.SetActive(false); }
@@ -110,7 +129,7 @@ public class EntityManager : MonoBehaviour
         return ressource.CompareGold(GoldCost) && ressource.CompareWood(WoodCost);
     }
 
-    private float getSize()
+    private float GetSize()
     {
         float taille = 0;
         float nb = 0;
