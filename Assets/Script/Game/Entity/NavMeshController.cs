@@ -39,11 +39,11 @@ public class NavMeshController : MonoBehaviour
         _navMesh.ActivateCurrentOffMeshLink(true);
         _stoppingDistance = SetStoppingDistance();
     }
-    public bool notOnTraject()
+    public bool NotOnTraject()
     {
-        return !notAtLocation() || _destination == Vector3.zero;
+        return !NotAtLocation() || _destination == Vector3.zero;
     }
-    public bool notAtLocation()
+    public bool NotAtLocation()
     {
         bool isnotarrived = Vector3.Distance(transform.position, _destination) > _stoppingDistance && _destination != Vector3.zero;
         return isnotarrived;
@@ -79,11 +79,23 @@ public class NavMeshController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (Vector3.Distance(transform.position, _destination) > _stoppingDistance && _destination != Vector3.zero) 
+        if (_destination != Vector3.zero && Vector3.Distance(transform.position, _destination) > _stoppingDistance) 
         { 
-            SetNextPosition(); 
+            SetNextPosition();
         }
         else { StopPath(); }
+    }
+
+    private void ChangeRotation()
+    {
+        transform.LookAt(new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z));
+        //transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
+        
+    }
+    private void Move()
+    {
+        if (_rb.velocity.magnitude <= _speed) { _rb.AddRelativeForce(Vector3.forward * _speed, ForceMode.VelocityChange); }
+        else { _rb.velocity /= 4; }
     }
 
     private void SetNextPosition()
@@ -91,10 +103,9 @@ public class NavMeshController : MonoBehaviour
         GetNewPath(_destination);
         if (_navPath.corners.Length > 1)
         {
-            transform.LookAt(new Vector3(_navPath.corners[1].x, transform.position.y, _navPath.corners[1].z));
-            transform.rotation = new Quaternion(0,transform.rotation.y, 0, transform.rotation.w);
-            if (_rb.velocity.magnitude <= _speed) { _rb.AddRelativeForce(Vector3.forward * _speed,ForceMode.VelocityChange); }
-            else  { _rb.velocity /= 4; }
+            ChangeRotation();
+            Move();
+
             _navMesh.enabled = false;
         }
     }
@@ -112,8 +123,7 @@ public class NavMeshController : MonoBehaviour
                 _navMesh.CalculatePath(point, _navPath);
                 if (_navPath.corners.Length < 1)
                 {
-                    NavMeshHit hit;
-                    if (NavMesh.SamplePosition(point, out hit, 5, NavMesh.AllAreas))
+                    if (NavMesh.SamplePosition(point, out NavMeshHit hit, 5, NavMesh.AllAreas))
                     {
                         _navMesh.CalculatePath(hit.position, _navPath);
                     }

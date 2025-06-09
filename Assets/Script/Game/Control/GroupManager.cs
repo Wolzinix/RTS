@@ -34,7 +34,7 @@ public class GroupManager
         {
             if (!mooving)
             {
-                mooving = controller.GetComponent<NavMeshController>().notAtLocation();
+                mooving = controller.GetComponent<NavMeshController>().NotAtLocation();
                 break;
             }
         }

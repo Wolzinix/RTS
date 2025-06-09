@@ -23,7 +23,7 @@ public class PatrolState : StateClassEntity
     {
         if (controller.groupManager != null && !controller.groupManager.EveryOneIsStop())
         {
-            if (navMeshController.notOnTraject())
+            if (navMeshController.NotOnTraject())
             {
                 if (_patrolIteration == _ListOfDestination.Count)
                 {

@@ -234,7 +234,7 @@ public class EntityController : BuildingController
     }
     private void AddAggresseurTarget(AggressifEntityManager entityToAggresse)
     {
-        if (_navMesh && _navMesh.notOnTraject() && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState)) || _navMesh == null) 
+        if (_navMesh && _navMesh.NotOnTraject() && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState)) || _navMesh == null) 
         {
             AddTarget(entityToAggresse); 
         }

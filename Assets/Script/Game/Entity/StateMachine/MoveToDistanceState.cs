@@ -22,7 +22,7 @@ public class MoveToDistanceState : MoveState
         }
         if (navMeshController != null)
         {
-            if (navMeshController.notOnTraject())
+            if (navMeshController.NotOnTraject())
             {
                 navMeshController.GetNewPath(destination);
                 controller.moving = true;

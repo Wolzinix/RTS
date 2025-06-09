@@ -66,10 +66,10 @@ public class MapMod : MonoBehaviour
     {
         if (_isMapMod)
         {
-            SkinnedMeshRenderer skinned = entity.CurrentShape.GetComponentInChildren<SkinnedMeshRenderer>();
-            MeshRenderer renderer = entity.CurrentShape.GetComponentInChildren<MeshRenderer>();
-            if (skinned && skinned.enabled ||
-                renderer && renderer.enabled)
+            if (entity.CurrentShape && 
+                (entity.CurrentShape.GetComponentInChildren<SkinnedMeshRenderer>() && entity.CurrentShape.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
+                 entity.CurrentShape.GetComponentInChildren<MeshRenderer>() && entity.CurrentShape.GetComponentInChildren<MeshRenderer>().enabled)
+               )
             {
                 entity.OnSelected();
                 return;
