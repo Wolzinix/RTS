@@ -2252,7 +2252,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2053497312396262413, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Size.x
@@ -2276,7 +2276,7 @@ PrefabInstance:
       objectReference: {fileID: 8574412962073106934, guid: 26f6c162011be384c8691f297d663742, type: 2}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: nbOfSpawningItem
-      value: 1500
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 3964303551601245899, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: NumberOfTentative
@@ -3959,7 +3959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1990196840
 Transform:
   m_ObjectHideFlags: 0

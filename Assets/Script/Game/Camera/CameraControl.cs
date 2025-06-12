@@ -49,7 +49,11 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
-        MoveCamera();
+        if(moveCameraInput.action.ReadValue<Vector2>().y != 0 || moveCameraInput.action.ReadValue<Vector2>().x != 0 )
+        {
+            MoveCamera();
+        }
+        else { StopMoving(); }
 
         if (_rotationActivated) { RotateCameraY(); }
     }
@@ -99,7 +103,7 @@ public class CameraControl : MonoBehaviour
     }
     private void MoveCamera()
     {
-        Vector3   newPosition = new Vector3(moveCameraInput.action.ReadValue<Vector2>().y * transform.up.x + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.x
+        Vector3 newPosition = new (moveCameraInput.action.ReadValue<Vector2>().y * transform.up.x + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.x
             , 0
             , moveCameraInput.action.ReadValue<Vector2>().y * transform.up.z + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.z);
 

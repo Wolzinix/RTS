@@ -156,11 +156,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2836927806221297936}
+  - component: {fileID: 286662898857509048}
   - component: {fileID: 1759598700306966002}
   - component: {fileID: 2863401468427166003}
   - component: {fileID: 3096291405159241451}
   m_Layer: 6
-  m_Name: TreeLOD
+  m_Name: TreeLOD 1
   m_TagString: neutral
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,6 +184,35 @@ Transform:
   - {fileID: 9074669098113270895}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &286662898857509048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8398203929891896425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb6476be16e3ab4e98d784044e3a862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 10
+  defense: 0
+  entityType: 0
+  size: 0
+  GoldAmount: 0
+  WoodAmount: 5
+  GoldCost: 1
+  WoodCost: 1
+  xpToGive: 0
+  sprite: {fileID: 7209951177683395082}
+  spriteImage: {fileID: 7482667652216324306, guid: 408f369d49327ef439de9a2e3502538a, type: 3}
+  Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
+  Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
+  Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
+  changeStats:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!208 &1759598700306966002
 NavMeshObstacle:
   m_ObjectHideFlags: 0
