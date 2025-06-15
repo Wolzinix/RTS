@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 3254557315493281956}
   - component: {fileID: 875194867085719141}
   m_Layer: 6
-  m_Name: NewBuilder
+  m_Name: Doro
   m_TagString: Allie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
