@@ -1,0 +1,155 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7274211612438156116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 262587181575498227}
+  - component: {fileID: 4728761841849600146}
+  m_Layer: 0
+  m_Name: SunFlower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &262587181575498227
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7274211612438156116}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 8855022453345816861}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &4728761841849600146
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7274211612438156116}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.2988049
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8855591230155681010}
+  - screenRelativeHeight: 0.103929944
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2917723033831593154}
+  - screenRelativeHeight: 0.027655363
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8890957895112177482}
+  m_Enabled: 1
+--- !u!1001 &9037006448562042614
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 262587181575498227}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7323324212551438821, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_Name
+      value: SunFlowerLOD
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157523768465520445, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737492557672605000, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+--- !u!23 &2917723033831593154 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -3092793305869213132, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+  m_PrefabInstance: {fileID: 9037006448562042614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8855022453345816861 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+  m_PrefabInstance: {fileID: 9037006448562042614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8855591230155681010 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 543955005590870532, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+  m_PrefabInstance: {fileID: 9037006448562042614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8890957895112177482 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8787962797487439428, guid: 539325fa9f3fdb842ac2d387a9eca5bf, type: 3}
+  m_PrefabInstance: {fileID: 9037006448562042614}
+  m_PrefabAsset: {fileID: 0}

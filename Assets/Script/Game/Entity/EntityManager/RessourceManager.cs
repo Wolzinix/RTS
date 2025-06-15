@@ -3,25 +3,36 @@ using UnityEngine;
 
 public class RessourceManager : EntityManager
 {
+    public GPUInstancing GPUInstancing { get; set; }
+    [SerializeField] GameObject Mesh;
     override protected void Awake()
     {
         base.Awake();
     }
+
+    public void AddInMatrice ()
+    {
+        GPUInstancing.AddInMatrice(transform.position, transform.rotation, transform.localScale *100);
+        if (Mesh)
+        {
+            Mesh.SetActive(false);
+        }
+    }
     override public void TakeDamage(AggressifEntityManager entity, float nb)
     {
+        if (_animator) { StartCoroutine(DoHarvestAnimation()); }
         base.TakeDamage(entity, nb);
-
-        changeStats.Invoke();
-        if (_animator) { StartCoroutine(DoHarvestAnimation());}
-
-        if (hp <= 0)
-        {
-            Death();
-            entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
-        }
     }
     IEnumerator DoHarvestAnimation()
     {
+        if (GPUInstancing) 
+        { 
+            GPUInstancing.RemoveFromMatrice(transform.position, transform.rotation, transform.localScale);
+            if (Mesh)
+            {
+                Mesh.SetActive(true);
+            }
+        }
         _animator.SetBool("Harvest", true);
         if (_animator)
         {
@@ -32,10 +43,14 @@ public class RessourceManager : EntityManager
             yield return new WaitForSeconds(0);
         }
         _animator.SetBool("Harvest", false);
+
+        if (GPUInstancing) 
+        {
+            AddInMatrice();
+        }
     }
     override protected void Death()
     {
-        base.Death();
         if (hp <= 0)
         {
             if (_animator)
@@ -43,6 +58,10 @@ public class RessourceManager : EntityManager
                 _animator.SetBool("Harvest", false);
                 _animator.SetBool("IsDead", true);
                 _animator.Play("Base Layer.TreeFall");
+            }
+            if (GPUInstancing)
+            {
+                GPUInstancing.RemoveFromMatrice(transform.position, transform.rotation, transform.localScale);
             }
             StartCoroutine(DoDeathAnimation());
         }

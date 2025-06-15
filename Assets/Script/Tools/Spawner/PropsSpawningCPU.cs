@@ -13,10 +13,11 @@ public class PropsSpawningCPU : MonoBehaviour
     [SerializeField, MinMaxRange(0f, 3f)] protected Vector2 sizeMultiplicator;
     [SerializeField] List<TerrainLayer> terrainLayer;
     [SerializeField] int NumberOfTentative;
+    [SerializeField] GPUInstancing GPUInstancing;
 
     protected BoxCollider boxCollider;
 
-    public int nbOfObject;
+    [HideInInspector] public int nbOfObject;
     public virtual void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
@@ -45,8 +46,15 @@ public class PropsSpawningCPU : MonoBehaviour
             if (Physics.CheckSphere(position, size, ~(layer + gameObject.layer)) == false) {  continue; }
 
             GameObject go = Instantiate(spawningGameObjects[Random.Range(0, spawningGameObjects.Count)], position,quaternion, gameObject.transform);
+            RessourceManager goRM = go.GetComponent<RessourceManager>();
+            
             go.transform.localScale *= size;
             go.layer = gameObject.layer;
+            if (goRM && GPUInstancing)
+            {
+                goRM.GPUInstancing = GPUInstancing;
+                goRM.AddInMatrice();
+            }
             nbOfObject += 1;
         }
     }

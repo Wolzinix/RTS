@@ -26,7 +26,7 @@ public class MoveState : StateClassEntity
         }
         if (navMeshController != null)
         {
-            if (navMeshController.notOnTraject())
+            if (navMeshController.NotOnTraject())
             {
                 navMeshController.GetNewPath(destination);
                 controller.moving = true;

@@ -20,7 +20,7 @@ public class FollowState : StateClassEntity
     {
         if (target && navMeshController)
         {
-            if (navMeshController.notOnTraject())
+            if (navMeshController.NotOnTraject())
             {
                 if (Vector3.Distance(controller.gameObject.transform.position, target.transform.localPosition) >= navMeshController.HaveStoppingDistance() + 0.5)
                 {
