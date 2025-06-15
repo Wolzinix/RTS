@@ -8,7 +8,7 @@ public class GPUInstancing : MonoBehaviour
     [SerializeField] int NbOfObject;
     RenderParams rp;
 
-    private void Start()
+    private void Awake()
     {
         matrice = new Matrix4x4[NbOfObject];
         rp = new RenderParams(material);

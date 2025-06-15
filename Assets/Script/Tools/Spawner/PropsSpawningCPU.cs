@@ -17,7 +17,7 @@ public class PropsSpawningCPU : MonoBehaviour
 
     protected BoxCollider boxCollider;
 
-    public int nbOfObject;
+    [HideInInspector] public int nbOfObject;
     public virtual void Start()
     {
         boxCollider = GetComponent<BoxCollider>();

@@ -8,15 +8,15 @@ public class RessourceManager : EntityManager
     override protected void Awake()
     {
         base.Awake();
-        if(Mesh && GPUInstancing)
-        {
-            Mesh.SetActive(false);
-        }
     }
 
     public void AddInMatrice ()
     {
         GPUInstancing.AddInMatrice(transform.position, transform.rotation, transform.localScale *100);
+        if (Mesh)
+        {
+            Mesh.SetActive(false);
+        }
     }
     override public void TakeDamage(AggressifEntityManager entity, float nb)
     {
@@ -47,10 +47,6 @@ public class RessourceManager : EntityManager
         if (GPUInstancing) 
         {
             AddInMatrice();
-            if (Mesh)
-            {
-                Mesh.SetActive(false);
-            }
         }
     }
     override protected void Death()
@@ -62,6 +58,10 @@ public class RessourceManager : EntityManager
                 _animator.SetBool("Harvest", false);
                 _animator.SetBool("IsDead", true);
                 _animator.Play("Base Layer.TreeFall");
+            }
+            if (GPUInstancing)
+            {
+                GPUInstancing.RemoveFromMatrice(transform.position, transform.rotation, transform.localScale);
             }
             StartCoroutine(DoDeathAnimation());
         }
