@@ -1,24 +1,25 @@
 ﻿using UnityEngine;
 
+[RequireComponent (typeof(Rigidbody))]
 public class TargetState : StateClassEntity
 {
     public SelectableManager target;
-    EntityController controller;
-    NavMeshController navMeshController;
-    Rigidbody rb;
+    readonly EntityController controller;
+    readonly NavMeshController navMeshController;
+    readonly Rigidbody _rb;
     public TargetState(SelectableManager target, EntityController controller, NavMeshController navMeshController)
     {
         this.target = target;
         this.controller = controller;
         this.navMeshController = navMeshController;
-        rb = controller.GetComponent<Rigidbody>();
+        _rb = controller.GetComponent<Rigidbody>();
     }
     public override void Start()
     {
         controller._animator.SetBool(AnimationController.Moving, true);
-        if(rb)
+        if(_rb)
         {
-            rb.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+            _rb.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         }
     }
     public override void Update()
@@ -51,7 +52,7 @@ public class TargetState : StateClassEntity
         if (navMeshController != null)
         {
             controller._animator.SetBool(AnimationController.Moving, false);
-            rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+            _rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             navMeshController.StopPath();
         }
     }

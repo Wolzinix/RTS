@@ -316,6 +316,22 @@ PrefabInstance:
       propertyPath: sizeMultiplicator.y
       value: 0.23906508
       objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: -8391222552659086748, guid: 5476531a7b35ddb40a4f3b22bf44cb44, type: 3}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: -516098083770646512, guid: 5476531a7b35ddb40a4f3b22bf44cb44, type: 3}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 8416272007918961125, guid: 5476531a7b35ddb40a4f3b22bf44cb44, type: 3}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.x
       value: 50
@@ -569,6 +585,22 @@ PrefabInstance:
       propertyPath: sizeMultiplicator.y
       value: 0.23906508
       objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 2765334245052128057, guid: 11fbf0a44ef56424fa8bbcd8ed60bb23, type: 3}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 6731646225388713049, guid: 11fbf0a44ef56424fa8bbcd8ed60bb23, type: 3}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: -699511666423089952, guid: 11fbf0a44ef56424fa8bbcd8ed60bb23, type: 3}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.x
       value: 50
@@ -3308,6 +3340,22 @@ PrefabInstance:
       propertyPath: sizeMultiplicator.y
       value: 0.23906508
       objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: -5541221429229589680, guid: bd15788d7e4aee342bfeeebbd0196602, type: 3}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: -9051777083403945657, guid: bd15788d7e4aee342bfeeebbd0196602, type: 3}
+    - target: {fileID: 3080001072516043166, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
+      propertyPath: spawningGameObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 645199622688437280, guid: bd15788d7e4aee342bfeeebbd0196602, type: 3}
     - target: {fileID: 3940564774981103291, guid: 3df74f5435a2078489740bc4cb879595, type: 3}
       propertyPath: m_Size.x
       value: 50
