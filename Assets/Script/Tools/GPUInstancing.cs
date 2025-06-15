@@ -2,7 +2,7 @@
 using UnityEngine;
 public class GPUInstancing : MonoBehaviour
 {
-    Matrix4x4[] matrice;
+    public Matrix4x4[] matrice;
     [SerializeField] Mesh mesh;
     [SerializeField] Material material;
     [SerializeField] int NbOfObject;
@@ -26,7 +26,7 @@ public class GPUInstancing : MonoBehaviour
         int i = 0;
         while (i < matrice.Length)
         {
-            if (matrice[i] != Matrix4x4.zero)
+            if (matrice[i] == Matrix4x4.zero)
             {
                 matrice[i] = Matrix4x4.TRS(position, rotation, size);
                 i = matrice.Length;
