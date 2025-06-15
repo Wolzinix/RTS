@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7521301567870833608}
   - component: {fileID: 4508567379230480443}
   - component: {fileID: 1844159041768393013}
-  - component: {fileID: 8270750192721748710}
+  - component: {fileID: 8927333876881166805}
   - component: {fileID: 6455033665792236400}
   - component: {fileID: 4693669022306293526}
   m_Layer: 0
@@ -123,7 +123,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8270750192721748710
+--- !u!114 &8927333876881166805
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,20 +132,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7708114876128369604}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 577995d004096794f9e6915e38c43e15, type: 3}
+  m_Script: {fileID: 11500000, guid: fecb5c72674bf0a4c9b0452dd4efde9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveCameraInput: {fileID: 1869844700412366600, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  rotateCameraInput: {fileID: -2096182677823517670, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  activeRotateCameraInput: {fileID: -3578388761953092175, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  zoomCameraInput: {fileID: 3092937626653910614, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
-  accelerateInput: {fileID: 4541643001360304603, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
   speedOfDeplacement: 1
   speedOfZoom: 10
-  ymax: 0
-  ymin: 0
+  IncrementSpeed: 2
+  ymax: 12
+  ymin: 4
   isMapCamera: 0
-  mainGround: {fileID: 0}
+  fov: 0
+  _rb: {fileID: 0}
 --- !u!114 &6455033665792236400
 MonoBehaviour:
   m_ObjectHideFlags: 0

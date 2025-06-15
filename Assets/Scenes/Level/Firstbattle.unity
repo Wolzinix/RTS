@@ -2697,7 +2697,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7708114876128369604, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
-      insertIndex: -1
+      insertIndex: 5
       addedObject: {fileID: 1372857282}
   m_SourcePrefab: {fileID: 100100000, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
 --- !u!1 &1229190209 stripped
@@ -4392,6 +4392,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: mainGround
+      value: 
+      objectReference: {fileID: 252705145}
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: accelerateInput
+      value: 
+      objectReference: {fileID: 4541643001360304603, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: moveCameraInput
+      value: 
+      objectReference: {fileID: 1869844700412366600, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: zoomCameraInput
+      value: 
+      objectReference: {fileID: 3092937626653910614, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: rotateCameraInput
+      value: 
+      objectReference: {fileID: -2096182677823517670, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: activeRotateCameraInput
+      value: 
+      objectReference: {fileID: -3578388761953092175, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
     - target: {fileID: 3051000676008958194, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
       propertyPath: mainGround
       value: 
@@ -4408,6 +4432,14 @@ PrefabInstance:
       propertyPath: _mapCamera
       value: 
       objectReference: {fileID: 1249935000}
+    - target: {fileID: 3837747692273757122, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: _mapObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3837747692273757122, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: _mapObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 950016816}
     - target: {fileID: 5361083727158588819, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
       propertyPath: _camera
       value: 

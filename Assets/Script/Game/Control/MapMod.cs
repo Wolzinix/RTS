@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Camera),typeof(CameraControl))]
 public class MapMod : MonoBehaviour
 {
     public bool _isMapMod;
@@ -11,12 +12,13 @@ public class MapMod : MonoBehaviour
     [SerializeField] private Camera _mapCamera;
     [SerializeField] private List<GameObject> _mapObjects;
     private CameraControl cameraControl;
-    private CameraControl mapCameraControl;
 
     private void Start()
     {
-        cameraControl = _camera.GetComponent<CameraControl>();
-        mapCameraControl = _mapCamera.GetComponent<CameraControl>();
+        cameraControl = _mapCamera.GetComponent<CameraControl>();
+        cameraControl.SetCamera(_camera);
+        cameraControl.ActiveZoom();
+        _isMapMod = false;
     }
     public void MapModActive()
     {
@@ -27,18 +29,22 @@ public class MapMod : MonoBehaviour
         ConnectToEventNewEtentity();
     }
 
+    public Camera GetActiveCamera()
+    {
+        if (_isMapMod) { return _mapCamera; }
+        else { return _camera; }
+    }
     public void SetMainCamera(Camera camera) { _camera = camera; }
     public void SetMapCamera(Camera camera) { _mapCamera = camera; }
     public void SetMapObject(List<GameObject> list) { _mapObjects = list; }
     private void CameraGestion()
     {
-        _camera.enabled = !_camera.enabled;
         cameraControl.StopMoving();
-        cameraControl.gameObject.SetActive(_camera.enabled);
 
+        _camera.enabled = !_camera.enabled;
         _mapCamera.enabled = !_mapCamera.enabled;
-        mapCameraControl.StopMoving();
-        _mapCamera.GetComponent<CameraControl>().enabled  = _mapCamera.enabled;
+        if (_camera.enabled) { cameraControl.SetCamera(_camera); }
+        else { cameraControl.SetCamera(_mapCamera); }
 
         if (_isMapMod) { cameraControl.DesactiveZoom(); }
         else { cameraControl.ActiveZoom(); }
