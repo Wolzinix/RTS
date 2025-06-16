@@ -57,7 +57,7 @@ public class BuildingController : MonoBehaviour
         {
             if (hit)
             {
-                hitGestion(hit, listOfAlly, listOfennemie);
+                HitGestion(hit, listOfAlly, listOfennemie);
             }
         }
         ClearListOfEnnemi(listOfennemie);
@@ -80,7 +80,7 @@ public class BuildingController : MonoBehaviour
         }
     }
 
-    private void hitGestion(GameObject hit, List<GameObject> listOfAlly, List<SelectableManager> listOfennemie)
+    private void HitGestion(GameObject hit, List<GameObject> listOfAlly, List<SelectableManager> listOfennemie)
     {
         if (hit.transform && !hit.CompareTag("neutral") && hit.GetComponent<SelectableManager>())
         {
@@ -114,6 +114,9 @@ public class BuildingController : MonoBehaviour
     {
         ClearListOfAlly(new List<GameObject>());
         _EnnemieList.Clear();
+
+        
+
         SearchTarget();
     }
 

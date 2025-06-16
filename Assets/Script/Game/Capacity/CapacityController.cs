@@ -35,33 +35,42 @@ public abstract class CapacityController : MonoBehaviour
     public float GetCooldown() { return cooldown; }
     protected virtual void Apply()
     {
-        if (gameObject && ready)
+        if (gameObject && ready && entityAffected)
         {
-            if(entityAffected)
+            ActivateEvent.Invoke(this);
+            if (Vector3.Distance(transform.position, entityAffected.transform.position) <= _navMeshController.HaveStoppingDistance() + 0.5 + range)
             {
-                ActivateEvent.Invoke(this);
-                if (Vector3.Distance(transform.position, entityAffected.transform.position) <= _navMeshController.HaveStoppingDistance() + 0.5 + range)
+                DoEffect();
+                ready = false;
+                actualTime = 0;
+            }
+            else
+            {
+                if (_troupeManager)
                 {
-                    DoEffect();
-                    ready = false;
-                    actualTime = 0;
-
-                }
-                else
-                {
-                    if (_troupeManager)
+                    _controller.AddPathWithRange(entityAffected.transform.position, range);
+                    StateClassEntity state = _controller._ListOfstate.First();
+                    if (state.GetType() == typeof(MoveToDistanceState))
                     {
-                        _controller.AddPathWithRange(entityAffected.transform.position, range);
-                        StateClassEntity state = _controller._ListOfstate.First();
-                        if (state.GetType() == typeof(MoveToDistanceState))
-                        {
-                            MoveToDistanceState MState = (MoveToDistanceState)state;
-                            MState.Arrived.AddListener(Apply);
-                        }
+                        MoveToDistanceState MState = (MoveToDistanceState)state;
+                        MState.Arrived.AddListener(Apply);
                     }
                 }
             }
         }
+    }
+    public void CancelCapacity()
+    {
+        if( _controller && _controller._ListOfstate.Count > 0)
+        {
+            StateClassEntity state = _controller._ListOfstate.First();
+            if (state.GetType() == typeof(MoveToDistanceState))
+            {
+                MoveToDistanceState MState = (MoveToDistanceState)state;
+                MState.Arrived.RemoveListener(Apply);
+            }
+        }
+        entityAffected = null;
     }
     public virtual void AddTarget(SelectableManager target)
     {
@@ -72,5 +81,6 @@ public abstract class CapacityController : MonoBehaviour
     protected virtual void DoEffect()
     {
         effect.AddEffectToTarget(entityAffected);
+        CancelCapacity();
     }
 }

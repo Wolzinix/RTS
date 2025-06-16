@@ -163,7 +163,7 @@ public class ControlManager : MonoBehaviour
         _pauseInput.action.started -= SetPause;
         _mapModInput.action.started -= MapModActive;
     }
-    private void Update()
+    private void LateUpdate()
     {
         if(_doubleClick)
         {

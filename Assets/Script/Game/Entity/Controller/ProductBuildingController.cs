@@ -95,8 +95,11 @@ public class ProductBuildingController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        ReduceTimer();
-        proximityGestion();
+        if(this)
+        {
+            ReduceTimer();
+            ProximityGestion();
+        }
     }
 
     public bool GetCanSpawn() { return _canSpawn; }
@@ -106,7 +109,7 @@ public class ProductBuildingController : MonoBehaviour
         if (_ally && !_ennemie) { SpawnEntity(entityToSpawn, ListOfNearEntity[0].gameObject.tag, ListOfNearEntity[0], ressource); }
     }
 
-    private void proximityGestion()
+    private void ProximityGestion()
     {
         if (!_ally && _ennemie)
         {
@@ -133,7 +136,7 @@ public class ProductBuildingController : MonoBehaviour
                 for (int w = 0; w < NbSpawnpoint; w++)
                 {
 
-                    Vector3 pos = calculPostion(spawnrayon, w);
+                    Vector3 pos = CalculPostion(spawnrayon, w);
 
                     if (lineRenderer != null)
                     { lineRenderer.SetPosition(w, pos); }
@@ -170,7 +173,7 @@ public class ProductBuildingController : MonoBehaviour
         for (int w = 0; w < NbSpawnpoint; w++)
         {
             bool hasTower = false;
-            Vector3 pos = calculPostion(spawnRadius, w);
+            Vector3 pos = CalculPostion(spawnRadius, w);
             Collider[] colliders = DoAOverlap(pos, true);
             foreach (Collider collider in colliders)
             {
@@ -181,7 +184,7 @@ public class ProductBuildingController : MonoBehaviour
         return ListOfPoint;
     }
 
-    private Vector3 calculPostion(float spawnRadius, int spawnPoint)
+    private Vector3 CalculPostion(float spawnRadius, int spawnPoint)
     {
         float Theta = 2f * Mathf.PI * ((float)spawnPoint / NbSpawnpoint);
 

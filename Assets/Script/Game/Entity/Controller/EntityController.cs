@@ -133,10 +133,13 @@ public class EntityController : BuildingController
 
     public void AddPathWithRange(Vector3 newPath, float range)
     {
-        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5 + range)
+        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
         {
-            _ListOfstate.Insert(0, new MoveToDistanceState(_navMesh, newPath, this, range));
-            StartFirstOrder();
+            if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5 + range)
+            {
+                _ListOfstate.Insert(0, new MoveToDistanceState(_navMesh, newPath, this, range));
+                StartFirstOrder();
+            }
         }
     }
 
@@ -227,12 +230,18 @@ public class EntityController : BuildingController
     }
     override public void ClearAllOrder()
     {
+        foreach (CapacityController i in GetComponentsInChildren<CapacityController>())
+        {
+            i.CancelCapacity();
+        }
         while (_ListOfstate.Count > 0) { _ListOfstate[0].End(); }
+
+        
         base.ClearAllOrder();
 
-        CancelAnimation();
         if (_navMesh) { _navMesh.StopPath(); }
         resetEvent.Invoke();
+        CancelAnimation();
     }
 
     public void CancelAnimation()
