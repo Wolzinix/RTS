@@ -17,17 +17,40 @@ public class OrderUiScript : MonoBehaviour
     [SerializeField] List<Button> _ListOfButton;
     [SerializeField] private InputActionReference RightClick;
     private List<CapacityController> listOfCapacity = new();
+    private Dictionary<int,bool> DicOfCapacityClignote = new();
+
+    ControlManager controlManager;
 
     private void Start()
     {
         RightClick.action.started += DoRightClick;
+        controlManager = FindAnyObjectByType<ControlManager>();
+    }
+    private void LateUpdate()
+    {
+        if (DicOfCapacityClignote.Keys.Count > 0)
+        {
+            foreach (int i in DicOfCapacityClignote.Keys)
+            {
+                if (DicOfCapacityClignote[i])
+                {
+                    _ListOfButton[i].GetComponent<Image>().enabled = !_ListOfButton[i].GetComponent<Image>().enabled;
+                }
+            }
+        }
     }
     private void RemoveListenerFromCapacity()
     {
         foreach(CapacityController capacity in listOfCapacity)
         {
             capacity.ActivateEvent.RemoveListener(ActualiseACapacity);
+            if (capacity.GetType().IsSubclassOf(typeof(ActivableCapacity)))
+            {
+                ActivableCapacity activable = (ActivableCapacity)capacity;
+                activable.changeActif.RemoveListener(Clignote);
+            }
         }
+        DicOfCapacityClignote.Clear();
     }
     public void SetEntity(GameObject entity)
     {
@@ -47,6 +70,7 @@ public class OrderUiScript : MonoBehaviour
             StopAllCoroutines();
             foreach (Button button in _ListOfButton)
             {
+                button.GetComponent<Image>().enabled = true;
                 if (_ListOfButton.IndexOf(button) < listOfCapacity.Count)
                 {
                     CapacityController capacity = listOfCapacity[_ListOfButton.IndexOf(button)];
@@ -62,9 +86,16 @@ public class OrderUiScript : MonoBehaviour
                     {
                         button.GetComponent<Button>().enabled = true;
                         button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(delegate { FindAnyObjectByType<ControlManager>().CapacityOrder(capacity); });
+                        button.onClick.AddListener(delegate { controlManager.CapacityOrder(capacity); });
                         StartCoroutine(ChargeBarOfAbility(button.GetComponentsInChildren<Image>()[1], capacity));
                         capacity.ActivateEvent.AddListener(ActualiseACapacity);
+                    }
+                    if (capacity.GetType().IsSubclassOf(typeof(ActivableCapacity)))
+                    {
+                        ActivableCapacity activable = (ActivableCapacity)capacity;
+                        DicOfCapacityClignote[_ListOfButton.IndexOf(_button)] = false;
+                        activable.changeActif.AddListener(Clignote);
+                        Clignote(activable);
                     }
                 }
                 else
@@ -82,7 +113,6 @@ public class OrderUiScript : MonoBehaviour
                 button.gameObject.SetActive(false);
             }
         }
-       
     }
 
     private void ActualiseACapacity(CapacityController capacity)
@@ -111,24 +141,30 @@ public class OrderUiScript : MonoBehaviour
     private void DoRightClick(InputAction.CallbackContext obj)
     {
         List<RaycastResult> listOfUIRay = DoUiRayCast();
-
         foreach (RaycastResult raycastResult in listOfUIRay)
         {
             if (raycastResult.gameObject.GetComponent<Button>())
             {
-                // don't right click on ui TO DO 
                 List<CapacityController> listOfCapacaity = _entity.GetComponentsInChildren<CapacityController>().ToList();
                 Button _button = raycastResult.gameObject.GetComponent<Button>();
-                CapacityController capacity = listOfCapacaity[_ListOfButton.IndexOf(_button)];
-                if (capacity.GetType().IsSubclassOf(typeof(ActivableCapacity)))
+                if(_ListOfButton.Contains(_button))
                 {
-                    ActivableCapacity activable = (ActivableCapacity)capacity;
-                    FindAnyObjectByType<ControlManager>().ChangeCapacityActif(activable);
+                    CapacityController capacity = listOfCapacaity[_ListOfButton.IndexOf(_button)];
+                    if (capacity.GetType().IsSubclassOf(typeof(ActivableCapacity)))
+                    {
+                        ActivableCapacity activable = (ActivableCapacity)capacity;
+
+                        controlManager.ChangeCapacityActif(activable);
+                    }
                 }
             }
         }
     }
 
+    private void Clignote(ActivableCapacity activable)
+    {
+        DicOfCapacityClignote[listOfCapacity.IndexOf(activable)] = activable.actif;
+    }
     IEnumerator ChargeBarOfAbility(Image Imagebutton, CapacityController capacity)
     {
         float progressionValue =  capacity.actualTime / capacity.GetCooldown();

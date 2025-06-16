@@ -1,12 +1,17 @@
-﻿public abstract class ActivableCapacity : ActiveCapacity
+﻿using UnityEngine;
+using UnityEngine.Events;
+
+public abstract class ActivableCapacity : ActiveCapacity
 {
     public bool actif;
     protected bool onlyOnce;
+    [HideInInspector]public UnityEvent<ActivableCapacity> changeActif = new UnityEvent<ActivableCapacity>();
 
     public void ChangeActif()
     {
         Apply();
         actif = !actif;
+        changeActif.Invoke(this);
         Apply();
     }
 
