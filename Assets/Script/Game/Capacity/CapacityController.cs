@@ -74,8 +74,11 @@ public abstract class CapacityController : MonoBehaviour
     }
     public virtual void AddTarget(SelectableManager target)
     {
-        entityAffected = target;
-        Apply();
+        if(target != _troupeManager)
+        {
+            entityAffected = target;
+            Apply();
+        }
     }
 
     protected virtual void DoEffect()
