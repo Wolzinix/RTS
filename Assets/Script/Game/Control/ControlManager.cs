@@ -62,7 +62,6 @@ public class ControlManager : MonoBehaviour
         _selectManager = GetComponent<SelectManager>();
         _buildingPreWatching = GetComponent<BuildingPreWatching>();
         _uiGestioneur = FindObjectOfType<UiGestioneur>();
-        _mapCamera.GetComponent<CameraControl>().DesactiveZoom();
 
         ActiveAllInput();
         _mapModInput.action.started += MapModActive;
