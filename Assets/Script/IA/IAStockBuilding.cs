@@ -142,14 +142,16 @@ public class IAStockBuilding
 
     public void AddTowerToEveryBuilding(GameObject newObject)
     {
-        foreach (BuildingIA building in _AllieBuilding)
+        for(int i = _AllieBuilding.Count -1; i >= 0; i--) 
         {
+            BuildingIA building = _AllieBuilding[i];
             if (!building.building)
             {
-                _AllieBuilding.Remove(building);
+                _AllieBuilding.RemoveAt(i);
                 building.Dispose();
             }
-            if (DicoOfBuilding[building.building].NbOfTower < IAbrain.nbMaxOfTower)
+            if (DicoOfBuilding.Keys.Contains(building.building) && 
+                DicoOfBuilding[building.building].NbOfTower < IAbrain.nbMaxOfTower)
             {
                 IAbrain.AddTowerToBuilding(building, newObject);
             }

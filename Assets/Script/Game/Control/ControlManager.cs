@@ -22,6 +22,7 @@ public class ControlManager : MonoBehaviour
     [SerializeField] private Texture2D _buildingCursor;
     [SerializeField] private Texture2D _deplacementCursor;
     [SerializeField] private Texture2D _attackCursor;
+    [SerializeField] private CursorActionGestion _cursorRetroaction;
 
     [Header("Camera")]
     [SerializeField] private Camera _camera;
@@ -198,17 +199,23 @@ public class ControlManager : MonoBehaviour
 
             if (_buildingOrder)
             {
+
+                Instantiate(_cursorRetroaction, hit.point, Quaternion.identity);
                 IsMultipathActive();
                 _selectManager.DoABuild(_nbOfBuilding, hit);
                 _buildingPreWatching.BuildingIsCancel();
             }
             else if (_order)
             {
+
+                Instantiate(_cursorRetroaction, hit.point, Quaternion.identity);
                 IsMultipathActive();
                 _selectManager.ActionGroup(hit);
             }
             else if (_capactityOrder)
             {
+
+                Instantiate(_cursorRetroaction, hit.point, Quaternion.identity);
                 IsMultipathActive();
                 if (hit.transform && _capacityController && _capacityController.ready)
                 {
@@ -225,6 +232,9 @@ public class ControlManager : MonoBehaviour
             }
             else if (_travelAttack)
             {
+
+                CursorActionGestion cursor = Instantiate(_cursorRetroaction, hit.point, Quaternion.identity);
+                cursor.bad = true;
                 IsMultipathActive();
                 if (hit.transform && hit.transform.GetComponent<SelectableManager>()) { _selectManager.AddTarget(hit.transform.GetComponent<SelectableManager>()); }
                 else { _selectManager.AttackingOnTravel(hit.point); }
@@ -232,6 +242,8 @@ public class ControlManager : MonoBehaviour
 
             else if (_patrolOrder)
             {
+
+                Instantiate(_cursorRetroaction, hit.point, Quaternion.identity);
                 IsMultipathActive();
                 _selectManager.PatrouilleOrder(hit.point);
                 if (!_selectManager.GetAddingMoreThanOne()) { _selectManager.SetAddingMoreThanOne(true); }
@@ -337,6 +349,17 @@ public class ControlManager : MonoBehaviour
             {
                 IsMultipathActive();
                 RaycastHit hit = RayCast.DoARayCastFromMouse(_camera);
+
+                if(_selectManager._groupManager.getNumberOnGroup() > 0 || 
+                    _selectManager._selected.getNumberOnGroup() > 0)
+                {
+                    CursorActionGestion cursor = Instantiate(_cursorRetroaction, hit.point, Quaternion.identity);
+
+                    if(hit.transform.gameObject.CompareTag(_ennemieTag))
+                    {
+                        cursor.GetComponent<CursorActionGestion>().bad = true;
+                    }
+                }
 
                 _selectManager.ActionGroup(hit);
             }
