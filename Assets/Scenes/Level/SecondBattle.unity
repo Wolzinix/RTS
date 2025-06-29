@@ -2736,6 +2736,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: mainGround
+      value: 
+      objectReference: {fileID: 530532539}
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: accelerateInput
+      value: 
+      objectReference: {fileID: 4541643001360304603, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: moveCameraInput
+      value: 
+      objectReference: {fileID: 1869844700412366600, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: zoomCameraInput
+      value: 
+      objectReference: {fileID: 3092937626653910614, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: rotateCameraInput
+      value: 
+      objectReference: {fileID: -2096182677823517670, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+    - target: {fileID: 1216918252340028786, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: activeRotateCameraInput
+      value: 
+      objectReference: {fileID: -3578388761953092175, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
+    - target: {fileID: 2554822286364502977, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: ymax
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2554822286364502977, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: ymin
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2554822286364502977, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
+      propertyPath: isMapCamera
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3051000676008958194, guid: fd6f63492fcc16041912fe06bb5e4b5e, type: 3}
       propertyPath: mainGround
       value: 

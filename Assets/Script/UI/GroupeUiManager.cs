@@ -8,8 +8,9 @@ public class GroupeUiManager : MonoBehaviour
     [SerializeField] private GameObject cadre;
 
     private List<GameObject> _listOfCadreControllers;
-    [SerializeField] private GameObject image;
+    [SerializeField] private GameObject BackImageZone;
 
+    [SerializeField] private int marge = 150;
     void Awake()
     {
         _listOfEntity = new List<SelectableManager>();
@@ -29,12 +30,11 @@ public class GroupeUiManager : MonoBehaviour
         if (index == -1)
         {
             _listOfEntity.Add(entity);
-            GameObject newCadre = Instantiate(cadre, image.transform);
+            GameObject newCadre = Instantiate(cadre, BackImageZone.transform);
             newCadre.GetComponent<CadreController>().SetEntity(entity);
             newCadre.GetComponent<CadreController>().SetGroupUiManager(this);
-
             _listOfCadreControllers.Add(newCadre);
-        }
+            }
         else { RemoveCadre(_listOfCadreControllers[index]); }
         SortAffichage();
         CleanAffichage();
@@ -60,15 +60,35 @@ public class GroupeUiManager : MonoBehaviour
         {
             foreach (GameObject i in _listOfCadreControllers)
             {
+                i.transform.localScale = cadre.transform.localScale * RecalculeSizeOfCadre();
+                float newMarge = marge * RecalculeSizeOfCadre();
                 Rect rect = i.GetComponent<RectTransform>().rect;
                 Rect rectParent = i.transform.parent.GetComponent<RectTransform>().rect;
                 int index = _listOfCadreControllers.IndexOf(i);
 
                 i.transform.position = new Vector3(
-                    (150 * index + rect.width / 2) - (rectParent.width * ((int)((150 * index + rect.width) / rectParent.width))),
-                    rect.height * (0.5f + (int)((150 * index + rect.width) / rectParent.width)),
+                    (newMarge * index + rect.width / 2) - (rectParent.width * ((int)((newMarge * index + rect.width) / rectParent.width))),
+                    rect.height * (0.5f + (int)((newMarge * index + rect.width) / rectParent.width)),
                     0);
             }
+        }
+    }
+
+    private float RecalculeSizeOfCadre()
+    {
+        Rect rect = cadre.GetComponent<RectTransform>().rect;
+        Rect rectParent = BackImageZone.GetComponent<RectTransform>().rect;
+        float cadresAir = ((marge + rect.width) / 2) ;
+        float ZoneAir = rectParent.width - (marge *2);
+
+        float coeff = ZoneAir / (cadresAir * _listOfCadreControllers.Count);
+        if (coeff < 1)
+        {
+            return coeff;
+        }
+        else
+        {
+            return 1;
         }
     }
 
@@ -100,7 +120,7 @@ public class GroupeUiManager : MonoBehaviour
     {
         foreach (var i in _listOfCadreControllers)
         {
-            Destroy(i.gameObject);
+            Destroy(i);
         }
         _listOfCadreControllers.Clear();
     }
