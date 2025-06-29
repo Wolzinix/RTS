@@ -9,6 +9,8 @@ public class CadreController : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private TMP_Text text;
 
+    [SerializeField] private Image HpBar;
+
     private GroupeUiManager _groupeUiManager;
 
     public void SetEntity(SelectableManager entity)
@@ -30,11 +32,13 @@ public class CadreController : MonoBehaviour
     {
         image.sprite = _entity.GetSprit();
         text.text = _entity.Hp + "/" + _entity.MaxHp;
+        HpBar.fillAmount = _entity.Hp/ _entity.MaxHp;
     }
 
     private void ActualiseHp()
     {
         text.text = _entity.Hp + "/" + _entity.MaxHp;
+        HpBar.fillAmount = _entity.Hp / _entity.MaxHp;
     }
 
     private void DestroyHimSelf(SelectableManager entity)
