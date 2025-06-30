@@ -134,7 +134,6 @@ public class OrderUiScript : MonoBehaviour
         List<RaycastResult> results = new ();
         eventData.position = Input.mousePosition;
         EventSystem.current.RaycastAll(eventData, results);
-
         return results;
     }
 

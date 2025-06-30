@@ -2147,6 +2147,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   prefabFenetre: {fileID: 8679328998431612917, guid: 0b7bc6f8c28c3a240ab429d1d9c418c3, type: 3}
+  imageForAbility: {fileID: 8864375105777662886}
 --- !u!1 &1785832792930517348
 GameObject:
   m_ObjectHideFlags: 0
@@ -4445,6 +4446,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   prefabFenetre: {fileID: 8679328998431612917, guid: 0b7bc6f8c28c3a240ab429d1d9c418c3, type: 3}
+  imageForAbility: {fileID: 7145462442951972494}
 --- !u!1 &4917128452254942155
 GameObject:
   m_ObjectHideFlags: 0
@@ -6843,6 +6845,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   prefabFenetre: {fileID: 8679328998431612917, guid: 0b7bc6f8c28c3a240ab429d1d9c418c3, type: 3}
+  imageForAbility: {fileID: 5088873121001512061}
 --- !u!1 &7635163336287342609
 GameObject:
   m_ObjectHideFlags: 0
@@ -7839,7 +7842,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buttonForBuilding: {fileID: 739387019316487073}
   _buildUi: {fileID: 1171197594411671434}
-  _ListOfAbilityButton: []
+  _ListOfAbilityButton:
+  - {fileID: 5058604012367763280}
+  - {fileID: 9070903100485131421}
+  - {fileID: 3654781761742114351}
   RightClick: {fileID: 3125741844388951163, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
 --- !u!1 &8183208477398929848
 GameObject:

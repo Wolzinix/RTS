@@ -3,16 +3,20 @@ using UnityEngine.UI;
 
 public class ButtonOverlap : Button
 {
-    public  GameObject prefabFenetre;
+    [SerializeField] GameObject prefabFenetre;
     bool fenetreIsCreate;
     GameObject fenetre;
+    [SerializeField] Image imageForAbility;
     protected override void Start()
     {
         base.Start();
 
         Vector3 coord = transform.position;
-        coord += new Vector3(0, 25, 0);
-        fenetre = Instantiate(prefabFenetre, coord, Quaternion.identity);
+        coord += new Vector3(25, 75, 0);
+        fenetre = Instantiate(prefabFenetre);
+
+        Sprite image = imageForAbility.sprite;
+        fenetre.GetComponent<OverlayRemplissage>().SetUpOverlay(coord, "lalalalalala", image);
         fenetre.SetActive(false);
     }
     void LateUpdate()
@@ -21,7 +25,8 @@ public class ButtonOverlap : Button
         {
             fenetreIsCreate = true;
             fenetre.SetActive(true);
-            Debug.Log("ahahahaah"); 
+            Sprite image = imageForAbility.sprite;
+            fenetre.GetComponent<OverlayRemplissage>().ActualiseOverlay("lalalalalala", image);
         }
         else
         {
