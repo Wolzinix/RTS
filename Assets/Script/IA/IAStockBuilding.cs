@@ -92,12 +92,12 @@ public class IAStockBuilding
             {
                 if (_NeutralBuilding.Contains(stats)) { _NeutralBuilding.Remove(stats); IAbrain.RemoveObjectif(building.gameObject); }
 
-                if (building.tagOfNerestEntity == IAbrain.tag)
+                if (building.tagOfNerestEntity == "") { AddNeutralBuilding(stats); }
+                else if (IAbrain.CompareTag(building.tagOfNerestEntity))
                 {
                     AddAllieBuilding(stats);
                     stats.NeedToSendEntity();
                 }
-                else if (building.tagOfNerestEntity == "") { AddNeutralBuilding(stats); }
                 else { AddEnnemieBuilding(stats); }
             }
         }

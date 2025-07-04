@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5860423543375751431}
-  - component: {fileID: 6392150579860293555}
   - component: {fileID: 4510471371110067013}
+  - component: {fileID: 6392150579860293555}
   m_Layer: 0
   m_Name: PoisonArrowActivableCapacity
   m_TagString: Untagged
@@ -33,6 +33,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4510471371110067013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7709093729385790279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 323173a1f0e987e44ae2338866b12acb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: PoisonArrow
+  sprite: {fileID: 21300000, guid: edac31d56d46eec4ea804ed2722505ec, type: 3}
+  Description: "Si activer change les attaques en tire de poison pour des d\xEAgats
+    sur la dur\xE9e"
+  cooldown: 0
+  actualTime: 0
+  ready: 1
+  range: 0
+  ActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  actif: 0
+  changeActif:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6392150579860293555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,22 +77,3 @@ MonoBehaviour:
   actualTime: 0
   nextTime: 0
   damage: 3
---- !u!114 &4510471371110067013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7709093729385790279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 323173a1f0e987e44ae2338866b12acb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: PoisonArrow
-  sprite: {fileID: 21300000, guid: edac31d56d46eec4ea804ed2722505ec, type: 3}
-  cooldown: 0
-  actualTime: 0
-  ready: 1
-  range: 0
-  actif: 0

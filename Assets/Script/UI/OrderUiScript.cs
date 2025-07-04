@@ -76,8 +76,8 @@ public class OrderUiScript : MonoBehaviour
                     CapacityController capacity = listOfCapacity[_ListOfAbilityButton.IndexOf(button)];
 
                     button.gameObject.SetActive(true);
-                    button.GetComponentInChildren<TMP_Text>().text = capacity.Name;
-                    button.GetComponentsInChildren<Image>()[1].sprite = capacity.sprite;
+                    button.SetCapacity(capacity);
+
                     if (capacity.GetType().IsSubclassOf(typeof(PassifCapacity)))
                     {
                         button.GetComponent<ButtonOverlap>().enabled = false;

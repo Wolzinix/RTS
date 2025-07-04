@@ -6,6 +6,7 @@ public abstract class CapacityController : MonoBehaviour
 {
     public string Name;
     public Sprite sprite;
+    public string Description;
     protected StateEffect effect;
     protected SelectableManager entityAffected;
     [SerializeField] protected float cooldown;

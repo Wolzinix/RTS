@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,12 +8,32 @@ public class ButtonOverlap : Button
     bool fenetreIsCreate;
     GameObject fenetre;
     [SerializeField] Image imageForAbility;
+    TMP_Text _texte;
+    CapacityController _capacity;
     protected override void Start()
     {
         base.Start();
+        if(!_texte ||!fenetre)
+        {
+            FalseStart();
+        }
+    }
 
+    public void SetCapacity(CapacityController capacity)
+    {
+        _capacity = capacity;
+        imageForAbility.sprite = _capacity.sprite;
+
+        if(!_texte || !fenetre) { FalseStart(); }
+        _texte.text = capacity.Name;
+        fenetre.GetComponent<OverlayRemplissage>().ActualiseOverlay(_capacity);
+    }
+
+    private void FalseStart()
+    {
+        _texte = GetComponentInChildren<TMP_Text>();
         Vector3 coord = transform.position;
-        coord += new Vector3(25, 75, 0);
+        coord += new Vector3(-25, 75, 0);
         fenetre = Instantiate(prefabFenetre);
 
         Sprite image = imageForAbility.sprite;
@@ -25,8 +46,7 @@ public class ButtonOverlap : Button
         {
             fenetreIsCreate = true;
             fenetre.SetActive(true);
-            Sprite image = imageForAbility.sprite;
-            fenetre.GetComponent<OverlayRemplissage>().ActualiseOverlay("lalalalalala", image);
+            fenetre.GetComponent<OverlayRemplissage>().ActualiseOverlay(_capacity);
         }
         else
         {

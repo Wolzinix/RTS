@@ -46,8 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Boule de feu
   sprite: {fileID: 21300000, guid: bb1366f5530858d4eb6e216af409a161, type: 3}
+  Description: "Tire un projectil faisant des d\xEAgats"
   cooldown: 6
   actualTime: 0
   ready: 1
   range: 5
+  ActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
   projectile: {fileID: 2599406022807975234, guid: 15c5b4688984ebc41a21ecd0f3605c55, type: 3}
