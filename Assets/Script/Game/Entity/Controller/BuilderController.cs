@@ -26,7 +26,7 @@ public class BuilderController : EntityController
     {
         _ListOfstate.Add(new BuildState(this, hit.point, _buildings[nb].GetComponent<SelectableManager>()));
     }
-    public List<GameObject> getBuildings() { return _buildings; }
+    public List<GameObject> GetBuildings() { return _buildings; }
 
     public bool DoAbuild(int nb, Vector3 position, RessourceController ressourcesAvailable)
     {

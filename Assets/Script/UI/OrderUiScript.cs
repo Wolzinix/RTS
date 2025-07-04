@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -17,7 +16,6 @@ public class OrderUiScript : MonoBehaviour
     [SerializeField] List<ButtonOverlap> _ListOfAbilityButton;
     [SerializeField] private InputActionReference RightClick;
     private List<CapacityController> listOfCapacity = new();
-    private Dictionary<int,bool> DicOfCapacityClignote = new();
 
     ControlManager controlManager;
 
@@ -25,19 +23,6 @@ public class OrderUiScript : MonoBehaviour
     {
         RightClick.action.started += DoRightClick;
         controlManager = FindAnyObjectByType<ControlManager>();
-    }
-    private void LateUpdate()
-    {
-        if (DicOfCapacityClignote.Keys.Count > 0)
-        {
-            foreach (int i in DicOfCapacityClignote.Keys)
-            {
-                if (DicOfCapacityClignote[i])
-                {
-                    _ListOfAbilityButton[i].GetComponent<Image>().enabled = !_ListOfAbilityButton[i].GetComponent<Image>().enabled;
-                }
-            }
-        }
     }
     private void RemoveListenerFromCapacity()
     {
@@ -47,10 +32,9 @@ public class OrderUiScript : MonoBehaviour
             if (capacity.GetType().IsSubclassOf(typeof(ActivableCapacity)))
             {
                 ActivableCapacity activable = (ActivableCapacity)capacity;
-                activable.changeActif.RemoveListener(Clignote);
+                activable.changeActif.RemoveListener(_ListOfAbilityButton[listOfCapacity.IndexOf(capacity)].Clignote);
             }
         }
-        DicOfCapacityClignote.Clear();
     }
     public void SetEntity(GameObject entity)
     {
@@ -93,9 +77,13 @@ public class OrderUiScript : MonoBehaviour
                     if (capacity.GetType().IsSubclassOf(typeof(ActivableCapacity)))
                     {
                         ActivableCapacity activable = (ActivableCapacity)capacity;
-                        DicOfCapacityClignote[_ListOfAbilityButton.IndexOf(button)] = false;
-                        activable.changeActif.AddListener(Clignote);
-                        Clignote(activable);
+                        
+                        activable.changeActif.AddListener(button.Clignote);
+                        button.Clignote(activable);
+                    }
+                    else
+                    {
+                        button.isActivable = false;
                     }
                 }
                 else
@@ -158,11 +146,6 @@ public class OrderUiScript : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void Clignote(ActivableCapacity activable)
-    {
-        DicOfCapacityClignote[listOfCapacity.IndexOf(activable)] = activable.actif;
     }
     IEnumerator ChargeBarOfAbility(Image Imagebutton, CapacityController capacity)
     {

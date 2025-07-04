@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +9,15 @@ public class ButtonOverlap : Button
     bool fenetreIsCreate;
     GameObject fenetre;
     [SerializeField] Image imageForAbility;
+    Image imageOfButton;
     TMP_Text _texte;
     CapacityController _capacity;
+    public bool isActivable;
     protected override void Start()
     {
         base.Start();
-        if(!_texte ||!fenetre)
+        imageOfButton = GetComponent<Image>();
+        if (!_texte ||!fenetre)
         {
             FalseStart();
         }
@@ -42,6 +46,8 @@ public class ButtonOverlap : Button
     }
     void LateUpdate()
     {
+        if(isActivable) { imageOfButton.enabled = !imageOfButton.enabled; }
+        
         if (IsHighlighted() && !fenetreIsCreate) 
         {
             fenetreIsCreate = true;
@@ -57,4 +63,9 @@ public class ButtonOverlap : Button
             }
         }
     }
+    public void Clignote(ActivableCapacity activable)
+    {
+        isActivable = activable.actif;
+    }
+
 }

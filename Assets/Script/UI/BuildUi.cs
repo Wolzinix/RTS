@@ -28,14 +28,14 @@ public class BuildUi : MonoBehaviour
 
     public void ActualiseText()
     {
-        List<GameObject> listOfGameobject = _builder.getBuildings();
+        List<GameObject> listOfGameobject = _builder.GetBuildings();
         foreach (Button button in _ListOfButton)
         {
             if (_ListOfButton.IndexOf(button) + _numberOfbutton < listOfGameobject.Count())
             {
                 if (button.IsActive())
                 {
-                    button.GetComponentInChildren<TMP_Text>().text = _builder.getBuildings()[_ListOfButton.IndexOf(button)].name;
+                    button.GetComponentInChildren<TMP_Text>().text = _builder.GetBuildings()[_ListOfButton.IndexOf(button)].name;
                 }
             }
         }
@@ -44,7 +44,7 @@ public class BuildUi : MonoBehaviour
 
     private void ActualiseButtons()
     {
-        List<GameObject> listOfGameobject = _builder.getBuildings();
+        List<GameObject> listOfGameobject = _builder.GetBuildings();
 
         foreach (Button button in _ListOfButton)
         {
@@ -53,7 +53,7 @@ public class BuildUi : MonoBehaviour
                 button.gameObject.SetActive(true);
                 button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<SelectableManager>().GetSprit();
                 button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(delegate { _controlManager.DoABuilding(_ListOfButton.IndexOf(button) + _numberOfbutton, _builder.getBuildings()[_ListOfButton.IndexOf(button) + _numberOfbutton]); });
+                button.onClick.AddListener(delegate { _controlManager.DoABuilding(_ListOfButton.IndexOf(button) + _numberOfbutton, _builder.GetBuildings()[_ListOfButton.IndexOf(button) + _numberOfbutton]); });
             }
             else
             {
@@ -69,9 +69,9 @@ public class BuildUi : MonoBehaviour
         _numberOfbutton -= _ListOfButton.Count();
         if (_numberOfbutton < 0)
         {
-            if (_builder.getBuildings().Count > _ListOfButton.Count())
+            if (_builder.GetBuildings().Count > _ListOfButton.Count())
             {
-                _numberOfbutton = _ListOfButton.Count() * (_builder.getBuildings().Count / _ListOfButton.Count());
+                _numberOfbutton = _ListOfButton.Count() * (_builder.GetBuildings().Count / _ListOfButton.Count());
             }
             else
             {
@@ -85,7 +85,7 @@ public class BuildUi : MonoBehaviour
     {
         _numberOfbutton += _ListOfButton.Count();
 
-        if (_numberOfbutton >= _builder.getBuildings().Count)
+        if (_numberOfbutton >= _builder.GetBuildings().Count)
         {
             _numberOfbutton = 0;
         }

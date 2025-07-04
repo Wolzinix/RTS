@@ -270,7 +270,7 @@ MonoBehaviour:
   changeStats:
     m_PersistentCalls:
       m_Calls: []
-  CurrentShape: {fileID: 919132149155446097, guid: 0e4ef30c7955ef147b089b0312730b2d, type: 3}
+  CurrentShape: {fileID: 9039173546862213720}
   CurrentShapeTransform: {fileID: 1979841089478328462}
   deathEvent:
     m_PersistentCalls:
