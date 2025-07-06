@@ -533,7 +533,7 @@ public class ControlManager : MonoBehaviour
         SelectableManager buildingSelectable = building.GetComponent<SelectableManager>();
         if (buildingSelectable.CurrentShape)
         {
-            _buildingPreWatching.SetBuilding(buildingSelectable.CurrentShape, buildingSelectable.CurrentShapeTransform,buildingSelectable.GoldCost,buildingSelectable.WoodCost);
+            _buildingPreWatching.SetBuilding(buildingSelectable.CurrentShape, buildingSelectable.CurrentShapeTransform,buildingSelectable.GoldLoot,buildingSelectable.WoodLoot);
         }
     }
 }

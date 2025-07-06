@@ -122,7 +122,7 @@ public class ProductBuildingController : MonoBehaviour
     }
     public void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity, RessourceController ressource)
     {
-        if (this && ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldCost) && _canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
+        if (this && ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldLoot) && _canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
         {
             if (entityDictionary[entityToSpawn].actualStock > 0)
             {
@@ -154,7 +154,7 @@ public class ProductBuildingController : MonoBehaviour
                             entityDictionary[entityToSpawn].actualStock -= 1;
                             entitySpawnNow.Invoke();
                             entityAsBeenBuy.Invoke();
-                            ressource.AddGold(-entityToSpawn.GetComponent<EntityManager>().GoldCost);
+                            ressource.AddGold(-entityToSpawn.GetComponent<EntityManager>().GoldLoot);
                             break;
                         }
                     }

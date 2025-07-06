@@ -2,13 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BuildingUiManager : MonoBehaviour
 {
     private ProductBuildingController _building;
 
-    [SerializeField] private List<Button> _ListOfButton;
+    [SerializeField] private List<ButtonForEntity> _ListOfButton;
 
     private int _numberOfbutton;
 
@@ -30,7 +29,7 @@ public class BuildingUiManager : MonoBehaviour
     public void ActualiseText()
     {
         GameObject[] listOfGameobject = _building.GetEntityDictionary().Keys.ToArray();
-        foreach (Button button in _ListOfButton)
+        foreach (ButtonForEntity button in _ListOfButton)
         {
             if (_ListOfButton.IndexOf(button) + _numberOfbutton < listOfGameobject.Count())
             {
@@ -50,13 +49,14 @@ public class BuildingUiManager : MonoBehaviour
     {
         GameObject[] listOfGameobject = _building.GetEntityDictionary().Keys.ToArray();
 
-        foreach (Button button in _ListOfButton)
+        foreach (ButtonForEntity button in _ListOfButton)
         {
             if (_ListOfButton.IndexOf(button) + _numberOfbutton < listOfGameobject.Count())
             {
                 if(listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton])
                 {
                     button.gameObject.SetActive(true);
+                    button.SetEntity(listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<TroupeManager>());
                     GameObject entity = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton];
                     button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<TroupeManager>().GetSprit();
 
@@ -78,7 +78,7 @@ public class BuildingUiManager : MonoBehaviour
     }
 
 
-    public void goToLeft()
+    public void GoToLeft()
     {
         _numberOfbutton -= _ListOfButton.Count();
         if (_numberOfbutton < 0)
@@ -92,7 +92,7 @@ public class BuildingUiManager : MonoBehaviour
         ActualiseButtons();
     }
 
-    public void goToRight()
+    public void GoToRight()
     {
         _numberOfbutton += _ListOfButton.Count();
 

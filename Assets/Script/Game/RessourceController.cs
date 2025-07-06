@@ -52,4 +52,7 @@ public class RessourceController : MonoBehaviour
     {
         return _gold >= gold;
     }
+
+    public int GetWood() { return _wood; }
+    public int GetGold() { return _gold; }
 }
