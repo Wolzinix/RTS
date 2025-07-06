@@ -1,50 +1,35 @@
-using TMPro;
-using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonOverlap : Button
 {
     [SerializeField] GameObject prefabFenetre;
-    bool fenetreIsCreate;
-    GameObject fenetre;
-    [SerializeField] Image imageForAbility;
-    Image imageOfButton;
-    TMP_Text _texte;
-    CapacityController _capacity;
+    protected bool fenetreIsCreate;
+    protected GameObject fenetre;
+    protected Sprite imageForOverlay;
+    protected Image imageOfButton;
     public bool isActivable;
     protected override void Start()
     {
         base.Start();
         imageOfButton = GetComponent<Image>();
-        if (!_texte ||!fenetre)
+        if (!fenetre)
         {
             FalseStart();
         }
     }
-
-    public void SetCapacity(CapacityController capacity)
+    protected void FalseStart()
     {
-        _capacity = capacity;
-        imageForAbility.sprite = _capacity.sprite;
-
-        if(!_texte || !fenetre) { FalseStart(); }
-        _texte.text = capacity.Name;
-        fenetre.GetComponent<OverlayRemplissage>().ActualiseOverlay(_capacity);
-    }
-
-    private void FalseStart()
-    {
-        _texte = GetComponentInChildren<TMP_Text>();
         Vector3 coord = transform.position;
         coord += new Vector3(-25, 75, 0);
         fenetre = Instantiate(prefabFenetre);
 
-        Sprite image = imageForAbility.sprite;
+        Sprite image = imageForOverlay;
         fenetre.GetComponent<OverlayRemplissage>().SetUpOverlay(coord, "lalalalalala", image);
         fenetre.SetActive(false);
     }
-    void LateUpdate()
+    protected virtual void LateUpdate()
     {
         if(isActivable) { imageOfButton.enabled = !imageOfButton.enabled; }
         
@@ -52,7 +37,7 @@ public class ButtonOverlap : Button
         {
             fenetreIsCreate = true;
             fenetre.SetActive(true);
-            fenetre.GetComponent<OverlayRemplissage>().ActualiseOverlay(_capacity);
+            Actualisation();
         }
         else
         {
@@ -68,4 +53,5 @@ public class ButtonOverlap : Button
         isActivable = activable.actif;
     }
 
+    protected virtual void Actualisation(){}
 }

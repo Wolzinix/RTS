@@ -2035,7 +2035,7 @@ GameObject:
   - component: {fileID: 6183299042820977975}
   - component: {fileID: 8514138685003935723}
   - component: {fileID: 2206401993507642053}
-  - component: {fileID: 5058604012367763280}
+  - component: {fileID: 8215765453827630904}
   m_Layer: 5
   m_Name: Capacity1
   m_TagString: Untagged
@@ -2102,7 +2102,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5058604012367763280
+--- !u!114 &8215765453827630904
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2111,7 +2111,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1710618459231344953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4793d55f72b81643852ff93dbfd8fa7, type: 3}
+  m_Script: {fileID: 11500000, guid: f049795fa27048c488647abd6b405d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -2147,7 +2147,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   prefabFenetre: {fileID: 8679328998431612917, guid: 0b7bc6f8c28c3a240ab429d1d9c418c3, type: 3}
-  imageForAbility: {fileID: 8864375105777662886}
+  isActivable: 0
 --- !u!1 &1785832792930517348
 GameObject:
   m_ObjectHideFlags: 0
@@ -4334,7 +4334,7 @@ GameObject:
   - component: {fileID: 1545315213717451478}
   - component: {fileID: 4902387807523666423}
   - component: {fileID: 3400101908660463002}
-  - component: {fileID: 3654781761742114351}
+  - component: {fileID: 8001231086213378300}
   m_Layer: 5
   m_Name: Capacity3
   m_TagString: Untagged
@@ -4401,7 +4401,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3654781761742114351
+--- !u!114 &8001231086213378300
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4410,7 +4410,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4624057472254742445}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4793d55f72b81643852ff93dbfd8fa7, type: 3}
+  m_Script: {fileID: 11500000, guid: f049795fa27048c488647abd6b405d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -4446,7 +4446,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   prefabFenetre: {fileID: 8679328998431612917, guid: 0b7bc6f8c28c3a240ab429d1d9c418c3, type: 3}
-  imageForAbility: {fileID: 7145462442951972494}
+  isActivable: 0
 --- !u!1 &4917128452254942155
 GameObject:
   m_ObjectHideFlags: 0
@@ -6733,7 +6733,7 @@ GameObject:
   - component: {fileID: 5405812934628629129}
   - component: {fileID: 4234688599823811817}
   - component: {fileID: 4571432394005736703}
-  - component: {fileID: 9070903100485131421}
+  - component: {fileID: 4914155359742934746}
   m_Layer: 5
   m_Name: Capacity2
   m_TagString: Untagged
@@ -6800,7 +6800,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9070903100485131421
+--- !u!114 &4914155359742934746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6809,7 +6809,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7447526361626938509}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4793d55f72b81643852ff93dbfd8fa7, type: 3}
+  m_Script: {fileID: 11500000, guid: f049795fa27048c488647abd6b405d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -6845,7 +6845,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   prefabFenetre: {fileID: 8679328998431612917, guid: 0b7bc6f8c28c3a240ab429d1d9c418c3, type: 3}
-  imageForAbility: {fileID: 5088873121001512061}
+  isActivable: 0
 --- !u!1 &7635163336287342609
 GameObject:
   m_ObjectHideFlags: 0
@@ -7843,9 +7843,9 @@ MonoBehaviour:
   _buttonForBuilding: {fileID: 739387019316487073}
   _buildUi: {fileID: 1171197594411671434}
   _ListOfAbilityButton:
-  - {fileID: 5058604012367763280}
-  - {fileID: 9070903100485131421}
-  - {fileID: 3654781761742114351}
+  - {fileID: 8215765453827630904}
+  - {fileID: 4914155359742934746}
+  - {fileID: 8001231086213378300}
   RightClick: {fileID: 3125741844388951163, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
 --- !u!1 &8183208477398929848
 GameObject:

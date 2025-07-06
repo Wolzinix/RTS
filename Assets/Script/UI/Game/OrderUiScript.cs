@@ -13,7 +13,7 @@ public class OrderUiScript : MonoBehaviour
     [SerializeField] Button _buttonForBuilding;
     [SerializeField] BuildUi _buildUi;
 
-    [SerializeField] List<ButtonOverlap> _ListOfAbilityButton;
+    [SerializeField] List<ButtonForCapacity> _ListOfAbilityButton;
     [SerializeField] private InputActionReference RightClick;
     private List<CapacityController> listOfCapacity = new();
 
@@ -52,7 +52,7 @@ public class OrderUiScript : MonoBehaviour
         if(_entity.GetComponent<TroupeManager>())
         {
             StopAllCoroutines();
-            foreach (ButtonOverlap button in _ListOfAbilityButton)
+            foreach (ButtonForCapacity button in _ListOfAbilityButton)
             {
                 button.GetComponent<Image>().enabled = true;
                 if (_ListOfAbilityButton.IndexOf(button) < listOfCapacity.Count)
@@ -64,11 +64,11 @@ public class OrderUiScript : MonoBehaviour
 
                     if (capacity.GetType().IsSubclassOf(typeof(PassifCapacity)))
                     {
-                        button.GetComponent<ButtonOverlap>().enabled = false;
+                        button.GetComponent<ButtonForCapacity>().enabled = false;
                     }
                     else
                     {
-                        button.GetComponent<ButtonOverlap>().enabled = true;
+                        button.GetComponent<ButtonForCapacity>().enabled = true;
                         button.onClick.RemoveAllListeners();
                         button.onClick.AddListener(delegate { controlManager.CapacityOrder(capacity); });
                         StartCoroutine(ChargeBarOfAbility(button.GetComponentsInChildren<Image>()[1], capacity));
@@ -95,7 +95,7 @@ public class OrderUiScript : MonoBehaviour
         }
         else
         {
-            foreach (ButtonOverlap button in _ListOfAbilityButton)
+            foreach (ButtonForCapacity button in _ListOfAbilityButton)
             {
                 button.onClick.RemoveAllListeners();
                 button.gameObject.SetActive(false);
@@ -105,7 +105,7 @@ public class OrderUiScript : MonoBehaviour
 
     private void ActualiseACapacity(CapacityController capacity)
     {
-        ButtonOverlap button = _ListOfAbilityButton[listOfCapacity.IndexOf(capacity)];
+        ButtonForCapacity button = _ListOfAbilityButton[listOfCapacity.IndexOf(capacity)];
         StartCoroutine(ChargeBarOfAbility(button.GetComponentsInChildren<Image>()[1], capacity));
     }
 
@@ -130,10 +130,10 @@ public class OrderUiScript : MonoBehaviour
         List<RaycastResult> listOfUIRay = DoUiRayCast();
         foreach (RaycastResult raycastResult in listOfUIRay)
         {
-            if (raycastResult.gameObject.GetComponent<ButtonOverlap>())
+            if (raycastResult.gameObject.GetComponent<ButtonForCapacity>())
             {
                 List<CapacityController> listOfCapacaity = _entity.GetComponentsInChildren<CapacityController>().ToList();
-                ButtonOverlap _button = raycastResult.gameObject.GetComponent<ButtonOverlap>();
+                ButtonForCapacity _button = raycastResult.gameObject.GetComponent<ButtonForCapacity>();
                 if(_ListOfAbilityButton.Contains(_button))
                 {
                     CapacityController capacity = listOfCapacaity[_ListOfAbilityButton.IndexOf(_button)];

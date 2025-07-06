@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -91,6 +89,10 @@ public class IABrain : MonoBehaviour
         }
     }
 
+    public void RemoveBuilding(BuildingIA building)
+    {
+        stockBuilding.RemoveBuilding(building);
+    }
     private Vector3 GetTheNerestPoint(Vector3 objectif, List<Vector3> listOfPosition)
     {
         Vector3 position = listOfPosition[0];

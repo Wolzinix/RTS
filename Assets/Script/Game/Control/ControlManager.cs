@@ -399,7 +399,6 @@ public class ControlManager : MonoBehaviour
     private void DoubleClick(SelectableManager selectableManager)
     {
         StartCoroutine(IsOnScreen(selectableManager));
-
     }
     private void EndDragSelect(InputAction.CallbackContext obj)
     {

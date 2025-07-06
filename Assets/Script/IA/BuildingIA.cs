@@ -5,18 +5,18 @@ using UnityEngine;
 public class BuildingIA
 {
     public IABrain IAbrain;
-    public List<GameObject> EntityNextTo = new List<GameObject>();
+    public List<GameObject> EntityNextTo = new();
     public string Tag;
     public bool CanSpawn;
     public string TagOfEntity;
     public ProductBuildingController building;
 
     public bool IsProtected;
-    public List<GroupManager> _ListOfProtector = new List<GroupManager>();
+    public List<GroupManager> _ListOfProtector = new();
     public GroupManager _GroupOfSpawn = null;
 
     public int NbOfTower = 0;
-    public List<DefenseManager> _ListOfTower = new List<DefenseManager>();
+    public List<DefenseManager> _ListOfTower = new();
 
     public float distanceFromMainBase;
 
@@ -40,10 +40,18 @@ public class BuildingIA
 
     public void NeedAGroup()
     {
-        IAbrain.NeedToSendGroupToBuildingEvent.Invoke(this, building.transform.position);
+        if(building)
+        {
+            IAbrain.NeedToSendGroupToBuildingEvent.Invoke(this, building.transform.position);
+        }
+        else
+        {
+            IAbrain.RemoveBuilding(this);
+            this.Dispose();
+        }
     }
 
-    public void changeHaveEntity(List<GameObject> Entity, ProductBuildingController building)
+    public void ChangeHaveEntity(List<GameObject> Entity, ProductBuildingController building)
     {
         CanSpawn = building.GetCanSpawn();
 

@@ -1,10 +1,7 @@
 using Assets.Script.Tools;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class ProductBuildingController : MonoBehaviour
@@ -125,11 +122,10 @@ public class ProductBuildingController : MonoBehaviour
     }
     public void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity, RessourceController ressource)
     {
-        if (ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldCost) && _canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
+        if (this && ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldCost) && _canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
         {
             if (entityDictionary[entityToSpawn].actualStock > 0)
             {
-
                 if (lineRenderer != null)
                 { lineRenderer.positionCount = NbSpawnpoint; }
 

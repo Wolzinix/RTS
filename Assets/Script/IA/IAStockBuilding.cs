@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -41,7 +40,7 @@ public class IAStockBuilding
         stats.IAbrain = IAbrain;
         stats.distanceFromMainBase = DistanceFromMainBase(building);
 
-        building.EntityNextToEvent.AddListener(stats.changeHaveEntity);
+        building.EntityNextToEvent.AddListener(stats.ChangeHaveEntity);
 
         DicoOfBuilding[building] = stats;
         return stats;
@@ -74,6 +73,13 @@ public class IAStockBuilding
         }
     }
 
+    public void RemoveBuilding(BuildingIA building)
+    {
+        DicoOfBuilding.Remove(building.building);
+
+        building.building.entityCanSpawnNow.RemoveListener(IAbrain.SpawnEntityOfBuilding);
+        ActualiseBuilding();
+    }
     public void ActualiseBuilding()
     {
         List<ProductBuildingController> productBuildingControllers =  DicoOfBuilding.Keys.ToList();
