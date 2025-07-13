@@ -62,13 +62,12 @@ public class OrderUiScript : MonoBehaviour
                     button.gameObject.SetActive(true);
                     button.SetCapacity(capacity);
 
-                    if (capacity.GetType().IsSubclassOf(typeof(PassifCapacity)))
+                    if (capacity.GetType() == typeof(PassifCapacity) || capacity.GetType().IsSubclassOf(typeof(PassifCapacity)))
                     {
-                        button.GetComponent<ButtonForCapacity>().enabled = false;
+                        button.onClick.RemoveAllListeners();
                     }
                     else
                     {
-                        button.GetComponent<ButtonForCapacity>().enabled = true;
                         button.onClick.RemoveAllListeners();
                         button.onClick.AddListener(delegate { controlManager.CapacityOrder(capacity); });
                         StartCoroutine(ChargeBarOfAbility(button.GetComponentsInChildren<Image>()[1], capacity));
@@ -130,20 +129,19 @@ public class OrderUiScript : MonoBehaviour
         List<RaycastResult> listOfUIRay = DoUiRayCast();
         foreach (RaycastResult raycastResult in listOfUIRay)
         {
-            if (raycastResult.gameObject.GetComponent<ButtonForCapacity>())
+            ButtonForCapacity _button = raycastResult.gameObject.GetComponent<ButtonForCapacity>();
+            
+            if (_button &&
+                _ListOfAbilityButton.Contains(_button) &&
+                (_button.GetCapacity().GetType() == typeof(ActivableCapacity) 
+                || _button.GetCapacity().GetType().IsSubclassOf(typeof(ActivableCapacity))))
             {
                 List<CapacityController> listOfCapacaity = _entity.GetComponentsInChildren<CapacityController>().ToList();
-                ButtonForCapacity _button = raycastResult.gameObject.GetComponent<ButtonForCapacity>();
-                if(_ListOfAbilityButton.Contains(_button))
-                {
-                    CapacityController capacity = listOfCapacaity[_ListOfAbilityButton.IndexOf(_button)];
-                    if (capacity.GetType().IsSubclassOf(typeof(ActivableCapacity)))
-                    {
-                        ActivableCapacity activable = (ActivableCapacity)capacity;
-
-                        controlManager.ChangeCapacityActif(activable);
-                    }
-                }
+                
+                CapacityController capacity = listOfCapacaity[_ListOfAbilityButton.IndexOf(_button)];
+                ActivableCapacity activable = (ActivableCapacity)capacity;
+                controlManager.ChangeCapacityActif(activable);
+                break;
             }
         }
     }

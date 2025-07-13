@@ -12,7 +12,6 @@ public class ButtonOverlap : Button
     }
     protected virtual void LateUpdate()
     {
-        
         if (IsHighlighted() && !stopFenetre) 
         {
             fenetre.gameObject.SetActive(true);

@@ -20,7 +20,10 @@ public class ButtonForCapacity : ButtonOverlap
         }
         imageOfCapacity.sprite = _capacity.sprite;
     }
-
+    public CapacityController GetCapacity()
+    {
+        return _capacity;
+    }
     protected override void Actualisation()
     {
         base.Actualisation();

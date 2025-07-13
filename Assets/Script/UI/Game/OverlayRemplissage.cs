@@ -17,9 +17,11 @@ public class OverlayRemplissage : MonoBehaviour
     TMP_Text _Description;
     RessourceController _RessourceController;
 
-    private void Start()
+    private void OnEnable()
     {
-        _RessourceController = FindAnyObjectByType<RessourceController>();
+        if(!_RessourceController) {
+            _RessourceController = FindAnyObjectByType<ControlManager>().GetComponent<RessourceController>();
+        }
     }
     public void SetUpOverlay(Vector3 coord)
     {
