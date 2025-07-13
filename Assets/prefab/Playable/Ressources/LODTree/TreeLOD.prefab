@@ -136,7 +136,7 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2260624746949012918}
     - renderer: {fileID: 3818202733042107822}
-  - screenRelativeHeight: 0.30385318
+  - screenRelativeHeight: 0.1463458
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8241448387666469209}
@@ -200,10 +200,10 @@ MonoBehaviour:
   defense: 0
   entityType: 0
   size: 0
-  GoldAmount: 0
-  WoodAmount: 5
   GoldCost: 1
   WoodCost: 1
+  GoldLoot: 1
+  WoodLoot: 1
   xpToGive: 0
   sprite: {fileID: 7209951177683395082}
   spriteImage: {fileID: 7482667652216324306, guid: 408f369d49327ef439de9a2e3502538a, type: 3}

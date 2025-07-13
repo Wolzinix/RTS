@@ -50,7 +50,6 @@ public class BuildUi : MonoBehaviour
             if (_ListOfButton.IndexOf(button) + _numberOfbutton < listOfGameobject.Count())
             {
                 button.gameObject.SetActive(true);
-                button.image.sprite = listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<SelectableManager>().GetSprit();
                 button.SetEntity(listOfGameobject[_ListOfButton.IndexOf(button) + _numberOfbutton].GetComponent<SelectableManager>());
                 button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(delegate { _controlManager.DoABuilding(_ListOfButton.IndexOf(button) + _numberOfbutton, _builder.GetBuildings()[_ListOfButton.IndexOf(button) + _numberOfbutton]); });

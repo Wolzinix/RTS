@@ -6,14 +6,12 @@ public class ButtonForEntity : ButtonOverlap
     public void SetEntity(EntityManager EntityManager)
     {
         _EntityManager = EntityManager;
-        imageForOverlay = _EntityManager.GetSprit();
-
-        if (!fenetre) { FalseStart(); }
-        fenetre.GetComponent<OverlayRemplissage>().ActualiseOverlay(_EntityManager);
+        image.sprite = _EntityManager.GetSprit();
     }
 
     protected override void Actualisation()
     {
-        fenetre.GetComponent<OverlayRemplissage>().ActualiseOverlay(_EntityManager);
+        base.Actualisation();
+        fenetre.ActualiseOverlay(_EntityManager);
     }
 }

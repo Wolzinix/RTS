@@ -1,57 +1,37 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonOverlap : Button
 {
-    [SerializeField] GameObject prefabFenetre;
-    protected bool fenetreIsCreate;
-    protected GameObject fenetre;
-    protected Sprite imageForOverlay;
-    protected Image imageOfButton;
-    public bool isActivable;
+    protected OverlayRemplissage fenetre;
+    public bool stopFenetre;
     protected override void Start()
     {
         base.Start();
-        imageOfButton = GetComponent<Image>();
-        if (!fenetre)
-        {
-            FalseStart();
-        }
-    }
-    protected void FalseStart()
-    {
-        Vector3 coord = transform.position;
-        coord += new Vector3(-25, 75, 0);
-        fenetre = Instantiate(prefabFenetre);
-
-        Sprite image = imageForOverlay;
-        fenetre.GetComponent<OverlayRemplissage>().SetUpOverlay(coord, "lalalalalala", image);
-        fenetre.SetActive(false);
+        fenetre = FindAnyObjectByType<OverlayRemplissage>(FindObjectsInactive.Include);
     }
     protected virtual void LateUpdate()
     {
-        if(isActivable) { imageOfButton.enabled = !imageOfButton.enabled; }
         
-        if (IsHighlighted() && !fenetreIsCreate) 
+        if (IsHighlighted() && !stopFenetre) 
         {
-            fenetreIsCreate = true;
-            fenetre.SetActive(true);
+            fenetre.gameObject.SetActive(true);
             Actualisation();
+            stopFenetre = true;
         }
-        else
+        else if(!IsHighlighted() && stopFenetre)
         {
-            if(fenetre && !IsHighlighted())
-            {
-                fenetreIsCreate = false;
-                fenetre.SetActive(false);
-            }
+            fenetre.gameObject.SetActive(false);
+            stopFenetre = false;
         }
     }
-    public void Clignote(ActivableCapacity activable)
-    {
-        isActivable = activable.actif;
-    }
+    
 
-    protected virtual void Actualisation(){}
+    protected virtual void Actualisation()
+    {
+        Vector3 coord = transform.position;
+        coord += new Vector3(-25, GetComponent<RectTransform>().rect.height *2 , 0);
+
+        fenetre.SetUpOverlay(coord);
+    }
 }

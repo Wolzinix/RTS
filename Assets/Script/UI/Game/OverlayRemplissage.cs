@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class OverlayRemplissage : MonoBehaviour
 {
     [SerializeField] Image AbilityOverlay;
+
+    [Header("Cost")]
     [SerializeField] Image EntityOverlay;
 
     [SerializeField] Image GoldImage;
@@ -15,15 +17,17 @@ public class OverlayRemplissage : MonoBehaviour
     TMP_Text _Description;
     RessourceController _RessourceController;
 
-    public void SetUpOverlay(Vector3 coord,string Name, Sprite image)
+    private void Start()
+    {
+        _RessourceController = FindAnyObjectByType<RessourceController>();
+    }
+    public void SetUpOverlay(Vector3 coord)
     {
         AbilityOverlay.transform.parent.position = coord;
         EntityOverlay.transform.parent.position = coord;
 
         if (!_text) { GetText(); }
-        _text.text = Name;
 
-        _RessourceController = FindAnyObjectByType<RessourceController>();
     }
 
     public void ActualiseOverlay(CapacityController capacity)
@@ -35,16 +39,7 @@ public class OverlayRemplissage : MonoBehaviour
         _Description.text = capacity.Description;
     }
 
-    private void EntityIsOn()
-    {
-        EntityOverlay.transform.parent.gameObject.SetActive(true);
-        AbilityOverlay.transform.parent.gameObject.SetActive(false);
-    }
-    private void AbilityIsOn()
-    {
-        EntityOverlay.transform.parent.gameObject.SetActive(false);
-        AbilityOverlay.transform.parent.gameObject.SetActive(true);
-    }
+    
     public void ActualiseOverlay(EntityManager entity)
     {
         EntityIsOn();
@@ -70,6 +65,16 @@ public class OverlayRemplissage : MonoBehaviour
         else { WoodImage.gameObject.SetActive(false); }
     }
 
+    private void EntityIsOn()
+    {
+        EntityOverlay.transform.parent.gameObject.SetActive(true);
+        AbilityOverlay.transform.parent.gameObject.SetActive(false);
+    }
+    private void AbilityIsOn()
+    {
+        EntityOverlay.transform.parent.gameObject.SetActive(false);
+        AbilityOverlay.transform.parent.gameObject.SetActive(true);
+    }
 
     private void GetText()
     {
