@@ -15,6 +15,7 @@ public class MoveState : StateClassEntity
     }
     public override void Start()
     {
+        controller.CancelAnimation();
         controller._animator.SetBool(AnimationController.Moving, true);
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
     }
@@ -22,6 +23,7 @@ public class MoveState : StateClassEntity
     {
         if(controller._animator.GetBool(AnimationController.Moving) == false) 
         {
+            controller.CancelAnimation();
             controller._animator.SetBool(AnimationController.Moving, true);
         }
         if (navMeshController != null)

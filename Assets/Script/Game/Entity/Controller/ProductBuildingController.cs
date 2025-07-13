@@ -13,7 +13,7 @@ public class ProductBuildingController : MonoBehaviour
     [HideInInspector] public UnityEvent entityAsBeenBuy = new UnityEvent();
 
     [HideInInspector] public UnityEvent<List<GameObject>, ProductBuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, ProductBuildingController>();
-
+    private TextChanger _textForInfo;
     private float _rangeDetection;
 
     private bool _ally;
@@ -48,6 +48,8 @@ public class ProductBuildingController : MonoBehaviour
         _sphereCollider.radius = gameObject.GetComponent<ProductionBuildingManager>().SeeRange;
         entityDictionary = new Dictionary<GameObject, SpawnTime>();
         _rangeDetection = gameObject.GetComponent<ProductionBuildingManager>().SeeRange;
+
+        _textForInfo = FindAnyObjectByType<TextChanger>();
 
         if (prefabToSpawn.Count == MySpawns.Count)
         {
@@ -103,7 +105,25 @@ public class ProductBuildingController : MonoBehaviour
     public Dictionary<GameObject, SpawnTime> GetEntityDictionary() { return entityDictionary; }
     public void AllySpawnEntity(GameObject entityToSpawn, RessourceController ressource)
     {
-        if (_ally && !_ennemie) { SpawnEntity(entityToSpawn, ListOfNearEntity[0].gameObject.tag, ListOfNearEntity[0], ressource); }
+        TextGestion(entityToSpawn, ressource);
+        if (_ally && !_ennemie) { SpawnEntity(entityToSpawn, ListOfNearEntity[0].tag, ListOfNearEntity[0], ressource); }
+    }
+    private void TextGestion(GameObject entityToSpawn, RessourceController ressource)
+    {
+        if (!_canSpawn)
+        {
+            _textForInfo.SetText("Zone Contester");
+        }
+        else if (!ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldLoot) ||
+            !ressource.CompareWood(entityToSpawn.GetComponent<EntityManager>().WoodLoot)
+            )
+        {
+            _textForInfo.SetText("Pas Assez De Ressource");
+        }
+        else if (entityDictionary[entityToSpawn].actualStock == 0)
+        {
+            _textForInfo.SetText("Pas Encore Disponible");
+        }
     }
 
     private void ProximityGestion()
@@ -113,7 +133,7 @@ public class ProductBuildingController : MonoBehaviour
             tagOfNerestEntity = "ennemie";
             _canSpawn = true;
         }
-        else if (_ally) { tagOfNerestEntity = "Allie"; _canSpawn = true; }
+        else if (_ally && !_ennemie) { tagOfNerestEntity = "Allie"; _canSpawn = true; }
         else { _canSpawn = false; tagOfNerestEntity = ""; }
     }
     public void SpawnEveryEntity(string tag, GameObject entity, RessourceController ressource)
@@ -157,6 +177,10 @@ public class ProductBuildingController : MonoBehaviour
                             ressource.AddGold(-entityToSpawn.GetComponent<EntityManager>().GoldLoot);
                             break;
                         }
+                    }
+                    if(w == NbSpawnpoint -1 && _ally)
+                    {
+                        _textForInfo.SetText("Zone Obstrue");
                     }
                 }
             }

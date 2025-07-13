@@ -9,15 +9,12 @@ public class CursorActionGestion : MonoBehaviour
     void Start()
     {
         WhatMaterialToUse();
-        Destroy(gameObject,3);
+        Destroy(gameObject,0.5f);
     }
 
     private void WhatMaterialToUse()
     {
-        if(bad)
-        {
-            meshRenderer.material = badMaterial;
-        }
+        if(bad) { meshRenderer.material = badMaterial; }
         else { meshRenderer.material = goodMaterial;}
     }
 

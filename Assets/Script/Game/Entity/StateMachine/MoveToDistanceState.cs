@@ -18,6 +18,7 @@ public class MoveToDistanceState : MoveState
     {
         if (controller._animator.GetBool(AnimationController.Moving) == false)
         {
+            controller.CancelAnimation();
             controller._animator.SetBool(AnimationController.Moving, true);
         }
         if (navMeshController != null)

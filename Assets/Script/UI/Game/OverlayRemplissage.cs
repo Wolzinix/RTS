@@ -54,7 +54,7 @@ public class OverlayRemplissage : MonoBehaviour
             TMP_Text goldText = GoldImage.GetComponentInChildren<TMP_Text>();
             goldText.text = "";
             GoldImage.gameObject.SetActive(true);
-            goldText.text += "\n" + entity.GoldCost + " / " + _RessourceController.GetGold();
+            goldText.text += "\n" + _RessourceController.GetGold() + " / " + entity.GoldCost;
         }
         else { GoldImage.gameObject.SetActive(false); }
         if(entity.WoodCost > 0)
@@ -62,7 +62,7 @@ public class OverlayRemplissage : MonoBehaviour
             TMP_Text WoodText = WoodImage.GetComponentInChildren<TMP_Text>();
             WoodImage.gameObject.SetActive(true);
             WoodText.text = "";
-            WoodText.text += "\n" + entity.WoodCost + " / " + _RessourceController.GetWood();
+            WoodText.text += "\n" + _RessourceController.GetWood() + " / " + entity.WoodCost;
         }
         else { WoodImage.gameObject.SetActive(false); }
     }
