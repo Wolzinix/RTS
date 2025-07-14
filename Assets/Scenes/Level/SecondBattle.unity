@@ -1794,7 +1794,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Name
-      value: PropsSpawningCPU
+      value: PropsSpawningCPUBush
       objectReference: {fileID: 0}
     - target: {fileID: 996650268863962411, guid: eafe9343fa0df5c4bbad00ce47efbda1, type: 3}
       propertyPath: m_Layer

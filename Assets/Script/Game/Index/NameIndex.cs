@@ -10,9 +10,9 @@ public static class NameIndex
         { 1,"Michel" },
         { 2,"Nepser" },
         { 3,"Nezelithe" },
-        { 4,"FireWolf_xy" },
+        { 4,"FireWolf" },
         { 5,"Pokyton" },
-        { 6,"GloK__" },
+        { 6,"Glok" },
         { 7,"MyouuMahjong" },
         { 8,"lilicornette" },
         { 9,"Subbarath" },
@@ -22,6 +22,8 @@ public static class NameIndex
         { 13,"NuWeb" },
         { 14,"Powerm1nt" },
         { 15,"MrSinaf" },
+        { 16,"Zirkonya" },
+        { 16,"joshysan" },
 
     };
     public static string GetAName(){ return DicoOfName[Random.Range(0,DicoOfName.Count)]; }
