@@ -1,5 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ProBuilder;
+using UnityEngine.UIElements;
 
 public class PropsSpawningGPU : PropsSpawningCPU
 {
@@ -19,28 +20,39 @@ public class PropsSpawningGPU : PropsSpawningCPU
         if(spawningGO)
         {
             float size;
+            int actualSpawn = nbOfSpawningItem;
             boxCollider = GetComponent<BoxCollider>();
 
-        
             mesh = spawningGO.GetComponentInChildren<MeshFilter>().sharedMesh;
             size = mesh.bounds.size.y / 4;
-        
 
-            matrice = new Matrix4x4[nbOfSpawningItem];
+
+            List<Vector3> listOfPosition = new List<Vector3>();
             for (int i = 0; i < nbOfSpawningItem; i++)
             {
-
                 float x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
                 float z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
 
                 Vector3 position = new (x, boxCollider.bounds.max.y, z);
+                
                 position = RayToTuchGroundWithMapLayer(position);
-                position.y += size;
-                if (position == Vector3.zero) { continue; }
 
+                if (position == Vector3.zero)
+                {
+                    actualSpawn -= 1;
+                    continue;
+                }
+                position.y += size;
+                listOfPosition.Add(position);
+            }
+
+
+            matrice = new Matrix4x4[actualSpawn];
+            foreach (Vector3 i in listOfPosition) 
+            {
                 Quaternion quaternion = Quaternion.Euler(0, Random.Range(0, 360), 0);
                 Vector3 sizeVector = spawningGO.transform.localScale * Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
-                matrice[i] = Matrix4x4.TRS(position, quaternion, sizeVector);
+                matrice[listOfPosition.IndexOf(i)] = Matrix4x4.TRS(i, quaternion, sizeVector);
             }
 
             spawningGO.GetComponentInChildren<MeshRenderer>().sharedMaterial.enableInstancing = true;
