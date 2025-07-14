@@ -46,29 +46,24 @@ public class OrderUiScript : MonoBehaviour
 
     private void ActualiseUi()
     {
-        if (_entity && _entity.GetComponent<BuilderController>()) { _buttonForBuilding.gameObject.SetActive(true); }
-        else { _buttonForBuilding.gameObject.SetActive(false); }
+        _buttonForBuilding.gameObject.SetActive(_entity.GetComponent<BuilderController>()); 
 
         if(_entity.GetComponent<TroupeManager>())
         {
             StopAllCoroutines();
             foreach (ButtonForCapacity button in _ListOfAbilityButton)
             {
-                button.GetComponent<Image>().enabled = true;
+                button.gameObject.SetActive(true);
+                button.onClick.RemoveAllListeners();
                 if (_ListOfAbilityButton.IndexOf(button) < listOfCapacity.Count)
                 {
                     CapacityController capacity = listOfCapacity[_ListOfAbilityButton.IndexOf(button)];
 
-                    button.gameObject.SetActive(true);
                     button.SetCapacity(capacity);
+                    button.isActivable = false;
 
-                    if (capacity.GetType() == typeof(PassifCapacity) || capacity.GetType().IsSubclassOf(typeof(PassifCapacity)))
+                    if (capacity.GetType() != typeof(PassifCapacity))
                     {
-                        button.onClick.RemoveAllListeners();
-                    }
-                    else
-                    {
-                        button.onClick.RemoveAllListeners();
                         button.onClick.AddListener(delegate { controlManager.CapacityOrder(capacity); });
                         StartCoroutine(ChargeBarOfAbility(button.GetComponentsInChildren<Image>()[1], capacity));
                         capacity.ActivateEvent.AddListener(ActualiseACapacity);
@@ -76,20 +71,11 @@ public class OrderUiScript : MonoBehaviour
                     if (capacity.GetType().IsSubclassOf(typeof(ActivableCapacity)))
                     {
                         ActivableCapacity activable = (ActivableCapacity)capacity;
-                        
                         activable.changeActif.AddListener(button.Clignote);
                         button.Clignote(activable);
                     }
-                    else
-                    {
-                        button.isActivable = false;
-                    }
                 }
-                else
-                {
-                    button.onClick.RemoveAllListeners();
-                    button.gameObject.SetActive(false);
-                }
+                else { button.gameObject.SetActive(false); }
             }
         }
         else
@@ -133,8 +119,9 @@ public class OrderUiScript : MonoBehaviour
             
             if (_button &&
                 _ListOfAbilityButton.Contains(_button) &&
-                (_button.GetCapacity().GetType() == typeof(ActivableCapacity) 
-                || _button.GetCapacity().GetType().IsSubclassOf(typeof(ActivableCapacity))))
+                (_button.GetCapacity().GetType() == typeof(ActivableCapacity) ||
+                _button.GetCapacity().GetType().IsSubclassOf(typeof(ActivableCapacity)))
+                )
             {
                 List<CapacityController> listOfCapacaity = _entity.GetComponentsInChildren<CapacityController>().ToList();
                 

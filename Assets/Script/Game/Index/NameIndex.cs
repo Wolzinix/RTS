@@ -23,7 +23,8 @@ public static class NameIndex
         { 14,"Powerm1nt" },
         { 15,"MrSinaf" },
         { 16,"Zirkonya" },
-        { 16,"joshysan" },
+        { 17,"joshysan" },
+        { 18,"Razeera" },
 
     };
     public static string GetAName(){ return DicoOfName[Random.Range(0,DicoOfName.Count)]; }

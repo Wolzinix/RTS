@@ -55,4 +55,9 @@ public class RessourceController : MonoBehaviour
 
     public int GetWood() { return _wood; }
     public int GetGold() { return _gold; }
+
+    public bool CompareRessource(int wood , int gold)
+    {
+        return _wood >= wood && _gold >= gold;
+    }
 }
