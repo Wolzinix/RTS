@@ -739,7 +739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _nameOfEntity
-      value: Jenne
+      value: Jennerette
       objectReference: {fileID: 0}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _entityToSpawn
@@ -1469,6 +1469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147cf10c81e708847bacb8a13af8212b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _list: []
 --- !u!4 &512904832
 Transform:
   m_ObjectHideFlags: 0
@@ -3969,7 +3970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _nameOfEntity
-      value: Jenne
+      value: Jennette
       objectReference: {fileID: 0}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _entityToSpawn
@@ -4304,7 +4305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _nameOfEntity
-      value: Jacky
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7353627335647898174, guid: db7cac1a7d5fffb47bc4e8f60c46422c, type: 3}
       propertyPath: _entityToSpawn

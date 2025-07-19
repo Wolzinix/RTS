@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SaveForNextlevel : MonoBehaviour
@@ -10,6 +8,7 @@ public class SaveForNextlevel : MonoBehaviour
     private static SaveForNextlevel _instance;
 
     public List<GameObject> _list = new List<GameObject>();
+    int index = 0;
 
     private void Awake()
     {
@@ -37,6 +36,7 @@ public class SaveForNextlevel : MonoBehaviour
                 _list[^1].SetActive(false);
             }
         }
+        index = 0;
     }
     public void ClearSave()
     {
@@ -45,9 +45,19 @@ public class SaveForNextlevel : MonoBehaviour
             Destroy(i);
         }
         _list.Clear();
+        index = 0;
     }
-    public void LoadEntity()
+    public GameObject LoadEntity()
     {
-        
+        if(_list.Count>0 && index < _list.Count)
+        {
+            index++;
+            return _list[index -1 ];
+        }
+        else
+        {
+            ClearSave();
+        }
+        return null;
     }
 }
