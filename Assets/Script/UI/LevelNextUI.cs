@@ -9,6 +9,12 @@ public class LevelNextUI : MonoBehaviour
     [SerializeField] GameObject RetryMenuUI;
     [SerializeField] GameObject NextMenuUI;
 
+    SaveForNextlevel save;
+
+    private void Start()
+    {
+        save = FindObjectOfType<SaveForNextlevel>();
+    }
     public void QuitGame()
     {
         Application.Quit();
