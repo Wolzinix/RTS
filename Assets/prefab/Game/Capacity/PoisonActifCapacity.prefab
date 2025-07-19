@@ -47,10 +47,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Poison
   sprite: {fileID: 21300000, guid: edac31d56d46eec4ea804ed2722505ec, type: 3}
+  Description: "Tire un projectil qui fait des degats sur la dur\xE9e"
   cooldown: 0
   actualTime: 0
   ready: 1
   range: 3
+  ActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8460744914307186563
 MonoBehaviour:
   m_ObjectHideFlags: 0

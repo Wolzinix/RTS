@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,6 +20,8 @@ public class EntityController : BuildingController
 
     [HideInInspector] public Animator _animator;
 
+    readonly Type[] listOfTypeStateForSearch = { typeof(PatrolState), typeof(AggressifState), typeof(FollowState) };
+
     override protected void Awake()
     {
         base.Awake();
@@ -33,24 +36,23 @@ public class EntityController : BuildingController
         {
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         }
-        if (_navMesh)
-        {
-            GetComponent<NavMeshController>().StopPath();
-        }
 
     }
     override protected void LateUpdate()
     {
+
         if (_ListOfstate.Count > 0)
         {
             _ListOfstate[0].Update();
         }
-        if (_navMesh && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState) || _ListOfstate[0].GetType() == typeof(FollowState) || _navMesh == null))
+
+        if (_navMesh && 
+            (_ListOfstate.Count == 0 || 
+                (listOfTypeStateForSearch.Contains(_ListOfstate[0].GetType()) && _ListOfstate[0].GetType() != typeof(StuntState))
+            )
+            )
         {
-            if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
-            {
-                SearchTarget();
-            }
+            SearchTarget();
         }
     }
     override protected void SearchTarget()
@@ -61,11 +63,10 @@ public class EntityController : BuildingController
         {
             if (_navMesh) { _navMesh.StopPath(); }
         }
-
     }
     override protected void AddEnnemi(SelectableManager target)
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
         {
             base.AddEnnemi(target);
             InsertTarget(target);
@@ -103,7 +104,7 @@ public class EntityController : BuildingController
 
     public void AddAttackState(SelectableManager target)
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
         {
             if (_projectile) { _ListOfstate.Insert(0, new AttackState(this, _projectile, target)); }
             else { _ListOfstate.Insert(0, new AttackState(this, target)); }
@@ -132,17 +133,19 @@ public class EntityController : BuildingController
 
     public void AddPathWithRange(Vector3 newPath, float range)
     {
-        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5 + range)
+        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
         {
-            _ListOfstate.Insert(0, new MoveToDistanceState(_navMesh, newPath, this, range));
-            StartFirstOrder();
+            if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5 + range)
+            {
+                _ListOfstate.Insert(0, new MoveToDistanceState(_navMesh, newPath, this, range));
+                StartFirstOrder();
+            }
         }
-
     }
 
     public void AddPathInFirst(Vector3 newPath)
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
         {
             if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
             {
@@ -158,7 +161,7 @@ public class EntityController : BuildingController
     }
     public void InsertTarget(SelectableManager target)
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
         {
             _ListOfstate.Insert(0, new TargetState(target, this, _navMesh));
             StartFirstOrder();
@@ -180,29 +183,15 @@ public class EntityController : BuildingController
             {
                 point
             };
-
-        if (_ListOfstate.Count == 0 || (_ListOfstate.Count == 2 && _ListOfstate[1].GetType() != typeof(PatrolState)))
+        if (_ListOfstate.Count >= 1 && _ListOfstate.Exists(r => r.GetType() == typeof(PatrolState)))
         {
-            _ListOfstate.Add(new PatrolState(destination, _navMesh, this));
-            StartFirstOrder();
+            PatrolState patrol = (PatrolState)_ListOfstate[_ListOfstate.FindIndex(r => r.GetType() == typeof(PatrolState))];
+            patrol.AddDestination(point);
         }
         else
         {
-            if (_ListOfstate.Count == 1 && _ListOfstate[0].GetType() == typeof(PatrolState))
-            {
-                PatrolState patrol = (PatrolState)_ListOfstate[0];
-                patrol.AddDestination(point);
-            }
-            else if (_ListOfstate.Count == 2 && _ListOfstate[1].GetType() == typeof(PatrolState))
-            {
-                PatrolState patrol = (PatrolState)_ListOfstate[1];
-                patrol.AddDestination(point);
-            }
-            else
-            {
-                _ListOfstate.Add(new PatrolState(destination, _navMesh, this));
-                StartFirstOrder();
-            }
+            _ListOfstate.Add(new PatrolState(destination, _navMesh, this));
+            StartFirstOrder();
         }
     }
     public void AddAggressivePath(Vector3 newPath)
@@ -217,7 +206,7 @@ public class EntityController : BuildingController
     }
     public void AddStayOrderAtFirst()
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
         {
             _ListOfstate.Insert(0, new StayState(_navMesh, this));
             StartFirstOrder();
@@ -226,7 +215,7 @@ public class EntityController : BuildingController
 
     public void AddStuntOrder()
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate.Count != 0 && _ListOfstate[0].GetType() != typeof(StuntState))
+        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
         {
             _ListOfstate.Insert(0, new StuntState(_navMesh, this));
             StartFirstOrder();
@@ -241,12 +230,18 @@ public class EntityController : BuildingController
     }
     override public void ClearAllOrder()
     {
+        foreach (CapacityController i in GetComponentsInChildren<CapacityController>())
+        {
+            i.CancelCapacity();
+        }
         while (_ListOfstate.Count > 0) { _ListOfstate[0].End(); }
+
+        
         base.ClearAllOrder();
 
-        CancelAnimation();
         if (_navMesh) { _navMesh.StopPath(); }
         resetEvent.Invoke();
+        CancelAnimation();
     }
 
     public void CancelAnimation()

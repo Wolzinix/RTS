@@ -13,12 +13,12 @@ public class EntityManager : MonoBehaviour
     [HideInInspector] public float size;
 
     [Header("Cost")]
-    public int GoldAmount = 1;
-    public int WoodAmount = 1;
-
-    [Header("Drop")]
     public int GoldCost = 1;
     public int WoodCost = 1;
+
+    [Header("Drop")]
+    public int GoldLoot = 1;
+    public int WoodLoot = 1;
     [SerializeField] protected float xpToGive = 0.0f;
 
     [Header("Sprite")]
@@ -85,7 +85,7 @@ public class EntityManager : MonoBehaviour
 
         if (hp <= 0)
         {
-            entity.AddToRessourcesKilledEntity(GoldAmount, WoodAmount);
+            entity.AddToRessourcesKilledEntity(GoldCost, WoodCost);
             if (entity.GetType() == typeof(TroupeManager)) { TroupeManager c = (TroupeManager)entity; c.AddXp(xpToGive); }
         }
 
@@ -126,7 +126,7 @@ public class EntityManager : MonoBehaviour
 
     public bool CanDoIt(RessourceController ressource)
     {
-        return ressource.CompareGold(GoldCost) && ressource.CompareWood(WoodCost);
+        return ressource.CompareGold(GoldLoot) && ressource.CompareWood(WoodLoot);
     }
 
     private float GetSize()

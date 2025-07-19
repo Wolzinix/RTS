@@ -1,10 +1,7 @@
 using Assets.Script.Tools;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class ProductBuildingController : MonoBehaviour
@@ -16,7 +13,7 @@ public class ProductBuildingController : MonoBehaviour
     [HideInInspector] public UnityEvent entityAsBeenBuy = new UnityEvent();
 
     [HideInInspector] public UnityEvent<List<GameObject>, ProductBuildingController> EntityNextToEvent = new UnityEvent<List<GameObject>, ProductBuildingController>();
-
+    private TextChanger _textForInfo;
     private float _rangeDetection;
 
     private bool _ally;
@@ -51,6 +48,8 @@ public class ProductBuildingController : MonoBehaviour
         _sphereCollider.radius = gameObject.GetComponent<ProductionBuildingManager>().SeeRange;
         entityDictionary = new Dictionary<GameObject, SpawnTime>();
         _rangeDetection = gameObject.GetComponent<ProductionBuildingManager>().SeeRange;
+
+        _textForInfo = FindAnyObjectByType<TextChanger>();
 
         if (prefabToSpawn.Count == MySpawns.Count)
         {
@@ -95,26 +94,52 @@ public class ProductBuildingController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        ReduceTimer();
-        proximityGestion();
+        if(this)
+        {
+            ReduceTimer();
+            ProximityGestion();
+        }
     }
 
     public bool GetCanSpawn() { return _canSpawn; }
     public Dictionary<GameObject, SpawnTime> GetEntityDictionary() { return entityDictionary; }
     public void AllySpawnEntity(GameObject entityToSpawn, RessourceController ressource)
     {
-        if (_ally && !_ennemie) { SpawnEntity(entityToSpawn, ListOfNearEntity[0].gameObject.tag, ListOfNearEntity[0], ressource); }
+        if (TextGestion(entityToSpawn, ressource)) { SpawnEntity(entityToSpawn, ListOfNearEntity[0].tag, ListOfNearEntity[0], ressource); }
+    }
+    private bool TextGestion(GameObject entityToSpawn, RessourceController ressource)
+    {
+        EntityManager entityManager = entityToSpawn.GetComponent<EntityManager>();
+        if(ListOfNearEntity.Count == 0)
+        {
+            _textForInfo.SetText("Aucune entité a proximiter");
+            return false;
+        }
+        else if (!_canSpawn)
+        {
+            _textForInfo.SetText("Zone Contester");
+            return false;
+        }
+        else if (!ressource.CompareGold(entityManager.GoldLoot) ||
+            !ressource.CompareWood(entityManager.WoodLoot)
+            )
+        {
+            _textForInfo.SetText("Pas Assez De Ressource");
+            return false;
+        }
+        else if (entityDictionary[entityToSpawn].actualStock == 0)
+        {
+            _textForInfo.SetText("Pas Encore Disponible");
+            return false;
+        }
+        return true;
     }
 
-    private void proximityGestion()
+    private void ProximityGestion()
     {
-        if (!_ally && _ennemie)
-        {
-            tagOfNerestEntity = "ennemie";
-            _canSpawn = true;
-        }
-        else if (_ally) { tagOfNerestEntity = "Allie"; _canSpawn = true; }
-        else { _canSpawn = false; tagOfNerestEntity = ""; }
+        if (!_ally && _ennemie) { tagOfNerestEntity = "ennemie"; _canSpawn = true; }
+        else if (_ally && !_ennemie) { tagOfNerestEntity = "Allie"; _canSpawn = true; }
+        else {  tagOfNerestEntity = ""; _canSpawn = false; }
     }
     public void SpawnEveryEntity(string tag, GameObject entity, RessourceController ressource)
     {
@@ -122,43 +147,50 @@ public class ProductBuildingController : MonoBehaviour
     }
     public void SpawnEntity(GameObject entityToSpawn, string tag, GameObject entity, RessourceController ressource)
     {
-        if (ressource.CompareGold(entityToSpawn.GetComponent<EntityManager>().GoldCost) && _canSpawn && (transform.CompareTag(tag) || transform.CompareTag("neutral")))
+        EntityManager entityManager = entityToSpawn.GetComponent<EntityManager>();
+        if (this && 
+            ressource.CompareRessource(entityManager.WoodLoot, entityManager.GoldLoot) &&
+            _canSpawn && 
+            (transform.CompareTag(tag) || transform.CompareTag("neutral"))&&
+            entityDictionary[entityToSpawn].actualStock > 0)
         {
-            if (entityDictionary[entityToSpawn].actualStock > 0)
+            /*
+            if (lineRenderer != null)
+            { lineRenderer.positionCount = NbSpawnpoint; }
+            */
+            for (int w = 0; w < NbSpawnpoint; w++)
             {
+                Vector3 pos = CalculPostion(spawnrayon, w);
 
+                /* 
                 if (lineRenderer != null)
-                { lineRenderer.positionCount = NbSpawnpoint; }
+                { lineRenderer.SetPosition(w, pos); }
+                */
 
-                for (int w = 0; w < NbSpawnpoint; w++)
+                pos = RayCast.RaycastForGroundNavMesh(pos,spawnrayon);
+
+                if (pos != transform.position)
                 {
-
-                    Vector3 pos = calculPostion(spawnrayon, w);
-
-                    if (lineRenderer != null)
-                    { lineRenderer.SetPosition(w, pos); }
-
-                    pos = RayCast.RaycastForGroundNavMesh(pos,spawnrayon);
-
-                    if (pos != transform.position)
+                    int colliders = DoAOverlap(pos);
+                    if (colliders <= 0)
                     {
-                        int colliders = DoAOverlap(pos);
-                        if (colliders <= 0)
-                        {
-                            GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
+                        GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
 
-                            newEntity.name = NameIndex.GetAName();
-                            newEntity.tag = tag;
+                        newEntity.name = NameIndex.GetAName();
+                        newEntity.tag = tag;
 
-                            newEntity.GetComponent<AggressifEntityManager>().ActualiseSprite();
+                        newEntity.GetComponent<AggressifEntityManager>().ActualiseSprite();
 
-                            entityDictionary[entityToSpawn].actualStock -= 1;
-                            entitySpawnNow.Invoke();
-                            entityAsBeenBuy.Invoke();
-                            ressource.AddGold(-entityToSpawn.GetComponent<EntityManager>().GoldCost);
-                            break;
-                        }
+                        entityDictionary[entityToSpawn].actualStock -= 1;
+                        entitySpawnNow.Invoke();
+                        entityAsBeenBuy.Invoke();
+                        ressource.AddGold(-entityManager.GoldLoot);
+                        return;
                     }
+                }
+                if(w == NbSpawnpoint -1 && _ally)
+                {
+                    _textForInfo.SetText("Zone Obstrue");
                 }
             }
         }
@@ -170,7 +202,7 @@ public class ProductBuildingController : MonoBehaviour
         for (int w = 0; w < NbSpawnpoint; w++)
         {
             bool hasTower = false;
-            Vector3 pos = calculPostion(spawnRadius, w);
+            Vector3 pos = CalculPostion(spawnRadius, w);
             Collider[] colliders = DoAOverlap(pos, true);
             foreach (Collider collider in colliders)
             {
@@ -181,7 +213,7 @@ public class ProductBuildingController : MonoBehaviour
         return ListOfPoint;
     }
 
-    private Vector3 calculPostion(float spawnRadius, int spawnPoint)
+    private Vector3 CalculPostion(float spawnRadius, int spawnPoint)
     {
         float Theta = 2f * Mathf.PI * ((float)spawnPoint / NbSpawnpoint);
 

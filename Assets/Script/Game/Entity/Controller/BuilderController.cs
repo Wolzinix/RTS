@@ -26,7 +26,7 @@ public class BuilderController : EntityController
     {
         _ListOfstate.Add(new BuildState(this, hit.point, _buildings[nb].GetComponent<SelectableManager>()));
     }
-    public List<GameObject> getBuildings() { return _buildings; }
+    public List<GameObject> GetBuildings() { return _buildings; }
 
     public bool DoAbuild(int nb, Vector3 position, RessourceController ressourcesAvailable)
     {
@@ -43,22 +43,22 @@ public class BuilderController : EntityController
 
     public int GetWoodCostOfBuilding(int index)
     {
-        return _buildings[index].GetComponent<EntityManager>().WoodCost;
+        return _buildings[index].GetComponent<EntityManager>().WoodLoot;
     }
 
     public int GetGoldCostOfBuilding(int index)
     {
-        return _buildings[index].GetComponent<EntityManager>().GoldCost;
+        return _buildings[index].GetComponent<EntityManager>().GoldLoot;
     }
 
     public int GetWoodCostOfBuilding(EntityManager index)
     {
-        return _buildings.Find(i => i == index.gameObject).GetComponent<EntityManager>().WoodCost;
+        return _buildings.Find(i => i == index.gameObject).GetComponent<EntityManager>().WoodLoot;
     }
 
     public int GetGoldCostOfBuilding(EntityManager index)
     {
-        return _buildings.Find(i => i == index.gameObject).GetComponent<EntityManager>().GoldCost;
+        return _buildings.Find(i => i == index.gameObject).GetComponent<EntityManager>().GoldLoot;
     }
 
     protected override void LateUpdate()
@@ -153,8 +153,8 @@ public class BuilderController : EntityController
 
     public void PayCostOfBuilding(SelectableManager defense)
     {
-        ressourceController.AddGold(-defense.GetComponent<EntityManager>().GoldCost);
-        ressourceController.AddWood(-defense.GetComponent<EntityManager>().WoodCost);
+        ressourceController.AddGold(-defense.GetComponent<EntityManager>().GoldLoot);
+        ressourceController.AddWood(-defense.GetComponent<EntityManager>().WoodLoot);
     }
 
     public void SetRessourceController(RessourceController ressourceController)

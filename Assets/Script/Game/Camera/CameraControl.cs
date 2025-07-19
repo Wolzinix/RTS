@@ -13,22 +13,33 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private InputActionReference zoomCameraInput;
     [SerializeField] private InputActionReference accelerateInput;
 
-    [Header("Stats")]
-    [SerializeField] private float speedOfDeplacement = 1;
-    [SerializeField] private float speedOfZoom = 10;
-    private const float IncrementSpeed = 2;
-    public float ymax, ymin;
-
     private bool _accelerateIsActive;
     private bool _rotationActivated;
-
-    public bool isMapCamera;
-    private float xmax, xmin, zmax, zmin;
-    private Rigidbody _rb;
+    
+    public float xmax, xmin, zmax, zmin;
+    
 
     [SerializeField] private GameObject mainGround;
-    private float _lastY;
+    Camera _camera;
+    CameraBehaviour _cameraBehaviour;
+    public void SetCameraBehaviour(CameraBehaviour cameraBehaviour)
+    {
+        _cameraBehaviour = cameraBehaviour;
+    }
 
+    public void SetCamera(Camera camera)
+    {
+        _camera = camera;
+
+        _camera.transform.position = new Vector3(
+            _camera.transform.position.x > xmax ? xmax : _camera.transform.position.x < xmin ? xmin : _camera.transform.position.x
+            , _camera.transform.position.y
+            , _camera.transform.position.z > zmax ? zmax : _camera.transform.position.z < zmin ? zmin : _camera.transform.position.z);;
+
+
+
+        SetCameraBehaviour(_camera.GetComponent<CameraBehaviour>());
+    }
     void Start()
     {
         activeRotateCameraInput.action.performed += ActiveRotation;
@@ -37,25 +48,24 @@ public class CameraControl : MonoBehaviour
         accelerateInput.action.performed += AccelerateInputPressed;
         accelerateInput.action.canceled += AccelerateInputCanceled;
 
-        _rb = GetComponent<Rigidbody>();
         SetLimitation();
-
-        transform.position = new Vector3(
-            transform.position.x > xmax ? xmax : transform.position.x < xmin ? xmin : transform.position.x
-            , transform.position.y
-            , transform.position.z > zmax ? zmax : transform.position.z < zmin ? zmin : transform.position.z);
-        _lastY = RayCast.RaycastForGround(gameObject,transform.position).y;
     }
 
     void Update()
     {
-        if(moveCameraInput.action.ReadValue<Vector2>().y != 0 || moveCameraInput.action.ReadValue<Vector2>().x != 0 )
+        float y = moveCameraInput.action.ReadValue<Vector2>().y;
+        float x = moveCameraInput.action.ReadValue<Vector2>().x;
+        if (y != 0 || x != 0 )
         {
-            MoveCamera();
+            MoveCamera(y,x);
         }
-        else { StopMoving(); }
+        else 
+        {
+            if(_camera.fieldOfView != _cameraBehaviour.fov) { _camera.fieldOfView = _cameraBehaviour.fov; }
+            StopMoving(); 
+        }
 
-        if (_rotationActivated) { RotateCameraY(); }
+        if (_rotationActivated) { RotateCameraY(rotateCameraInput.action.ReadValue<Vector2>().x); }
     }
     private void OnDestroy()
     {
@@ -72,7 +82,13 @@ public class CameraControl : MonoBehaviour
     private void AccelerateInputCanceled(InputAction.CallbackContext obj) { _accelerateIsActive = false; }
     private void ActiveRotation(InputAction.CallbackContext obj) { _rotationActivated = true; }
     private void DesactiveRotation(InputAction.CallbackContext obj) { _rotationActivated = false; }
-    public void StopMoving() { _rb.velocity = Vector3.zero; }
+    public void StopMoving() 
+    { 
+        if(_cameraBehaviour._rb.velocity != Vector3.zero)
+        {
+            _cameraBehaviour._rb.velocity = Vector3.zero;
+        }
+    }
     private void SetLimitation()
     {
 
@@ -88,48 +104,20 @@ public class CameraControl : MonoBehaviour
     }
     private void Zoom(InputAction.CallbackContext obj)
     {
-        if (transform.position.y >= ymin && zoomCameraInput.action.ReadValue<Vector2>().y >= 0 ||
-            transform.position.y <= ymax && zoomCameraInput.action.ReadValue<Vector2>().y <= 0)
-        {
-            Vector3 newPosition = new Vector3(zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.x,
-                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.y,
-                zoomCameraInput.action.ReadValue<Vector2>().y / speedOfZoom * transform.forward.z)
-                                  * (Time.deltaTime * speedOfDeplacement);
-
-            if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
-
-            _rb.MovePosition(transform.position + newPosition);
-        }
+        _cameraBehaviour.Zoom(zoomCameraInput.action.ReadValue<Vector2>().y, _accelerateIsActive);
     }
-    private void MoveCamera()
+    private void MoveCamera(float y, float x)
     {
-        Vector3 newPosition = new (moveCameraInput.action.ReadValue<Vector2>().y * transform.up.x + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.x
-            , 0
-            , moveCameraInput.action.ReadValue<Vector2>().y * transform.up.z + moveCameraInput.action.ReadValue<Vector2>().x * transform.right.z);
-
-        newPosition *= 10;
-
-        if (_accelerateIsActive) { newPosition *= IncrementSpeed; }
-
-        _rb.velocity = newPosition;
-
-        Vector3 distanceGround = RayCast.RaycastForGround(gameObject, transform.position);
-        ymin += distanceGround.y - _lastY;
-        ymax += distanceGround.y - _lastY;
-
-        transform.position = new Vector3(
-            transform.position.x > xmax ? xmax : transform.position.x < xmin ? xmin : transform.position.x
-            , !isMapCamera ? transform.position.y + distanceGround.y - _lastY : transform.position.y
-            , transform.position.z > zmax ? zmax : transform.position.z < zmin ? zmin : transform.position.z);
-
-        _lastY = distanceGround.y;
+        float[] maxmin = {xmax, xmin, zmax, xmin};
+        _cameraBehaviour.MoveCamera(y,
+            x,
+            _accelerateIsActive,
+            maxmin);
     }
    
-    private void RotateCameraY()
+    private void RotateCameraY(float x)
     {
-        Quaternion rotation = transform.rotation;
-        rotation.eulerAngles += new Vector3(0, rotateCameraInput.action.ReadValue<Vector2>().x / 5, 0);
-        _rb.MoveRotation(rotation);
+        _cameraBehaviour.RotateCameraY(x);
     }
 
 }

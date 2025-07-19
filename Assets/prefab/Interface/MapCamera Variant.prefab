@@ -98,6 +98,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7708114876128369604, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3837747692273757122}
+    - targetCorrespondingSourceObject: {fileID: 7708114876128369604, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1216918252340028786}
   m_SourcePrefab: {fileID: 100100000, guid: 73c86c03083a2a2488a03c9e8f931ecb, type: 3}
 --- !u!20 &3526820318659635676 stripped
 Camera:
@@ -169,3 +172,25 @@ MonoBehaviour:
   _camera: {fileID: 0}
   _mapCamera: {fileID: 0}
   _mapObjects: []
+--- !u!114 &1216918252340028786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3632283022341497296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 577995d004096794f9e6915e38c43e15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveCameraInput: {fileID: 0}
+  rotateCameraInput: {fileID: 0}
+  activeRotateCameraInput: {fileID: 0}
+  zoomCameraInput: {fileID: 0}
+  accelerateInput: {fileID: 0}
+  xmax: 0
+  xmin: 0
+  zmax: 0
+  zmin: 0
+  mainGround: {fileID: 0}

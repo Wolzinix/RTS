@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Stats
   sprite: {fileID: 21300000, guid: f7c91ec7ca42a3a4aadd125310dfc0b2, type: 3}
+  Description: Ajoute des statistiques passif
   cooldown: 0
   actualTime: 0
   ready: 1

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -41,7 +40,7 @@ public class IAStockBuilding
         stats.IAbrain = IAbrain;
         stats.distanceFromMainBase = DistanceFromMainBase(building);
 
-        building.EntityNextToEvent.AddListener(stats.changeHaveEntity);
+        building.EntityNextToEvent.AddListener(stats.ChangeHaveEntity);
 
         DicoOfBuilding[building] = stats;
         return stats;
@@ -74,6 +73,13 @@ public class IAStockBuilding
         }
     }
 
+    public void RemoveBuilding(BuildingIA building)
+    {
+        DicoOfBuilding.Remove(building.building);
+
+        building.building.entityCanSpawnNow.RemoveListener(IAbrain.SpawnEntityOfBuilding);
+        ActualiseBuilding();
+    }
     public void ActualiseBuilding()
     {
         List<ProductBuildingController> productBuildingControllers =  DicoOfBuilding.Keys.ToList();
@@ -92,12 +98,12 @@ public class IAStockBuilding
             {
                 if (_NeutralBuilding.Contains(stats)) { _NeutralBuilding.Remove(stats); IAbrain.RemoveObjectif(building.gameObject); }
 
-                if (building.tagOfNerestEntity == IAbrain.tag)
+                if (building.tagOfNerestEntity == "") { AddNeutralBuilding(stats); }
+                else if (IAbrain.CompareTag(building.tagOfNerestEntity))
                 {
                     AddAllieBuilding(stats);
                     stats.NeedToSendEntity();
                 }
-                else if (building.tagOfNerestEntity == "") { AddNeutralBuilding(stats); }
                 else { AddEnnemieBuilding(stats); }
             }
         }
@@ -142,14 +148,16 @@ public class IAStockBuilding
 
     public void AddTowerToEveryBuilding(GameObject newObject)
     {
-        foreach (BuildingIA building in _AllieBuilding)
+        for(int i = _AllieBuilding.Count -1; i >= 0; i--) 
         {
+            BuildingIA building = _AllieBuilding[i];
             if (!building.building)
             {
-                _AllieBuilding.Remove(building);
+                _AllieBuilding.RemoveAt(i);
                 building.Dispose();
             }
-            if (DicoOfBuilding[building.building].NbOfTower < IAbrain.nbMaxOfTower)
+            if (DicoOfBuilding.Keys.Contains(building.building) && 
+                DicoOfBuilding[building.building].NbOfTower < IAbrain.nbMaxOfTower)
             {
                 IAbrain.AddTowerToBuilding(building, newObject);
             }
