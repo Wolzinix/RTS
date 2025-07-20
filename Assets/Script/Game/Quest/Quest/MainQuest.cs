@@ -4,7 +4,7 @@ public class MainQuest : Quest
 {
     [SerializeField] GameObject _UI;
 
-    [SerializeField] LevelNextUI _FinalScreen;
+    [SerializeField] UiAppeirBase _FinalScreen;
     public bool IsPlayer;
     protected override void AllObjectifSucces()
     {

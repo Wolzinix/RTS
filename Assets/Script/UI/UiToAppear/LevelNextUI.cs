@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelNextUI : MonoBehaviour
+public class LevelNextUI : UiAppeirBase
 {
     [SerializeField] int SceneToload;
 
@@ -35,10 +35,9 @@ public class LevelNextUI : MonoBehaviour
         Time.timeScale = 1;
         Scene scene = SceneManager.GetActiveScene(); 
         SceneManager.LoadScene(scene.name);
-        
     }
 
-    public void AppearUI(bool IsPlayer)
+    public override void AppearUI(bool IsPlayer)
     {
         Time.timeScale = 0;
         if (IsPlayer) { RetryMenuUI.SetActive(true);  }
@@ -46,4 +45,18 @@ public class LevelNextUI : MonoBehaviour
         else { NextMenuUI.SetActive(true); }
     }
 
+    public override void AppearUI()
+    {
+        Time.timeScale = 0;
+        if (SceneToload == 0) { MainMenuUI.SetActive(true); }
+        else { NextMenuUI.SetActive(true); }
+    }
+
+    public override void DisappearUI()
+    {
+        Time.timeScale = 1;
+        RetryMenuUI.SetActive(false);
+        MainMenuUI.SetActive(false);  
+        NextMenuUI.SetActive(false);
+    }
 }
