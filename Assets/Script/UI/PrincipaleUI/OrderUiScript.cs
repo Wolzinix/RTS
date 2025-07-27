@@ -118,6 +118,7 @@ public class OrderUiScript : MonoBehaviour
             ButtonForCapacity _button = raycastResult.gameObject.GetComponent<ButtonForCapacity>();
             
             if (_button &&
+                _entity &&
                 _ListOfAbilityButton.Contains(_button) &&
                 (_button.GetCapacity().GetType() == typeof(ActivableCapacity) ||
                 _button.GetCapacity().GetType().IsSubclassOf(typeof(ActivableCapacity)))

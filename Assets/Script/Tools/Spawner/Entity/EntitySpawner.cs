@@ -1,9 +1,7 @@
 using Assets.Script.Tools;
 using UnityEngine;
-
 public class EntitySpawner : MonoBehaviour
 {
-
     [SerializeField] private string _nameOfEntity;
     [SerializeField] private GameObject _entityToSpawn;
     [SerializeField] private IABrain _ia;
@@ -24,7 +22,6 @@ public class EntitySpawner : MonoBehaviour
         }
         Destroy(gameObject);
     }
-
     private void Spawn()
     {
         GameObject go = Instantiate(_entityToSpawn, transform.parent);
@@ -40,5 +37,7 @@ public class EntitySpawner : MonoBehaviour
     public void SetEntity(GameObject gameObject, string name ="")
     {
         _entityToSpawn = gameObject;
+
+        _nameOfEntity = name;
     }
 }

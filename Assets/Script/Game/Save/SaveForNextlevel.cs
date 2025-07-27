@@ -9,6 +9,7 @@ public class SaveForNextlevel : MonoBehaviour
 
     public List<GameObject> _list = new List<GameObject>();
     int index = 0;
+    RessourceController ressourceOfPlayer;
 
     private void Awake()
     {
@@ -38,12 +39,31 @@ public class SaveForNextlevel : MonoBehaviour
         }
         index = 0;
     }
+    public void SaveEntity(EntityController entityToSave)
+    {
+        ClearSave();
+        _list.Add(Instantiate(entityToSave.gameObject, gameObject.transform));
+        _list[^1].SetActive(false);
+            
+        index = 0;
+    }
+    public void SaveEntity(List<EntityController> ListOfEntity)
+    {
+        ClearSave();
+        foreach (EntityController go in ListOfEntity)
+        {
+            _list.Add(Instantiate(go.gameObject, gameObject.transform));
+            _list[^1].SetActive(false);
+        }
+        index = 0;
+    }
     public void ClearSave()
     {
         foreach(GameObject i in  _list)
         {
             Destroy(i);
         }
+        Destroy(ressourceOfPlayer);
         _list.Clear();
         index = 0;
     }
@@ -54,10 +74,21 @@ public class SaveForNextlevel : MonoBehaviour
             index++;
             return _list[index -1 ];
         }
-        else
-        {
-            ClearSave();
-        }
+        else { ClearSave(); }
         return null;
+    }
+
+    public void SaveRessources()
+    {
+        ressourceOfPlayer = Instantiate(FindAnyObjectByType<RessourceController>(), gameObject.transform);
+    }
+
+    public void LoadRessources()
+    {
+        if(ressourceOfPlayer)
+        {
+            RessourceController playerRessource = FindAnyObjectByType<ControlManager>().GetComponent<RessourceController>();
+            playerRessource = ressourceOfPlayer;
+        }
     }
 }

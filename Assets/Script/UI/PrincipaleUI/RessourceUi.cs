@@ -7,10 +7,13 @@ public class RessourceUi : MonoBehaviour
     int goldNB;
     [SerializeField] TMP_Text _wood;
     int woodNB;
+    RessourceController controller;
 
     private void Start()
     {
-        FindAnyObjectByType<ControlManager>().GetComponent<RessourceController>().ressourcesAddUI.AddListener(AddRessource);
+        controller = FindAnyObjectByType<ControlManager>().GetComponent<RessourceController>();
+        controller.ressourcesAddUI.AddListener(AddRessource);
+        ActualiseData();
     }
 
     public void AddGold(int gold)
@@ -36,6 +39,13 @@ public class RessourceUi : MonoBehaviour
         _gold.text = goldNB + "";
 
         _wood.text = woodNB + "";
+    }
+
+    public void ActualiseData()
+    {
+        goldNB = controller.GetGold();
+        woodNB = controller.GetWood();
+        ActualsieText();
     }
 
 }

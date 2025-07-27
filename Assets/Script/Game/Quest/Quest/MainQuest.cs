@@ -4,12 +4,15 @@ public class MainQuest : Quest
 {
     [SerializeField] GameObject _UI;
 
-    [SerializeField] UiAppeirBase _FinalScreen;
-    public bool IsPlayer;
+    [SerializeField] UiAppeirBase _ScreenToAppeir;
+    public bool IsSuccesLevel;
+    public bool EntityNextLevel;
     protected override void AllObjectifSucces()
     {
         if (_UI) { _UI.SetActive(false); }
 
-        if (_FinalScreen) { _FinalScreen.AppearUI(IsPlayer); }
+        if (_ScreenToAppeir && !EntityNextLevel) { _ScreenToAppeir.AppearUI(IsSuccesLevel); }
+
+        if (_ScreenToAppeir && EntityNextLevel) { _ScreenToAppeir.AppearUI(); }
     }
 }

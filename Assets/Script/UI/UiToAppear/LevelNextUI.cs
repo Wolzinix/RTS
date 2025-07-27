@@ -37,10 +37,10 @@ public class LevelNextUI : UiAppeirBase
         SceneManager.LoadScene(scene.name);
     }
 
-    public override void AppearUI(bool IsPlayer)
+    public override void AppearUI(bool IsFailed)
     {
         Time.timeScale = 0;
-        if (IsPlayer) { RetryMenuUI.SetActive(true);  }
+        if (IsFailed) { RetryMenuUI.SetActive(true);  }
         else if (SceneToload == 0) { MainMenuUI.SetActive(true);  }
         else { NextMenuUI.SetActive(true); }
     }
