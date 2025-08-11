@@ -39,6 +39,7 @@ public class ChooseUi : UiAppeirBase
         FindEveryEntityOfPlayer();
         ActualiseButton();
         ressourceUi.ActualiseData();
+        controlManager.ResetUiOrder();
         controlManager.DesactiveController();
         foreach(IABrain i in ia)
         {

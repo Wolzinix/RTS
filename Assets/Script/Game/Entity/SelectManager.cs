@@ -30,6 +30,12 @@ public class SelectManager : MonoBehaviour
         _selected.ClearList();
         _groupManager.ClearList();
     }
+
+    public void ClearSelected()
+    {
+
+        _selected.ClearList();
+    }
     public void AddSelect(SelectableManager toAdd)
     {
         if (toAdd.gameObject.CompareTag(_groupManager.GetAllieTag()))
