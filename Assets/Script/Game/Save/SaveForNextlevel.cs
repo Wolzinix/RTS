@@ -35,8 +35,9 @@ public class SaveForNextlevel : MonoBehaviour
         {
             if (go.CompareTag(tag)) 
             {
-                
-                _list.Add(Instantiate(go.gameObject,gameObject.transform));
+                GameObject gameObj = Instantiate(go.gameObject, gameObject.transform);
+                gameObj.name = go.gameObject.name;
+                _list.Add(gameObj);
                 _list[^1].SetActive(false);
             }
         }
@@ -45,7 +46,10 @@ public class SaveForNextlevel : MonoBehaviour
     public void SaveEntity(EntityController entityToSave)
     {
         ClearSave();
-        _list.Add(Instantiate(entityToSave.gameObject, gameObject.transform));
+
+        GameObject gameObj = Instantiate(entityToSave.gameObject, gameObject.transform);
+        gameObj.name = entityToSave.gameObject.name;
+        _list.Add(gameObj);
         _list[^1].SetActive(false);
 
         index = 0;
@@ -55,7 +59,10 @@ public class SaveForNextlevel : MonoBehaviour
         ClearSave();
         foreach (EntityController go in ListOfEntity)
         {
-            _list.Add(Instantiate(go.gameObject, gameObject.transform));
+
+            GameObject gameObj = Instantiate(go.gameObject, gameObject.transform);
+            gameObj.name = go.gameObject.name;
+            _list.Add(gameObj);
             _list[^1].SetActive(false);
         }
         index = 0;
