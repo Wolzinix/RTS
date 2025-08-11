@@ -10,11 +10,15 @@ public class EntitySpawner : MonoBehaviour
     {
         if(gameObject.tag == "Allie" && !IsLockToTakeSave)
         {
-            GameObject entityFromSave = FindObjectsByType<SaveForNextlevel>(FindObjectsSortMode.None)[0].LoadEntity();
-            if (entityFromSave)
+            SaveForNextlevel save = FindObjectOfType<SaveForNextlevel>();
+            if(save )
             {
-                _entityToSpawn = entityFromSave;
-                _nameOfEntity = entityFromSave.GetComponent<EntityManager>().name;
+                GameObject entityFromSave = save.LoadEntity();
+                if (entityFromSave)
+                {
+                    _entityToSpawn = entityFromSave;
+                    _nameOfEntity = entityFromSave.GetComponent<EntityManager>().name;
+                }
             }
         }
         if( _entityToSpawn)
