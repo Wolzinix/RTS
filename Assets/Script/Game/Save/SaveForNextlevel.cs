@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SaveForNextlevel : MonoBehaviour
@@ -7,13 +8,14 @@ public class SaveForNextlevel : MonoBehaviour
     public static SaveForNextlevel Instance { get { return _instance; } }
     private static SaveForNextlevel _instance;
 
-    public List<GameObject> _list = new List<GameObject>();
+    public List<GameObject> _list = new();
     int index = 0;
     RessourceController ressourceOfPlayer;
 
     private void Awake()
     {
-        if(_instance && _instance!= this)
+
+        if (_instance && _instance!= this)
         {
             Destroy(this.gameObject);
         }else
@@ -29,10 +31,11 @@ public class SaveForNextlevel : MonoBehaviour
     public void SaveEntity(String tag)
     {
         ClearSave();
-        foreach (EntityController go in FindObjectsOfType<EntityController>()) 
-        { 
-            if(go.CompareTag(tag)) 
+        foreach (EntityController go in FindObjectsOfType<EntityController>())
+        {
+            if (go.CompareTag(tag)) 
             {
+                
                 _list.Add(Instantiate(go.gameObject,gameObject.transform));
                 _list[^1].SetActive(false);
             }
@@ -44,7 +47,7 @@ public class SaveForNextlevel : MonoBehaviour
         ClearSave();
         _list.Add(Instantiate(entityToSave.gameObject, gameObject.transform));
         _list[^1].SetActive(false);
-            
+
         index = 0;
     }
     public void SaveEntity(List<EntityController> ListOfEntity)

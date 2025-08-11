@@ -5,9 +5,10 @@ public class EntitySpawner : MonoBehaviour
     [SerializeField] private string _nameOfEntity;
     [SerializeField] private GameObject _entityToSpawn;
     [SerializeField] private IABrain _ia;
+    public bool IsLockToTakeSave;
     void Awake()
     {
-        if(gameObject.tag == "Allie")
+        if(gameObject.tag == "Allie" && !IsLockToTakeSave)
         {
             GameObject entityFromSave = FindObjectsByType<SaveForNextlevel>(FindObjectsSortMode.None)[0].LoadEntity();
             if (entityFromSave)

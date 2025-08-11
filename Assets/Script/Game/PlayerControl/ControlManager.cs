@@ -84,6 +84,12 @@ public class ControlManager : MonoBehaviour
         _dragSelect.action.canceled += EndDragSelect;
     }
 
+    public void DesactiveController()
+    {
+        _dragBox.gameObject.SetActive(false);
+        DesactiveAllInput();
+        gameObject.SetActive(false);
+    }
     private void DesactiveAllInput()
     {
         _selectEntityInput.action.performed -= LeftClickGestion;

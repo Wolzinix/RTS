@@ -16,9 +16,12 @@ public class ChooseUi : UiAppeirBase
 
     [SerializeField] GameObject GameobjectOfPlayerStock;
     int currentNumber = 0;
+    List<IABrain> ia;
 
     void Start()
     {
+
+        ia = FindObjectsOfType<IABrain>().ToList();
         save = FindAnyObjectByType<SaveForNextlevel>();
         controlManager = FindAnyObjectByType<ControlManager>();
         playerRessource = controlManager.GetComponent<RessourceController>();
@@ -36,6 +39,11 @@ public class ChooseUi : UiAppeirBase
         FindEveryEntityOfPlayer();
         ActualiseButton();
         ressourceUi.ActualiseData();
+        controlManager.DesactiveController();
+        foreach(IABrain i in ia)
+        {
+            i.gameObject.SetActive(false);
+        }
         //  FindAnyObjectByType<UiGestioneur>().gameObject.SetActive(false);
         //FindAnyObjectByType<ControlManager>().gameObject.SetActive(false);
 
@@ -59,11 +67,15 @@ public class ChooseUi : UiAppeirBase
 
     public void GoLeft()
     {
-        currentNumber -= _ListOfButton.Count;
-        if (currentNumber < 0)
+        if(_ListOfButton.Count< _EntitiesAlive.Count)
         {
-            currentNumber = _EntitiesAlive.Count - _ListOfButton.Count;
+            currentNumber -= _ListOfButton.Count;
+            if (currentNumber < 0)
+            {
+                currentNumber = _EntitiesAlive.Count - _ListOfButton.Count;
+            }
         }
+        
         ActualiseButton();
     }
 
