@@ -62,6 +62,7 @@ public class PoisonEffect : StateEffect
 
     override public void AddEffectToTarget(SelectableManager entityAffected)
     {
+        
         if (VerifyIfEffectAlreadyExist(entityAffected))
         {
             foreach (PoisonEffect i in entityAffected.GetComponents(typeof(PoisonEffect)))
@@ -69,6 +70,7 @@ public class PoisonEffect : StateEffect
                 if (i.entityAffected != null)
                 {
                     i.ResetEffect();
+                    entityAffected.AddEffect(i);
                     break;
                 }
             }
@@ -77,7 +79,10 @@ public class PoisonEffect : StateEffect
         {
             PoisonEffect effect = entityAffected.AddComponent<PoisonEffect>();
             effect.InitEffect(entityAffected, duration, damage);
+            entityAffected.AddEffect(effect);
         }
+
+        
     }
 
 }

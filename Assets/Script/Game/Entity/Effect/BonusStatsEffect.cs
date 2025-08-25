@@ -47,6 +47,7 @@
     override public void AddEffectToTarget(SelectableManager entityAffected) 
     {
         SetEntity(entityAffected);
+        entityAffected.AddEffect(this);
         ApplyEffect(); 
     }
 }

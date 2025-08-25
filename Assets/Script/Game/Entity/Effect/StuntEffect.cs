@@ -66,6 +66,7 @@ public class StuntEffect : StateEffect
     override public void AddEffectToTarget(SelectableManager entityAffected)
     {
         StuntEffect effect = entityAffected.AddComponent<StuntEffect>();
+        entityAffected.AddEffect(effect);
         effect.InitEffect(entityAffected, duration);
     }
 }

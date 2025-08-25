@@ -12,6 +12,8 @@ public class EntityUiManager : MonoBehaviour
 
     [SerializeField] private TMP_Text level;
 
+    IconAffichage iconAffichage;
+
     private void Start()
     {
         gameObject.SetActive(false);
@@ -20,6 +22,10 @@ public class EntityUiManager : MonoBehaviour
     private void OnEnable()
     {
         UpdateUI();
+        if(!iconAffichage)
+        {
+            iconAffichage = GetComponentInChildren<IconAffichage>();
+        }
         if (_entity)
         {
             _entity.changeStats.AddListener(UpdateUI);
@@ -32,11 +38,23 @@ public class EntityUiManager : MonoBehaviour
         _entity = em;
         if(em != null) 
         {
+            SetUpIconEffect();
             _entity.changeStats.AddListener(UpdateUI);
             _entity.deathEvent.AddListener(DisableUI);
+            
             UpdateUI();
         }
-        
+    }
+
+    private void SetUpIconEffect()
+    {
+        iconAffichage.ClearEffect();
+        _entity.AddEffectEvent.AddListener(iconAffichage.AddEffect);
+        _entity.RemoveEffectEvent.AddListener(iconAffichage.RemoveEffect);
+        foreach (StateEffect effect in _entity._listOfEffects)
+        {
+            iconAffichage.AddEffect(effect);
+        }
     }
 
     public void UpdateUI()
@@ -75,8 +93,11 @@ public class EntityUiManager : MonoBehaviour
 
     private void OnDisable()
     {
+        
         if (_entity)
         {
+            _entity.AddEffectEvent.RemoveAllListeners();
+            _entity.RemoveEffectEvent.RemoveAllListeners();
             _entity.changeStats.RemoveListener(UpdateUI);
             _entity.deathEvent.RemoveListener(DisableUI);
         }

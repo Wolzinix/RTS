@@ -2794,8 +2794,9 @@ MonoBehaviour:
   - {fileID: 1490567806}
   - {fileID: 1684604757}
   _UI: {fileID: 7852671}
-  _FinalScreen: {fileID: 839867171}
-  IsPlayer: 1
+  _ScreenToAppeir: {fileID: 839867171}
+  IsSuccesLevel: 0
+  EntityNextLevel: 0
 --- !u!114 &1436655576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2812,8 +2813,9 @@ MonoBehaviour:
   - {fileID: 1741065285}
   - {fileID: 1140973219}
   _UI: {fileID: 7852671}
-  _FinalScreen: {fileID: 839867171}
-  IsPlayer: 0
+  _ScreenToAppeir: {fileID: 839867171}
+  IsSuccesLevel: 1
+  EntityNextLevel: 0
 --- !u!1001 &1453630453
 PrefabInstance:
   m_ObjectHideFlags: 0
