@@ -53,13 +53,16 @@ public abstract class StateEffect : MonoBehaviour
 
     virtual public void End()
     {
-        entityAffected.RemoveEffect(this);
+        if(entityAffected)
+        {
+            entityAffected.RemoveEffect(this);
+        }
         Destroy(this);
     }
 
     virtual public void ApplyEffect() { }
 
-    public void ResetEffect()
+    virtual public void ResetEffect()
     {
         ApplyEffect();
         actualTime = 0;

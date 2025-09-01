@@ -48,7 +48,7 @@ public class ChooseUi : UiAppeirBase
                 i.gameObject.SetActive(false);
             }
         }
-        //  FindAnyObjectByType<UiGestioneur>().gameObject.SetActive(false);
+        //FindAnyObjectByType<UiGestioneur>().gameObject.SetActive(false);
         //FindAnyObjectByType<ControlManager>().gameObject.SetActive(false);
 
     }

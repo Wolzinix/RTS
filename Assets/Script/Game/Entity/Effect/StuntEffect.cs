@@ -20,13 +20,18 @@ public class StuntEffect : StateEffect
         }
         if (entity.GetType() == typeof(TroupeManager))
         {
-            if (effect) { effect.ResetEffect(); End(); }
+            if (effect) { effect.ResetEffect();  }
         }
 
         base.InitEffect(entity, duration);
         nextTime = 0;
     }
-
+    override public void ResetEffect()
+    {
+        actualTime = 0;
+        nextTime = 1;
+        base.End();
+    }
     public override void ApplyEffect()
     {
         if(entityControllerAffected)
@@ -61,7 +66,7 @@ public class StuntEffect : StateEffect
             if (!effect) { effect = entityAffected.AddComponent<StuntEffect>();
                 effect.sprite = sprite;
             }
-            else { effect.ResetEffect(); End(); }
+            else { effect.ResetEffect();}
         }
     }
 
