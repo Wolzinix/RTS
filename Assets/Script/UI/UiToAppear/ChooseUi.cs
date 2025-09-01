@@ -43,7 +43,10 @@ public class ChooseUi : UiAppeirBase
         controlManager.DesactiveController();
         foreach(IABrain i in ia)
         {
-            i.gameObject.SetActive(false);
+            if(i)
+            {
+                i.gameObject.SetActive(false);
+            }
         }
         //  FindAnyObjectByType<UiGestioneur>().gameObject.SetActive(false);
         //FindAnyObjectByType<ControlManager>().gameObject.SetActive(false);

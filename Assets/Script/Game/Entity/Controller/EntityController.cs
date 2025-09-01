@@ -99,6 +99,7 @@ public class EntityController : BuildingController
     {
         _ListOfstate[0].Dispose();
         _ListOfstate.RemoveAt(0);
+
         if (_ListOfstate.Count > 0) { _ListOfstate[0].Start(); }
     }
 

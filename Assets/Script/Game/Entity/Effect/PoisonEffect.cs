@@ -52,8 +52,12 @@ public class PoisonEffect : StateEffect
         }
         if (entityAffected.GetType() == typeof(TroupeManager))
         {
-            if (!effect) { entityAffected.AddComponent<PoisonEffect>(); }
-            else { effect.ResetEffect(); end(); }
+            if (!effect) 
+            { 
+                PoisonEffect poison = entityAffected.AddComponent<PoisonEffect>();
+                poison.sprite = sprite;
+            }
+            else { effect.ResetEffect(); End(); }
         }
 
         base.SetEntity(entity);
@@ -78,6 +82,7 @@ public class PoisonEffect : StateEffect
         else
         {
             PoisonEffect effect = entityAffected.AddComponent<PoisonEffect>();
+            effect.sprite = sprite;
             effect.InitEffect(entityAffected, duration, damage);
             entityAffected.AddEffect(effect);
         }

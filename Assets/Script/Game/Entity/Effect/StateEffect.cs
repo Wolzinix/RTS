@@ -42,11 +42,16 @@ public abstract class StateEffect : MonoBehaviour
                 ApplyEffect();
                 nextTime += 1;
             }
-            if (nextTime >= duration) { end(); }
+            if (nextTime >= duration) { End(); }
         }
     }
 
-    virtual public void end()
+    public bool IsFinish()
+    {
+        return nextTime >= duration;
+    }
+
+    virtual public void End()
     {
         entityAffected.RemoveEffect(this);
         Destroy(this);

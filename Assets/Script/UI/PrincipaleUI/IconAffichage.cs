@@ -19,13 +19,16 @@ public class IconAffichage : MonoBehaviour
         ActualiseUI();
     }
 
-    public void RemoveEffect()
+    public void RemoveEffect(StateEffect effect)
     {
-        int index = iconObjectList.FindIndex(x => x.GetComponent<IconEffect>()._effect == null);
-        
-        if (index > 0 && iconObjectList.Count > index)
-        {
-            iconObjectList.Remove(iconObjectList[index]);
+        for(int i = iconObjectList.Count -1; i>=0; i--) 
+        { 
+            IconEffect x = iconObjectList[i].GetComponent<IconEffect>(); 
+            if(x._effect == null || x._effect.IsFinish()) 
+            {
+                Destroy(iconObjectList[i]);
+                iconObjectList.Remove(iconObjectList[i]);
+            }
         }
         ActualiseUI();
     }
@@ -37,7 +40,7 @@ public class IconAffichage : MonoBehaviour
             int index = iconObjectList.IndexOf(icon);
             Rect rectIcon = icon.GetComponent<RectTransform>().rect;
 
-            icon.transform.position = new Vector3(
+            icon.transform.localPosition = new Vector3(
                     (int)(rectIcon.width * index),
                     0,
                     0);

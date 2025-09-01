@@ -16,7 +16,7 @@ public class SelectableManager : EntityManager
     [SerializeField] private float seeRange = 3;
 
     [HideInInspector] public UnityEvent<StateEffect> AddEffectEvent;
-    [HideInInspector] public UnityEvent RemoveEffectEvent;
+    [HideInInspector] public UnityEvent<StateEffect> RemoveEffectEvent;
 
     public List<StateEffect> _listOfEffects;
 
@@ -35,7 +35,7 @@ public class SelectableManager : EntityManager
 
     public void RemoveEffect(StateEffect effect)
     {
-        RemoveEffectEvent.Invoke();
+        RemoveEffectEvent.Invoke(effect);
         _listOfEffects.Remove(effect);
     }
     override protected void Awake() 
