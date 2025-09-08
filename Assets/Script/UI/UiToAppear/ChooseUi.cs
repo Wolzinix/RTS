@@ -1,68 +1,70 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class ChooseUi : UiAppeirBase
+public class ChooseUi : UIAppearBase
 {
-    [SerializeField] RessourceUi ressourceUi;
-    SaveForNextlevel save;
-    RessourceController playerRessource;
-    [SerializeField] GameObject Ui;
-
-    List<EntityController> _EntitiesAlive = new();
-    public List<EntityController> _EntitiesSave = new();
-    ControlManager controlManager;
-    public List<ButtonForEntityChoice> _ListOfButton = new();
-
     [SerializeField] GameObject GameobjectOfPlayerStock;
-    int currentNumber = 0;
-    List<IABrain> ia;
 
+    SaveForNextlevel save;
+    RessourceController playerResource;
+    ControlManager controlManager;
+    RessourceUi resourceUi;
+    int currentNumber = 0;
+    Canvas UI;
+
+    ButtonForEntityChoice[] _ListOfButtons;
+    List<EntityController> _EntitiesSave = new();
+    List<EntityManager> _EntitiesAlive = new();
+    AIBrain[] AI;
     void Start()
     {
-
-        ia = FindObjectsOfType<IABrain>().ToList();
+        AI = FindObjectsOfType<AIBrain>();
         save = FindAnyObjectByType<SaveForNextlevel>();
         controlManager = FindAnyObjectByType<ControlManager>();
-        playerRessource = controlManager.GetComponent<RessourceController>();
+        playerResource = controlManager.GetComponent<RessourceController>();
+        UI = GetComponentInChildren<Canvas>();
+        resourceUi = GetComponentInChildren<RessourceUi>();
 
-        _ListOfButton = Ui.GetComponentsInChildren<ButtonForEntityChoice>(true).ToList();
-        foreach (ButtonForEntityChoice i in _ListOfButton) { i.chooseUi = this; }
+        _ListOfButtons = UI.GetComponentsInChildren<ButtonForEntityChoice>(true);
+        foreach (ButtonForEntityChoice i in _ListOfButtons) { i.chooseUi = this; }
 
-        Ui.SetActive(false);
-    }
-
-    public override void AppearUI()
-    {
-        Time.timeScale = 0;
-        Ui.SetActive(true);
-        FindEveryEntityOfPlayer();
-        ActualiseButton();
-        ressourceUi.ActualiseData();
-        controlManager.ResetUiOrder();
-        controlManager.DesactiveController();
-        foreach(IABrain i in ia)
-        {
-            if(i)
-            {
-                i.gameObject.SetActive(false);
-            }
-        }
-        //FindAnyObjectByType<UiGestioneur>().gameObject.SetActive(false);
-        //FindAnyObjectByType<ControlManager>().gameObject.SetActive(false);
-
+        UI.enabled = false;
     }
     private void ActualiseButton()
     {
-        for (int w = currentNumber; w < _ListOfButton.Count + currentNumber; w++)
+        for (int w = currentNumber; w < _ListOfButtons.Length + currentNumber; w++)
         {
-            ButtonForEntityChoice i = _ListOfButton[w - currentNumber];
+            ButtonForEntityChoice i = _ListOfButtons[w - currentNumber];
             if (w < _EntitiesAlive.Count)
             {
                 i.gameObject.SetActive(true);
-                i.SetEntity(_EntitiesAlive[w].GetComponent<EntityManager>());
+                i.SetEntity(_EntitiesAlive[w]);
             }
-            else
+            else { i.gameObject.SetActive(false); }
+        }
+    }
+    public void FindEveryEntityOfPlayer()
+    {
+        foreach (TroupeManager i in GameobjectOfPlayerStock.GetComponentsInChildren<TroupeManager>())
+        {
+            if (i)
+            {
+                _EntitiesAlive.Add(i.GetComponent<EntityManager>());
+            }
+        }
+    }
+    public override void AppearUI()
+    {
+        Time.timeScale = 0;
+        UI.enabled = true;
+        FindEveryEntityOfPlayer();
+        ActualiseButton();
+        resourceUi.ActualiseData();
+        controlManager.ResetUiOrder();
+        controlManager.DesactiveController();
+        foreach (AIBrain i in AI)
+        {
+            if (i)
             {
                 i.gameObject.SetActive(false);
             }
@@ -71,38 +73,38 @@ public class ChooseUi : UiAppeirBase
 
     public void GoLeft()
     {
-        if(_ListOfButton.Count< _EntitiesAlive.Count)
+        if (_ListOfButtons.Length < _EntitiesAlive.Count)
         {
-            currentNumber -= _ListOfButton.Count;
+            currentNumber -= _ListOfButtons.Length;
             if (currentNumber < 0)
             {
-                currentNumber = _EntitiesAlive.Count - _ListOfButton.Count;
+                currentNumber = _EntitiesAlive.Count - _ListOfButtons.Length;
             }
         }
-        
+
         ActualiseButton();
     }
 
     public void GoRight()
     {
-        currentNumber += _ListOfButton.Count;
+        currentNumber += _ListOfButtons.Length;
         if (currentNumber > _EntitiesAlive.Count)
         {
             currentNumber = 0;
         }
         ActualiseButton();
     }
-    public override void AppearUI(bool IsPlayer) => throw new System.NotImplementedException();
+    public override void AppearUI(bool IsPlayer){ AppearUI(); }
     public override void DisappearUI()
     {
         Time.timeScale = 1;
-        Ui.SetActive(false);
+        UI.enabled = false;
     }
 
     public void AddEntityToSave(EntityController entity)
     {
         EntityManager entityManger = entity.GetComponent<EntityManager>();
-        if (playerRessource.CompareRessource(entityManger.WoodCost, entityManger.GoldCost))
+        if (playerResource.CompareRessource(entityManger.WoodCost, entityManger.GoldCost))
         {
             save.SaveEntity(entity);
         }
@@ -116,11 +118,11 @@ public class ChooseUi : UiAppeirBase
     public bool AddEntityToList(EntityController entity)
     {
         EntityManager entityManger = entity.GetComponent<EntityManager>();
-        if (playerRessource.CompareRessource(entityManger.WoodCost, entityManger.GoldCost))
+        if (playerResource.CompareRessource(entityManger.WoodCost, entityManger.GoldCost))
         {
             _EntitiesSave.Add(entity);
-            playerRessource.AddGold(-entityManger.GoldCost);
-            playerRessource.AddWood(-entityManger.WoodCost);
+            playerResource.AddGold(-entityManger.GoldCost);
+            playerResource.AddWood(-entityManger.WoodCost);
             return true;
         }
         return false;
@@ -130,19 +132,8 @@ public class ChooseUi : UiAppeirBase
     {
         EntityManager entityManger = entity.GetComponent<EntityManager>();
         _EntitiesSave.Remove(entity);
-        playerRessource.AddGold(entityManger.GoldCost);
-        playerRessource.AddWood(entityManger.WoodCost);
-    }
-
-    public void FindEveryEntityOfPlayer()
-    {
-        foreach (TroupeManager i in GameobjectOfPlayerStock.GetComponentsInChildren<TroupeManager>())
-        {
-            if (i && i.CompareTag(controlManager.tag) && i.GetComponent<EntityController>())
-            {
-                _EntitiesAlive.Add(i.GetComponent<EntityController>());
-            }
-        }
+        playerResource.AddGold(entityManger.GoldCost);
+        playerResource.AddWood(entityManger.WoodCost);
     }
 
     public bool FindEntityInSave(EntityController entity)

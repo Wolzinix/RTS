@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class EntitySpawnerForNumber : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _entityToSpawn;
-    [SerializeField] private IABrain _ia;
+    [SerializeField] private AIBrain _ia;
     [SerializeField] private int NumberOfEntityToBeSpawn = 1;
     
     [SerializeField] private Transform Target;

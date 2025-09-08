@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4873465443191837272}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ChooseUi, Assembly-CSharp
         m_MethodName: AddEntitiesToSave
         m_Mode: 1
@@ -145,7 +145,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4873465443191837272}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ChooseUi, Assembly-CSharp
         m_MethodName: DisappearUI
         m_Mode: 1
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4873465443191837272}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ChooseUi, Assembly-CSharp
         m_MethodName: GoLeft
         m_Mode: 1
@@ -817,7 +817,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4873465443191837272}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ChooseUi, Assembly-CSharp
         m_MethodName: GoRight
         m_Mode: 1
@@ -838,7 +838,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1266125174558697452}
-  - component: {fileID: 4873465443191837272}
+  - component: {fileID: 8467344700594448124}
   m_Layer: 0
   m_Name: UiChooseEntity
   m_TagString: Untagged
@@ -862,7 +862,7 @@ Transform:
   - {fileID: 3464747396249174455}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4873465443191837272
+--- !u!114 &8467344700594448124
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -874,10 +874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5958791fe69734da80bb21aa9f871d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ressourceUi: {fileID: 3686748194852877674}
-  Ui: {fileID: 2348487058806901714}
-  _EntitiesSave: []
-  _ListOfButton: []
   GameobjectOfPlayerStock: {fileID: 0}
 --- !u!1 &7897090391170051820
 GameObject:
@@ -1788,17 +1784,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e07edf56ecb54b429aced2beae68963, type: 3}
---- !u!114 &3686748194852877674 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 946276962919974573, guid: 3e07edf56ecb54b429aced2beae68963, type: 3}
-  m_PrefabInstance: {fileID: 4469871083494814663}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8eefd362d76ae4e9fa555977ff0bfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &9192208113105846755 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4726919797577413156, guid: 3e07edf56ecb54b429aced2beae68963, type: 3}

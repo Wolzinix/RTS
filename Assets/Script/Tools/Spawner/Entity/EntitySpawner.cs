@@ -4,7 +4,7 @@ public class EntitySpawner : MonoBehaviour
 {
     [SerializeField] private string _nameOfEntity;
     [SerializeField] private GameObject _entityToSpawn;
-    [SerializeField] private IABrain _ia;
+    [SerializeField] private AIBrain _ia;
     public bool IsLockToTakeSave;
     void Awake()
     {

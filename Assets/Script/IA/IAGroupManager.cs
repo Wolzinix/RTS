@@ -17,7 +17,7 @@ public class IAGroupManager
 
     private List<BuilderController> _ListOfBuilder = new List<BuilderController>();
 
-    public IABrain ia;
+    public AIBrain ia;
 
     public float DistanceOfSecurity = 3f;
 

@@ -1,9 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelNextUI : UiAppeirBase
+public class LevelNextUI : UIAppearBase
 {
     [SerializeField] int SceneToload;
 
@@ -11,12 +9,6 @@ public class LevelNextUI : UiAppeirBase
     [SerializeField] GameObject RetryMenuUI;
     [SerializeField] GameObject NextMenuUI;
 
-    SaveForNextlevel save;
-
-    private void Start()
-    {
-        save = FindObjectOfType<SaveForNextlevel>();
-    }
     public void QuitGame()
     {
         Application.Quit();

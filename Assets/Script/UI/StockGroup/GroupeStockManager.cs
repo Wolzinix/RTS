@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class GroupeStockManager : MonoBehaviour
 {
-    private List<EntityController> _listOfEntityManager;
+    private List<EntityController> _listOfEntityManager = new();
     [SerializeField] private InputActionReference multiSelectionInput;
 
     private bool AddMore;
@@ -21,8 +21,6 @@ public class GroupeStockManager : MonoBehaviour
     {
         multiSelectionInput.action.performed += SetAddMore;
         multiSelectionInput.action.canceled += SetAddMore;
-
-        _listOfEntityManager = new List<EntityController>();
 
         _groupeStockUi = FindObjectOfType<GroupeStockUi>();
         _uiGestioneur = FindObjectOfType<UiGestioneur>();

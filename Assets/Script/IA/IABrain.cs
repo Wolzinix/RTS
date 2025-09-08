@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class IABrain : MonoBehaviour
+public class AIBrain : MonoBehaviour
 {
     [SerializeField] public GameObject groupOfEntity;
     [HideInInspector] public IAStockBuilding stockBuilding;

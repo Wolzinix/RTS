@@ -4139,6 +4139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7879104331336250560}
   - component: {fileID: 6194143341428452145}
+  - component: {fileID: 7012382856945797328}
   m_Layer: 5
   m_Name: GroupStockUi
   m_TagString: Untagged
@@ -4178,8 +4179,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5469ca99ce86c5c44b1517ff64370693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupUi: {fileID: 3939531952194686607, guid: 31ba2ac9f1ed7c3498bdd33090285d75, type: 3}
-  image: {fileID: 8078626704162867480}
+  _groupUI: {fileID: 0}
+  _image: {fileID: 0}
+--- !u!114 &7012382856945797328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4552318155746665085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d827ebe2bed2a40bf4a934455a5a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiSelectionInput: {fileID: 4865166933374716320, guid: 2a2daa8758002c44b8fcf92bbc173d1d, type: 3}
 --- !u!1 &4581482113554070230
 GameObject:
   m_ObjectHideFlags: 0

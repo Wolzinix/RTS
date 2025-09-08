@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 public class IAStockBuilding
 {
-    public IABrain IAbrain;
+    public AIBrain IAbrain;
     public Dictionary<ProductBuildingController, BuildingIA> DicoOfBuilding = new Dictionary<ProductBuildingController, BuildingIA>();
     public List<BuildingIA> _AllieBuilding = new List<BuildingIA>();
     public List<BuildingIA> _EnnemieBuilding = new List<BuildingIA>();
@@ -20,7 +20,7 @@ public class IAStockBuilding
 
     private GameObject MainBase;
 
-    public IAStockBuilding(IABrain brain)
+    public IAStockBuilding(AIBrain brain)
     {
         IAbrain = brain;
         ABuildingCanNotSpawn.AddListener(RemoveBuldingToSpawnable);

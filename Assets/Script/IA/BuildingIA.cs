@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuildingIA
 {
-    public IABrain IAbrain;
+    public AIBrain IAbrain;
     public List<GameObject> EntityNextTo = new();
     public string Tag;
     public bool CanSpawn;
