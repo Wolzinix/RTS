@@ -19,26 +19,26 @@ public class EntityUiManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private void DisableUI(SelectableManager entity)
+    {
+        gameObject.SetActive(false);
+    }
+
     private void OnEnable()
     {
-        UpdateUI();
         if(!iconAffichage)
         {
             iconAffichage = GetComponentInChildren<IconAffichage>();
-        }
-        if (_entity)
-        {
-            _entity.changeStats.AddListener(UpdateUI);
-            _entity.deathEvent.AddListener(DisableUI);
         }
     }
 
     public void SetEntity(SelectableManager em)
     {
-        _entity = em;
         if(em != null) 
         {
+            _entity = em;
             SetUpIconEffect();
+
             _entity.changeStats.AddListener(UpdateUI);
             _entity.deathEvent.AddListener(DisableUI);
             
@@ -62,17 +62,19 @@ public class EntityUiManager : MonoBehaviour
         if (_entity)
         {
             entityName.text = _entity.gameObject.name;
-            hp.text = "HP:" + _entity.Hp + " / " + _entity.MaxHp;
-            if (typeof(AggressifEntityManager) == _entity.GetType() || typeof(TroupeManager) == _entity.GetType())
+            hp.text = string.Concat("HP:", _entity.Hp, " / ", _entity.MaxHp);
+            defense.text = string.Concat("Defense:", _entity.Defense);
+
+            if (_entity.GetType().IsSubclassOf(typeof(AggressifEntityManager)) || typeof(AggressifEntityManager) == _entity.GetType())
             {
                 AggressifEntityManager _entity2 = (AggressifEntityManager)_entity;
                 attack.enabled = true;
-                attack.text = "Attack:" + _entity2.Attack;
+                attack.text = string.Concat("Attack:", _entity2.Attack);
                 if (typeof(TroupeManager) == _entity.GetType())
                 {
                     TroupeManager _entity3 = (TroupeManager)_entity;
                     level.enabled = true;
-                    level.text = "Level:" + _entity3.level;
+                    level.text = string.Concat("Level:", _entity3.level);
                 }
                 else{ level.enabled = false; }
             }
@@ -81,19 +83,10 @@ public class EntityUiManager : MonoBehaviour
                 attack.enabled = false;
                 level.enabled = false;
             }
-
-            defense.text = "Defense:" + _entity.Defense;
         }
     }
-
-    private void DisableUI(SelectableManager entity)
-    {
-        gameObject.SetActive(false);
-    }
-
     private void OnDisable()
     {
-        
         if (_entity)
         {
             _entity.AddEffectEvent.RemoveAllListeners();
