@@ -15,14 +15,13 @@ public class CadreController : MonoBehaviour
 
     public void SetEntity(SelectableManager entity)
     {
-        _entity = entity;
-        if(_entity != null )
+        if(entity != null )
         {
+            _entity = entity;
             _entity.changeStats.AddListener(ActualiseHp);
             _entity.deathEvent.AddListener(DestroyHimSelf);
             SetCadre();
         }
-        
     }
     public void SetGroupUiManager(GroupeUiManager groupUi)
     {
@@ -31,13 +30,13 @@ public class CadreController : MonoBehaviour
     public void SetCadre()
     {
         image.sprite = _entity.GetSprit();
-        text.text = _entity.Hp + "/" + _entity.MaxHp;
+        text.text = string.Concat(_entity.Hp," / ", _entity.MaxHp);
         HpBar.fillAmount = _entity.Hp/ _entity.MaxHp;
     }
 
     private void ActualiseHp()
     {
-        text.text = _entity.Hp + "/" + _entity.MaxHp;
+        text.text = string.Concat(_entity.Hp, " / ", _entity.MaxHp);
         HpBar.fillAmount = _entity.Hp / _entity.MaxHp;
     }
 

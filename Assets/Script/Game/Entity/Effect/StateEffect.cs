@@ -7,6 +7,8 @@ public abstract class StateEffect : MonoBehaviour
     public float actualTime;
     public float nextTime;
 
+    public Sprite sprite;
+
     protected EntityController entityControllerAffected;
 
     virtual public void InitEffect(float duration)
@@ -40,23 +42,32 @@ public abstract class StateEffect : MonoBehaviour
                 ApplyEffect();
                 nextTime += 1;
             }
-            if (nextTime >= duration) { end(); }
+            if (nextTime >= duration) { End(); }
         }
     }
 
-    virtual public void end()
+    public bool IsFinish()
     {
+        return nextTime >= duration;
+    }
+
+    virtual public void End()
+    {
+        if(entityAffected)
+        {
+            entityAffected.RemoveEffect(this);
+        }
         Destroy(this);
     }
 
     virtual public void ApplyEffect() { }
 
-    public void ResetEffect()
+    virtual public void ResetEffect()
     {
         ApplyEffect();
         actualTime = 0;
         nextTime = 1;
     }
 
-    virtual public void AddEffectToTarget(SelectableManager entityAffected) { }
+    virtual public void AddEffectToTarget(SelectableManager entityAffected) {  }
 }

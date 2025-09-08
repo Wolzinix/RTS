@@ -6,9 +6,9 @@ public class RessourceController : MonoBehaviour
     [SerializeField] private int _gold;
     [SerializeField] private int _wood;
 
-    RessourceUi _ui;
     [HideInInspector] public UnityEvent ressourcesAdd = new UnityEvent();
 
+    [HideInInspector] public UnityEvent<int, int> ressourcesAddUI = new UnityEvent<int,int>();
     private ControlManager _controlManager;
 
     void Start()
@@ -16,9 +16,7 @@ public class RessourceController : MonoBehaviour
         _controlManager = GetComponent<ControlManager>();
         if (_controlManager)
         {
-            _ui = FindAnyObjectByType<RessourceUi>();
-            _ui.AddWood(_wood);
-            _ui.AddGold(_gold);
+            ressourcesAddUI.Invoke(_gold, _wood);
         }
     }
 
@@ -27,7 +25,7 @@ public class RessourceController : MonoBehaviour
         _gold += gold;
         if (_controlManager)
         {
-            _ui.AddGold(gold);
+            ressourcesAddUI.Invoke(gold, 0);
         }
         else { ressourcesAdd.Invoke();}
     }
@@ -35,10 +33,11 @@ public class RessourceController : MonoBehaviour
     public void AddWood(int wood)
     {
         _wood += wood;
+
         if (_controlManager)
         {
-            _ui.AddWood(wood);
-           
+            ressourcesAddUI.Invoke(0, wood);
+
         }
         else{  ressourcesAdd.Invoke();}
     }

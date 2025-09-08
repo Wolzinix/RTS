@@ -15,6 +15,11 @@ public class SelectableManager : EntityManager
     [Header("Attribute")]
     [SerializeField] private float seeRange = 3;
 
+    [HideInInspector] public UnityEvent<StateEffect> AddEffectEvent;
+    [HideInInspector] public UnityEvent<StateEffect> RemoveEffectEvent;
+
+    public List<StateEffect> _listOfEffects;
+
 
     public float SeeRange
     {
@@ -22,6 +27,17 @@ public class SelectableManager : EntityManager
         set => seeRange = value;
     }
 
+    public void AddEffect(StateEffect effect)
+    {
+        _listOfEffects.Add(effect);
+        AddEffectEvent.Invoke(effect);
+    }
+
+    public void RemoveEffect(StateEffect effect)
+    {
+        RemoveEffectEvent.Invoke(effect);
+        _listOfEffects.Remove(effect);
+    }
     override protected void Awake() 
     {
         base.Awake();
@@ -50,6 +66,7 @@ public class SelectableManager : EntityManager
     {
         if (hp <= 0)
         {
+            _listOfEffects.Clear();
             deathEvent.Invoke(this);
             Destroy(gameObject);
         }

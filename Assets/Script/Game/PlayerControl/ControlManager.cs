@@ -84,6 +84,12 @@ public class ControlManager : MonoBehaviour
         _dragSelect.action.canceled += EndDragSelect;
     }
 
+    public void DesactiveController()
+    {
+        _dragBox.gameObject.SetActive(false);
+        DesactiveAllInput();
+        gameObject.SetActive(false);
+    }
     private void DesactiveAllInput()
     {
         _selectEntityInput.action.performed -= LeftClickGestion;
@@ -376,7 +382,7 @@ public class ControlManager : MonoBehaviour
         }
     }
 
-    private void ResetUiOrder()
+    public void ResetUiOrder()
     {
         _order = false;
         _patrolOrder = false;
@@ -407,6 +413,7 @@ public class ControlManager : MonoBehaviour
             StartCoroutine(IsOnDragBox());
             if (_entitiesBackUp.Count > 0)
             {
+
                 int w = 0;
                 while (w < _entitiesBackUp.Count)
                 {
@@ -481,8 +488,13 @@ public class ControlManager : MonoBehaviour
         {
             _uiGestioneur.ActualiseUi(_selectManager._groupManager.getSelectList()[0].gameObject.GetComponent<SelectableManager>());
         }
+        if (_selectManager._groupManager.getNumberOnGroup() >= 1)
+        {
+            _selectManager.ClearSelected();
+        }
+
     }
-    private bool UnitInDragBox(Vector2 coords, Bounds bounds)
+        private bool UnitInDragBox(Vector2 coords, Bounds bounds)
     {
         return coords.x >= bounds.min.x && coords.x <= bounds.max.x && coords.y >= bounds.min.y && coords.y <= bounds.max.y;
     }

@@ -20,13 +20,18 @@ public class StuntEffect : StateEffect
         }
         if (entity.GetType() == typeof(TroupeManager))
         {
-            if (effect) { effect.ResetEffect(); end(); }
+            if (effect) { effect.ResetEffect();  }
         }
 
         base.InitEffect(entity, duration);
         nextTime = 0;
     }
-
+    override public void ResetEffect()
+    {
+        actualTime = 0;
+        nextTime = 1;
+        base.End();
+    }
     public override void ApplyEffect()
     {
         if(entityControllerAffected)
@@ -35,13 +40,13 @@ public class StuntEffect : StateEffect
         }
     }
 
-    override public void end()
+    override public void End()
     {
         if (entityAffected && entityControllerAffected)
         {
             entityControllerAffected.RemoveFirstOrder();
         }
-        base.end();
+        base.End();
     }
 
     public override void SetEntity(SelectableManager entity)
@@ -58,14 +63,18 @@ public class StuntEffect : StateEffect
         }
         if (entityAffected.GetType() == typeof(TroupeManager))
         {
-            if (!effect) { entityAffected.AddComponent<StuntEffect>(); }
-            else { effect.ResetEffect(); end(); }
+            if (!effect) { effect = entityAffected.AddComponent<StuntEffect>();
+                effect.sprite = sprite;
+            }
+            else { effect.ResetEffect();}
         }
     }
 
     override public void AddEffectToTarget(SelectableManager entityAffected)
     {
         StuntEffect effect = entityAffected.AddComponent<StuntEffect>();
+        effect.sprite = sprite;
+        entityAffected.AddEffect(effect);
         effect.InitEffect(entityAffected, duration);
     }
 }

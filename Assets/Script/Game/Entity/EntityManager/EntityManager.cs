@@ -6,9 +6,9 @@ public class EntityManager : MonoBehaviour
 {
 
     [Header("Attribute")]
-    [SerializeField] protected float hp = 10;
+    protected float hp ;
     [SerializeField] protected float defense = 0;
-    protected float _maxHp;
+    [SerializeField] protected float _maxHp = 10;
     public EntityType entityType;
     [HideInInspector] public float size;
 
@@ -44,7 +44,7 @@ public class EntityManager : MonoBehaviour
         sprite.gameObject.SetActive(false);
         _animator = GetComponent<Animator>();
 
-        _maxHp = hp;
+        hp = _maxHp;
         size = GetSize();
 
     }
