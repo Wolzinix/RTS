@@ -8,6 +8,7 @@ public class GroupeUiManager : MonoBehaviour
     [SerializeField] private GameObject cadre;
 
     private List<GameObject> _listOfCadreControllers;
+    UiGestioneur _UIGestioneur;
     [SerializeField] private GameObject BackImageZone;
 
     [SerializeField] private int marge = 150;
@@ -15,6 +16,7 @@ public class GroupeUiManager : MonoBehaviour
     {
         _listOfEntity = new List<SelectableManager>();
         _listOfCadreControllers = new List<GameObject>();
+        _UIGestioneur = FindAnyObjectByType<UiGestioneur>();
 
         gameObject.SetActive(false);
     }
@@ -34,7 +36,7 @@ public class GroupeUiManager : MonoBehaviour
             newCadre.GetComponent<CadreController>().SetEntity(entity);
             newCadre.GetComponent<CadreController>().SetGroupUiManager(this);
             _listOfCadreControllers.Add(newCadre);
-            }
+        }
         else { RemoveCadre(_listOfCadreControllers[index]); }
         SortAffichage();
         CleanAffichage();
@@ -45,14 +47,15 @@ public class GroupeUiManager : MonoBehaviour
         int index = _listOfEntity.IndexOf(entity);
         if (index != -1)
         {
-            Destroy(_listOfCadreControllers[index]);
-            _listOfCadreControllers.RemoveAt(index);
-            _listOfEntity.Remove(entity);
+            RemoveCadre(_listOfCadreControllers[index]);
         }
         SortAffichage();
-        CleanAffichage();
     }
-
+    private void CloseUIWhenStillOne(SelectableManager entity)
+    {
+        _UIGestioneur.ActualiseUi(entity);
+        gameObject.SetActive(false);
+    }
     private void CleanAffichage()
     {
         if (_listOfCadreControllers.Count == 0) { gameObject.SetActive(false); }
@@ -82,32 +85,29 @@ public class GroupeUiManager : MonoBehaviour
         float ZoneAir = rectParent.width - (marge *2);
 
         float coeff = ZoneAir / (cadresAir * _listOfCadreControllers.Count);
-        if (coeff < 1)
-        {
-            return coeff;
-        }
-        else
-        {
-            return 1;
-        }
+        if (coeff < 1){ return coeff; }
+        else{ return 1; }
     }
 
     private void SortAffichage()
     {
-        int i = 0;
-        EntityType actualEntity = _listOfEntity[_listOfEntity.Count-1].entityType;
-        while (i < _listOfEntity.Count -1)
-        {   
-            if (_listOfEntity[i].entityType == actualEntity)
+        if(_listOfEntity.Count > 1)
+        {
+            int i = 0;
+            EntityType actualEntity = _listOfEntity[^1].entityType;
+            while (i < _listOfEntity.Count - 1)
             {
-                _listOfEntity.Insert(i+1, _listOfEntity[_listOfEntity.Count - 1]);
-                _listOfEntity.RemoveAt(_listOfEntity.Count - 1);
+                if (_listOfEntity[i].entityType == actualEntity)
+                {
+                    _listOfEntity.Insert(i + 1, _listOfEntity[_listOfEntity.Count - 1]);
+                    _listOfEntity.RemoveAt(_listOfEntity.Count - 1);
 
-                _listOfCadreControllers.Insert(i + 1, _listOfCadreControllers[_listOfEntity.Count - 1]);
-                _listOfCadreControllers.RemoveAt(_listOfCadreControllers.Count - 1);
-                break;
+                    _listOfCadreControllers.Insert(i + 1, _listOfCadreControllers[_listOfEntity.Count - 1]);
+                    _listOfCadreControllers.RemoveAt(_listOfCadreControllers.Count - 1);
+                    break;
+                }
+                i++;
             }
-            i++;
         }
     }
 
@@ -137,6 +137,10 @@ public class GroupeUiManager : MonoBehaviour
         Destroy(cadreToRemove);
         _listOfCadreControllers.RemoveAt(index);
         _listOfEntity.RemoveAt(index);
+        
+        if (_listOfCadreControllers.Count == 1) { CloseUIWhenStillOne(_listOfEntity[0]); }
+        if (_listOfCadreControllers.Count == 0) { gameObject.SetActive(false); }
+
         CleanAffichage();
     }
 }

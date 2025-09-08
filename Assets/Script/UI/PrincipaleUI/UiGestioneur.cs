@@ -17,7 +17,7 @@ public class UiGestioneur : MonoBehaviour
 
     private void ActualiseEntityUI(SelectableManager entity)
     {
-        if (!_multiSelectionIsActive || groupUi._listOfEntity.Count == 0)
+        if (!_multiSelectionIsActive || groupUi._listOfEntity.Count <= 1)
         {
             if(_multiSelectionIsActive)
             {
@@ -128,6 +128,7 @@ public class UiGestioneur : MonoBehaviour
             NoUi.SetActive(false);
             groupUi.gameObject.SetActive(true);
             orderUi.gameObject.SetActive(true);
+            entityUi.gameObject.SetActive(false);
             groupUi.AddEntity(entity);
             orderUi.SetEntity(entity.gameObject);
         }
@@ -145,10 +146,8 @@ public class UiGestioneur : MonoBehaviour
             groupUi.gameObject.SetActive(true);
             orderUi.gameObject.SetActive(true);
             groupUi.RemoveEntity(entity);
-            if(groupUi._listOfEntity.Count == 0)
-            {
-                DesactiveUi();
-            }
+            
+            //if(groupUi._listOfEntity.Count == 0) { DesactiveUi();}
         }
     }
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroupeStockUi : MonoBehaviour
+public class GroupeStockUI : MonoBehaviour
 {
     [SerializeField] private GameObject _groupUIPrefab;
     [SerializeField] private GameObject _Canvas;
