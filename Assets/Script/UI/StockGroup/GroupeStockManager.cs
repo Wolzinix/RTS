@@ -102,7 +102,7 @@ public class GroupeStockManager : MonoBehaviour
                 foreach (EntityController entityController in _listOfEntityController)
                 {
                     AggressifEntityManager entityManager = entityController.GetComponent<AggressifEntityManager>();
-                    _UIGestioneur.AddOnGroupUi(entityManager);
+                    _UIGestioneur.AddOnGroupUI(entityManager);
                     if (!_selectManager.GetSelectList().Contains(entityController))
                     {
                         _selectManager.AddSelect(entityManager);

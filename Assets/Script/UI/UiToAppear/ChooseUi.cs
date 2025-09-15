@@ -59,7 +59,7 @@ public class ChooseUi : UIAppearBase
         UI.enabled = true;
         FindEveryEntityOfPlayer();
         ActualiseButton();
-        resourceUi.ActualiseData();
+        resourceUi.UpdateData();
         controlManager.ResetUiOrder();
         controlManager.DesactiveController();
         foreach (AIBrain i in AI)

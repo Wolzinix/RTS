@@ -8,5 +8,6 @@
         SoldatBouclier,
         SoldatArcher,
         Buildeur,
+        DefenseBuilding
     }
 }

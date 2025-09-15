@@ -1,9 +1,13 @@
+using Assets.Script.Game;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class EntityUiManager : MonoBehaviour
 {
     private SelectableManager _entity;
+    [SerializeField] public Image backgroundImage;
 
     [SerializeField] private TMP_Text entityName;
     [SerializeField] private TMP_Text hp;
@@ -64,8 +68,10 @@ public class EntityUiManager : MonoBehaviour
             entityName.text = _entity.gameObject.name;
             hp.text = string.Concat("HP:", _entity.Hp, " / ", _entity.MaxHp);
             defense.text = string.Concat("Defense:", _entity.Defense);
+            attack.enabled = false;
+            level.enabled = false;
 
-            if (_entity.GetType().IsSubclassOf(typeof(AggressifEntityManager)) || typeof(AggressifEntityManager) == _entity.GetType())
+            if (_entity.IsAggressifEntity())
             {
                 AggressifEntityManager _entity2 = (AggressifEntityManager)_entity;
                 attack.enabled = true;
@@ -76,12 +82,6 @@ public class EntityUiManager : MonoBehaviour
                     level.enabled = true;
                     level.text = string.Concat("Level:", _entity3.level);
                 }
-                else{ level.enabled = false; }
-            }
-            else
-            {
-                attack.enabled = false;
-                level.enabled = false;
             }
         }
     }

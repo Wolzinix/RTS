@@ -257,14 +257,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a61d5c26014b542bcf7cc4b3d17b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
   defense: 1
-  entityType: 0
+  _maxHp: 10
+  entityType: 1
   size: 0
-  GoldAmount: 1
-  WoodAmount: 1
   GoldCost: 1
   WoodCost: 1
+  GoldLoot: 1
+  WoodLoot: 1
   xpToGive: 0.5
   sprite: {fileID: 2491522434153671467}
   spriteImage: {fileID: 7482667652216324306, guid: 233ca442b7ce8dd4a953c88b6d64f2e8, type: 3}
@@ -283,6 +283,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   seeRange: 6
+  AddEffectEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  RemoveEffectEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _listOfEffects: []
 --- !u!114 &7695264714245882759
 MonoBehaviour:
   m_ObjectHideFlags: 0

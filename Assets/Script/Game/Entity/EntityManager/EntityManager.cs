@@ -49,6 +49,15 @@ public class EntityManager : MonoBehaviour
 
     }
 
+    public bool IsAggressifEntity()
+    {
+        return entityType == EntityType.SoldatEpee 
+            || entityType == EntityType.SoldatArcher 
+            || entityType == EntityType.SoldatBouclier 
+            || entityType == EntityType.Buildeur
+            || entityType == EntityType.DefenseBuilding;
+    }
+
     public void ActualiseSprite()
     {
         sprite.gameObject.SetActive(true);

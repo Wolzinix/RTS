@@ -16,12 +16,19 @@ public class OverlayRemplissage : MonoBehaviour
     TMP_Text _text;
     TMP_Text _Description;
     RessourceController _RessourceController;
+    TMP_Text EntityOverlayText;
 
-    private void OnEnable()
+    TMP_Text goldText;
+    TMP_Text WoodText;
+
+    private void Start()
     {
-        if(!_RessourceController) {
-            _RessourceController = FindAnyObjectByType<ControlManager>().GetComponent<RessourceController>();
-        }
+        goldText = GoldImage.GetComponentInChildren<TMP_Text>();
+
+        _RessourceController = FindAnyObjectByType<ControlManager>().GetComponent<RessourceController>();
+        WoodText = WoodImage.GetComponentInChildren<TMP_Text>();
+        EntityOverlayText = EntityOverlay.transform.parent.GetComponentInChildren<TMP_Text>();
+        gameObject.SetActive(false);
     }
     public void SetUpOverlay(Vector3 coord)
     {
@@ -47,22 +54,18 @@ public class OverlayRemplissage : MonoBehaviour
         EntityIsOn();
 
         EntityOverlay.sprite = entity.GetSprit();
-        _text = EntityOverlay.transform.parent.GetComponentInChildren<TMP_Text>();
+        _text = EntityOverlayText;
         _text.text = entity.entityType.ToString();
         if (entity.GoldCost > 0)
         {
-            TMP_Text goldText = GoldImage.GetComponentInChildren<TMP_Text>();
-            goldText.text = "";
             GoldImage.gameObject.SetActive(true);
-            goldText.text += "\n" + _RessourceController.GetGold() + " / " + entity.GoldCost;
+            goldText.text = string.Concat("\n", _RessourceController.GetGold(), " / ", entity.GoldCost);
         }
         else { GoldImage.gameObject.SetActive(false); }
         if(entity.WoodCost > 0)
         {
-            TMP_Text WoodText = WoodImage.GetComponentInChildren<TMP_Text>();
             WoodImage.gameObject.SetActive(true);
-            WoodText.text = "";
-            WoodText.text += "\n" + _RessourceController.GetWood() + " / " + entity.WoodCost;
+            WoodText.text = string.Concat("\n", _RessourceController.GetWood(), " / ", entity.WoodCost);
         }
         else { WoodImage.gameObject.SetActive(false); }
     }
@@ -80,9 +83,8 @@ public class OverlayRemplissage : MonoBehaviour
 
     private void GetText()
     {
-        List<TMP_Text> listofComponent = AbilityOverlay.transform.parent.GetComponentsInChildren<TMP_Text>().ToList();
+        TMP_Text[] listofComponent = AbilityOverlay.transform.parent.GetComponentsInChildren<TMP_Text>();
         _text = listofComponent[0];
-
         _Description = listofComponent[1];
     }
 }

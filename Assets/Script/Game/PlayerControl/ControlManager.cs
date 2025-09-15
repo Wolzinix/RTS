@@ -290,9 +290,9 @@ public class ControlManager : MonoBehaviour
                     {
                         if (_selectManager.GetSelectList().Count < 2)
                         {
-                            _uiGestioneur.AddOnGroupUi(_selectManager.GetSelectList()[0].GetComponent<SelectableManager>());
+                            _uiGestioneur.AddOnGroupUI(_selectManager.GetSelectList()[0].GetComponent<SelectableManager>());
                         }
-                        _uiGestioneur.AddOnGroupUi(hitSelectable);
+                        _uiGestioneur.AddOnGroupUI(hitSelectable);
                     }
                     else
                     { 
@@ -338,7 +338,7 @@ public class ControlManager : MonoBehaviour
                     {
                         _selectManager.RemoveSelect(cadre.GetEntity().GetComponent<SelectableManager>());
 
-                        _uiGestioneur.RemoveOnGroupUi(cadre.GetEntity());
+                        _uiGestioneur.RemoveOnGroupUI(cadre.GetEntity());
                     }
                    
                 }
@@ -421,7 +421,7 @@ public class ControlManager : MonoBehaviour
                     SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
 
                     if (i && !_selectManager.GetSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
-                    if (!_uiGestioneur.groupUi._listOfEntity.Contains(selectableI)) { _uiGestioneur.AddOnGroupUi(selectableI); }
+                    if (!_uiGestioneur.groupUi._listOfEntity.Contains(selectableI)) { _uiGestioneur.AddOnGroupUI(selectableI); }
 
                     w++;
                 }
@@ -452,7 +452,7 @@ public class ControlManager : MonoBehaviour
             {
                 
                 if (!_selectManager.GetSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
-                if (!_uiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) { _uiGestioneur.AddOnGroupUi(selectableI); }
+                if (!_uiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) { _uiGestioneur.AddOnGroupUI(selectableI); }
             }
         }
 
@@ -480,7 +480,7 @@ public class ControlManager : MonoBehaviour
             {
                 SelectableManager selectableI = i.gameObject.GetComponent<SelectableManager>();
                 if (!_selectManager.GetSelectList().Contains(i)) { _selectManager.AddSelect(selectableI); }
-                if (!_uiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) { _uiGestioneur.AddOnGroupUi(selectableI); }
+                if (!_uiGestioneur.groupUi._listOfEntity.Contains(i.gameObject.GetComponent<SelectableManager>())) { _uiGestioneur.AddOnGroupUI(selectableI); }
             }
         }
 

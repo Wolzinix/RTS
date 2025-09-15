@@ -4,28 +4,41 @@ using UnityEngine;
 public class RessourceUi : MonoBehaviour
 {
     [SerializeField] TMP_Text _gold;
-    int goldNB;
-    [SerializeField] TMP_Text _wood;
-    int woodNB;
-    RessourceController controller;
+    [SerializeField] private TMP_Text _wood;
 
+    private int goldNB;
+    private int woodNB;
+    private RessourceController controller;
+
+    private void SetText()
+    {
+        _gold.SetText(goldNB.ToString());
+
+        _wood.SetText(woodNB.ToString());
+    }
+
+    public void UpdateData()
+    {
+        goldNB = controller.GetGold();
+        woodNB = controller.GetWood();
+        SetText();
+    }
     private void Start()
     {
         controller = FindAnyObjectByType<ControlManager>().GetComponent<RessourceController>();
         controller.ressourcesAddUI.AddListener(AddRessource);
-        ActualiseData();
+        UpdateData();
     }
-
     public void AddGold(int gold)
     {
         goldNB += gold;
-        ActualsieText();
+        SetText();
     }
 
     public void AddWood(int wood)
     {
         woodNB += wood;
-        ActualsieText();
+        SetText();
     }
 
     public void AddRessource(int gold , int wood)
@@ -33,19 +46,4 @@ public class RessourceUi : MonoBehaviour
         AddGold(gold);
         AddWood(wood);
     }
-
-    private void ActualsieText()
-    {
-        _gold.text = goldNB + "";
-
-        _wood.text = woodNB + "";
-    }
-
-    public void ActualiseData()
-    {
-        goldNB = controller.GetGold();
-        woodNB = controller.GetWood();
-        ActualsieText();
-    }
-
 }
