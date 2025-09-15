@@ -1011,15 +1011,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1453139767}
     - target: {fileID: 6194143341428452145, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
-      propertyPath: _Canvas
-      value: 
-      objectReference: {fileID: 1453139767}
-    - target: {fileID: 6194143341428452145, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: _groupUI
-      value: 
-      objectReference: {fileID: 3939531952194686607, guid: 31ba2ac9f1ed7c3498bdd33090285d75, type: 3}
-    - target: {fileID: 6194143341428452145, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
-      propertyPath: _groupUIPrefab
       value: 
       objectReference: {fileID: 3939531952194686607, guid: 31ba2ac9f1ed7c3498bdd33090285d75, type: 3}
     - target: {fileID: 6247906509608917779, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
@@ -1038,10 +1030,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GroupeImage
       objectReference: {fileID: 0}
-    - target: {fileID: 7390247396222793466, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
-      propertyPath: BackImageZone
-      value: 
-      objectReference: {fileID: 1859582390}
     - target: {fileID: 7425194148958150823, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_Camera
       value: 
@@ -4096,11 +4084,6 @@ PrefabInstance:
 --- !u!1 &1848201707 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8964144638394215571, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
-  m_PrefabInstance: {fileID: 420706199}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1859582390 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7183190456508084959, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
   m_PrefabInstance: {fileID: 420706199}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1913726004

@@ -5,18 +5,16 @@ using UnityEngine;
 
 public class BuildUi : MonoBehaviour
 {
-
-    private BuilderController _builder;
-
     [SerializeField] private List<ButtonForEntity> _ListOfButton;
 
+    private BuilderController _builder;
     private int _numberOfbutton;
     private ControlManager _controlManager;
 
     void Start()
     {
-        gameObject.SetActive(false);
         _controlManager = FindAnyObjectByType<ControlManager>();
+        gameObject.SetActive(false);
     }
 
     public void SetBuilder(BuilderController builder)
@@ -30,11 +28,12 @@ public class BuildUi : MonoBehaviour
         List<GameObject> listOfGameobject = _builder.GetBuildings();
         foreach (ButtonForEntity button in _ListOfButton)
         {
-            if (_ListOfButton.IndexOf(button) + _numberOfbutton < listOfGameobject.Count())
+            int indexOfButtonWithNumber = _ListOfButton.IndexOf(button) + _numberOfbutton;
+            if (indexOfButtonWithNumber < listOfGameobject.Count())
             {
                 if (button.IsActive())
                 {
-                    button.GetComponentInChildren<TMP_Text>().text = _builder.GetBuildings()[_ListOfButton.IndexOf(button)].name;
+                    button.GetComponentInChildren<TMP_Text>().SetText(_builder.GetBuildings()[indexOfButtonWithNumber - _numberOfbutton].name) ;
                 }
             }
         }

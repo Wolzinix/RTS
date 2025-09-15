@@ -24,8 +24,6 @@ public class ButtonOverlap : Button
             stopFenetre = false;
         }
     }
-    
-
     protected virtual void Actualisation()
     {
         Vector3 coord = transform.position;
