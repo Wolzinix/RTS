@@ -11,13 +11,28 @@ public class BuildingPreWatching : MonoBehaviour
     [SerializeField] private LayerMask _ExcludeLayer;
     private RessourceController _ressourcecontroller;
     private int _gold, _wood;
-    public Collider[] DoAOverlap(Vector3 spawnPosition)
-    {
-        return Physics.OverlapSphere(spawnPosition, 1, ~_ExcludeLayer, QueryTriggerInteraction.Ignore);
-    }
+
+    private MeshRenderer[] _meshRenderers;
+    private SkinnedMeshRenderer[] _skinnedMeshRenderer;
+
     private void Start()
     {
         _ressourcecontroller = GetComponent<RessourceController>();
+    }
+
+    private void ApplyShader(Shader shader)
+    {
+        if (_meshRenderers.Length > 0)
+        {
+            foreach (MeshRenderer meshRender in _meshRenderers) { meshRender.material.shader = shader; }
+        }
+        else
+        {
+            foreach (SkinnedMeshRenderer meshRender in _skinnedMeshRenderer)
+            {
+                foreach (Material material in meshRender.materials) { material.shader = shader; }
+            }
+        }
     }
     void LateUpdate()
     {
@@ -28,7 +43,7 @@ public class BuildingPreWatching : MonoBehaviour
             {
                 currentBuilding.SetActive(true);
                 currentBuilding.transform.position = position;
-                if (DoAOverlap(position).Count() <= 1 && _ressourcecontroller.CompareWood(_wood) && _ressourcecontroller.CompareGold(_gold)) 
+                if (RayCast.DoASphereOverlap(position,_ExcludeLayer).Count() <= 1 && _ressourcecontroller.CompareWood(_wood) && _ressourcecontroller.CompareGold(_gold)) 
                 { ApplyShader(shaderToApply); }
                 else { ApplyShader(shaderToNotApply); }
             }
@@ -36,26 +51,16 @@ public class BuildingPreWatching : MonoBehaviour
         }
     }
     
-    private void ApplyShader(Shader shader)
-    {
-        MeshRenderer[] meshRenderers = currentBuilding.GetComponentsInChildren<MeshRenderer>();
-        if (meshRenderers.Length > 0)
-        {
-            foreach (MeshRenderer meshRender in meshRenderers) { meshRender.material.shader = shader; }
-        }
-        else
-        {
-            SkinnedMeshRenderer[] SkinnedMeshRenderer = currentBuilding.GetComponentsInChildren<SkinnedMeshRenderer>();
-            foreach (SkinnedMeshRenderer meshRender in SkinnedMeshRenderer)
-            {
-                foreach (Material material in meshRender.materials) { material.shader = shader; }
-            }
-        }
-    }
+    
     public void SetBuilding(GameObject ghostBuilding, Transform ghostTransform,int gold , int wood)
     {
         currentBuilding = Instantiate(ghostBuilding);
         currentBuilding.transform.localScale = ghostTransform.localScale;
+        _meshRenderers = currentBuilding.GetComponentsInChildren<MeshRenderer>();
+        if(_meshRenderers.Length <= 0)
+        {
+            _skinnedMeshRenderer = currentBuilding.GetComponentsInChildren<SkinnedMeshRenderer>();
+        }
         ApplyShader(shaderToApply);
         _gold = gold;
         _wood = wood;

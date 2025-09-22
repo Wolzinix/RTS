@@ -18,7 +18,7 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadNextScene()
     {
-        StartCoroutine( LoadSceneAsync(  SceneIndex.GetIndexOfScene(SceneToload) ));
+        StartCoroutine( LoadSceneAsync(  SceneIndex.GetSceneWithIndex(SceneToload) ));
     }
 
     IEnumerator LoadSceneAsync(string sceneName)

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +11,7 @@ public class ButtonLoader : MonoBehaviour
         SceneManager.SetActiveScene(SceneManager.GetActiveScene());
 
         levelLoader.uiGestionneur.SetActive(true);
-        SceneIndex.GetIndexOfScene(levelLoader.SceneToload);
+        SceneIndex.GetSceneWithIndex(levelLoader.SceneToload);
         SceneManager.UnloadSceneAsync(scene);
         Time.timeScale = 1;
     }

@@ -17,12 +17,12 @@ public class LevelNextUI : UIAppearBase
     public void NextScene()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneIndex.GetIndexOfScene(SceneToload));
+        SceneManager.LoadScene(SceneIndex.GetSceneWithIndex(SceneToload));
     }
     public void MainMenuScene()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneIndex.GetIndexOfScene(0));
+        SceneManager.LoadScene(SceneIndex.GetSceneWithIndex(0));
     }
     public void CurrentScene()
     {

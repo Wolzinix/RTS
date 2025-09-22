@@ -9,52 +9,15 @@ public class RessourceSpawning : MonoBehaviour
     public float MeterBetween2Object;
     public List<GameObject> spawningItems;
 
-    [SerializeField] int NumberOfTentative;
-    [SerializeField, MinMaxRange(0f, 10f)] Vector2 sizeMultiplicator;
-    [SerializeField] GameObject ObjectStorage;
+    [SerializeField] private int NumberOfTentative;
+    [SerializeField, MinMaxRange(0f, 10f)] private Vector2 sizeMultiplicator;
+    [SerializeField] private GameObject ObjectStorage;
     [SerializeField] private GameObject spawningGameObject;
-    [SerializeField] LayerMask LayerMask;
+    [SerializeField] private LayerMask LayerMask;
 
     private float size;
     private BoxCollider boxCollider;
-
-    private void Start()
-    {
-        SpawnObject();
-    }
-    public void SpawnObject()
-    {
-        boxCollider = GetComponent<BoxCollider>();
-        DestroyAllGameObject();
-
-        size = getSize();
-
-        for (int i = 0; i < nbOfSpawningItem; i++)
-        {
-
-            float multiple = Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
-            float x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
-            float z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
-            Vector3 position = new(x, boxCollider.bounds.max.y, z);
-            position = RayCast.RaycastForGround(position, LayerMask, boxCollider.size.y);
-            int w = 0;
-            while((DoAOverlap(position, multiple) > 2 || position == Vector3.zero) && w <= NumberOfTentative)
-            {
-                x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
-                z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
-                position = new Vector3(x, boxCollider.bounds.max.y, z);
-                position = RayCast.RaycastForGround(position, LayerMask, boxCollider.size.y);
-                w += 1;
-            }
-            if (DoAOverlap(position, multiple) <= 2 && position != Vector3.zero)
-            {
-                Quaternion rotation = GetNewRotation();
-                if (ObjectStorage){ spawningItems.Add(Instantiate(spawningGameObject, position, rotation, ObjectStorage.transform)); }
-                else { spawningItems.Add(Instantiate(spawningGameObject, position, rotation)); }
-                spawningItems[spawningItems.Count - 1].transform.localScale *= multiple;
-            }
-        }
-    }
+    private Renderer[] renderersOfSpawning;
 
     private Quaternion GetNewRotation()
     {
@@ -64,11 +27,12 @@ public class RessourceSpawning : MonoBehaviour
         };
         return Quaternion.Euler(EuleurRotation);
     }
-    private float getSize()
+
+    private float GetSize()
     {
         float size = 0;
         float nb = 0;
-        foreach (Renderer i in spawningGameObject.GetComponentsInChildren<Renderer>())
+        foreach (Renderer i in renderersOfSpawning)
         {
             size += i.bounds.size.x / 2;
             size += i.bounds.size.z / 2;
@@ -76,24 +40,65 @@ public class RessourceSpawning : MonoBehaviour
         }
         return size / nb;
     }
+
     public void DestroyAllGameObject()
     {
         foreach (GameObject item in spawningItems)
         {
-            if (item)
-            {
-                DestroyImmediate(item);
-            }
+            if (item) { DestroyImmediate(item); }
         }
         spawningItems.Clear();
+    }
+
+    private Vector3 FindAPlace()
+    {
+        float x = Random.Range(boxCollider.bounds.min.x, boxCollider.bounds.max.x);
+        float z = Random.Range(boxCollider.bounds.min.z, boxCollider.bounds.max.z);
+        Vector3 position = new(x, boxCollider.bounds.max.y, z);
+        return RayCast.RaycastForGround(position, LayerMask, boxCollider.size.y);
+    }
+
+    private Vector3 FindAPlaceWithTry(float multiple)
+    {
+        int i = 0;
+        Vector3 position;
+        while (i <= NumberOfTentative)
+        {
+            position = FindAPlace();
+            i += 1;
+            if (RayCast.DoASphereOverlap(position, MeterBetween2Object + size * multiple, LayerMask) <= 2 && position != Vector3.zero)
+            {
+                return position;
+            }
+        }
+        return Vector3.zero;
+    }
+    public void SpawnObject()
+    {
+        DestroyAllGameObject();
+        size = GetSize();
+
+        for (int i = 0; i < nbOfSpawningItem; i++)
+        {
+            float multiple = Random.Range(sizeMultiplicator.x, sizeMultiplicator.y);
+            Vector3 position = FindAPlaceWithTry(multiple);
+            if (position != Vector3.zero)
+            {
+                Quaternion rotation = GetNewRotation();
+                if (ObjectStorage){ spawningItems.Add(Instantiate(spawningGameObject, position, rotation, ObjectStorage.transform)); }
+                else { spawningItems.Add(Instantiate(spawningGameObject, position, rotation)); }
+                spawningItems[^1].transform.localScale *= multiple;
+            }
+        }
+    }
+    private void Start()
+    {
+        renderersOfSpawning = spawningGameObject.GetComponentsInChildren<Renderer>();
+        boxCollider = GetComponent<BoxCollider>();
+        SpawnObject();
     }
     public void ClearList()
     {
         spawningItems.Clear();
-    }
-
-    private int DoAOverlap(Vector3 spawnPosition, float multiple =1)
-    {
-        return Physics.OverlapSphere(spawnPosition, MeterBetween2Object + size * multiple, LayerMask).Length;
     }
 }

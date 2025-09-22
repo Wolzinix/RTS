@@ -27,6 +27,6 @@ public static class NameIndex
         { 18,"Razeera" },
 
     };
-    public static string GetAName(){ return DicoOfName[Random.Range(0,DicoOfName.Count)]; }
-    public static string GetAName(int indexName) { return DicoOfName[indexName]; }
+    public static string GetARandomName(){ return DicoOfName[Random.Range(0,DicoOfName.Count)]; }
+    public static string GetANameWithIndex(int indexName) { return DicoOfName[indexName]; }
 }

@@ -7,17 +7,21 @@ public class ButtonForEntityChoice : Button
     public ChooseUi chooseUi;
     public EntityManager entityManager;
 
-    bool EntityIsTaken;
 
     [SerializeField] TMP_Text _Text;
     [SerializeField] Image ImageEntity;
     [SerializeField] Image ImageOver;
 
     bool onlyOneByFrame;
+    RessourceInfo ressourceInfo;
+
+    private EntityController entityController;
+    bool EntityIsTaken;
 
     protected override void Start()
     {
         onClick.AddListener(ClickGestion) ;
+        ressourceInfo = GetComponentInChildren<RessourceInfo>();
     }
     protected override void OnDestroy()
     {
@@ -33,17 +37,18 @@ public class ButtonForEntityChoice : Button
         if(entity)
         {
             TroupeManager troupe = (TroupeManager)entity;
-            _Text.text = entity.name + " - " + troupe.level;
+            _Text.text = string.Concat(entity.name, " - ", troupe.level);
             ImageEntity.sprite = entity.GetSprit();
 
             entityManager = entity.GetComponent<EntityManager>();
+            entityController = entity.GetComponent<EntityController>();
 
             ImageOver.enabled = false;
-            GetComponentInChildren<RessourceInfo>().SetRessource(
+            ressourceInfo.SetRessource(
                 Mathf.RoundToInt(troupe.GoldCost * (1 + troupe.level * 0.1f))
                 , Mathf.RoundToInt(troupe.WoodCost * (1 + troupe.level * 0.1f)));
 
-            if (chooseUi.FindEntityInSave(entity.GetComponent<EntityController>()))
+            if (chooseUi.FindEntityInSave(entityController))
             {
                 EntityIsTaken = true;
                 ImageOver.enabled = true;
@@ -57,12 +62,9 @@ public class ButtonForEntityChoice : Button
         if(!onlyOneByFrame)
         {
             onlyOneByFrame = true;
-            EntityController entity = entityManager.GetComponent<EntityController>();
-
-            if (!EntityIsTaken && entity)
+            if (!EntityIsTaken && entityController)
             {
-
-                EntityIsTaken = chooseUi.AddEntityToList(entity);
+                EntityIsTaken = chooseUi.AddEntityToList(entityController);
                 if (EntityIsTaken)
                 {
                     ImageOver.enabled = true;
@@ -71,11 +73,10 @@ public class ButtonForEntityChoice : Button
             else
             {
                 EntityIsTaken = false;
-                chooseUi.RemoveEntityOfList(entity);
+                chooseUi.RemoveEntityOfList(entityController);
 
                 ImageOver.enabled = false;
             }
         }
-        
     }
 }

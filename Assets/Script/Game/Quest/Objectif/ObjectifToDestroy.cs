@@ -4,11 +4,13 @@ public class ObjectifToDestroy : Objectif
     [SerializeField] bool NeedToBeProtect;
     private void OnDestroy()
     {
-        if(NeedToBeProtect)
+        if(this)
         {
-            failled.Invoke(this);
+            if (NeedToBeProtect)
+            {
+                failled.Invoke(this);
+            }
+            else { succes.Invoke(this); }
         }
-        else { succes.Invoke(this); }
-       
     }
 }

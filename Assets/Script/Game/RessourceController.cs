@@ -3,12 +3,12 @@ using UnityEngine.Events;
 
 public class RessourceController : MonoBehaviour
 {
+    [HideInInspector] public UnityEvent ressourcesAdd = new ();
+    [HideInInspector] public UnityEvent<int, int> ressourcesAddUI = new();
+
     [SerializeField] private int _gold;
     [SerializeField] private int _wood;
 
-    [HideInInspector] public UnityEvent ressourcesAdd = new UnityEvent();
-
-    [HideInInspector] public UnityEvent<int, int> ressourcesAddUI = new UnityEvent<int,int>();
     private ControlManager _controlManager;
 
     void Start()

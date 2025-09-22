@@ -108,7 +108,8 @@ public class AttackState : StateClassEntity
         { 
             if(controller._EnnemieList.Count <= 0)
             {
-                controller.GetComponent<FogWarManager>().ActualiseFog(controller,true);
+                FogWarManager fogManager = controller.GetComponent<FogWarManager>();
+                if (fogManager) { fogManager.ActualiseFog(controller, true); }
             }
             End(); 
         }

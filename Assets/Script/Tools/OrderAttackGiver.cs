@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public abstract class OrderAttackGiver : MonoBehaviour
+namespace Assets.Script.Tools
 {
-    public static void OrderGiver(EntityController entity, Vector3 target)
+    public abstract class OrderAttackGiver : MonoBehaviour
     {
-        entity.AddAggressivePath(target);
+        public static void OrderGiver(EntityController entity, Vector3 target)
+        {
+            entity.AddAggressivePath(target);
+        }
     }
 }

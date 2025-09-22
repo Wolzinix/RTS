@@ -13,5 +13,5 @@ public static class SceneIndex
         { 6,"ScreenLoadSecondThird" }
         
     };
-    public static string GetIndexOfScene(int numOfScene) { return DicoOfScene[numOfScene]; }
+    public static string GetSceneWithIndex(int numOfScene) { return DicoOfScene[numOfScene]; }
 }

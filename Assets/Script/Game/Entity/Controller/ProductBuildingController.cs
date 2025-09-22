@@ -167,7 +167,7 @@ public class ProductBuildingController : MonoBehaviour
                 { lineRenderer.SetPosition(w, pos); }
                 */
 
-                pos = RayCast.RaycastForGroundNavMesh(pos,spawnrayon);
+                pos = RayCast.RaycastOnNavMeshGround(pos,spawnrayon);
 
                 if (pos != transform.position)
                 {
@@ -176,7 +176,7 @@ public class ProductBuildingController : MonoBehaviour
                     {
                         GameObject newEntity = Instantiate(entityToSpawn, pos, transform.rotation, entity.transform.parent);
 
-                        newEntity.name = NameIndex.GetAName();
+                        newEntity.name = NameIndex.GetARandomName();
                         newEntity.tag = tag;
 
                         newEntity.GetComponent<AggressifEntityManager>().ActualiseSprite();

@@ -20,7 +20,7 @@ public class OrderUiScript : MonoBehaviour
 
     private void DoRightClick(InputAction.CallbackContext obj)
     {
-        List<RaycastResult> listOfUIRay = RayCast.DoUiRayCastFromMouse();
+        List<RaycastResult> listOfUIRay = RayCast.DoUIRayCastFromMouse();
         foreach (RaycastResult raycastResult in listOfUIRay)
         {
             ButtonForCapacity _button = raycastResult.gameObject.GetComponent<ButtonForCapacity>();

@@ -270,7 +270,7 @@ public class ControlManager : MonoBehaviour
 
     private void DoASelection(RaycastHit hit)
     {
-        List<RaycastResult> listOfUIRay = RayCast.DoUiRayCastFromMouse();
+        List<RaycastResult> listOfUIRay = RayCast.DoUIRayCastFromMouse();
         if (listOfUIRay.Count == 0)
         {
             if (!_multiSelectionIsActive) { _selectManager.ClearList(); }
@@ -348,7 +348,7 @@ public class ControlManager : MonoBehaviour
 
     private void RightClickGestion(InputAction.CallbackContext context)
     {
-        List<RaycastResult> listOfUIRay = RayCast.DoUiRayCastFromMouse();
+        List<RaycastResult> listOfUIRay = RayCast.DoUIRayCastFromMouse();
         if (listOfUIRay.Count == 0)
         {
             if (!_order && !_patrolOrder && !_travelAttack && !_buildingOrder)

@@ -14,6 +14,6 @@ public class MainMenu : MonoBehaviour
     public void NextScene()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneIndex.GetIndexOfScene(SceneToload));
+        SceneManager.LoadScene(SceneIndex.GetSceneWithIndex(SceneToload));
     }
 }

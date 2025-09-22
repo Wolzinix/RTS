@@ -1,6 +1,5 @@
 using Assets.Script.Game;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UiGestioneur : MonoBehaviour
 {

@@ -5,10 +5,19 @@ public class ButtonOverlap : Button
 {
     protected OverlayRemplissage fenetre;
     public bool stopFenetre;
+    RectTransform rectTransform;
     protected override void Start()
     {
         base.Start();
         fenetre = FindAnyObjectByType<OverlayRemplissage>(FindObjectsInactive.Include);
+        rectTransform = GetComponent<RectTransform>();
+    }
+    protected virtual void Actualisation()
+    {
+        Vector3 coord = transform.position;
+        coord += new Vector3(-25, rectTransform.rect.height * 2, 0);
+
+        fenetre.SetUpOverlay(coord);
     }
     protected virtual void LateUpdate()
     {
@@ -24,11 +33,5 @@ public class ButtonOverlap : Button
             stopFenetre = false;
         }
     }
-    protected virtual void Actualisation()
-    {
-        Vector3 coord = transform.position;
-        coord += new Vector3(-25, GetComponent<RectTransform>().rect.height *2 , 0);
-
-        fenetre.SetUpOverlay(coord);
-    }
+    
 }

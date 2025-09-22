@@ -4,6 +4,7 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Assets.Script.Tools
 {
@@ -11,8 +12,7 @@ namespace Assets.Script.Tools
     {
         public static Vector3 RaycastForGround(GameObject transformReturn, Vector3 pos, float sizeY = Mathf.Infinity)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(pos, Vector3.down, out hit, sizeY,1<<3))
+            if (Physics.Raycast(pos, Vector3.down, out RaycastHit hit, sizeY,1<<3))
             {
                 Debug.DrawLine(pos, hit.point, Color.red, 10f);
                 return hit.point;
@@ -22,8 +22,7 @@ namespace Assets.Script.Tools
 
         public static Vector3 RaycastForGround(GameObject transformReturn, Vector3 pos, LayerMask layerMask , float sizeY = Mathf.Infinity)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(pos, Vector3.down, out hit, sizeY, layerMask))
+            if (Physics.Raycast(pos, Vector3.down, out RaycastHit hit, sizeY, layerMask))
             {
                 Debug.DrawLine(pos, hit.point, Color.red, 10f);
                 return hit.point;
@@ -33,8 +32,7 @@ namespace Assets.Script.Tools
 
         public static Vector3 RaycastForGround(Vector3 pos, LayerMask layerMask, float sizeY = Mathf.Infinity)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(pos, Vector3.down, out hit, sizeY, layerMask))
+            if (Physics.Raycast(pos, Vector3.down, out RaycastHit hit, sizeY, layerMask))
             {
                 Debug.DrawLine(pos, hit.point, Color.red, 10f);
                 return hit.point;
@@ -44,8 +42,7 @@ namespace Assets.Script.Tools
 
         public static Vector3 RaycastForGround(Vector3 pos, float sizeY = Mathf.Infinity)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(pos, Vector3.down, out hit, sizeY, 1 << 3))
+            if (Physics.Raycast(pos, Vector3.down, out RaycastHit hit, sizeY, 1 << 3))
             {
                 Debug.DrawLine(pos, hit.point, Color.red, 10f);
                 return hit.point;
@@ -56,8 +53,7 @@ namespace Assets.Script.Tools
         public static RaycastHit DoARayCastFromMouse(Camera camera )
         {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
             return hit;
         }
 
@@ -65,16 +61,14 @@ namespace Assets.Script.Tools
         {
             Camera camera = Camera.main;
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
             return hit;
         }
 
         public static RaycastHit DoARayCastToGroundFromMouse(Camera camera)
         {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 3, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 3, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
             return hit;
         }
 
@@ -82,31 +76,28 @@ namespace Assets.Script.Tools
         {
             Camera camera = Camera.main;
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 3, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 3, queryTriggerInteraction: QueryTriggerInteraction.Ignore)) { return hit; }
             return hit;
         }
 
-        public static List<RaycastResult> DoUiRayCastFromMouse()
+        public static List<RaycastResult> DoUIRayCastFromMouse()
         {
-            PointerEventData eventData = new PointerEventData(EventSystem.current);
-            List<RaycastResult> results = new List<RaycastResult>();
+            PointerEventData eventData = new(EventSystem.current);
+            List<RaycastResult> results = new();
             eventData.position = Input.mousePosition;
             EventSystem.current.RaycastAll(eventData, results);
 
             return results;
         }
 
-        public static Vector3 RaycastForGroundNavMesh(Vector3 pos, float sizeY = Mathf.Infinity)
+        public static Vector3 RaycastOnNavMeshGround(Vector3 pos, float sizeY = Mathf.Infinity)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(pos, Vector3.down, out hit, sizeY, 1 << 3))
+            if (Physics.Raycast(pos, Vector3.down, out RaycastHit hit, sizeY, 1 << 3))
             {
                 Debug.DrawLine(pos, hit.point, Color.red, 10f);
                 if (hit.collider.gameObject.GetComponent<NavMeshSurface>())
                 {
-                    NavMeshHit navHit = new NavMeshHit();
-                    if (NavMesh.SamplePosition(hit.point, out navHit, 0.2f, NavMesh.AllAreas))
+                    if (NavMesh.SamplePosition(hit.point, out NavMeshHit navHit, 0.2f, NavMesh.AllAreas))
                     {
                         return new Vector3(hit.point.x, hit.point.y + (pos.y - hit.point.y), hit.point.z);
                     }
@@ -120,18 +111,62 @@ namespace Assets.Script.Tools
             ;
             float delta = 360 / numberOfRay;
 
-            List<RaycastHit> listOfGameObejct = new List<RaycastHit>();
+            List<RaycastHit> listOfGameObejct = new ();
 
             for (int i = 0; i < numberOfRay; i++)
             {
                 Vector3 dir = Quaternion.Euler(0, i * delta, 0) * go.transform.forward;
 
-                Ray ray = new Ray(go.transform.position, dir);
+                Ray ray = new (go.transform.position, dir);
 
                 listOfGameObejct.Union(Physics.RaycastAll(ray, range));
             }
 
             return listOfGameObejct;
+        }
+
+        public static Collider[] DoASphereOverlap(Vector3 spawnPosition, LayerMask _excludeLayer)
+        {
+            return Physics.OverlapSphere(spawnPosition, 1, ~_excludeLayer, QueryTriggerInteraction.Ignore);
+        }
+
+        public static int DoASphereOverlap(Vector3 spawnPosition, float distance, LayerMask layermask)
+        {
+            return Physics.OverlapSphere(spawnPosition, distance, layermask).Length;
+        }
+
+        public static Vector3 RayToTuchGroundWithMapLayer(Vector3 pos, float maxdistance, LayerMask layerMask, List<TerrainLayer> terrainLayer)
+        {
+            if (Physics.Raycast(pos, Vector3.down, out RaycastHit hit, maxdistance, layerMask))
+            {
+                Terrain terrain = hit.collider.gameObject.GetComponent<Terrain>();
+                if (terrain || hit.collider.gameObject.GetComponent<NavMeshSurface>())
+                {
+                    if (terrain)
+                    {
+                        float[,,] splatmap = terrain.terrainData.GetAlphamaps(
+                            Mathf.FloorToInt((pos.x - terrain.transform.position.x) / terrain.terrainData.size.x * terrain.terrainData.alphamapWidth),
+                            Mathf.FloorToInt((pos.z - terrain.transform.position.z) / terrain.terrainData.size.z * terrain.terrainData.alphamapHeight),
+                            1,
+                            1
+                        );
+                        float Visible = 0;
+                        int texindex = 0;
+                        for (int i = 0; i < splatmap.GetLength(2); i++)
+                        {
+                            if (splatmap[0, 0, i] > Visible)
+                            {
+                                Visible = splatmap[0, 0, i];
+                                texindex = i;
+                            }
+                        }
+
+                        if (terrainLayer.Contains(terrain.terrainData.terrainLayers[texindex])) { return new Vector3(pos.x, hit.point.y, pos.z); }
+                    }
+                    else { return new Vector3(pos.x, hit.point.y, pos.z); }
+                }
+            }
+            return Vector3.zero;
         }
     }
 }

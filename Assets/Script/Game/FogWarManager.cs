@@ -7,6 +7,7 @@ public class FogWarManager : MonoBehaviour
     void Start()
     {
         fogWar = FindAnyObjectByType<FogWarController>();
+        if(tag != fogWar.tag ) { Destroy(this); }
         entityController = GetComponent<EntityController>();
         if (entityController && fogWar) { fogWar.FogGestion(entityController, true); }
     }
@@ -18,7 +19,7 @@ public class FogWarManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if(tag != "" && tag != "neutral")
+        if (tag != "" && tag != "neutral")
         {
             EntityController collisionController = collision.GetComponent<EntityController>();
             if (collisionController && !collision.CompareTag(tag)) { ActualiseFog(collisionController, false); }
