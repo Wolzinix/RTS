@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: -7252338034062111926}
   - component: {fileID: -7175778202310501690}
   - component: {fileID: 1235953111691824839}
+  - component: {fileID: 9145669617866575098}
   m_Layer: 6
   m_Name: ArcherTower
   m_TagString: ennemie
@@ -253,31 +254,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea7905708d268044d9d8eb44be87c9be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityType: 6
   defense: 2
   _maxHp: 10
-  entityType: 6
-  size: 0
   GoldCost: 0
   WoodCost: 3
   GoldLoot: 1
   WoodLoot: 1
   xpToGive: 50
-  sprite: {fileID: 7706548414058156727}
-  spriteImage: {fileID: 21300000, guid: ca14ac5524c5d2947955b0c092da7e04, type: 3}
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
+  sprite: {fileID: 7706548414058156727}
+  spriteImage: {fileID: 21300000, guid: ca14ac5524c5d2947955b0c092da7e04, type: 3}
   changeStats:
     m_PersistentCalls:
       m_Calls: []
+  size: 0
   CurrentShape: {fileID: 9039173546862213720}
   CurrentShapeTransform: {fileID: 1979841089478328462}
-  deathEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  TakingDamageFromEntity:
-    m_PersistentCalls:
-      m_Calls: []
   seeRange: 6
   AddEffectEvent:
     m_PersistentCalls:
@@ -285,8 +280,13 @@ MonoBehaviour:
   RemoveEffectEvent:
     m_PersistentCalls:
       m_Calls: []
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  TakingDamageFromEntity:
+    m_PersistentCalls:
+      m_Calls: []
   _listOfEffects: []
-  ressources: {fileID: 0}
   attack: 3
   attackSpeed: 3
   range: 6
@@ -294,6 +294,7 @@ MonoBehaviour:
   DoAnAttack:
     m_PersistentCalls:
       m_Calls: []
+  ressources: {fileID: 0}
 --- !u!114 &-7175778202310501690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,6 +334,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
+--- !u!95 &9145669617866575098
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e4e940c0ea017b64e954807065fb2c45, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6887436461552098724
 GameObject:
   m_ObjectHideFlags: 0

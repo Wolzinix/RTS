@@ -71,12 +71,12 @@ public class EntityUiManager : MonoBehaviour
             attack.enabled = false;
             level.enabled = false;
 
-            if (_entity.IsAggressifEntity())
+            if (EntityTypeCalcul.IsAggressifOrBuildeur(_entity.entityType))
             {
                 AggressifEntityManager _entity2 = (AggressifEntityManager)_entity;
                 attack.enabled = true;
                 attack.text = string.Concat("Attack:", _entity2.Attack);
-                if (typeof(TroupeManager) == _entity.GetType())
+                if (EntityTypeCalcul.IsATroupe(_entity.entityType))
                 {
                     TroupeManager _entity3 = (TroupeManager)_entity;
                     level.enabled = true;

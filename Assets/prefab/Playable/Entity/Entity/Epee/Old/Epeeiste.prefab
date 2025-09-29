@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 1314613499554875902}
   - component: {fileID: 2294858842063284346}
   - component: {fileID: -8206696815783975533}
+  - component: {fileID: 9145669617866575098}
   m_Layer: 6
   m_Name: Epeeiste
   m_TagString: Allie
@@ -306,33 +307,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069a7d1dcb95cac4db81d0c4b22c0aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 15
-  GoldAmount: 1
-  WoodAmount: 0
+  entityType: 0
+  defense: 1
+  _maxHp: 10
   GoldCost: 1
   WoodCost: 1
-  entityType: 0
-  size: 0
-  sprite: {fileID: 7706548414058156727}
-  spriteImage: {fileID: 21300000, guid: f6949ef101ec8144380d3241c29c9c8a, type: 3}
+  GoldLoot: 1
+  WoodLoot: 1
+  xpToGive: 100
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
-  defense: 1
+  sprite: {fileID: 7706548414058156727}
+  spriteImage: {fileID: 21300000, guid: f6949ef101ec8144380d3241c29c9c8a, type: 3}
   changeStats:
     m_PersistentCalls:
       m_Calls: []
+  size: 0
   CurrentShape: {fileID: 0}
   CurrentShapeTransform: {fileID: 0}
   seeRange: 4
+  AddEffectEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  RemoveEffectEvent:
+    m_PersistentCalls:
+      m_Calls: []
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
-  xpToGive: 100
-  ressources: {fileID: 0}
+  _listOfEffects: []
   attack: 3
   attackSpeed: 1
   range: 2
@@ -340,9 +347,10 @@ MonoBehaviour:
   DoAnAttack:
     m_PersistentCalls:
       m_Calls: []
+  ressources: {fileID: 0}
   StartSpeed: 2
-  xp: 0
   level: 0
+  xp: 0
   HpToAdd: 1
   AttackToAdd: 0
   DefenseToAdd: 1
@@ -374,6 +382,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe032d10478cd14aae1ad734473b2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &9145669617866575098
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: a33f26f87077588419ed67ff8ad2707f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &3807126426814899356
 PrefabInstance:
   m_ObjectHideFlags: 0

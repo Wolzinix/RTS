@@ -1,4 +1,5 @@
 using Assets.Script.Game;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,12 +7,10 @@ public class EntityManager : MonoBehaviour
 {
 
     [Header("Attribute")]
-    protected float hp ;
+    public EntityType entityType;
     [SerializeField] protected float defense = 0;
     [SerializeField] protected float _maxHp = 10;
-    public EntityType entityType;
-    [HideInInspector] public float size;
-
+    
     [Header("Cost")]
     public int GoldCost = 1;
     public int WoodCost = 1;
@@ -22,40 +21,21 @@ public class EntityManager : MonoBehaviour
     [SerializeField] protected float xpToGive = 0.0f;
 
     [Header("Sprite")]
+    public Sprite Allisprite;
+    public Sprite Ennemisprite;
+    public Sprite Neutralprite;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Sprite spriteImage;
-    [SerializeField] public Sprite Allisprite;
-    [SerializeField] public Sprite Ennemisprite;
-    [SerializeField] public Sprite Neutralprite;
+
+    [HideInInspector] public UnityEvent changeStats = new UnityEvent(); 
+    [HideInInspector] public float size;
+
     protected Animator _animator;
-
-
-    [HideInInspector] public UnityEvent changeStats = new UnityEvent();
+    protected float hp;
 
     public Sprite GetSprit()
     {
         return spriteImage;
-    }
-
-    virtual protected void Awake()
-    {
-        ActualiseSprite();
-
-        sprite.gameObject.SetActive(false);
-        _animator = GetComponent<Animator>();
-
-        hp = _maxHp;
-        size = GetSize();
-
-    }
-
-    public bool IsAggressifEntity()
-    {
-        return entityType == EntityType.SoldatEpee 
-            || entityType == EntityType.SoldatArcher 
-            || entityType == EntityType.SoldatBouclier 
-            || entityType == EntityType.Buildeur
-            || entityType == EntityType.DefenseBuilding;
     }
 
     public void ActualiseSprite()
@@ -66,6 +46,29 @@ public class EntityManager : MonoBehaviour
         else { sprite.sprite = Neutralprite; }
 
         sprite.gameObject.SetActive(false);
+    }
+    private float GetSize()
+    {
+        float taille = 0;
+        float nb = 0;
+        foreach (Renderer i in GetComponentsInChildren<Renderer>())
+        {
+            taille += i.bounds.size.x / 2;
+            taille += i.bounds.size.z / 2;
+            nb += 2;
+        }
+        return taille / nb;
+    }
+
+    virtual protected void Awake()
+    {
+        ActualiseSprite();
+
+        sprite.gameObject.SetActive(false);
+        _animator = GetComponentInChildren<Animator>();
+
+        hp = _maxHp;
+        size = GetSize();
     }
 
     public float Hp => hp;
@@ -95,7 +98,7 @@ public class EntityManager : MonoBehaviour
         if (hp <= 0)
         {
             entity.AddToRessourcesKilledEntity(GoldCost, WoodCost);
-            if (entity.GetType() == typeof(TroupeManager)) { TroupeManager c = (TroupeManager)entity; c.AddXp(xpToGive); }
+            if (EntityTypeCalcul.IsATroupe(entity.entityType)) { TroupeManager c = (TroupeManager)entity; c.AddXp(xpToGive); }
         }
 
         Death();
@@ -105,17 +108,18 @@ public class EntityManager : MonoBehaviour
     {
         AddHp(-((nb - defense <= 0) ? 1 : (nb - defense)));
 
-        if (hp <= 0)
-        {
-            Death();
-        }
+        if (hp <= 0){ Death();}
     }
 
     virtual protected void Death() 
     {
-        if(hp <=0)
+        if(hp <=0) 
         {
-            Destroy(this);
+            if (_animator)
+            {
+                _animator.SetBool("IsDead", true);
+            }
+            StartCoroutine(DoDeathAnimation()); 
         }
     }
 
@@ -138,16 +142,17 @@ public class EntityManager : MonoBehaviour
         return ressource.CompareGold(GoldLoot) && ressource.CompareWood(WoodLoot);
     }
 
-    private float GetSize()
+    IEnumerator DoDeathAnimation()
     {
-        float taille = 0;
-        float nb = 0;
-        foreach (Renderer i in GetComponentsInChildren<Renderer>())
+        if (_animator)
         {
-            taille += i.bounds.size.x / 2;
-            taille += i.bounds.size.z / 2;
-            nb += 2;
+            yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
         }
-        return taille / nb;
+        else
+        {
+            yield return new WaitForSeconds(0);
+        }
+        Destroy(gameObject);
     }
+
 }

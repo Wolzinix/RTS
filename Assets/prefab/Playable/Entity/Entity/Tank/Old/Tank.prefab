@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 2294858842063284346}
   - component: {fileID: -8206696815783975533}
   - component: {fileID: 1477256233637486386}
+  - component: {fileID: 9145669617866575098}
   m_Layer: 6
   m_Name: Tank
   m_TagString: Allie
@@ -307,33 +308,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069a7d1dcb95cac4db81d0c4b22c0aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 30
-  GoldAmount: 1
-  WoodAmount: 0
+  entityType: 0
+  defense: 3
+  _maxHp: 10
   GoldCost: 1
   WoodCost: 1
-  entityType: 0
-  size: 0
-  sprite: {fileID: 7706548414058156727}
-  spriteImage: {fileID: 21300000, guid: 05b75523bdb93dc459379f2b7b3a5eee, type: 3}
+  GoldLoot: 1
+  WoodLoot: 1
+  xpToGive: 100
   Allisprite: {fileID: 21300000, guid: 1ceb77ce5696a6c48a320f37ba05592c, type: 3}
   Ennemisprite: {fileID: 21300000, guid: 1a2f91f4ed9db7a4bb958d512caf8e34, type: 3}
   Neutralprite: {fileID: 21300000, guid: 533d67951bd60684d80d25d1df168bcd, type: 3}
-  defense: 3
+  sprite: {fileID: 7706548414058156727}
+  spriteImage: {fileID: 21300000, guid: 05b75523bdb93dc459379f2b7b3a5eee, type: 3}
   changeStats:
     m_PersistentCalls:
       m_Calls: []
+  size: 0
   CurrentShape: {fileID: 0}
   CurrentShapeTransform: {fileID: 0}
   seeRange: 4
+  AddEffectEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  RemoveEffectEvent:
+    m_PersistentCalls:
+      m_Calls: []
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
   TakingDamageFromEntity:
     m_PersistentCalls:
       m_Calls: []
-  xpToGive: 100
-  ressources: {fileID: 0}
+  _listOfEffects: []
   attack: 1
   attackSpeed: 1
   range: 2
@@ -341,9 +348,10 @@ MonoBehaviour:
   DoAnAttack:
     m_PersistentCalls:
       m_Calls: []
+  ressources: {fileID: 0}
   StartSpeed: 2
-  xp: 0
   level: 0
+  xp: 0
   HpToAdd: 1
   AttackToAdd: 0
   DefenseToAdd: 1
@@ -391,7 +399,29 @@ MonoBehaviour:
   duration: 3
   actualTime: 0
   nextTime: 0
+  sprite: {fileID: 0}
   damage: 0
+--- !u!95 &9145669617866575098
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825870592483654779}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: db57c5badc733054daed785a1a01e0b3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &6867413004787487686
 PrefabInstance:
   m_ObjectHideFlags: 0

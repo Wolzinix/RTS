@@ -1,21 +1,22 @@
-﻿using UnityEngine;
+﻿using Assets.Script.Game;
+using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Animator))]
 public class AggressifEntityManager : SelectableManager
 {
-    [HideInInspector] public RessourceController ressources;
-
     [Header("Attribute")]
     [SerializeField] private float attack = 1;
     [SerializeField] private float attackSpeed = 1;
     [SerializeField] private float range = 1;
 
-    private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
-
     [Space]
-    [SerializeField] public StateEffect effect;
+    public StateEffect effect;
 
-    public UnityEvent DoAnAttack;
+    [HideInInspector] public UnityEvent DoAnAttack;
+    [HideInInspector] public RessourceController ressources;
+
+    private static readonly int AttackSpeedAnim = Animator.StringToHash("AttackSpeed");
     protected override void Awake()
     {
         base.Awake();
@@ -27,13 +28,8 @@ public class AggressifEntityManager : SelectableManager
                 ressources = i;
             }
         }
-
-        if (GetComponentInChildren<Animator>())
-        {
-            _animator.SetFloat(AttackSpeedAnim, attackSpeed);
-        }
+        _animator.SetFloat(AttackSpeedAnim, attackSpeed);
     }
-
     public void AddToRessourcesKilledEntity(int gold, int wood)
     {
         if(ressources)
@@ -42,25 +38,20 @@ public class AggressifEntityManager : SelectableManager
             ressources.AddWood(wood);
         }
     }
-
     public float Range
     {
         get => range;
         set => range = value;
     }
-
     public float Attack
     {
         get => attack;
         set => attack = value;
     }
-
-
     public float AttackSpeed
     {
         get => attackSpeed;
     }
-
     public void SetAttackSpeed(float nb)
     {
         attackSpeed = nb;
@@ -69,12 +60,10 @@ public class AggressifEntityManager : SelectableManager
             _animator.SetFloat(AttackSpeedAnim, attackSpeed);
         }
     }
-
     public void AddAttack(float nb)
     {
         attack += nb;
     }
-
     public void AddAttackSpeed(float nb)
     {
         attackSpeed += nb;
@@ -83,20 +72,17 @@ public class AggressifEntityManager : SelectableManager
             _animator.SetFloat(AttackSpeedAnim, attackSpeed);
         }
     }
-
     public void AddRange(float nb)
     {
         range += nb;
     }
-
     public void DoAttack(EntityManager entityToAttack)
     {
         entityToAttack.TakeDamage(this, attack);
-        if (entityToAttack.GetType() == typeof(SelectableManager))
+        if (EntityTypeCalcul.IsSelectable( entityToAttack.entityType))
         {
             SelectableManager entityToAttack2 = (SelectableManager)entityToAttack;
             entityToAttack2.TakingDamageFromEntity.Invoke(this);
-
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,20 +5,18 @@ using UnityEngine.Events;
 public class SelectableManager : EntityManager
 {
     [Header("Shape")]
-    [SerializeField] public GameObject CurrentShape;
-    [SerializeField] public Transform CurrentShapeTransform;
-
-    [HideInInspector] public UnityEvent<SelectableManager> deathEvent = new UnityEvent<SelectableManager>();
-    [HideInInspector] public UnityEvent<AggressifEntityManager> TakingDamageFromEntity = new UnityEvent<AggressifEntityManager>();
+    public GameObject CurrentShape;
+    public Transform CurrentShapeTransform;
 
     [Header("Attribute")]
     [SerializeField] private float seeRange = 3;
 
     [HideInInspector] public UnityEvent<StateEffect> AddEffectEvent;
     [HideInInspector] public UnityEvent<StateEffect> RemoveEffectEvent;
+    [HideInInspector] public UnityEvent<SelectableManager> deathEvent = new UnityEvent<SelectableManager>();
+    [HideInInspector] public UnityEvent<AggressifEntityManager> TakingDamageFromEntity = new UnityEvent<AggressifEntityManager>();
 
     public List<StateEffect> _listOfEffects;
-
 
     public float SeeRange
     {
@@ -68,7 +65,7 @@ public class SelectableManager : EntityManager
         {
             _listOfEffects.Clear();
             deathEvent.Invoke(this);
-            Destroy(gameObject);
+            base.Death();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Animator))]
 public class EntityController : BuildingController
 {
     public NavMeshController _navMesh;
@@ -247,6 +248,7 @@ public class EntityController : BuildingController
 
     public void CancelAnimation()
     {
+        // agit un poil trop souvent
         AnimationController.CancelAnimation(_animator);
     }
     public void SortTarget()

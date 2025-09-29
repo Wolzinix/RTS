@@ -18,6 +18,14 @@ public class RessourceManager : EntityManager
             Mesh.SetActive(false);
         }
     }
+    public void RemoveInMatrice()
+    {
+        GPUInstancing.RemoveFromMatrice(transform.position, transform.rotation, transform.localScale);
+        if (Mesh)
+        {
+            Mesh.SetActive(true);
+        }
+    }
     override public void TakeDamage(AggressifEntityManager entity, float nb)
     {
         if (_animator) { StartCoroutine(DoHarvestAnimation()); }
@@ -25,14 +33,7 @@ public class RessourceManager : EntityManager
     }
     IEnumerator DoHarvestAnimation()
     {
-        if (GPUInstancing) 
-        { 
-            GPUInstancing.RemoveFromMatrice(transform.position, transform.rotation, transform.localScale);
-            if (Mesh)
-            {
-                Mesh.SetActive(true);
-            }
-        }
+        if (GPUInstancing) { RemoveInMatrice(); }
         _animator.SetBool("Harvest", true);
         if (_animator)
         {
@@ -44,38 +45,23 @@ public class RessourceManager : EntityManager
         }
         _animator.SetBool("Harvest", false);
 
-        if (GPUInstancing) 
-        {
-            AddInMatrice();
-        }
+        if (GPUInstancing) { AddInMatrice(); }
     }
     override protected void Death()
     {
         if (hp <= 0)
         {
-            if (_animator)
-            {
-                _animator.SetBool("Harvest", false);
-                _animator.SetBool("IsDead", true);
-                _animator.Play("Base Layer.TreeFall");
-            }
             if (GPUInstancing)
             {
                 GPUInstancing.RemoveFromMatrice(transform.position, transform.rotation, transform.localScale);
             }
-            StartCoroutine(DoDeathAnimation());
+
+            if (_animator)
+            {
+                _animator.SetBool("Harvest", false);
+                _animator.Play("Base Layer.TreeFall");
+            }
+            base.Death();
         }
-    }
-    IEnumerator DoDeathAnimation()
-    {
-        if (_animator)
-        {
-            yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
-        }
-        else
-        {
-            yield return new WaitForSeconds(0);
-        }
-        Destroy(gameObject);
     }
 }

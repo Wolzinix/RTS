@@ -71,7 +71,7 @@ public class UiGestioneur : MonoBehaviour
         buildingUi.gameObject.SetActive(false);
         buildUI.gameObject.SetActive(false);
 
-        if (entity.IsAggressifEntity())
+        if (EntityTypeCalcul.IsAggressifOrBuildeur(entity.entityType))
         {
             if (entity.CompareTag("Allie"))
             {
@@ -80,7 +80,7 @@ public class UiGestioneur : MonoBehaviour
             }
         }
 
-        else if (entity.entityType == EntityType.Building)
+        else if (EntityTypeCalcul.IsABuilding(entity.entityType))
         {
             if (!entity.CompareTag("ennemie"))
             {
