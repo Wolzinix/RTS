@@ -11,6 +11,7 @@ public class MapMod : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera _mapCamera;
     [SerializeField] private List<GameObject> _mapObjects;
+
     private CameraControl cameraControl;
 
     private void Start()
@@ -20,14 +21,7 @@ public class MapMod : MonoBehaviour
         cameraControl.ActiveZoom();
         _isMapMod = false;
     }
-    public void MapModActive()
-    {
-        _isMapMod = !_isMapMod;
-
-        CameraGestion();
-        SelectGestionMapMod();
-        ConnectToEventNewEtentity();
-    }
+    
 
     public Camera GetActiveCamera()
     {
@@ -49,13 +43,22 @@ public class MapMod : MonoBehaviour
         if (_isMapMod) { cameraControl.DesactiveZoom(); }
         else { cameraControl.ActiveZoom(); }
     }
-
-    private void SelectGestionMapMod()
+    public void ActualiseOneUnit(SelectableManager entity)
     {
-        foreach(SelectableManager i in FindObjectsByType<SelectableManager>(FindObjectsSortMode.None))
+        if (_isMapMod)
         {
-            StartCoroutine(ActualiseEntity(i));
+            MeshRenderer meshRenderer = entity.CurrentShape.GetComponentInChildren<MeshRenderer>();
+            SkinnedMeshRenderer skinnedMeshRenderer = entity.CurrentShape.GetComponentInChildren<SkinnedMeshRenderer>();
+            if (entity.CurrentShape &&
+                (skinnedMeshRenderer && skinnedMeshRenderer.enabled ||
+                 meshRenderer && meshRenderer.enabled)
+               )
+            {
+                entity.OnSelected();
+                return;
+            }
         }
+        entity.OnDeselected();
     }
     IEnumerator ActualiseEntity (SelectableManager entity)
     {
@@ -68,20 +71,12 @@ public class MapMod : MonoBehaviour
 
         ActualiseOneUnit(entity);
     }
-    public void ActualiseOneUnit(SelectableManager entity)
+    private void SelectGestionMapMod()
     {
-        if (_isMapMod)
+        foreach (SelectableManager i in FindObjectsByType<SelectableManager>(FindObjectsSortMode.None))
         {
-            if (entity.CurrentShape && 
-                (entity.CurrentShape.GetComponentInChildren<SkinnedMeshRenderer>() && entity.CurrentShape.GetComponentInChildren<SkinnedMeshRenderer>().enabled ||
-                 entity.CurrentShape.GetComponentInChildren<MeshRenderer>() && entity.CurrentShape.GetComponentInChildren<MeshRenderer>().enabled)
-               )
-            {
-                entity.OnSelected();
-                return;
-            }
+            StartCoroutine(ActualiseEntity(i));
         }
-        entity.OnDeselected();
     }
 
     private void ConnectToEventNewEtentity()
@@ -94,6 +89,15 @@ public class MapMod : MonoBehaviour
                 else { i.entitySpawnNow.RemoveListener(SelectGestionMapMod); }
             }
         }
+    }
+
+    public void MapModActive()
+    {
+        _isMapMod = !_isMapMod;
+
+        CameraGestion();
+        SelectGestionMapMod();
+        ConnectToEventNewEtentity();
     }
 
     public void TeleporteMainCamera(Vector3 destination)

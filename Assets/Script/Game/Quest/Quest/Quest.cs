@@ -3,8 +3,9 @@ using UnityEngine;
 
 public abstract class Quest : MonoBehaviour
 {
-    private int numberOfObjectifs;
     [SerializeField] private List<Objectif> objects;
+
+    private int numberOfObjectifs;
     protected virtual void AllObjectifSucces() { }
     private void RemoveObjectifSucces(Objectif objectif)
     {

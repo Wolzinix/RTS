@@ -38,24 +38,24 @@ public class ControlManager : MonoBehaviour
     private bool _multiSelectionIsActive;
     private bool _multiPathIsActive;
     private bool _patrolOrder;
-    private CapacityController _capacityController;
-    private BuildingPreWatching _buildingPreWatching;
-    private bool _capactityOrder;
-    private Vector3 _dragCoord;
     private bool _dragging;
-    private float _timeOfDragging;
-    private float _timeToClick;
-    private int _nbOfClick;
-    private bool _doubleClick;
-    private SelectManager _selectManager;
-    private List<EntityController> _entitiesBackUp = new();
+    private bool _capactityOrder;
+    private bool _doubleClick; 
     private bool _order;
     private bool _travelAttack;
     private bool _buildingOrder;
+    private CapacityController _capacityController;
+    private BuildingPreWatching _buildingPreWatching;
+    private Vector3 _dragCoord;
+    private float _timeOfDragging;
+    private float _timeToClick;
+    private int _nbOfClick;
     private int _nbOfBuilding;
+    private SelectManager _selectManager;
+    private List<EntityController> _entitiesBackUp = new();
     private UiGestioneur _uiGestioneur;
-    private readonly CursorMode _cursorMode = CursorMode.Auto;
     private Vector2 _hotSpot = Vector2.zero;
+    private readonly CursorMode _cursorMode = CursorMode.Auto;
     private readonly float _delayToClick = 0.2f;
 
     void Start()

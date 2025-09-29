@@ -3,22 +3,26 @@ using UnityEngine;
 
 public class CameraBehaviour : MonoBehaviour
 {
+    public bool isMapCamera;
+
     [Header("Stats")]
+    public float ymax, ymin;
+
     [SerializeField] private float speedOfDeplacement = 1;
     [SerializeField] private float speedOfZoom = 10;
     [SerializeField] private float IncrementSpeed = 2;
-    [SerializeField] public float ymax, ymin;
 
-    public bool isMapCamera;
 
     [HideInInspector] public float fov;
     [HideInInspector] public Rigidbody _rb;
-    float _lastY;
+    private float _lastY;
+    private Camera _camera;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        fov = GetComponent<Camera>().fieldOfView;
+        _camera = GetComponent<Camera>();
+        fov = _camera.fieldOfView;
         if(isMapCamera)
         {
             ymin = ymax;
@@ -33,13 +37,24 @@ public class CameraBehaviour : MonoBehaviour
         {
             Vector3 newPosition = new Vector3(y / speedOfZoom * transform.forward.x,
                 y / speedOfZoom * transform.forward.y,
-                y / speedOfZoom * transform.forward.z)
-                                  * (Time.deltaTime * speedOfDeplacement);
+                y / speedOfZoom * transform.forward.z) * (Time.deltaTime * speedOfDeplacement);
 
             if (acceleratieIsActive) { newPosition *= IncrementSpeed; }
 
             _rb.MovePosition(transform.position + newPosition);
         }
+    }
+    private void VerifyIfOutOfBorder(float[] maxmin)
+    {
+        if (transform.position.x >= maxmin[0] || 
+            transform.position.x <= maxmin[1] || 
+            transform.position.z >= maxmin[2] || 
+            transform.position.z <= maxmin[3])
+        {
+            if (_camera.fieldOfView < fov + 10) { _camera.fieldOfView += 0.1f; }
+
+        }
+        else { _camera.fieldOfView = fov; }
     }
     // maxmin : [0] MaxX, [1] MinX, [2] MaxZ, [3] MinZ
     public void MoveCamera(float y, float x, bool acceleratieIsActive, float[] maxmin)
@@ -63,12 +78,8 @@ public class CameraBehaviour : MonoBehaviour
             , !isMapCamera ? transform.position.y + distanceGround.y - _lastY : transform.position.y
             , transform.position.z > maxmin[2] ? maxmin[2] : transform.position.z < maxmin[3] ? maxmin[3] : transform.position.z);
 
-        if (transform.position.x >= maxmin[0] || transform.position.x <= maxmin[1] || transform.position.z >= maxmin[2] || transform.position.z <= maxmin[3])
-        {
-            if (GetComponent<Camera>().fieldOfView < fov + 10) { GetComponent<Camera>().fieldOfView += 0.1f; }
+        VerifyIfOutOfBorder(maxmin);
 
-        }
-        else { GetComponent<Camera>().fieldOfView = fov; }
         _lastY = distanceGround.y;
     }
 

@@ -1,18 +1,15 @@
 using UnityEngine;
-
 public class ProjectilManager : MonoBehaviour
 {
-    private SelectableManager _target;
-    private AggressifEntityManager _invoker;
-
-    [SerializeField] private Sprite _sprite;
-
-    [SerializeField] private float _damage = 0;
+    public StateEffect _effect;
     public bool fixeDamage;
 
+    [SerializeField] private Sprite _sprite;
+    [SerializeField] private float _damage = 0;
+    
     private Rigidbody _rb;
-
-    public StateEffect _effect;
+    private SelectableManager _target;
+    private AggressifEntityManager _invoker;
 
     private void Start()
     {
@@ -23,11 +20,12 @@ public class ProjectilManager : MonoBehaviour
         if (!_target) { Destroy(gameObject); return; }
         transform.LookAt(_target.transform);
 
-
-        _rb.AddForce(new Vector3(
-            _target.transform.position.x - transform.position.x,
-            _target.transform.position.y - transform.position.y,
-            _target.transform.position.z - transform.position.z), ForceMode.Impulse);
+        _rb.AddForce(
+            new Vector3(
+                _target.transform.position.x - transform.position.x,
+                _target.transform.position.y - transform.position.y,
+                _target.transform.position.z - transform.position.z), 
+            ForceMode.Impulse);
     }
 
     public void SetDamage(float damage) { _damage = damage; }
@@ -52,11 +50,8 @@ public class ProjectilManager : MonoBehaviour
             _target.TakeDamage(_invoker, _damage);
             if (_invoker) 
             {
-                _target.TakingDamageFromEntity.Invoke(_invoker.GetComponent<AggressifEntityManager>());
-                if(_effect)
-                {
-                    _effect.AddEffectToTarget(_target);
-                }
+                _target.TakingDamageFromEntity.Invoke(_invoker);
+                if(_effect) { _effect.AddEffectToTarget(_target);}
             }
             Destroy(gameObject);
         }

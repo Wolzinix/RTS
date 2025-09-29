@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 public class SelectManager : MonoBehaviour
 {
     public GroupManager _groupManager = new ();
@@ -53,8 +52,9 @@ public class SelectManager : MonoBehaviour
 
     public void RemoveSelect(SelectableManager toRemove)
     {
-        if(_groupManager.getSelectList().Contains(toRemove.GetComponent<EntityController>())) { _groupManager.RemoveSelect(toRemove); }
-        if(_selected.getSelectList().Contains(toRemove.GetComponent<EntityController>())) { _selected.RemoveSelect(toRemove); }
+        EntityController entityController = toRemove.GetComponent<EntityController>();
+        if(_groupManager.getSelectList().Contains(entityController)) { _groupManager.RemoveSelect(toRemove); }
+        if(_selected.getSelectList().Contains(entityController)) { _selected.RemoveSelect(toRemove); }
     }
     public void SetAddingMoreThanOne(bool val) { _groupManager.setAddingMoreThanOne(val); }
     public bool GetAddingMoreThanOne() { return _groupManager.getAddingMoreThanOne(); }
@@ -70,4 +70,3 @@ public class SelectManager : MonoBehaviour
     public List<EntityController> GetSelectList() { return _groupManager.getSelectList(); }
     public void MooveOnFormation() { _groupManager.ReverseFormation(); }
 }
-

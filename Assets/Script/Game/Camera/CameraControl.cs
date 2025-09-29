@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class CameraControl : MonoBehaviour
 {
+    public float xmax, xmin, zmax, zmin;
+
     [Header("Input")]
     [SerializeField] private InputActionReference moveCameraInput;
     [SerializeField] private InputActionReference rotateCameraInput;
@@ -13,9 +15,6 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private InputActionReference zoomCameraInput;
     [SerializeField] private InputActionReference accelerateInput;
     [SerializeField] private GameObject mainGround;
-
-
-    public float xmax, xmin, zmax, zmin;
 
     private bool _accelerateIsActive;
     private bool _rotationActivated;
@@ -51,34 +50,13 @@ public class CameraControl : MonoBehaviour
         zmin = -sizeOfGround.z / 2 + GroundCoord.z;
     }
     
-
     public void DesactiveZoom() { zoomCameraInput.action.performed -= Zoom; }
     public void ActiveZoom() { zoomCameraInput.action.performed += Zoom; }
     private void AccelerateInputPressed(InputAction.CallbackContext obj) { _accelerateIsActive = true; }
     private void AccelerateInputCanceled(InputAction.CallbackContext obj) { _accelerateIsActive = false; }
     private void ActiveRotation(InputAction.CallbackContext obj) { _rotationActivated = true; }
     private void DesactiveRotation(InputAction.CallbackContext obj) { _rotationActivated = false; }
-
-    void Start()
-    {
-        activeRotateCameraInput.action.performed += ActiveRotation;
-        activeRotateCameraInput.action.canceled += DesactiveRotation;
-        zoomCameraInput.action.performed += Zoom;
-        accelerateInput.action.performed += AccelerateInputPressed;
-        accelerateInput.action.canceled += AccelerateInputCanceled;
-
-        SetLimitation();
-    }
-
-
-    private void OnDestroy()
-    {
-        activeRotateCameraInput.action.performed -= ActiveRotation;
-        activeRotateCameraInput.action.canceled -= DesactiveRotation;
-        zoomCameraInput.action.performed -= Zoom;
-        accelerateInput.action.performed -= AccelerateInputPressed;
-        accelerateInput.action.canceled -= AccelerateInputCanceled;
-    }
+    
     public void StopMoving() 
     { 
         _cameraBehaviour._rb.velocity = Vector3.zero;
@@ -105,10 +83,7 @@ public class CameraControl : MonoBehaviour
     {
         float y = moveCameraInput.action.ReadValue<Vector2>().y;
         float x = moveCameraInput.action.ReadValue<Vector2>().x;
-        if (y != 0 || x != 0)
-        {
-            MoveCamera(y, x);
-        }
+        if (y != 0 || x != 0) { MoveCamera(y, x); }
         else
         {
             if (_camera.fieldOfView != _cameraBehaviour.fov) { _camera.fieldOfView = _cameraBehaviour.fov; }
@@ -116,5 +91,23 @@ public class CameraControl : MonoBehaviour
         }
 
         if (_rotationActivated) { RotateCameraY(rotateCameraInput.action.ReadValue<Vector2>().x); }
+    }
+    private void OnDestroy()
+    {
+        activeRotateCameraInput.action.performed -= ActiveRotation;
+        activeRotateCameraInput.action.canceled -= DesactiveRotation;
+        zoomCameraInput.action.performed -= Zoom;
+        accelerateInput.action.performed -= AccelerateInputPressed;
+        accelerateInput.action.canceled -= AccelerateInputCanceled;
+    }
+    void Start()
+    {
+        activeRotateCameraInput.action.performed += ActiveRotation;
+        activeRotateCameraInput.action.canceled += DesactiveRotation;
+        zoomCameraInput.action.performed += Zoom;
+        accelerateInput.action.performed += AccelerateInputPressed;
+        accelerateInput.action.canceled += AccelerateInputCanceled;
+
+        SetLimitation();
     }
 }

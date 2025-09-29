@@ -1,10 +1,10 @@
-﻿using Unity.VisualScripting;
+﻿using Assets.Script.Game;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PoisonEffect : StateEffect
 {
     [SerializeField] float damage;
-
     public void InitEffect(float duration, float damage)
     {
         base.InitEffect(duration);
@@ -16,9 +16,8 @@ public class PoisonEffect : StateEffect
         this.damage = damage;
     }
 
-    private bool VerifyIfEffectAlreadyExist(SelectableManager entity)
+    private PoisonEffect VerifyIfEffectAlreadyExist(SelectableManager entity)
     {
-
         PoisonEffect effect = null;
         foreach (PoisonEffect i in entity.GetComponents(typeof(PoisonEffect)))
         {
@@ -28,11 +27,7 @@ public class PoisonEffect : StateEffect
                 break;
             }
         }
-        if (entity.GetType() == typeof(TroupeManager))
-        {
-            if (effect) { return true; }
-        }
-        return false;
+        return effect;
     }
     public override void ApplyEffect()
     {
@@ -41,16 +36,9 @@ public class PoisonEffect : StateEffect
 
     public override void SetEntity(SelectableManager entity)
     {
-        PoisonEffect effect = null;
-        foreach (PoisonEffect i in entityAffected.GetComponents(typeof(PoisonEffect)))
-        {
-            if (i.entityAffected != null)
-            {
-                effect = i;
-                break;
-            }
-        }
-        if (entityAffected.GetType() == typeof(TroupeManager))
+        PoisonEffect effect = VerifyIfEffectAlreadyExist(entity);
+
+        if (EntityTypeCalcul.IsATroupe(entityAffected.entityType))
         {
             if (!effect) 
             { 
@@ -66,28 +54,17 @@ public class PoisonEffect : StateEffect
 
     override public void AddEffectToTarget(SelectableManager entityAffected)
     {
-        
-        if (VerifyIfEffectAlreadyExist(entityAffected))
+        PoisonEffect effect = VerifyIfEffectAlreadyExist(entityAffected);
+        if (effect)
         {
-            foreach (PoisonEffect i in entityAffected.GetComponents(typeof(PoisonEffect)))
-            {
-                if (i.entityAffected != null)
-                {
-                    i.ResetEffect();
-                    entityAffected.AddEffect(i);
-                    break;
-                }
-            }
+            effect.ResetEffect();
         }
         else
         {
-            PoisonEffect effect = entityAffected.AddComponent<PoisonEffect>();
+            effect = entityAffected.AddComponent<PoisonEffect>();
             effect.sprite = sprite;
             effect.InitEffect(entityAffected, duration, damage);
             entityAffected.AddEffect(effect);
         }
-
-        
     }
-
 }

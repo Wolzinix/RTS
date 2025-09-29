@@ -1,7 +1,21 @@
-﻿using Unity.VisualScripting;
+﻿using Assets.Script.Game;
+using Unity.VisualScripting;
 
 public class StuntEffect : StateEffect
 {
+    private StuntEffect SearchForStuntEffect(SelectableManager entity)
+    {
+        StuntEffect effect = null;
+        foreach (StuntEffect i in entity.GetComponents(typeof(StuntEffect)))
+        {
+            if (i.entityAffected != null && i != this)
+            {
+                effect = i;
+                break;
+            }
+        }
+        return effect;
+    }
     override public void InitEffect(float duration) 
     {
         base.InitEffect(duration);
@@ -9,16 +23,9 @@ public class StuntEffect : StateEffect
     }
     override public void InitEffect(SelectableManager entity, float duration) 
     {
-        StuntEffect effect = null;
-        foreach (StuntEffect i in entity.GetComponents(typeof(StuntEffect)))
-        {
-            if(i.entityAffected != null && i!=this)
-            {
-                effect = i;
-                break;
-            }
-        }
-        if (entity.GetType() == typeof(TroupeManager))
+        StuntEffect effect = SearchForStuntEffect(entity);
+        
+        if (EntityTypeCalcul.IsATroupe(entity.entityType))
         {
             if (effect) { effect.ResetEffect();  }
         }
@@ -52,18 +59,13 @@ public class StuntEffect : StateEffect
     public override void SetEntity(SelectableManager entity)
     {
         base.SetEntity(entity);
-        StuntEffect effect = null;
-        foreach (StuntEffect i in entityAffected.GetComponents(typeof(StuntEffect)))
+        StuntEffect effect = SearchForStuntEffect(entityAffected);
+
+        if (EntityTypeCalcul.IsATroupe(entityAffected.entityType))
         {
-            if (i.entityAffected != null)
-            {
-                effect = i;
-                break;
-            }
-        }
-        if (entityAffected.GetType() == typeof(TroupeManager))
-        {
-            if (!effect) { effect = entityAffected.AddComponent<StuntEffect>();
+            if (!effect) 
+            { 
+                effect = entityAffected.AddComponent<StuntEffect>();
                 effect.sprite = sprite;
             }
             else { effect.ResetEffect();}
