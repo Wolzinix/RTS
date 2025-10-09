@@ -1,8 +1,6 @@
 ﻿using Assets.Script.Game;
 using UnityEngine;
 using UnityEngine.Events;
-
-[RequireComponent(typeof(Animator))]
 public class AggressifEntityManager : SelectableManager
 {
     [Header("Attribute")]
@@ -83,6 +81,10 @@ public class AggressifEntityManager : SelectableManager
         {
             SelectableManager entityToAttack2 = (SelectableManager)entityToAttack;
             entityToAttack2.TakingDamageFromEntity.Invoke(this);
+            if (effect)
+            {
+                effect.AddEffectToTarget(entityToAttack2);
+            }
         }
     }
 }

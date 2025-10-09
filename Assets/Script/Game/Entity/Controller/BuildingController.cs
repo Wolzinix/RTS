@@ -4,30 +4,104 @@ using UnityEngine;
 public class BuildingController : MonoBehaviour
 {
     public List<SelectableManager> _EnnemieList;
+
+    [SerializeField] private SphereCollider _collider;
+
     [HideInInspector] public AggressifEntityManager _entityManager;
     [HideInInspector] public GroupManager groupManager;
 
-    [SerializeField] private SphereCollider _collider;
-    private List<GameObject> _ListOfCollision;
-
     protected FogWarManager fog;
     protected List<GameObject> _listOfalliesOnRange;
+
+    private List<GameObject> _ListOfCollision;
+
     protected virtual void Awake()
     {
         _collider.radius = gameObject.GetComponent<SelectableManager>().SeeRange;
+        _entityManager = GetComponent<AggressifEntityManager>();
+        fog = GetComponent<FogWarManager>();
 
         _listOfalliesOnRange = new List<GameObject>();
-
-        _entityManager = GetComponent<AggressifEntityManager>();
-
         _EnnemieList = new List<SelectableManager>();
         _ListOfCollision = new List<GameObject>();
-        fog = GetComponent<FogWarManager>();
+    }
+    virtual protected void AddEnnemi(SelectableManager target)
+    {
+        if (!_EnnemieList.Contains(target))
+        {
+            _EnnemieList.Add(target);
+        }
+    }
+    virtual protected void AddAllie(GameObject target)
+    {
+        if (!_listOfalliesOnRange.Contains(target))
+        {
+            _listOfalliesOnRange.Add(target);
+        }
     }
 
+    virtual protected void RemoveEnnemi(SelectableManager target)
+    {
+        int i = 0;
+        while ( i < _EnnemieList.Count)
+        {
+            if (!_EnnemieList[i] || target == _EnnemieList[i])
+            {
+                _EnnemieList.RemoveAt(i);
+                return;
+            }
+            i++;
+        }
+    }
+    virtual protected void RemoveAllie(GameObject target)
+    {
+        int i = 0;
+        while (i < _listOfalliesOnRange.Count)
+        {
+            if (!_listOfalliesOnRange[i] || target == _listOfalliesOnRange[i])
+            {
+                _listOfalliesOnRange.RemoveAt(i);
+                return;
+            }
+            i++;
+        }
+    }
+    private void CollisionGestion(GameObject CollisionedObject)
+    {
+        if (CollisionedObject.transform && 
+            !CollisionedObject.CompareTag("neutral") && 
+            CollisionedObject.GetComponent<SelectableManager>() &&
+            CollisionedObject != gameObject)
+        {
+            //Debug.DrawLine(transform.position, CollisionedObject.transform.localPosition, Color.green, 1f);
+            SelectableManager target = CollisionedObject.transform.gameObject.GetComponent<SelectableManager>();
+
+            if (!target.CompareTag(gameObject.tag)){ AddEnnemi(target);}
+            else { AddAllie(CollisionedObject); }
+        }
+    }
+    virtual protected void ClearListOfAlly(List<GameObject> list)
+    {
+        if (list.Count != _listOfalliesOnRange.Count)
+        {
+            _listOfalliesOnRange.RemoveAll(i => !list.Contains(i));
+        }
+    }
+    
+
+    virtual protected void SearchTarget()
+    {
+
+        foreach (GameObject hit in _ListOfCollision)
+        {
+            if (hit)
+            {
+                CollisionGestion(hit);
+            }
+        }
+    }
     virtual protected void LateUpdate()
     {
-        SearchTarget();
         if (fog)
         {
             foreach (SelectableManager go in _EnnemieList)
@@ -40,35 +114,6 @@ public class BuildingController : MonoBehaviour
             }
         }
     }
-    virtual protected void ClearListOfAlly(List<GameObject> list)
-    {
-        if (list.Count != _listOfalliesOnRange.Count)
-        {
-            _listOfalliesOnRange.RemoveAll(i => !list.Contains(i));
-        }
-    }
-
-    virtual protected void SearchTarget()
-    {
-        List<GameObject> listOfAlly = new List<GameObject>();
-        List<SelectableManager> listOfennemie = new List<SelectableManager>();
-
-        foreach (GameObject hit in _ListOfCollision)
-        {
-            if (hit)
-            {
-                HitGestion(hit, listOfAlly, listOfennemie);
-            }
-        }
-        ClearListOfEnnemi(listOfennemie);
-        ClearListOfAlly(listOfAlly);
-    }
-    
-    private void ClearListOfEnnemi(List<SelectableManager> list)
-    {
-        if (list.Count != _EnnemieList.Count) { _EnnemieList.RemoveAll(i => !list.Contains(i)); }
-    }
-
     protected virtual void OnDestroy()
     {
         foreach(SelectableManager entityController in _EnnemieList)
@@ -80,43 +125,9 @@ public class BuildingController : MonoBehaviour
         }
     }
 
-    private void HitGestion(GameObject hit, List<GameObject> listOfAlly, List<SelectableManager> listOfennemie)
-    {
-        if (hit.transform && !hit.CompareTag("neutral") && hit.GetComponent<SelectableManager>())
-        {
-            Debug.DrawLine(transform.position, hit.transform.localPosition, Color.green, 1f);
-            SelectableManager target = hit.transform.gameObject.GetComponent<SelectableManager>();
-
-            if (target.gameObject != gameObject && !target.CompareTag(gameObject.tag))
-            {
-                if (!_EnnemieList.Contains(target)) { AddEnnemi(target); }
-
-                if (!listOfennemie.Contains(target)){ listOfennemie.Add(target); }
-            }
-
-            if (target.gameObject != gameObject && target.CompareTag(gameObject.tag))
-            {
-                if (!_listOfalliesOnRange.Contains(target.gameObject))
-                {
-                    _listOfalliesOnRange.Add(target.gameObject);
-                }
-                if (!listOfAlly.Contains(target.gameObject)) { listOfAlly.Add(target.gameObject); }
-            }
-        }
-    }
-
-    virtual protected void AddEnnemi(SelectableManager target)
-    {
-        _EnnemieList.Add(target);
-    }
-
     virtual public void ClearAllOrder()
     {
-        ClearListOfAlly(new List<GameObject>());
         _EnnemieList.Clear();
-
-        
-
         SearchTarget();
     }
 
@@ -146,5 +157,13 @@ public class BuildingController : MonoBehaviour
         _ListOfCollision.Remove(SM.gameObject);
         SM.deathEvent.RemoveListener(RemoveToCollision);
         SearchTarget();
+    }
+
+    private void ClearListOfEnnemi(List<SelectableManager> list)
+    {
+        if (list.Count != _EnnemieList.Count)
+        {
+            _EnnemieList.RemoveAll(i => !list.Contains(i));
+        }
     }
 }

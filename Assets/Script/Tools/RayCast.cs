@@ -4,7 +4,6 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Assets.Script.Tools
 {
@@ -106,9 +105,8 @@ namespace Assets.Script.Tools
             return Vector3.zero;
         }
 
-        public static List<RaycastHit> DoCircleRaycast(GameObject go, float range, float numberOfRay = 40)
+        public static List<RaycastHit> DoCircleRaycast(GameObject go, float range =50 , float numberOfRay = 40)
         {
-            ;
             float delta = 360 / numberOfRay;
 
             List<RaycastHit> listOfGameObejct = new ();
@@ -125,15 +123,23 @@ namespace Assets.Script.Tools
             return listOfGameObejct;
         }
 
+
         public static Collider[] DoASphereOverlap(Vector3 spawnPosition, LayerMask _excludeLayer)
         {
             return Physics.OverlapSphere(spawnPosition, 1, ~_excludeLayer, QueryTriggerInteraction.Ignore);
+        }
+
+        public static Collider[] DoASphereOverlap(Vector3 spawnPosition, float distance)
+        {
+            return Physics.OverlapSphere(spawnPosition, distance);
         }
 
         public static int DoASphereOverlap(Vector3 spawnPosition, float distance, LayerMask layermask)
         {
             return Physics.OverlapSphere(spawnPosition, distance, layermask).Length;
         }
+
+
 
         public static Vector3 RayToTuchGroundWithMapLayer(Vector3 pos, float maxdistance, LayerMask layerMask, List<TerrainLayer> terrainLayer)
         {

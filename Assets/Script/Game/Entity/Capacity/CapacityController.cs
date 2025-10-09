@@ -50,7 +50,7 @@ public abstract class CapacityController : MonoBehaviour
                 if (_troupeManager)
                 {
                     _controller.AddPathWithRange(entityAffected.transform.position, range);
-                    StateClassEntity state = _controller._ListOfstate.First();
+                    StateClassEntity state = _controller.GetFirstState();
                     if (state.GetType() == typeof(MoveToDistanceState))
                     {
                         MoveToDistanceState MState = (MoveToDistanceState)state;
@@ -62,9 +62,9 @@ public abstract class CapacityController : MonoBehaviour
     }
     public void CancelCapacity()
     {
-        if( _controller && _controller._ListOfstate.Count > 0)
+        if( _controller && _controller.GetLenghtOfState() > 0)
         {
-            StateClassEntity state = _controller._ListOfstate.First();
+            StateClassEntity state = _controller.GetFirstState();
             if (state.GetType() == typeof(MoveToDistanceState))
             {
                 MoveToDistanceState MState = (MoveToDistanceState)state;

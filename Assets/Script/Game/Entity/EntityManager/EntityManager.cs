@@ -117,6 +117,7 @@ public class EntityManager : MonoBehaviour
         {
             if (_animator)
             {
+                _animator.Play("DeathAnime");
                 _animator.SetBool("IsDead", true);
             }
             StartCoroutine(DoDeathAnimation()); 
@@ -135,7 +136,6 @@ public class EntityManager : MonoBehaviour
         get => defense;
         set => defense = value;
     }
-
 
     public bool CanDoIt(RessourceController ressource)
     {

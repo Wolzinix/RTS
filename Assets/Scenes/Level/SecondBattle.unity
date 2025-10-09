@@ -376,6 +376,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3745124339577884316, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4280330197702590719, guid: 3a3c20b1068a227468a587dec2f2b2e2, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -31.876831
@@ -3322,7 +3326,7 @@ MonoBehaviour:
   objects:
   - {fileID: 1548399388}
   _UI: {fileID: 1066391288}
-  _ScreenToAppeir: {fileID: 1501715428}
+  _ScreenToAppeir: {fileID: 0}
   IsSuccesLevel: 0
   EntityNextLevel: 1
 --- !u!114 &972425146
@@ -4501,17 +4505,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4c0ea5b93645dda4a9e201e2e2f9d1b7, type: 3}
   m_PrefabInstance: {fileID: 1577683941}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1501715428 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4873465443191837272, guid: 224f4990cfd297443a85b6ab72bf42b8, type: 3}
-  m_PrefabInstance: {fileID: 177988156}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d5958791fe69734da80bb21aa9f871d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1548399385
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
+using Assets.Script.Tools;
+using System;
 using System.Collections.Generic;
-using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -24,7 +25,7 @@ public class BuilderController : EntityController
     }
     public void DoAbuildWithRaycast(int nb, RaycastHit hit)
     {
-        _ListOfstate.Add(new BuildState(this, hit.point, _buildings[nb].GetComponent<SelectableManager>()));
+        _EntityStateManagement.AddBuildState(this, hit.point, _buildings[nb].GetComponent<SelectableManager>());
     }
     public List<GameObject> GetBuildings() { return _buildings; }
 
@@ -35,7 +36,7 @@ public class BuilderController : EntityController
         {
             ResetHarvestOrder();
 
-            _ListOfstate.Add(new BuildState(this, position, _buildings[nb].GetComponent<SelectableManager>()));
+            _EntityStateManagement.AddBuildState(this, position, _buildings[nb].GetComponent<SelectableManager>());
             return true;
         }
         return false;
@@ -63,55 +64,45 @@ public class BuilderController : EntityController
 
     protected override void LateUpdate()
     {
-        if (_ListOfstate.Count > 0) { _ListOfstate[0].Update(); }
-        if (_ListOfstate.Count <= 0) { NoMoreToHarvest.Invoke(this); }
+        _EntityStateManagement.Update();
+        if (_EntityStateManagement.GetLenghtOfState() <= 0) { NoMoreToHarvest.Invoke(this); }
     }
 
+    private GameObject DoCircleRaycastForHarvest()
+    {
+        Collider[] hits = RayCast.DoASphereOverlap(gameObject.transform.position,_entityManager.SeeRange);
+        
+        GameObject closet = null;
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.transform && hit.transform.gameObject.GetComponent<RessourceManager>())
+            {
+                Debug.DrawLine(transform.position, hit.transform.position, Color.green, 1f);
+                if (closet == null)
+                {
+                    closet = hit.transform.gameObject;
+                }
+                else if (Vector3.Distance(transform.position, closet.transform.position) > Vector3.Distance(transform.position, hit.transform.position))
+                {
+                    closet = hit.transform.gameObject;
+                }
+            }
+        }
+        
+        return closet;
+    }
     public void SearchClosetHarvestTarget()
     {
         GameObject nextHarvest = DoCircleRaycastForHarvest();
         if (nextHarvest != null) { AddHarvestTarget(nextHarvest); }
         else { NoMoreToHarvest.Invoke(this); }
     }
-
-    private GameObject DoCircleRaycastForHarvest()
-    {
-        float numberOfRay = 40;
-        float delta = 360 / numberOfRay;
-        GameObject closet = null;
-
-        for (int i = 0; i < numberOfRay; i++)
-        {
-            Vector3 dir = Quaternion.Euler(0, i * delta, 0) * transform.forward;
-
-            Ray ray = new Ray(transform.position, dir);
-            RaycastHit[] hits;
-
-            hits = Physics.RaycastAll(ray, _entityManager.SeeRange);
-
-            foreach (RaycastHit hit in hits)
-            {
-                if (hit.transform && hit.transform.gameObject.GetComponent<RessourceManager>())
-                {
-                    Debug.DrawLine(transform.position, hit.point, Color.green, 1f);
-                    if (closet == null)
-                    {
-                        closet = hit.transform.gameObject;
-                    }
-                    else if (Vector3.Distance(transform.position, closet.transform.position) > Vector3.Distance(transform.position, hit.transform.position))
-                    {
-                        closet = hit.transform.gameObject;
-                    }
-                }
-            }
-        }
-        return closet;
-    }
     protected override void SearchTarget() { }
 
     private void ResetHarvestOrder()
     {
-        _ListOfstate.RemoveAll(x => x.GetType() == typeof(HarvestState));
+        _EntityStateManagement.ClearAllOrderOfType(typeof(HarvestState));
     }
     public Collider[] DoAOverlap(Vector3 spawnPosition)
     {
@@ -120,35 +111,12 @@ public class BuilderController : EntityController
 
     public void AddHarvestTarget(GameObject hit)
     {
-        bool already = false;
-        foreach (StateClassEntity i in _ListOfstate)
-        {
-            if (i.GetType() == typeof(HarvestState))
-            {
-                already = true;
-            }
-        }
-        if (!already)
-        {
-            _ListOfstate.Add(new HarvestState(this, hit.GetComponent<RessourceManager>()));
-        }
+        _EntityStateManagement.AddHarvestTarget(hit,this);
     }
 
     public override void ClearAllOrder()
     {
         base.ClearAllOrder();
-    }
-
-    public bool BuilderIsAlreadyBuilding()
-    {
-        foreach (StateClassEntity i in _ListOfstate)
-        {
-            if (i.GetType() == typeof(BuildState))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void PayCostOfBuilding(SelectableManager defense)

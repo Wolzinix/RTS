@@ -212,7 +212,6 @@ GameObject:
   - component: {fileID: 1314613499554875902}
   - component: {fileID: 2294858842063284346}
   - component: {fileID: -8206696815783975533}
-  - component: {fileID: 9145669617866575098}
   m_Layer: 6
   m_Name: NewEpeeiste
   m_TagString: Allie
@@ -406,7 +405,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ressources: {fileID: 0}
-  StartSpeed: 2
+  StartSpeed: 1.25
   level: 0
   xp: 0
   HpToAdd: 1
@@ -440,27 +439,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe032d10478cd14aae1ad734473b2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &9145669617866575098
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4825870592483654779}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 4ffe699e40e835840b1c5078dad6df1e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &5485138455078515930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -535,7 +513,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da9cf74ffb1f841458655f955fe33ea1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 246194135049890202}
+      addedObject: {fileID: 1804225111997012850}
   m_SourcePrefab: {fileID: 100100000, guid: da9cf74ffb1f841458655f955fe33ea1, type: 3}
 --- !u!137 &522520363987807475 stripped
 SkinnedMeshRenderer:
@@ -567,7 +545,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: da9cf74ffb1f841458655f955fe33ea1, type: 3}
   m_PrefabInstance: {fileID: 5485138455078515930}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &246194135049890202
+--- !u!95 &1804225111997012850
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0

@@ -154,7 +154,6 @@ GameObject:
   - component: {fileID: 1314613499554875902}
   - component: {fileID: 2294858842063284346}
   - component: {fileID: -8206696815783975533}
-  - component: {fileID: 9145669617866575098}
   m_Layer: 6
   m_Name: NewTank
   m_TagString: Allie
@@ -382,27 +381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe032d10478cd14aae1ad734473b2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &9145669617866575098
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4825870592483654779}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 8eac916a0ce39384f9797e488c0228f7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7092895022324857275
 GameObject:
   m_ObjectHideFlags: 0

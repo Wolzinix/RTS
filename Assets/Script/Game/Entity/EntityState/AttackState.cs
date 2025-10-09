@@ -2,28 +2,27 @@
 
 public class AttackState : StateClassEntity
 {
-
-    EntityController controller;
-    SelectableManager target;
-    ProjectilManager _projectile;
-    bool _attacking = false;
-    Animator _animator;
+    private EntityController _controller;
+    private SelectableManager _target;
+    private ProjectilManager _projectile;
+    private Animator _animator;
+    private AggressifEntityManager _controllerAggressifManager;
     private bool _attackCheckOnce = false;
-    AggressifEntityManager controlelrAggressifManager;
+    private bool _attacking = false;
 
     public AttackState(EntityController controller, ProjectilManager projectile, SelectableManager target)
     {
-        this.controller = controller;
+        _controller = controller;
         _projectile = projectile;
-        this.target = target;
-        controlelrAggressifManager = controller.GetComponent<AggressifEntityManager>();
+        _target = target;
+        _controllerAggressifManager = controller.GetComponent<AggressifEntityManager>();
         _animator = controller._animator;
     }
     public AttackState(EntityController controller, SelectableManager target)
     {
-        this.controller = controller;
-        this.target = target;
-        controlelrAggressifManager = controller.GetComponent<AggressifEntityManager>();
+        _controller = controller;
+        _target = target;
+        _controllerAggressifManager = controller.GetComponent<AggressifEntityManager>();
         _animator = controller._animator;
     }
 
@@ -31,14 +30,14 @@ public class AttackState : StateClassEntity
 
     private void PrepareAttack()
     {
-        controller.CancelAnimation();
+        _controller.CancelAnimation();
         _animator.Play(AnimationController.GetAttackAnimRandom());
         _attacking = true;
     }
 
     private void EndAttack()
     {
-        controller.CancelAnimation();
+        _controller.CancelAnimation();
         _attacking = false;
     }
 
@@ -47,36 +46,32 @@ public class AttackState : StateClassEntity
         if (_projectile)
         {
             ProjectilManager pj = EntityController.Instantiate(_projectile);
-            pj.SetTarget(target.gameObject);
-            pj.SetInvoker(controlelrAggressifManager);
+            pj.SetTarget(_target.gameObject);
+            pj.SetInvoker(_controllerAggressifManager);
 
-            Vector3 spawnPosition = new Vector3 (controller.transform.position.x,controller.transform.position.y + 1 , controller.transform.position.z);
+            Vector3 spawnPosition = new (_controller.transform.position.x,_controller.transform.position.y + 1 , _controller.transform.position.z);
+            if(_controller.pointOfSpawn) { spawnPosition = _controller.pointOfSpawn.position; }
 
-            if(controller.pointOfSpawn) { spawnPosition = controller.pointOfSpawn.position; }
+            pj.gameObject.transform.position = spawnPosition;
 
-            pj.gameObject.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, spawnPosition.z);
-
-            if(controlelrAggressifManager.effect)
+            if(_controllerAggressifManager.effect)
             {
-                _projectile._effect = controlelrAggressifManager.effect;
+                _projectile._effect = _controllerAggressifManager.effect;
             }
         }
+
         else 
-        { 
-            controller._entityManager.DoAttack(target);
-            if (controlelrAggressifManager.effect)
-            {
-                controlelrAggressifManager.effect.AddEffectToTarget(target);
-            }
+        {
+            _controllerAggressifManager.DoAttack(_target);
         }
-        controller._entityManager.DoAnAttack.Invoke();
+        _controllerAggressifManager.DoAnAttack.Invoke();
     }
 
     public override void Update()
     {
-        if (target)
+        if (_target)
         {
-            if (Vector3.Distance(controller.gameObject.transform.position, target.transform.position) <= controller._entityManager.Range + target.size)
+            if (Vector3.Distance(_controller.gameObject.transform.position, _target.transform.position) <= _controllerAggressifManager.Range + _target.size)
             {
                 if (!_attacking) { PrepareAttack(); };
                 float AnimatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -98,25 +93,25 @@ public class AttackState : StateClassEntity
 
                 else
                 {
-                    controller.gameObject.transform.LookAt(new Vector3(target.transform.position.x, controller.transform.localPosition.y, target.transform.position.z));
-                    controller.gameObject.transform.rotation = new Quaternion(0, controller.gameObject.transform.rotation.y, 0, controller.gameObject.transform.rotation.w);
+                    _controller.gameObject.transform.LookAt(new Vector3(_target.transform.position.x, _controller.transform.localPosition.y, _target.transform.position.z));
+                    _controller.gameObject.transform.rotation = new Quaternion(0, _controller.gameObject.transform.rotation.y, 0, _controller.gameObject.transform.rotation.w);
                 }
             }
             else { End(); }
         }
         else 
         { 
-            if(controller._EnnemieList.Count <= 0)
+            if(_controller._EnnemieList.Count <= 0)
             {
-                FogWarManager fogManager = controller.GetComponent<FogWarManager>();
-                if (fogManager) { fogManager.ActualiseFog(controller, true); }
+                FogWarManager fogManager = _controller.GetComponent<FogWarManager>();
+                if (fogManager) { fogManager.ActualiseFog(_controller, true); }
             }
             End(); 
         }
     }
     public override void End()
     {
-        controller.RemoveFirstOrder();
+        _controller.RemoveFirstOrder();
         EndAttack();
     }
 }

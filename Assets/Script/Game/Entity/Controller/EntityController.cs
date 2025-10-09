@@ -1,36 +1,41 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Animator))]
 public class EntityController : BuildingController
 {
     public NavMeshController _navMesh;
+    public Transform pointOfSpawn;
 
-    public List<StateClassEntity> _ListOfstate;
     [SerializeField] private ProjectilManager _projectile;
-    [SerializeField] public Transform pointOfSpawn;
 
-    [HideInInspector] public UnityEvent EntityIsArrive = new UnityEvent();
-    [HideInInspector] public UnityEvent resetEvent = new UnityEvent();
-
+    [HideInInspector] public UnityEvent EntityIsArrive = new();
+    [HideInInspector] public UnityEvent resetEvent = new();
     [HideInInspector] public bool moving = false;
-    protected bool _attacking;
-
     [HideInInspector] public Animator _animator;
 
-    readonly Type[] listOfTypeStateForSearch = { typeof(PatrolState), typeof(AggressifState), typeof(FollowState) };
+    protected bool _attacking;
+    protected EntityStateManagement _EntityStateManagement;
 
+
+    public int GetLenghtOfState()
+    {
+        return _EntityStateManagement.GetLenghtOfState();
+    }
+    public StateClassEntity GetFirstState()
+    {
+        return _EntityStateManagement.GetFirstState();
+    }
     override protected void Awake()
     {
         base.Awake();
 
-        _navMesh = GetComponent<NavMeshController>();
-        _ListOfstate = new List<StateClassEntity>();
-
         _animator = GetComponentInChildren<Animator>();
+        _navMesh = GetComponent<NavMeshController>();
+
+        _EntityStateManagement = new EntityStateManagement();
+
         GetComponent<SelectableManager>().TakingDamageFromEntity.AddListener(AddAggresseurTarget);
 
         if (GetComponent<Rigidbody>())
@@ -41,17 +46,11 @@ public class EntityController : BuildingController
     }
     override protected void LateUpdate()
     {
+        _EntityStateManagement.Update();
 
-        if (_ListOfstate.Count > 0)
-        {
-            _ListOfstate[0].Update();
-        }
-
-        if (_navMesh && 
-            (_ListOfstate.Count == 0 || 
-                (listOfTypeStateForSearch.Contains(_ListOfstate[0].GetType()) && _ListOfstate[0].GetType() != typeof(StuntState))
-            )
-            )
+        if (!_EntityStateManagement.IsInStun() &&
+            _EntityStateManagement.IsInSeachState()
+        )
         {
             SearchTarget();
         }
@@ -60,22 +59,24 @@ public class EntityController : BuildingController
     {
         base.SearchTarget();
 
-        if (_ListOfstate.Count == 0 || _ListOfstate.Exists(r => r.GetType() == typeof(TargetState)))
+        if (_EntityStateManagement.AlreadyGotThisOrder(typeof(TargetState)))
         {
-            if (_navMesh) { _navMesh.StopPath(); }
+            if(_navMesh)_navMesh.StopPath();
         }
+    }
+    public void InsertTarget(SelectableManager target)
+    {
+        _EntityStateManagement.InsertTarget(target, this, _navMesh);
     }
     override protected void AddEnnemi(SelectableManager target)
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
+        if (!_EntityStateManagement.IsInStun())
         {
             base.AddEnnemi(target);
             InsertTarget(target);
         }
     }
-
     protected override void OnDestroy() { }
-
     protected override void ClearListOfAlly(List<GameObject> list)
     {
         if (list.Count != _listOfalliesOnRange.Count)
@@ -91,144 +92,76 @@ public class EntityController : BuildingController
             base.ClearListOfAlly(list);
         }
     }
-
-    private void StartFirstOrder()
-    {
-        if (_ListOfstate.Count == 1) { _ListOfstate[0].Start(); }
-    }
     public void RemoveFirstOrder()
     {
-        _ListOfstate[0].Dispose();
-        _ListOfstate.RemoveAt(0);
-
-        if (_ListOfstate.Count > 0) { _ListOfstate[0].Start(); }
+        _EntityStateManagement.RemoveFirstOrder();
     }
 
     public void AddAttackState(SelectableManager target)
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
-        {
-            if (_projectile) { _ListOfstate.Insert(0, new AttackState(this, _projectile, target)); }
-            else { _ListOfstate.Insert(0, new AttackState(this, target)); }
-            StartFirstOrder();
-        }
+        _EntityStateManagement.AddAttackState(target, this, _projectile);
     }
     public void AddPath(Vector3 newPath)
     {
-
-        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
-        {
-            _ListOfstate.Add(new MoveState(_navMesh, newPath, this));
-            StartFirstOrder();
-        }
+        _EntityStateManagement.AddPath(newPath, this, _navMesh);
     }
 
     public void AddPathWithRange(Vector3 newPath)
     {
-        if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
-        {
-            _ListOfstate.Insert(0, new MoveToDistanceState(_navMesh, newPath, this));
-            StartFirstOrder();
-        }
-
+        _EntityStateManagement.AddPathWithRange(newPath, this, _navMesh);
     }
 
     public void AddPathWithRange(Vector3 newPath, float range)
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
-        {
-            if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5 + range)
-            {
-                _ListOfstate.Insert(0, new MoveToDistanceState(_navMesh, newPath, this, range));
-                StartFirstOrder();
-            }
-        }
+        _EntityStateManagement.AddPathWithRange(newPath, range, this, _navMesh);
     }
 
     public void AddPathInFirst(Vector3 newPath)
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
-        {
-            if (_navMesh && Vector3.Distance(gameObject.transform.position, newPath) >= _navMesh.HaveStoppingDistance() + 0.5)
-            {
-                _ListOfstate.Insert(0, new MoveState(_navMesh, newPath, this));
-                StartFirstOrder();
-            }
-        }
+        _EntityStateManagement.AddPathInFirst(newPath, this, _navMesh);
     }
     public void AddTarget(SelectableManager target)
     {
-        _ListOfstate.Add(new TargetState(target, this, _navMesh));
-        StartFirstOrder();
+        _EntityStateManagement.AddTarget(target,this,_navMesh);
     }
-    public void InsertTarget(SelectableManager target)
-    {
-        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
-        {
-            _ListOfstate.Insert(0, new TargetState(target, this, _navMesh));
-            StartFirstOrder();
-        }
-    }
+    
     public void AddAllie(SelectableManager target)
     {
-        _ListOfstate.Add(new FollowState(target, _navMesh, this));
-        StartFirstOrder();
+        _EntityStateManagement.AddAllie(target, this, _navMesh);
     }
 
     public void ClearAllOrderOfType(Type type)
     {
-        _ListOfstate.RemoveAll(x => x.GetType() == type);
+        _EntityStateManagement.ClearAllOrderOfType(type);
     }
     public void AddPatrol(Vector3 point)
     {
-        List<Vector3> destination = new List<Vector3>
-            {
-                point
-            };
-        if (_ListOfstate.Count >= 1 && _ListOfstate.Exists(r => r.GetType() == typeof(PatrolState)))
-        {
-            PatrolState patrol = (PatrolState)_ListOfstate[_ListOfstate.FindIndex(r => r.GetType() == typeof(PatrolState))];
-            patrol.AddDestination(point);
-        }
-        else
-        {
-            _ListOfstate.Add(new PatrolState(destination, _navMesh, this));
-            StartFirstOrder();
-        }
+        _EntityStateManagement.AddPatrol(point, this, _navMesh);
     }
     public void AddAggressivePath(Vector3 newPath)
     {
-        _ListOfstate.Add(new AggressifState(_navMesh, newPath, this));
-        StartFirstOrder();
+        _EntityStateManagement.AddAggressivePath(newPath, this, _navMesh);
     }
     public void AddStayOrder()
     {
-        _ListOfstate.Add(new StayState(_navMesh, this));
-        StartFirstOrder();
+        _EntityStateManagement.AddStayOrder(this, _navMesh);
     }
     public void AddStayOrderAtFirst()
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
-        {
-            _ListOfstate.Insert(0, new StayState(_navMesh, this));
-            StartFirstOrder();
-        }
+        _EntityStateManagement.AddStayOrderAtFirst(this, _navMesh);
     }
 
     public void AddStuntOrder()
     {
-        if (_ListOfstate.Count == 0 || _ListOfstate[0].GetType() != typeof(StuntState))
-        {
-            _ListOfstate.Insert(0, new StuntState(_navMesh, this));
-            StartFirstOrder();
-        }
+        _EntityStateManagement.AddStuntOrder(this, _navMesh);
     }
     private void AddAggresseurTarget(AggressifEntityManager entityToAggresse)
     {
-        if (_navMesh && _navMesh.NotOnTraject() && _ListOfstate.Count == 0 || _ListOfstate.Count != 0 && (_ListOfstate[0].GetType() == typeof(PatrolState) || _ListOfstate[0].GetType() == typeof(AggressifState)) || _navMesh == null) 
-        {
-            AddTarget(entityToAggresse); 
-        }
+        _EntityStateManagement.AddAggresseurTarget(entityToAggresse, this, _navMesh);
+    }
+    public void SortTarget()
+    {
+        _EntityStateManagement.SortTarget(this, _navMesh);
     }
     override public void ClearAllOrder()
     {
@@ -236,12 +169,9 @@ public class EntityController : BuildingController
         {
             i.CancelCapacity();
         }
-        while (_ListOfstate.Count > 0) { _ListOfstate[0].End(); }
-
-        
+        _EntityStateManagement.ClearAllOrder();
         base.ClearAllOrder();
-
-        if (_navMesh) { _navMesh.StopPath(); }
+        _navMesh.StopPath();
         resetEvent.Invoke();
         CancelAnimation();
     }
@@ -251,29 +181,7 @@ public class EntityController : BuildingController
         // agit un poil trop souvent
         AnimationController.CancelAnimation(_animator);
     }
-    public void SortTarget()
-    {
-        TargetState nearest = (TargetState)_ListOfstate.Find(x => x.GetType() == typeof(TargetState));
-        if (nearest != null)
-        {
-            foreach (StateClassEntity i in _ListOfstate)
-            {
-                if (i.GetType() == typeof(TargetState))
-                {
-                    TargetState c = (TargetState)i;
-                    if (c.target && nearest != i)
-                    {
-                        if (Vector3.Distance(transform.position, nearest.target.gameObject.transform.position) > Vector3.Distance(transform.position, c.target.gameObject.transform.position))
-                        {
-                            nearest = (TargetState)i;
-                        }
-                    }
-                }
-            }
-            _ListOfstate.Remove(nearest);
-            InsertTarget(nearest.target);
-        }
-    }
+    
     public void ChangeSpeed(float speed)
     {
         if (_entityManager.GetType() == typeof(TroupeManager))
