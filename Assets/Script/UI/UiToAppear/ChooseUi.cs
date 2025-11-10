@@ -113,6 +113,7 @@ public class ChooseUi : UIAppearBase
     public void AddEntitiesToSave()
     {
         save.SaveEntity(_EntitiesSave);
+        DisappearUI();
     }
 
     public bool AddEntityToList(EntityController entity)

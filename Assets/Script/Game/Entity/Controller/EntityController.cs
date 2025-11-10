@@ -12,7 +12,6 @@ public class EntityController : BuildingController
 
     [HideInInspector] public UnityEvent EntityIsArrive = new();
     [HideInInspector] public UnityEvent resetEvent = new();
-    [HideInInspector] public bool moving = false;
     [HideInInspector] public Animator _animator;
 
     protected bool _attacking;
@@ -94,6 +93,7 @@ public class EntityController : BuildingController
     }
     public void RemoveFirstOrder()
     {
+        AnimationController.CancelAnimation(_animator);
         _EntityStateManagement.RemoveFirstOrder();
     }
 
@@ -180,6 +180,20 @@ public class EntityController : BuildingController
     {
         // agit un poil trop souvent
         AnimationController.CancelAnimation(_animator);
+    }
+
+    public void PlayAnimation(int categorie)
+    {
+        AnimationController.PlayAnimation(categorie,_animator);
+    }
+
+    public float GetAnimationInfo()
+    {
+        return AnimationController.GetAnimationStateInfo(_animator);
+    }
+    public bool IsMoving()
+    {
+        return AnimationController.IsMovingAnimation(_animator);
     }
     
     public void ChangeSpeed(float speed)

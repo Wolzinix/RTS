@@ -16,17 +16,15 @@ public class MoveToDistanceState : MoveState
     }
     public override void Update()
     {
-        if (controller._animator.GetBool(AnimationController.Moving) == false)
+        if (controller.IsMoving() == false)
         {
-            controller.CancelAnimation();
-            controller._animator.SetBool(AnimationController.Moving, true);
+            controller.PlayAnimation((int)AnimationController.AnimType.Move);
         }
         if (navMeshController != null)
         {
             if (navMeshController.NotOnTraject())
             {
                 navMeshController.GetNewPath(destination);
-                controller.moving = true;
             }
 
             if (Vector3.Distance(controller.gameObject.transform.position, destination) <= navMeshController.HaveStoppingDistance() + range) { End(); }

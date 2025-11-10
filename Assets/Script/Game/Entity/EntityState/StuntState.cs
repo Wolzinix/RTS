@@ -20,15 +20,6 @@ public class StuntState : StateClassEntity
             navMeshController.StopPath();
         }
     }
-    public override void Update()
-    {
-        if (navMeshController)
-        {
-            controller.CancelAnimation();
-            rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
-            navMeshController.StopPath();
-        }
-    }
 
     public override void End()
     {

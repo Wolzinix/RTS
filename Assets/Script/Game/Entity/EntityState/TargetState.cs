@@ -16,7 +16,7 @@ public class TargetState : StateClassEntity
     }
     public override void Start()
     {
-        controller._animator.SetBool(AnimationController.Moving, true);
+        controller.PlayAnimation((int)AnimationController.AnimType.Move);
         if(_rb)
         {
             _rb.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
@@ -34,7 +34,7 @@ public class TargetState : StateClassEntity
             }
             else
             {
-                if (navMeshController) { navMeshController.GetNewPath(target.transform.position); controller.moving = true; }
+                if (navMeshController) { navMeshController.GetNewPath(target.transform.position); }
             }
         }
         else { End(); }
@@ -42,7 +42,6 @@ public class TargetState : StateClassEntity
 
     public override void End()
     {
-        controller.moving = false;
         Stop();
         controller.RemoveFirstOrder();
     }
@@ -51,7 +50,7 @@ public class TargetState : StateClassEntity
     {
         if (navMeshController != null)
         {
-            controller._animator.SetBool(AnimationController.Moving, false);
+            controller.CancelAnimation();
             _rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             navMeshController.StopPath();
         }

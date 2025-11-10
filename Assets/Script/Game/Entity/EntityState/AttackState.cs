@@ -5,10 +5,8 @@ public class AttackState : StateClassEntity
     private EntityController _controller;
     private SelectableManager _target;
     private ProjectilManager _projectile;
-    private Animator _animator;
     private AggressifEntityManager _controllerAggressifManager;
     private bool _attackCheckOnce = false;
-    private bool _attacking = false;
 
     public AttackState(EntityController controller, ProjectilManager projectile, SelectableManager target)
     {
@@ -16,29 +14,19 @@ public class AttackState : StateClassEntity
         _projectile = projectile;
         _target = target;
         _controllerAggressifManager = controller.GetComponent<AggressifEntityManager>();
-        _animator = controller._animator;
     }
     public AttackState(EntityController controller, SelectableManager target)
     {
         _controller = controller;
         _target = target;
         _controllerAggressifManager = controller.GetComponent<AggressifEntityManager>();
-        _animator = controller._animator;
     }
 
-    public override void Start() { }
+    public override void Start() { PrepareAttack(); }
 
     private void PrepareAttack()
     {
-        _controller.CancelAnimation();
-        _animator.Play(AnimationController.GetAttackAnimRandom());
-        _attacking = true;
-    }
-
-    private void EndAttack()
-    {
-        _controller.CancelAnimation();
-        _attacking = false;
+        _controller.PlayAnimation((int)AnimationController.AnimType.Attack);
     }
 
     void DoAttack()
@@ -73,22 +61,19 @@ public class AttackState : StateClassEntity
         {
             if (Vector3.Distance(_controller.gameObject.transform.position, _target.transform.position) <= _controllerAggressifManager.Range + _target.size)
             {
-                if (!_attacking) { PrepareAttack(); };
-                float AnimatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                float AnimatorStateInfo = _controller.GetAnimationInfo();
 
-                if (AnimatorStateInfo >= 0.5 &&
-                    AnimatorStateInfo <= 1 && 
-                    _attacking &&
+                if (AnimatorStateInfo > 0.5 &&
                     !_attackCheckOnce)
                 {
                     DoAttack();
                     _attackCheckOnce = true;
                 }
 
-                if ( AnimatorStateInfo > 1 && (_attacking || _attackCheckOnce))
-                { 
-                    _attacking = false;
+                if ( AnimatorStateInfo > 1)
+                {
                     _attackCheckOnce = false;
+                    PrepareAttack();
                 }
 
                 else
@@ -112,6 +97,5 @@ public class AttackState : StateClassEntity
     public override void End()
     {
         _controller.RemoveFirstOrder();
-        EndAttack();
     }
 }

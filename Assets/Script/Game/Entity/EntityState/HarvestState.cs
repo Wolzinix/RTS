@@ -24,7 +24,8 @@ public class HarvestState : StateClassEntity
     private void PrepareAttack()
     {
         builder.CancelAnimation();
-        _animator.Play(AnimationController.GetAttackAnimRandom());
+        builder.PlayAnimation((int)AnimationController.AnimType.Attack);
+        _animator.Play(AnimationController.GetAnimRandom((int)AnimationController.AnimType.Attack));
         _attacking = true;
     }
 

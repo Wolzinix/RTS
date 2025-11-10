@@ -13,7 +13,7 @@ public class FollowState : StateClassEntity
     }
     public override void Start()
     {
-        controller._animator.SetBool(AnimationController.Moving, true);
+        controller.PlayAnimation((int)AnimationController.AnimType.Move);
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
     }
     public override void Update()
@@ -25,7 +25,6 @@ public class FollowState : StateClassEntity
                 if (Vector3.Distance(controller.gameObject.transform.position, target.transform.localPosition) >= navMeshController.HaveStoppingDistance() + 0.5)
                 {
                     navMeshController.GetNewPath(target.transform.localPosition);
-                    controller.moving = true;
                 }
             }
         }
@@ -35,8 +34,8 @@ public class FollowState : StateClassEntity
     public override void End()
     {
         if (navMeshController)
-        {
-            controller._animator.SetBool(AnimationController.Moving, false);
+        { 
+            controller.CancelAnimation();
             controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             navMeshController.StopPath();
 

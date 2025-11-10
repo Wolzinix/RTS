@@ -16,7 +16,7 @@ public class PatrolState : StateClassEntity
     }
     public override void Start()
     {
-        controller._animator.SetBool(AnimationController.Moving, true);
+        controller.PlayAnimation((int)AnimationController.AnimType.Move);
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
     }
     public override void Update()
@@ -41,7 +41,6 @@ public class PatrolState : StateClassEntity
     }
     public override void End()
     {
-        controller.moving = false;
         controller.RemoveFirstOrder();
     }
 }

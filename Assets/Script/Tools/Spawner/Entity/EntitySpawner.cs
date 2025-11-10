@@ -18,11 +18,11 @@ public class EntitySpawner : MonoBehaviour
         go.transform.rotation = transform.rotation;
         go.SetActive(true);
     }
-    void Awake()
+    void OnEnable()
     {
         if(gameObject.tag == "Allie" && !IsLockToTakeSave)
         {
-            SaveForNextlevel save = FindObjectOfType<SaveForNextlevel>();
+            SaveForNextlevel save = SaveForNextlevel.Instance;
             if(save )
             {
                 GameObject entityFromSave = save.LoadEntity();

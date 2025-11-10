@@ -337,7 +337,7 @@ public class GroupManager
         bool moving = false;
         foreach (EntityController i in _selectedObject)
         {
-            if (i.moving) moving = true;
+            if (i.IsMoving()) moving = true;
         }
         return moving;
     }

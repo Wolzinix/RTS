@@ -214,6 +214,7 @@ public class EntityStateManagement
         if (!IsInStun())
         {
             TargetState nearest = (TargetState)SearchAState(typeof(TargetState));
+            TargetState next = null;
             if (nearest != null)
             {
                 foreach (StateClassEntity i in _ListOfstate)
@@ -221,17 +222,21 @@ public class EntityStateManagement
                     if (i.GetType() == typeof(TargetState))
                     {
                         TargetState c = (TargetState)i;
-                        if (c.target && nearest != i)
+                        if (c.target && nearest != c)
                         {
                             if (Vector3.Distance(entity.gameObject.transform.position, nearest.target.gameObject.transform.position) > Vector3.Distance(entity.gameObject.transform.position, c.target.gameObject.transform.position))
                             {
-                                nearest = (TargetState)i;
+                                next = c;
                             }
                         }
                     }
                 }
-                RemoveOrder(nearest);
-                InsertTarget(nearest.target, entity, navMesh);
+                if(next != null && nearest != next)
+                {
+                    RemoveOrder(next);
+                    InsertTarget(next.target, entity, navMesh);
+
+                }
             }
         }
     }
