@@ -16,10 +16,7 @@ public class MoveToDistanceState : MoveState
     }
     public override void Update()
     {
-        if (controller.IsMoving() == false)
-        {
-            controller.PlayAnimation((int)AnimationController.AnimType.Move);
-        }
+        controller.ChangeSpeedExepctAnim(_Speed);
         if (navMeshController != null)
         {
             if (navMeshController.NotOnTraject())

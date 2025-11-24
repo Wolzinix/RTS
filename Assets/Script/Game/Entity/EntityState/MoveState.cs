@@ -7,11 +7,13 @@ public class MoveState : StateClassEntity
     protected Vector3 destination;
     protected EntityController controller;
     public UnityEvent Arrived = new UnityEvent();
+    protected float _Speed;
     public MoveState(NavMeshController navmesh, Vector3 des, EntityController entity)
     {
         navMeshController = navmesh;
         controller = entity;
         destination = new Vector3(des.x, controller.transform.position.y, des.z);
+        _Speed = controller.GetStartSpeed();
     }
     public override void Start()
     {
@@ -26,6 +28,9 @@ public class MoveState : StateClassEntity
             {
                 navMeshController.GetNewPath(destination);
             }
+            controller.ChangeSpeedExepctAnim(_Speed);
+
+
             destination.y = controller.transform.position.y;
             if (Vector3.Distance(controller.transform.position, destination) <= navMeshController.HaveStoppingDistance() ) 
             { 
@@ -34,7 +39,6 @@ public class MoveState : StateClassEntity
         }
         else { End(); }
     }
-
     public override void End()
     {
         controller.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;

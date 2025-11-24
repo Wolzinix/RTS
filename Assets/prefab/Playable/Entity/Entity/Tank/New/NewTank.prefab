@@ -221,18 +221,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _EnnemieList: []
-  _entityManager: {fileID: 0}
   _collider: {fileID: 1182971380286798215}
+  _entityManager: {fileID: 0}
   _navMesh: {fileID: 0}
-  _projectile: {fileID: 0}
   pointOfSpawn: {fileID: 0}
+  _projectile: {fileID: 0}
   EntityIsArrive:
     m_PersistentCalls:
       m_Calls: []
   resetEvent:
     m_PersistentCalls:
       m_Calls: []
-  moving: 0
   _animator: {fileID: 0}
 --- !u!195 &6208376071361995173
 NavMeshAgent:
@@ -347,7 +346,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ressources: {fileID: 0}
-  StartSpeed: 2
+  StartSpeed: 2.5
   level: 0
   xp: 0
   HpToAdd: 1

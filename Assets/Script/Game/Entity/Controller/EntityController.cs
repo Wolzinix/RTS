@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.XR;
 
 public class EntityController : BuildingController
 {
@@ -95,6 +96,12 @@ public class EntityController : BuildingController
     {
         AnimationController.CancelAnimation(_animator);
         _EntityStateManagement.RemoveFirstOrder();
+        if(_entityManager.GetType() == typeof(TroupeManager))
+        {
+
+            TroupeManager manager = (TroupeManager)_entityManager;
+            manager.SetSpeedWithoutAnimation(GetStartSpeed());
+        }
     }
 
     public void AddAttackState(SelectableManager target)
@@ -202,6 +209,16 @@ public class EntityController : BuildingController
         {
             TroupeManager entity = (TroupeManager)_entityManager;
             entity.SetSpeed(speed);
+        }
+    }
+    public void ChangeSpeedExepctAnim(float speed)
+    {
+        if( _entityManager.GetType() == typeof(TroupeManager))
+        {
+
+            TroupeManager manager = (TroupeManager)_entityManager;
+            float animCap = (int)(GetAnimationInfo() / 0.25f);
+            manager.SetSpeedWithoutAnimation(speed * (GetAnimationInfo() - (animCap * 0.25f)) * 2 + (speed * 0.11f));
         }
     }
 

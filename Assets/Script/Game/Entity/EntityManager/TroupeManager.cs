@@ -34,6 +34,12 @@ public class TroupeManager : AggressifEntityManager
         _animator.SetFloat(WalkSpeed, speed);
         
     }
+    public void SetSpeedWithoutAnimation(float nb)
+    {
+        speed = nb;
+        SetNavMeshSpeed(nb);
+
+    }
     public void AddSpeed(float nb)
     {
         speed += nb;

@@ -177,7 +177,7 @@ public class ProductBuildingController : MonoBehaviour
     }
     public void AllySpawnEntity(GameObject entityToSpawn, RessourceController ressource)
     {
-        if (TextGestion(entityToSpawn, ressource)) { SpawnEntity(entityToSpawn, ListOfNearEntity[0].tag, ListOfNearEntity[0], ressource); }
+        if (TextGestion(entityToSpawn, ressource) && ListOfNearEntity[0]) { SpawnEntity(entityToSpawn, ListOfNearEntity[0].tag, ListOfNearEntity[0], ressource); }
     }
     public void SpawnEveryEntity(string tag, GameObject entity, RessourceController ressource)
     {

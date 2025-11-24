@@ -86,7 +86,10 @@ public class ControlManager : MonoBehaviour
 
     public void DesactiveController()
     {
-        _dragBox.gameObject.SetActive(false);
+        if(_dragBox)
+        {
+            _dragBox.gameObject.SetActive(false);
+        }
         DesactiveAllInput();
         gameObject.SetActive(false);
     }

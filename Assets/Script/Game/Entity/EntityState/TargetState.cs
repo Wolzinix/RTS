@@ -7,12 +7,14 @@ public class TargetState : StateClassEntity
     readonly EntityController controller;
     readonly NavMeshController navMeshController;
     readonly Rigidbody _rb;
+    private float _Speed;
     public TargetState(SelectableManager target, EntityController controller, NavMeshController navMeshController)
     {
         this.target = target;
         this.controller = controller;
         this.navMeshController = navMeshController;
         _rb = controller.GetComponent<Rigidbody>();
+        _Speed = controller.GetStartSpeed();
     }
     public override void Start()
     {
@@ -26,6 +28,8 @@ public class TargetState : StateClassEntity
     {
         if (target)
         {
+
+            controller.ChangeSpeedExepctAnim(_Speed);
             controller.SortTarget();
             if (Vector3.Distance(controller.gameObject.transform.position, target.transform.position) <= controller._entityManager.Range + target.size)
             {

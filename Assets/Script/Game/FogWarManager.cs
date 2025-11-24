@@ -7,7 +7,7 @@ public class FogWarManager : MonoBehaviour
     void Start()
     {
         fogWar = FindAnyObjectByType<FogWarController>();
-        if(tag != fogWar.tag ) { Destroy(this); }
+        if(fogWar && !fogWar.CompareTag(tag)) { Destroy(this); }
         entityController = GetComponent<EntityController>();
         if (entityController && fogWar) { fogWar.FogGestion(entityController, true); }
     }
