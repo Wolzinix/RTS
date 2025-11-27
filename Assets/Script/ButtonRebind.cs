@@ -11,20 +11,26 @@ public class ButtonRebind : Button
     [SerializeField] private TMP_Text TextInfo;
     [SerializeField] private TMP_Text TextTouche;
     private string text;
+    public GameObject ScreenOfWaitingForRebind;
+    InputActionRebindingExtensions.RebindingOperation rebindOperation;
 
     void RemapButtonClicked()
     {
         action.Disable();
-        var rebindOperation = action.PerformInteractiveRebinding(bindingIndex)
+        ScreenOfWaitingForRebind.SetActive(true);
+        rebindOperation = action.PerformInteractiveRebinding(bindingIndex)
             .WithControlsExcluding("Mouse")
+            .WithControlsExcluding("<Keyboard>/escape")
             .WithCancelingThrough("<Keyboard>/escape")
             .OnMatchWaitForAnother(0.2f)
+            .OnCancel(operation => { CleanOperation(); })
             .OnComplete(operation => 
             {
-                text = action.GetBindingDisplayString().Replace("/", "|").Split("|")[bindingIndex];
+                text = action.GetBindingDisplayString(bindingIndex);
                 ActualiseText(); 
             })
             .Start();
+        
     }
 
     public void SetAction(InputAction input, int bindingIndex,string text)
@@ -39,10 +45,16 @@ public class ButtonRebind : Button
     private void ActualiseText()
     {
         action.Enable();
+
+        ScreenOfWaitingForRebind.SetActive(false);
         inputBinding = action.bindings[bindingIndex];
         TextTouche.text = inputBinding.effectivePath.Split("/")[0];
         TextTouche.text = text;
-        //string name = inputBinding.name == "" ? name = action.name : name = inputBinding.name;
-        //TextInfo.text = name;
+    }
+    private void CleanOperation()
+    {
+        rebindOperation.Dispose();
+        action?.Enable();
+        ScreenOfWaitingForRebind.SetActive(false);
     }
 }

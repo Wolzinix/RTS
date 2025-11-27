@@ -60,41 +60,10 @@ public class GroupeUiManager : MonoBehaviour
 
                 _listOfCadreControllers.Insert(i + 1, _listOfCadreControllers[_listOfEntity.Count - 1]);
                 _listOfCadreControllers.RemoveAt(_listOfCadreControllers.Count - 1);
+                _listOfCadreControllers[i+1].transform.SetSiblingIndex(i+1);
                 break;
             }
             i++;
-        }
-        
-    }
-
-
-    private float RecalculeSizeOfCadre()
-    {
-        Rect rect = cadre.GetComponent<RectTransform>().rect;
-        Rect rectParent = BackImageZone.GetComponent<RectTransform>().rect;
-        float cadresAir = (marge + rect.width) / 2;
-        float ZoneAir = rectParent.width - (marge * 2);
-
-        float coeff = ZoneAir / (cadresAir * _listOfCadreControllers.Count);
-        if (coeff < 1) { return coeff; }
-        else { return 1; }
-    }
-
-    private void CleanAffichage()
-    {
-        foreach (GameObject i in _listOfCadreControllers)
-        {
-            float SizeRecalculated = RecalculeSizeOfCadre();
-            i.transform.localScale = cadre.transform.localScale * SizeRecalculated;
-            float newMarge = marge * RecalculeSizeOfCadre();
-            Rect rect = i.GetComponent<RectTransform>().rect;
-            Rect rectParent = i.transform.parent.GetComponent<RectTransform>().rect;
-            int index = _listOfCadreControllers.IndexOf(i);
-
-            i.transform.position = new Vector3(
-                (newMarge * index + rect.width / 2) - (rectParent.width * ((int)((newMarge * index + rect.width) / rectParent.width))),
-                rect.height * (0.5f + (int)((newMarge * index + rect.width) / rectParent.width)),
-                0);
         }
         
     }
@@ -113,7 +82,6 @@ public class GroupeUiManager : MonoBehaviour
         if (_listOfCadreControllers.Count == 1) { CloseUIWhenStillOne(_listOfEntity[0]); }
         else if (_listOfCadreControllers.Count == 0) { gameObject.SetActive(false); }
 
-        CleanAffichage();
     }
 
     public void RemoveCadre(int index)
@@ -125,7 +93,6 @@ public class GroupeUiManager : MonoBehaviour
         if (_listOfCadreControllers.Count == 1) { CloseUIWhenStillOne(_listOfEntity[0]); }
         else if (_listOfCadreControllers.Count == 0) { gameObject.SetActive(false); }
 
-        CleanAffichage();
     }
 
     public void RemoveEntity(SelectableManager entity)
@@ -152,6 +119,5 @@ public class GroupeUiManager : MonoBehaviour
         }
         else { RemoveCadre(index); }
         SortAffichage();
-        CleanAffichage();
     }
 }
